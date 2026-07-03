@@ -12,7 +12,7 @@ from django.test import SimpleTestCase
 
 from apps.web_security.services.firewall import AWSWAFFirewallService, CloudflareFirewallService
 
-REQUESTS = "apps.web_security.services.firewall.requests"
+REQUESTS = "apps.web_security.services.firewall.cloudflare.requests"
 
 
 class _FakeConfig:

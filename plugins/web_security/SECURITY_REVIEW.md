@@ -60,5 +60,6 @@ Findings from a multi-agent review (2026-07). Status tracked per item.
 - ⏳ Threat-score bands ignore `min_confidence_score` (`models/ip_reputation.py`) — by-design-ish, left.
 
 ## Refactor (oversized files, pass 3)
-- ⏳ `admin.py` (1060 lines) and `services/firewall.py` (740 lines) → split into packages,
-  matching the existing `models/` / `services/` / `middleware/` package style.
+- ✅ `admin.py` (1110) → `admin/` package (10 focused modules); `services/firewall.py` (842)
+  → `services/firewall/` package (base/cloudflare/aws/nginx/iptables/factory). Verbatim moves,
+  public API preserved, largest file now ~294 lines. (pass 3)

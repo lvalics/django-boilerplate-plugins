@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.1 - refactor: split oversized modules (pass 3)
+
+Pure structural refactor, no behaviour change (full suite 50/50):
+- `admin.py` (1110 lines) -> `admin/` package: `mixins`, `forms`, and one module per
+  ModelAdmin (`settings_admin`, `firewall_admin`, `threat_pattern_admin`,
+  `rate_limit_admin`, `reputation_admin`, `suspicious_admin`, `threat_summary_admin`).
+  `admin/__init__.py` imports every submodule so `@admin.register` still runs and re-exports
+  the forms/admin classes tests import.
+- `services/firewall.py` (842 lines) -> `services/firewall/` package: `base`, `cloudflare`,
+  `aws`, `nginx`, `iptables`, `factory`. `__init__.py` re-exports the full public API, so
+  `from apps.web_security.services.firewall import FirewallServiceFactory` is unchanged.
+- Largest module is now ~294 lines (was 1110). Test mock-patch targets updated to the new
+  submodule paths.
+
 ## 1.5.0 - security hardening (pass 2)
 
 Addresses the remaining High/Medium review findings (security + safe performance

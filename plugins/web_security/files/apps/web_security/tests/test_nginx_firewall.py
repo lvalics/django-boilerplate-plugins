@@ -14,7 +14,7 @@ from django.test import SimpleTestCase, override_settings
 
 from apps.web_security.services.firewall import NginxFirewallService
 
-RUN = "apps.web_security.services.firewall.subprocess.run"
+RUN = "apps.web_security.services.firewall.nginx.subprocess.run"
 
 
 class _FakeConfig:
