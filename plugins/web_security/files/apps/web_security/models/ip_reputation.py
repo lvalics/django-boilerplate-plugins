@@ -30,10 +30,11 @@ class IPReputationConfig(BaseModel):
         verbose_name=_("Provider"),
         help_text=_("IP reputation service provider"),
     )
-    api_key = models.CharField(
-        max_length=255,
+    _api_key = models.TextField(
+        blank=True,
+        default="",
         verbose_name=_("API Key"),
-        help_text=_("API key for the reputation service"),
+        help_text=_("API key for the reputation service (encrypted at rest)"),
     )
     api_url = models.URLField(
         blank=True,
@@ -74,6 +75,23 @@ class IPReputationConfig(BaseModel):
         status = "active" if self.is_active else "inactive"
         default = " (default)" if self.is_default else ""
         return f"{self.name} - {self.get_provider_display()} ({status}){default}"
+
+    @property
+    def api_key(self) -> str:
+        """Decrypted API key (empty string if unset/undecryptable)."""
+        from apps.web_security.encryption import decrypt_string
+
+        return decrypt_string(self._api_key)
+
+    @api_key.setter
+    def api_key(self, value: str) -> None:
+        from apps.web_security.encryption import encrypt_string
+
+        self._api_key = encrypt_string(value or "")
+
+    def get_masked_api_key(self) -> str:
+        """Masked API key for display (never reveals the secret)."""
+        return "•" * 8 if self._api_key else ""
 
     def save(self, *args, **kwargs):
         """Ensure only one default configuration exists."""

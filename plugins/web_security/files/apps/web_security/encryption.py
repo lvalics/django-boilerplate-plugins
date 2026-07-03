@@ -20,13 +20,23 @@ ENCRYPTED_PREFIX = "enc:v1:"
 
 def _get_fernet():
     """
-    Get Fernet instance with key derived from SECRET_KEY.
+    Get a Fernet instance.
 
-    The key is derived using SHA-256 hash of SECRET_KEY, then base64 encoded
-    to meet Fernet's 32-byte key requirement.
+    Prefers a dedicated ``WEB_SECURITY_ENCRYPTION_KEY`` (a urlsafe-base64 Fernet key).
+    Set it to decouple encryption from ``SECRET_KEY`` so rotating ``SECRET_KEY`` does
+    NOT make stored credentials undecryptable. Generate one with:
+        python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
 
-    Note: Changing SECRET_KEY will make existing encrypted data unreadable.
+    Falls back to a key derived from ``SECRET_KEY`` (legacy behaviour) when the
+    dedicated key is unset.
     """
+    dedicated = getattr(settings, "WEB_SECURITY_ENCRYPTION_KEY", None)
+    if dedicated:
+        try:
+            return Fernet(dedicated.encode() if isinstance(dedicated, str) else dedicated)
+        except Exception as e:
+            raise ValueError("WEB_SECURITY_ENCRYPTION_KEY is not a valid Fernet key") from e
+
     key_bytes = hashlib.sha256(settings.SECRET_KEY.encode()).digest()
     fernet_key = base64.urlsafe_b64encode(key_bytes)
     return Fernet(fernet_key)
@@ -89,6 +99,35 @@ def decrypt_data(encrypted_string: str) -> dict:
         return {}
 
 
+def encrypt_string(value: str) -> str:
+    """Encrypt a single string value (e.g. an API key). Empty -> ''."""
+    if not value:
+        return ""
+    try:
+        encrypted = _get_fernet().encrypt(value.encode("utf-8"))
+        return ENCRYPTED_PREFIX + encrypted.decode("utf-8")
+    except Exception as e:
+        logger.error("Failed to encrypt string: %s", e)
+        raise ValueError("Encryption failed") from e
+
+
+def decrypt_string(encrypted_string: str) -> str:
+    """Decrypt a single string value. Legacy plaintext is returned unchanged."""
+    if not encrypted_string:
+        return ""
+    if not encrypted_string.startswith(ENCRYPTED_PREFIX):
+        return encrypted_string  # legacy plaintext value
+    try:
+        encrypted_bytes = encrypted_string[len(ENCRYPTED_PREFIX) :].encode("utf-8")
+        return _get_fernet().decrypt(encrypted_bytes).decode("utf-8")
+    except InvalidToken:
+        logger.error("Failed to decrypt string - invalid token (wrong key? SECRET_KEY rotated?)")
+        return ""
+    except Exception as e:
+        logger.error("Failed to decrypt string: %s", e)
+        return ""
+
+
 def is_encrypted(value: str) -> bool:
     """Check if a string value is encrypted."""
     return isinstance(value, str) and value.startswith(ENCRYPTED_PREFIX)
@@ -119,13 +158,12 @@ def mask_credentials(credentials: dict, visible_chars: int = 4) -> dict:
         "secret",
     }
 
+    # Fully mask sensitive values. Do not reveal a plaintext prefix/suffix of a
+    # secret: even a few leading characters aid guessing/correlation.
     masked = {}
     for key, value in credentials.items():
-        if isinstance(value, str) and any(s in key.lower() for s in sensitive_keys):
-            if len(value) > visible_chars:
-                masked[key] = value[:visible_chars] + "•" * 8
-            else:
-                masked[key] = "•" * 8
+        if isinstance(value, str) and value and any(s in key.lower() for s in sensitive_keys):
+            masked[key] = "•" * 8
         else:
             masked[key] = value
 

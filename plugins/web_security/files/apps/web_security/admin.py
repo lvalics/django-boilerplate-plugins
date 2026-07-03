@@ -34,31 +34,74 @@ class FirewallConfigForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Pre-populate with decrypted credentials (pretty-printed JSON)
-        if self.instance and self.instance.pk:
-            creds = self.instance.credentials
-            if creds:
-                self.fields["credentials"].initial = json.dumps(creds, indent=2)
+        # Never render decrypted secrets in the admin. Show MASKED current values so an
+        # admin can see which keys exist; a blank (or unchanged-masked) submission keeps
+        # the existing credentials.
+        if self.instance and self.instance.pk and self.instance.credentials:
+            self.fields["credentials"].initial = json.dumps(
+                self.instance.get_masked_credentials(), indent=2, ensure_ascii=False
+            )
+            self.fields["credentials"].help_text = _(
+                "Showing masked current values. Leave unchanged to keep them, or paste new "
+                "JSON to replace. Values are encrypted at rest."
+            )
 
     def clean_credentials(self):
-        """Validate and parse JSON credentials."""
+        """Parse JSON credentials; None means 'keep existing' (blank or unchanged mask)."""
         value = self.cleaned_data.get("credentials", "")
         if not value or not value.strip():
-            return {}
+            return None
 
         try:
             parsed = json.loads(value)
-            if not isinstance(parsed, dict):
-                raise forms.ValidationError(_("Credentials must be a JSON object"))
-            return parsed
         except json.JSONDecodeError as e:
             raise forms.ValidationError(_("Invalid JSON: %(error)s") % {"error": str(e)})
+        if not isinstance(parsed, dict):
+            raise forms.ValidationError(_("Credentials must be a JSON object"))
+        # If the admin submitted the masked placeholder unchanged, keep existing secrets.
+        if any(isinstance(v, str) and v and set(v) == {"•"} for v in parsed.values()):
+            return None
+        return parsed
 
     def save(self, commit=True):
-        """Save with encrypted credentials."""
+        """Save with encrypted credentials; blank/unchanged keeps existing values."""
         instance = super().save(commit=False)
-        # The property setter handles encryption
-        instance.credentials = self.cleaned_data.get("credentials", {})
+        creds = self.cleaned_data.get("credentials")
+        if creds is not None:
+            instance.credentials = creds  # property setter encrypts
+        elif not instance.pk:
+            instance.credentials = {}
+        if commit:
+            instance.save()
+        return instance
+
+
+class IPReputationConfigForm(forms.ModelForm):
+    """Custom form for IPReputationConfig that keeps the API key secret."""
+
+    api_key = forms.CharField(
+        widget=forms.PasswordInput(render_value=False),
+        required=False,
+        help_text=_("Leave blank to keep the existing key. Stored encrypted at rest."),
+    )
+
+    class Meta:
+        model = IPReputationConfig
+        fields = [
+            "name",
+            "provider",
+            "api_url",
+            "is_active",
+            "is_default",
+            "cache_duration_hours",
+            "min_confidence_score",
+        ]
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        new_key = self.cleaned_data.get("api_key")
+        if new_key:
+            instance.api_key = new_key  # property setter encrypts
         if commit:
             instance.save()
         return instance
@@ -522,6 +565,8 @@ class RateLimitRuleAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
 @admin.register(IPReputationConfig)
 class IPReputationConfigAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
     """Admin for IP reputation service configurations."""
+
+    form = IPReputationConfigForm
 
     page_help_title = _("IP Reputation Service")
     page_help_text = _(

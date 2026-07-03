@@ -47,6 +47,8 @@ def encrypt_existing_credentials(apps, schema_editor):
 
 def decrypt_existing_credentials(apps, schema_editor):
     """Reverse migration - decrypt credentials back to JSON."""
+    import json
+
     from apps.web_security.encryption import decrypt_data, is_encrypted
 
     FirewallConfig = apps.get_model("web_security", "FirewallConfig")
@@ -59,7 +61,9 @@ def decrypt_existing_credentials(apps, schema_editor):
 
         if is_encrypted(raw_value):
             decrypted = decrypt_data(raw_value)
-            config.credentials = decrypted
+            # The column is still a TextField at this point in the reverse run, so
+            # store valid JSON text (not a Python repr) before the JSONField restore.
+            config.credentials = json.dumps(decrypted)
             config.save(update_fields=["credentials"])
 
 

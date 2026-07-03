@@ -30,10 +30,13 @@ Findings from a multi-agent review (2026-07). Status tracked per item.
 
 ## High/Medium (arch & secrets)
 - ⏳ Firewall commands assume the web/worker runs as root — move to a narrow sudoers helper; document.
-- ⏳ Encryption key derived from `SECRET_KEY`; rotation silently loses creds — dedicated key + surfaced failures. `encryption.py`.
-- ⏳ `IPReputationConfig.api_key` stored unencrypted — `models/ip_reputation.py`.
-- ⏳ Admin renders secrets in cleartext — `admin.py` (use existing `get_masked_credentials()`).
-- ⏳ Reverse migration 0004 writes a repr-dict into a text column (corrupts on rollback).
+- ✅ Encryption key derived from `SECRET_KEY`; rotation silently loses creds — added dedicated
+  `WEB_SECURITY_ENCRYPTION_KEY` (falls back to SECRET_KEY); loud decrypt-failure logs. `encryption.py`. (pass 2b)
+- ✅ `IPReputationConfig.api_key` stored unencrypted — now `_api_key` (encrypted at rest) + decrypting
+  `api_key` property; migration `0006`. `models/ip_reputation.py`. (pass 2b)
+- ✅ Admin renders secrets in cleartext — FirewallConfigForm shows masked values + blank-to-keep;
+  IPReputationConfigForm uses a write-only PasswordInput. `admin.py`. (pass 2b)
+- ✅ Reverse migration 0004 writes a repr-dict into a text column — now `json.dumps`. (pass 2b)
 
 ## Medium (performance)
 - ⏳ 5 middleware each re-load settings + re-parse client IP per request — resolve once, stash on `request`.
