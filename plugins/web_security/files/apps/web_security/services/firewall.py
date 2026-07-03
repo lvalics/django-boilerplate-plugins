@@ -43,6 +43,24 @@ class BaseFirewallService(abc.ABC):
         self.config = config
         self.credentials = config.credentials
 
+    def _validated_ips(self, ip_addresses):
+        """Return only syntactically valid, normalized IPs; log and drop the rest."""
+        valid = []
+        for ip in ip_addresses:
+            v = validate_ip(ip)
+            if v is None:
+                logger.warning("Skipping invalid IP for %s firewall: %r", type(self).__name__, ip)
+            else:
+                valid.append(v)
+        return valid
+
+    def _validated_ip(self, ip_address):
+        """Return a single normalized IP, or None (logging a refusal) if it is invalid."""
+        v = validate_ip(ip_address)
+        if v is None:
+            logger.warning("Refusing invalid IP for %s firewall: %r", type(self).__name__, ip_address)
+        return v
+
     @abc.abstractmethod
     def block_ip(self, ip_address: str, reason: str = "") -> bool:
         """Block an IP address."""
@@ -169,6 +187,10 @@ class CloudflareFirewallService(BaseFirewallService):
         Uses retry logic with exponential backoff to handle race conditions
         when multiple workers attempt to update the ruleset simultaneously.
         """
+        ip_address = self._validated_ip(ip_address)
+        if ip_address is None:
+            return False
+
         for attempt in range(self.MAX_RETRIES):
             try:
                 # Get fresh rules on each attempt to avoid stale data
@@ -230,6 +252,9 @@ class CloudflareFirewallService(BaseFirewallService):
 
     def unblock_ip(self, ip_address: str) -> bool:
         """Remove an IP from the Cloudflare WAF consolidated rule."""
+        ip_address = self._validated_ip(ip_address)
+        if ip_address is None:
+            return False
         try:
             consolidated_rule, rules = self._get_consolidated_rule()
 
@@ -289,6 +314,11 @@ class CloudflareFirewallService(BaseFirewallService):
         if not ip_addresses:
             return results
 
+        # Defense in depth: never let a raw/malformed value reach the WAF expression.
+        valid_ips = set(self._validated_ips(ip_addresses))
+        if not valid_ips:
+            return results
+
         try:
             consolidated_rule, rules = self._get_consolidated_rule()
 
@@ -297,8 +327,8 @@ class CloudflareFirewallService(BaseFirewallService):
             else:
                 existing_ips = set()
 
-            new_ips = set(ip_addresses) - existing_ips
-            results["already_blocked"] = len(set(ip_addresses) & existing_ips)
+            new_ips = valid_ips - existing_ips
+            results["already_blocked"] = len(valid_ips & existing_ips)
 
             if not new_ips:
                 logger.info("All IPs already blocked in Cloudflare")
@@ -381,6 +411,9 @@ class AWSWAFFirewallService(BaseFirewallService):
 
     def block_ip(self, ip_address: str, reason: str = "") -> bool:
         """Add IP to AWS WAF IP set."""
+        ip_address = self._validated_ip(ip_address)
+        if ip_address is None:
+            return False
         try:
             client = self._get_client()
             ip_set, lock_token = self._get_ip_set()
@@ -412,6 +445,9 @@ class AWSWAFFirewallService(BaseFirewallService):
 
     def unblock_ip(self, ip_address: str) -> bool:
         """Remove IP from AWS WAF IP set."""
+        ip_address = self._validated_ip(ip_address)
+        if ip_address is None:
+            return False
         try:
             client = self._get_client()
             ip_set, lock_token = self._get_ip_set()
@@ -461,7 +497,7 @@ class AWSWAFFirewallService(BaseFirewallService):
             existing = set(ip_set.get("Addresses", []))
 
             new_addresses = set(existing)
-            for ip in ip_addresses:
+            for ip in self._validated_ips(ip_addresses):
                 cidr = f"{ip}/32"
                 if cidr in existing:
                     results["already_blocked"] += 1

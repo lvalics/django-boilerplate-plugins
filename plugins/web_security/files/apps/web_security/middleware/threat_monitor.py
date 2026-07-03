@@ -7,6 +7,7 @@ from apps.web_security.models import (
     SuspiciousRequest,
     ThreatPattern,
 )
+from apps.web_security.models.threat_pattern import MAX_BODY_INSPECTION_SIZE
 from apps.web_security.utils import get_client_ip, get_exempt_ips, is_private_ip
 
 logger = logging.getLogger(__name__)
@@ -66,10 +67,22 @@ class ThreatMonitorMiddleware:
         # Get body for POST/PUT/PATCH
         body = ""
         if request.method in ("POST", "PUT", "PATCH"):
-            import contextlib
+            content_length = request.META.get("CONTENT_LENGTH")
+            try:
+                content_length = int(content_length)
+            except (TypeError, ValueError):
+                content_length = None
 
-            with contextlib.suppress(Exception):
-                body = request.body.decode("utf-8", errors="replace")[:5000]
+            if content_length is not None and content_length > MAX_BODY_INSPECTION_SIZE:
+                logger.debug(
+                    f"Skipping body inspection for {request.method} {request.path}: "
+                    f"Content-Length {content_length} exceeds {MAX_BODY_INSPECTION_SIZE}"
+                )
+            else:
+                import contextlib
+
+                with contextlib.suppress(Exception):
+                    body = request.body[:MAX_BODY_INSPECTION_SIZE].decode("utf-8", errors="replace")
 
         # Check against patterns
         matches = ThreatPattern.check_request(

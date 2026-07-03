@@ -1,12 +1,59 @@
 import abc
 import logging
+import socket
+from urllib.parse import urlparse
 
 import requests
 from django.utils import timezone
 
 from apps.web_security.models import IPReputationCache, IPReputationConfig
+from apps.web_security.utils import is_private_ip
 
 logger = logging.getLogger(__name__)
+
+
+def _is_safe_outbound_url(url: str) -> bool:
+    """
+    Validate that an outbound URL is safe to request (SSRF guard).
+
+    Requires an https scheme, then resolves the host via DNS and rejects the URL
+    if ANY resolved address is private, loopback, link-local, or unspecified.
+    This blocks requests to internal services and cloud metadata endpoints
+    (e.g. 169.254.169.254) even when DNS resolves a public-looking name to a
+    private address.
+
+    Args:
+        url: The fully-built outbound URL.
+
+    Returns:
+        bool: True if the URL is safe to request, False otherwise.
+    """
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        return False
+
+    if parsed.scheme != "https":
+        return False
+
+    host = parsed.hostname
+    if not host:
+        return False
+
+    try:
+        addrinfo = socket.getaddrinfo(host, parsed.port or 443, proto=socket.IPPROTO_TCP)
+    except (socket.gaierror, socket.error, UnicodeError):
+        return False
+
+    if not addrinfo:
+        return False
+
+    for family, _type, _proto, _canonname, sockaddr in addrinfo:
+        ip = sockaddr[0]
+        if is_private_ip(ip):
+            return False
+
+    return True
 
 
 class BaseIPReputationService(abc.ABC):
@@ -90,7 +137,7 @@ class AbuseIPDBService(BaseIPReputationService):
                 "verbose": True,
             }
 
-            response = requests.get(url, headers=headers, params=params, timeout=30)
+            response = requests.get(url, headers=headers, params=params, timeout=30, allow_redirects=False)
             response.raise_for_status()
 
             result = response.json()
@@ -158,7 +205,7 @@ class IPQualityScoreService(BaseIPReputationService):
                 "allow_public_access_points": "true",
             }
 
-            response = requests.get(url, params=params, timeout=30)
+            response = requests.get(url, params=params, timeout=30, allow_redirects=False)
             response.raise_for_status()
 
             data = response.json()
@@ -190,11 +237,13 @@ class IPQualityScoreService(BaseIPReputationService):
             return reputation_data
 
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error checking IP {ip_address} via IPQualityScore: {e}")
-            return {"error": str(e)}
+            # Do NOT log the exception or URL: the API key is embedded in the request
+            # URL path and requests includes the full URL in its exception messages.
+            logger.error("IPQualityScore check failed for %s: %s", ip_address, type(e).__name__)
+            return {"error": type(e).__name__}
         except Exception as e:
-            logger.error(f"Unexpected error checking IP {ip_address}: {e}")
-            return {"error": str(e)}
+            logger.error("IPQualityScore check failed for %s: %s", ip_address, type(e).__name__)
+            return {"error": type(e).__name__}
 
 
 class CustomAPIService(BaseIPReputationService):
@@ -227,7 +276,14 @@ class CustomAPIService(BaseIPReputationService):
             }
 
             url = self.api_url.replace("{ip}", ip_address)
-            response = requests.get(url, headers=headers, timeout=30)
+
+            # SSRF guard: api_url is admin-controlled and the Bearer key travels with
+            # the request, so refuse to send it to an internal/private destination.
+            if not _is_safe_outbound_url(url):
+                logger.warning("Refusing unsafe custom API request for %s (URL failed SSRF check)", ip_address)
+                return {"error": "unsafe_url"}
+
+            response = requests.get(url, headers=headers, timeout=30, allow_redirects=False)
             response.raise_for_status()
 
             data = response.json()

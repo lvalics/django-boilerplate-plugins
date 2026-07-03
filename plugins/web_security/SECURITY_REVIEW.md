@@ -18,14 +18,15 @@ Findings from a multi-agent review (2026-07). Status tracked per item.
 - ✅ **nginx config injection + arbitrary-file overwrite** — `services/firewall.py`.
   Unvalidated IPs and an admin-set `config_path`. Now path-confined + atomic writes +
   per-IP validation.
-- ⏳ **`request.body` buffers the entire body every request** — `middleware/threat_monitor.py`.
-  Read a bounded prefix instead of materializing the whole body.
-- ⏳ **Validation guard only on the iptables path** — `services/firewall.py`.
-  Cloudflare/AWS/nginx interpolate raw IPs; centralize validation in the base class.
-- ⏳ **API key in URL path leaks to logs (IPQualityScore)** — `services/ip_reputation.py`.
+- ✅ **`request.body` buffers the entire body every request** — `middleware/threat_monitor.py`.
+  Now skips inspection when `Content-Length` exceeds the cap; small bodies read bounded. (pass 2a)
+- ✅ **Validation guard only on the iptables path** — `services/firewall.py`. Base-class
+  `_validated_ip(s)` helpers added; Cloudflare + AWS + nginx now validate every IP. (pass 2a)
+- ✅ **API key in URL path leaks to logs (IPQualityScore)** — `services/ip_reputation.py`.
+  Error handlers log only ip + exception type; key never reaches logs. (pass 2a)
 - ⏳ **Reputation-batch lock TTL (300s) < worst-case runtime (~1500s)** — `tasks.py`.
-- ⏳ **SSRF via `CustomAPIService.api_url`** — `services/ip_reputation.py`. Validate host,
-  block private/link-local, `allow_redirects=False`.
+- ✅ **SSRF via `CustomAPIService.api_url`** — `services/ip_reputation.py`. https-only +
+  resolve host + reject private/link-local + `allow_redirects=False` on all calls. (pass 2a)
 
 ## High/Medium (arch & secrets)
 - ⏳ Firewall commands assume the web/worker runs as root — move to a narrow sudoers helper; document.
