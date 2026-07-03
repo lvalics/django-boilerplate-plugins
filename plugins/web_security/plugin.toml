@@ -1,0 +1,62 @@
+id = "web_security"
+name = "Web Security"
+version = "1.3.0"
+description = "Threat detection, rate limiting, IP reputation checking, and firewall integration (Cloudflare, AWS WAF, Nginx, iptables)."
+target = "django-boilerplate"
+edition = "free"
+
+python_dependencies = ["cryptography>=42", "requests>=2.31"]
+installed_apps = ["apps.web_security"]
+middleware = [
+  "apps.web_security.middleware.ip_block.IPBlockMiddleware",
+  "apps.web_security.middleware.rate_limit.RateLimitMiddleware",
+  "apps.web_security.middleware.ip_logging.RequestIPLoggingMiddleware",
+  "apps.web_security.middleware.threat_monitor.ThreatMonitorMiddleware",
+  "apps.web_security.middleware.security_headers.SecurityHeadersMiddleware",
+]
+files = ["apps/web_security/**"]
+
+post_install_notes = """
+Web Security installed. This plugin needs Celery + Redis (already in the boilerplate).
+Add the CELERY_BEAT_SCHEDULE entries shown above to your beat worker, then run migrations
+for the web_security app.
+Optional: set WHAT_IS_MY_IP in .env for richer IP geolocation lookups (the admin IP-lookup
+endpoint falls back to the free ip-api.com service when it is unset).
+IP reputation checking (AbuseIPDB) is configured per-provider in Admin > Web Security >
+IP Reputation Configs; ABUSEIPDB_API_KEY below is a convenience place to keep that key in
+.env before pasting it into the admin form.
+"""
+
+[url_mappings]
+"web-security/" = "apps.web_security.urls"
+
+[celery_beat_schedule.auto-block-threats]
+task = "apps.web_security.tasks.auto_block_high_threats"
+schedule = 60.0
+[celery_beat_schedule.check-ip-reputation]
+task = "apps.web_security.tasks.check_ip_reputation_batch"
+schedule = 300.0
+[celery_beat_schedule.sync-firewall-blocks]
+task = "apps.web_security.tasks.sync_firewall_blocks"
+schedule = 21600.0
+[celery_beat_schedule.cleanup-reputation-cache]
+task = "apps.web_security.tasks.cleanup_expired_reputation_cache"
+schedule = 86400.0
+
+[[env_vars]]
+name = "EXEMPT_IPS"
+description = "Comma-separated list of IPs that are never blocked or rate limited"
+required = false
+default = ""
+
+[[env_vars]]
+name = "WHAT_IS_MY_IP"
+description = "WhatIsMyIP.com API key used for the admin IP geolocation lookup endpoint"
+required = false
+default = ""
+
+[[env_vars]]
+name = "ABUSEIPDB_API_KEY"
+description = "AbuseIPDB API key; paste into Admin > Web Security > IP Reputation Configs"
+required = false
+default = ""

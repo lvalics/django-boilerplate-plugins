@@ -65,11 +65,25 @@ def uninstall(plugins_root, plugin_id, target_path, apply: bool) -> None:
     if not apply:
         print("Dry run: nothing changed. Re-run with --apply.")
         return
+    parents = set()
     for op in ops:
         if op.dest.exists():
             op.dest.unlink()
+        parents.add(op.dest.parent)
+    for parent in parents:
+        _remove_empty_dirs(parent, tgt.root)
     _unpatch_file(tgt.settings_path, m.id)
     _unpatch_file(tgt.urls_path, m.id)
+
+def _remove_empty_dirs(start: Path, stop_at: Path) -> None:
+    """Remove now-empty directories from start up to (but not including) stop_at."""
+    current = start
+    while current != stop_at and stop_at in current.parents:
+        try:
+            current.rmdir()
+        except OSError:
+            break
+        current = current.parent
 
 def _patch_file(path: Path, plugin_id: str, block: str) -> None:
     text = path.read_text(encoding="utf-8")
