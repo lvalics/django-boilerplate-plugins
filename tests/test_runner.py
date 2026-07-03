@@ -48,6 +48,14 @@ def test_apply_then_uninstall_roundtrip(tmp_path):
     assert "apps.demo" not in (target / "project" / "settings.py").read_text()
     assert not (target / "apps" / "demo" / "models.py").exists()
 
+def test_uninstall_never_removes_shared_apps_dir(tmp_path):
+    plugins = tmp_path / "plugins"; plugins.mkdir(); _plugin(plugins)
+    target = _target(tmp_path)   # apps/ contains only what the demo plugin installs
+    runner.install(plugins, "demo", target, apply=True, force=False)
+    runner.uninstall(plugins, "demo", target, apply=True)
+    assert not (target / "apps" / "demo").exists()   # plugin's own dir cleaned up
+    assert (target / "apps").is_dir()                # shared apps/ must survive even when now empty
+
 def test_pro_plugin_blocked_on_free_target(tmp_path):
     plugins = tmp_path / "plugins"; plugins.mkdir()
     d = plugins / "prod"; (d / "files").mkdir(parents=True)

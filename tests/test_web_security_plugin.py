@@ -29,6 +29,7 @@ def test_web_security_installs_and_settings_stay_valid(tmp_path):
     assert 'INSTALLED_APPS += ["apps.web_security"]' in settings
     assert 'include("apps.web_security.urls")' in urls
     assert (target / "apps" / "web_security" / "__init__.py").exists()
+    assert 'MIDDLEWARE += [' in settings and "apps.web_security.middleware.ip_block.IPBlockMiddleware" in settings
 
 
 def test_web_security_uninstall_is_clean(tmp_path):

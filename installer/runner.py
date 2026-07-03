@@ -65,22 +65,40 @@ def uninstall(plugins_root, plugin_id, target_path, apply: bool) -> None:
     if not apply:
         print("Dry run: nothing changed. Re-run with --apply.")
         return
+    owned_roots = _plugin_owned_roots(tgt.root, m.files)
     parents = set()
     for op in ops:
         if op.dest.exists():
             op.dest.unlink()
         parents.add(op.dest.parent)
     for parent in parents:
-        _remove_empty_dirs(parent, tgt.root)
+        _remove_empty_dirs(parent, owned_roots)
     _unpatch_file(tgt.settings_path, m.id)
     _unpatch_file(tgt.urls_path, m.id)
 
-def _remove_empty_dirs(start: Path, stop_at: Path) -> None:
-    """Remove now-empty directories from start up to (but not including) stop_at."""
+def _plugin_owned_roots(target_root: Path, files_globs: list[str]) -> list[Path]:
+    """Top-level directories a plugin owns, from the static prefix of each files glob."""
+    roots = []
+    for pattern in files_globs:
+        static_parts = []
+        for part in Path(pattern).parts:
+            if any(ch in part for ch in "*?["):
+                break
+            static_parts.append(part)
+        if static_parts:
+            roots.append(target_root.joinpath(*static_parts))
+    return roots
+
+def _within_owned(path: Path, owned_roots: list[Path]) -> bool:
+    """True if path is an owned root or a descendant of one."""
+    return any(path == r or r in path.parents for r in owned_roots)
+
+def _remove_empty_dirs(start: Path, owned_roots: list[Path]) -> None:
+    """Remove now-empty dirs from start upward, never ascending above a plugin-owned root."""
     current = start
-    while current != stop_at and stop_at in current.parents:
+    while _within_owned(current, owned_roots):
         try:
-            current.rmdir()
+            current.rmdir()        # only succeeds when empty
         except OSError:
             break
         current = current.parent
