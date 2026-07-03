@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+import json
 import re
 import subprocess
 from dataclasses import dataclass, field
@@ -35,12 +36,17 @@ def _check_setting(target: TargetProject, name: str, equals) -> bool:
         return False
 
 
+def _build_db_probe(table: str) -> str:
+    """Build a read-only introspection snippet with the table name safely embedded as a literal."""
+    return (
+        "from django.db import connection;"
+        f"print('YES' if {json.dumps(table)} in connection.introspection.table_names() else 'NO')"
+    )
+
+
 def _check_db_table(target: TargetProject, table: str) -> bool | None:
     """Read-only introspection via the target's own manage.py. None = unknown."""
-    code = (
-        "from django.db import connection;"
-        f"print('YES' if '{table}' in connection.introspection.table_names() else 'NO')"
-    )
+    code = _build_db_probe(table)
     try:
         out = subprocess.run(
             ["python", "manage.py", "shell", "-c", code],
