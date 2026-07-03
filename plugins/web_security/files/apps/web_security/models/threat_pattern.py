@@ -1,9 +1,8 @@
 import logging
 import re
-import signal
-from contextlib import contextmanager
 from functools import lru_cache
 
+import regex
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models
@@ -22,37 +21,6 @@ MAX_PATTERN_LENGTH = getattr(settings, "WEB_SECURITY_MAX_PATTERN_LENGTH", 500)
 # Maximum body size to inspect (in bytes) - prevents memory exhaustion on large uploads
 # Default 64KB - most malicious payloads are in the first few KB
 MAX_BODY_INSPECTION_SIZE = getattr(settings, "WEB_SECURITY_MAX_BODY_SIZE", 65536)
-
-
-class RegexTimeoutError(Exception):
-    """Raised when regex matching exceeds timeout."""
-
-    pass
-
-
-@contextmanager
-def regex_timeout(seconds):
-    """
-    Context manager to timeout regex operations.
-
-    Uses SIGALRM on Unix systems. Falls back to no timeout on Windows.
-    """
-
-    def timeout_handler(signum, frame):
-        raise RegexTimeoutError(f"Regex matching timed out after {seconds} seconds")
-
-    # Check if we can use signals (Unix only, main thread only)
-    try:
-        old_handler = signal.signal(signal.SIGALRM, timeout_handler)
-        signal.setitimer(signal.ITIMER_REAL, seconds)
-        try:
-            yield
-        finally:
-            signal.setitimer(signal.ITIMER_REAL, 0)
-            signal.signal(signal.SIGALRM, old_handler)
-    except (ValueError, AttributeError):
-        # Windows or not main thread - no timeout available
-        yield
 
 
 def detect_dangerous_pattern(pattern):
@@ -109,10 +77,15 @@ def detect_dangerous_pattern(pattern):
 
 def safe_regex_match(compiled_pattern, target, timeout=None):
     """
-    Perform regex match with timeout protection.
+    Perform a regex match with a hard timeout that works in ANY thread.
+
+    Uses the third-party ``regex`` engine's built-in ``timeout=`` (raises the
+    builtin ``TimeoutError``). Unlike a SIGALRM-based timeout, this is reliable
+    off the main thread (gunicorn gthread, uWSGI threads, ASGI) and is the real
+    ReDoS backstop for admin-defined patterns.
 
     Args:
-        compiled_pattern: Pre-compiled regex pattern
+        compiled_pattern: Pre-compiled ``regex`` pattern
         target: String to match against
         timeout: Timeout in seconds (defaults to REGEX_MATCH_TIMEOUT)
 
@@ -123,9 +96,8 @@ def safe_regex_match(compiled_pattern, target, timeout=None):
         timeout = REGEX_MATCH_TIMEOUT
 
     try:
-        with regex_timeout(timeout):
-            return compiled_pattern.search(target)
-    except RegexTimeoutError:
+        return compiled_pattern.search(target, timeout=timeout)
+    except TimeoutError:
         logger.warning(
             "Regex match timed out after %.2fs for pattern: %s",
             timeout,
@@ -140,18 +112,21 @@ def safe_regex_match(compiled_pattern, target, timeout=None):
 @lru_cache(maxsize=128)
 def compile_pattern_cached(pattern, flags):
     """
-    Compile regex pattern with caching.
+    Compile a regex pattern with a per-process LRU cache.
+
+    Patterns are compiled lazily at match time (not cached as compiled objects in
+    the shared cache) so nothing relies on pickling compiled patterns into Redis.
 
     Args:
         pattern: Regex pattern string
-        flags: Regex flags
+        flags: ``regex`` flags
 
     Returns:
         Compiled pattern or None if invalid
     """
     try:
-        return re.compile(pattern, flags)
-    except re.error:
+        return regex.compile(pattern, flags)
+    except regex.error:
         return None
 
 
@@ -264,10 +239,10 @@ class ThreatPattern(BaseModel):
         if is_dangerous:
             raise ValueError(f"Dangerous regex pattern rejected: {reason}")
 
-        # Validate regex pattern syntax
+        # Validate regex pattern syntax (regex engine is a superset of re)
         try:
-            re.compile(self.pattern)
-        except re.error as e:
+            regex.compile(self.pattern)
+        except regex.error as e:
             raise ValueError(f"Invalid regex pattern: {e}") from e
 
         super().save(*args, **kwargs)
@@ -303,13 +278,6 @@ class ThreatPattern(BaseModel):
                     "case_sensitive",
                 )
             )
-            # Pre-compile patterns
-            for p in patterns:
-                flags = 0 if p["case_sensitive"] else re.IGNORECASE
-                try:
-                    p["compiled"] = re.compile(p["pattern"], flags)
-                except re.error:
-                    p["compiled"] = None
             cache.set(cls.CACHE_KEY, patterns, cls.CACHE_TIMEOUT)
         return patterns
 
@@ -339,10 +307,12 @@ class ThreatPattern(BaseModel):
             return pattern["category"] in categories
 
         for pattern in patterns:
-            if pattern["compiled"] is None:
+            if not should_check_pattern(pattern):
                 continue
 
-            if not should_check_pattern(pattern):
+            flags = 0 if pattern["case_sensitive"] else regex.IGNORECASE
+            compiled = compile_pattern_cached(pattern["pattern"], flags)
+            if compiled is None:
                 continue
 
             match_type = pattern["match_type"]
@@ -361,7 +331,7 @@ class ThreatPattern(BaseModel):
 
             if target:
                 # Use safe matching with timeout to prevent ReDoS
-                match = safe_regex_match(pattern["compiled"], target)
+                match = safe_regex_match(compiled, target)
                 if match:
                     matches.append(
                         {

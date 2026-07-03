@@ -142,20 +142,26 @@ def get_client_ip(request):
     if not is_trusted_proxy(remote_addr):
         return validated_remote or ""
 
-    # Check for Cloudflare first (if using Cloudflare, trust their header)
-    # CF-Connecting-IP is set by Cloudflare and represents the original client
-    cf_connecting_ip = request.META.get("HTTP_CF_CONNECTING_IP")
-    if cf_connecting_ip:
-        validated_cf = validate_ip(cf_connecting_ip)
-        if validated_cf:
-            return validated_cf
+    # CF-Connecting-IP is trusted ONLY when the deployment explicitly declares it
+    # sits behind Cloudflare. Otherwise a client can send this header to control the
+    # derived IP (evade blocks, frame another IP, bypass rate limits), even though the
+    # immediate peer is a trusted proxy that may not strip it. Opt in with
+    # WEB_SECURITY_BEHIND_CLOUDFLARE = True.
+    if getattr(settings, "WEB_SECURITY_BEHIND_CLOUDFLARE", False):
+        cf_connecting_ip = request.META.get("HTTP_CF_CONNECTING_IP")
+        if cf_connecting_ip:
+            validated_cf = validate_ip(cf_connecting_ip)
+            if validated_cf:
+                return validated_cf
 
-    # Check X-Real-IP (commonly set by nginx as the original client IP)
-    x_real_ip = request.META.get("HTTP_X_REAL_IP")
-    if x_real_ip:
-        validated_real = validate_ip(x_real_ip)
-        if validated_real:
-            return validated_real
+    # X-Real-IP is trusted ONLY when a setting affirms the trusted proxy sets AND
+    # strips it (WEB_SECURITY_TRUST_X_REAL_IP = True). Otherwise it is client-spoofable.
+    if getattr(settings, "WEB_SECURITY_TRUST_X_REAL_IP", False):
+        x_real_ip = request.META.get("HTTP_X_REAL_IP")
+        if x_real_ip:
+            validated_real = validate_ip(x_real_ip)
+            if validated_real:
+                return validated_real
 
     # Process X-Forwarded-For header
     # Format: X-Forwarded-For: client, proxy1, proxy2
