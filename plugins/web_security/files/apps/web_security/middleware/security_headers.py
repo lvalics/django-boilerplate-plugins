@@ -31,9 +31,10 @@ class SecurityHeadersMiddleware:
         if "X-Content-Type-Options" not in response:
             response["X-Content-Type-Options"] = "nosniff"
 
-        # Enable XSS filter
+        # Disable legacy XSS filter (deprecated, can introduce vulnerabilities in
+        # legacy browsers); rely on Content-Security-Policy instead.
         if "X-XSS-Protection" not in response:
-            response["X-XSS-Protection"] = "1; mode=block"
+            response["X-XSS-Protection"] = "0"
 
         # Referrer policy
         if "Referrer-Policy" not in response:

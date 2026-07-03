@@ -85,8 +85,11 @@ def auto_block_high_threats(self):
         raise self.retry(exc=e, countdown=60) from e
 
 
+# Lock TTL must exceed the worst-case runtime (up to 50 IPs x the per-request timeout,
+# now 10s => ~500s) so a slow batch cannot expire the lock and be double-processed by
+# the next beat tick.
 @shared_task(bind=True, max_retries=3)
-@task_lock(timeout=300)
+@task_lock(timeout=900)
 def check_ip_reputation_batch(self):
     """
     Check IP reputation for queued IPs.
@@ -252,6 +255,31 @@ def cleanup_old_suspicious_requests(days: int = 30):
 
     except Exception as e:
         logger.error(f"Error in cleanup_old_suspicious_requests: {e}")
+        return {"status": "error", "error": str(e)}
+
+
+@shared_task
+def cleanup_old_ip_threat_summaries(days: int = 90):
+    """
+    Delete stale, non-blocked IP threat summaries so the table does not grow forever.
+
+    Currently-blocked IPs are always kept regardless of age.
+
+    Args:
+        days: Delete non-blocked summaries not seen for this many days
+    """
+    try:
+        from apps.web_security.models import IPThreatSummary
+
+        cutoff = timezone.now() - timezone.timedelta(days=days)
+        deleted, _ = IPThreatSummary.objects.filter(is_blocked=False, last_seen__lt=cutoff).delete()
+
+        logger.info(f"Cleaned up {deleted} stale IP threat summaries older than {days} days")
+
+        return {"status": "success", "deleted": deleted}
+
+    except Exception as e:
+        logger.error(f"Error in cleanup_old_ip_threat_summaries: {e}")
         return {"status": "error", "error": str(e)}
 
 

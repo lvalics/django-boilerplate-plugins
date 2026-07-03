@@ -6,6 +6,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.cache import cache
 from django.http import JsonResponse
 
+from apps.web_security.utils import validate_ip
+
 logger = logging.getLogger("web_security")
 
 # WhatIsMyIP API error codes
@@ -93,8 +95,12 @@ def ip_lookup_view(request, ip_address):
     Tries WhatIsMyIP API first (if configured), falls back to ip-api.com.
     Results are cached for 24 hours to minimize API calls.
     """
+    validated = validate_ip(ip_address)
+    if validated is None:
+        return JsonResponse({"error": "invalid IP"}, status=400)
+
     # Check cache first
-    cache_key = f"ip_lookup:{ip_address}"
+    cache_key = f"ip_lookup:{validated}"
     cached = cache.get(cache_key)
     if cached is not None:
         return JsonResponse(cached)
@@ -104,20 +110,20 @@ def ip_lookup_view(request, ip_address):
     # Try WhatIsMyIP first if key is configured
     if api_key:
         try:
-            result = _lookup_whatismyip(ip_address, api_key)
+            result = _lookup_whatismyip(validated, api_key)
             cache.set(cache_key, result, 60 * 60 * 24)
             return JsonResponse(result)
         except Exception:
-            logger.debug("WhatIsMyIP failed for %s, falling back to ip-api.com", ip_address)
+            logger.debug("WhatIsMyIP failed for %s, falling back to ip-api.com", validated)
 
     # Fallback to ip-api.com (free)
     try:
-        result = _lookup_ip_api(ip_address)
+        result = _lookup_ip_api(validated)
         cache.set(cache_key, result, 60 * 60 * 24)
         return JsonResponse(result)
     except requests.RequestException:
-        logger.exception("IP lookup request error for %s", ip_address)
+        logger.exception("IP lookup request error for %s", validated)
         return JsonResponse({"error": "API request failed"}, status=502)
     except (ValueError, KeyError, TypeError):
-        logger.exception("IP lookup invalid response for %s", ip_address)
+        logger.exception("IP lookup invalid response for %s", validated)
         return JsonResponse({"error": "Invalid API response"}, status=502)

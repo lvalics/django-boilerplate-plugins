@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.5.0 - security hardening (pass 2)
+
+Addresses the remaining High/Medium review findings (security + safe performance
+wins). No hot-path behavioural refactors (those are deliberately left for a future
+pass). 35 new tests; full app suite 50/50. Adds migrations 0006 and 0007.
+
+Security (2a/2b):
+- **SSRF:** the custom IP-reputation `api_url` is https-only, its host is resolved and
+  rejected if private/loopback/link-local, and `allow_redirects=False` on all reputation
+  calls. (`services/ip_reputation.py`)
+- **API-key log leak:** IPQualityScore error handlers log only the IP and exception type.
+- **Firewall IP validation:** base-class `_validated_ip(s)` helpers; Cloudflare and AWS now
+  validate every IP before building WAF expressions / API payloads. (`services/firewall.py`)
+- **Body-buffering DoS:** request-body inspection is skipped when `Content-Length` exceeds
+  the cap, so large bodies are never buffered. (`middleware/threat_monitor.py`)
+- **Encryption key rotation:** optional `WEB_SECURITY_ENCRYPTION_KEY` decouples encryption
+  from `SECRET_KEY`; decrypt failures log loudly. (`encryption.py`)
+- **API key at rest:** `IPReputationConfig.api_key` is now stored encrypted (`_api_key` +
+  decrypting property); migration `0006` encrypts existing values.
+- **Admin secret masking:** firewall credentials show masked values with blank-to-keep; the
+  reputation API key uses a write-only field. Secrets are never rendered in the admin.
+- **Migration 0004 reverse** now writes valid JSON (was corrupting on rollback).
+
+Performance / correctness (2c):
+- Reputation batch lock TTL raised to 900s and per-request timeout lowered to 10s, so a
+  slow batch cannot expire its lock and be double-processed. (`tasks.py`, `services/ip_reputation.py`)
+- Rate limiting logs loudly (once) on a non-atomic cache backend and flags DummyCache
+  (previously it silently disabled limiting). (`models/rate_limit.py`)
+- Removed 4 redundant DB indexes (2 duplicated a unique index, 2 duplicated a compound's
+  leftmost column); migration `0007`.
+- Admin block/unblock actions use a single bulk update instead of N writes. (`admin.py`)
+- New weekly `cleanup_old_ip_threat_summaries` task so `IPThreatSummary` no longer grows
+  forever (blocked IPs are always kept). (`tasks.py`)
+- `views.py` validates the IP before any outbound lookup / cache key; deprecated
+  `X-XSS-Protection` set to `0`; critical-threat notification no longer crashes on a `None`
+  matched value.
+
+New optional settings: `WEB_SECURITY_ENCRYPTION_KEY`. See `SECURITY_REVIEW.md` for the full
+finding list and what remains (behavioural refactors + a few Low items).
+
 ## 1.4.0 - security hardening (pass 1)
 
 Fixes four actively-exploitable issues found in a security review. Each has a

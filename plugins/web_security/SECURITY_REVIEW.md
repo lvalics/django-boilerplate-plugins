@@ -24,7 +24,8 @@ Findings from a multi-agent review (2026-07). Status tracked per item.
   `_validated_ip(s)` helpers added; Cloudflare + AWS + nginx now validate every IP. (pass 2a)
 - ✅ **API key in URL path leaks to logs (IPQualityScore)** — `services/ip_reputation.py`.
   Error handlers log only ip + exception type; key never reaches logs. (pass 2a)
-- ⏳ **Reputation-batch lock TTL (300s) < worst-case runtime (~1500s)** — `tasks.py`.
+- ✅ **Reputation-batch lock TTL (300s) < worst-case runtime** — TTL raised to 900s and
+  per-request timeout lowered to 10s. `tasks.py`, `services/ip_reputation.py`. (pass 2c)
 - ✅ **SSRF via `CustomAPIService.api_url`** — `services/ip_reputation.py`. https-only +
   resolve host + reject private/link-local + `allow_redirects=False` on all calls. (pass 2a)
 
@@ -39,18 +40,24 @@ Findings from a multi-agent review (2026-07). Status tracked per item.
 - ✅ Reverse migration 0004 writes a repr-dict into a text column — now `json.dumps`. (pass 2b)
 
 ## Medium (performance)
-- ⏳ 5 middleware each re-load settings + re-parse client IP per request — resolve once, stash on `request`.
+- ⏳ 5 middleware each re-load settings + re-parse client IP per request — resolve once, stash
+  on `request`. (deferred: hot-path behaviour change)
 - ⏳ Synchronous DB writes + row lock on the request path on a match — offload to Celery.
+  (deferred: hot-path behaviour change)
 - ⏳ `auto_block` sends SMTP synchronously in-loop under the lock — `tasks.py`.
-- ⏳ Rate-limit fallback is a read-modify-write race; DummyCache silently disables limiting — `middleware/rate_limit.py`.
-- ⏳ Duplicate indexes (`models/ip_threat_summary.py`, `models/ip_reputation.py`, `models/suspicious_request.py`); per-row admin block/unblock loop (`admin.py`).
+  (deferred: behaviour change)
+- ✅ Rate-limit fallback race; DummyCache silently disabled limiting — now logs loudly (once)
+  on a non-atomic backend and flags DummyCache. `models/rate_limit.py`. (pass 2c)
+- ✅ Duplicate indexes removed (migration `0007`); admin block/unblock now bulk-update. (pass 2c)
 
 ## Low / polish
-- ⏳ `IPThreatSummary` has no retention cleanup (grows forever).
+- ✅ `IPThreatSummary` retention — new weekly `cleanup_old_ip_threat_summaries` task (keeps
+  blocked IPs). (pass 2c)
 - ⏳ Report emails embed raw exception strings + third-party PII — `tasks_security_report.py`.
-- ⏳ `views.py` interpolates an unvalidated IP into an outbound path + cache key.
-- ⏳ Deprecated `X-XSS-Protection: 1; mode=block`; `mask_credentials` leaks first 4 chars;
-  `notifications.py` crashes on `matched_value=None`; threat-score bands ignore `min_confidence_score`.
+- ✅ `views.py` now validates the IP before any outbound path / cache key. (pass 2c)
+- ✅ `X-XSS-Protection` set to `0`; `mask_credentials` fully masks (2b); `notifications.py`
+  no longer crashes on `matched_value=None`. (pass 2b/2c)
+- ⏳ Threat-score bands ignore `min_confidence_score` (`models/ip_reputation.py`) — by-design-ish, left.
 
 ## Refactor (oversized files, pass 3)
 - ⏳ `admin.py` (1060 lines) and `services/firewall.py` (740 lines) → split into packages,

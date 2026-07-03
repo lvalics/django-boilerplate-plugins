@@ -201,7 +201,6 @@ class IPReputationCache(BaseModel):
         verbose_name_plural = _("IP Reputation Cache")
         ordering = ["-abuse_confidence_score", "-created_at"]
         indexes = [
-            models.Index(fields=["ip_address"]),
             models.Index(fields=["expires_at"]),
             models.Index(fields=["check_pending"]),
         ]

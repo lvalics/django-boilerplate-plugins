@@ -2,6 +2,8 @@ import json
 
 from django import forms
 from django.contrib import admin, messages
+from django.core.cache import cache
+from django.utils import timezone
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -1061,21 +1063,24 @@ class IPThreatSummaryAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
 
     @admin.action(description=_("Block selected IPs"))
     def block_ips(self, request, queryset):
-        blocked = 0
-        for summary in queryset.filter(is_blocked=False):
-            IPThreatSummary.block_ip(
-                summary.ip_address,
-                reason="Manually blocked via admin",
-            )
-            blocked += 1
+        blocked = queryset.filter(is_blocked=False).update(
+            is_blocked=True,
+            blocked_at=timezone.now(),
+            block_reason="Manually blocked via admin",
+            blocked_until=None,
+        )
+        if blocked:
+            cache.delete(IPThreatSummary.BLOCKED_IPS_CACHE_KEY)
         messages.success(request, _("{} IPs blocked.").format(blocked))
 
     @admin.action(description=_("Unblock selected IPs"))
     def unblock_ips(self, request, queryset):
-        unblocked = 0
-        for summary in queryset.filter(is_blocked=True):
-            if IPThreatSummary.unblock_ip(summary.ip_address):
-                unblocked += 1
+        unblocked = queryset.filter(is_blocked=True).update(
+            is_blocked=False,
+            blocked_until=None,
+        )
+        if unblocked:
+            cache.delete(IPThreatSummary.BLOCKED_IPS_CACHE_KEY)
         messages.success(request, _("{} IPs unblocked.").format(unblocked))
 
     @admin.action(description=_("Sync to firewall"))

@@ -15,7 +15,6 @@ class SuspiciousRequest(BaseModel):
     ip_address = models.GenericIPAddressField(
         verbose_name=_("IP Address"),
         help_text=_("Client IP address"),
-        db_index=True,
     )
     path = models.TextField(
         verbose_name=_("Path"),
@@ -62,7 +61,6 @@ class SuspiciousRequest(BaseModel):
         default="",
         verbose_name=_("Category"),
         help_text=_("Threat category"),
-        db_index=True,
     )
     threat_level = models.CharField(
         max_length=20,

@@ -94,7 +94,6 @@ class IPThreatSummary(BaseModel):
         verbose_name_plural = _("IP Threat Summaries")
         ordering = ["-total_threat_score", "-last_seen"]
         indexes = [
-            models.Index(fields=["ip_address"]),
             models.Index(fields=["is_blocked", "-total_threat_score"]),
             models.Index(fields=["-total_threat_score"]),
         ]

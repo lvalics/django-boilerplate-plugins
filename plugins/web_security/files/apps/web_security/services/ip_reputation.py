@@ -137,7 +137,7 @@ class AbuseIPDBService(BaseIPReputationService):
                 "verbose": True,
             }
 
-            response = requests.get(url, headers=headers, params=params, timeout=30, allow_redirects=False)
+            response = requests.get(url, headers=headers, params=params, timeout=10, allow_redirects=False)
             response.raise_for_status()
 
             result = response.json()
@@ -205,7 +205,7 @@ class IPQualityScoreService(BaseIPReputationService):
                 "allow_public_access_points": "true",
             }
 
-            response = requests.get(url, params=params, timeout=30, allow_redirects=False)
+            response = requests.get(url, params=params, timeout=10, allow_redirects=False)
             response.raise_for_status()
 
             data = response.json()
@@ -283,7 +283,7 @@ class CustomAPIService(BaseIPReputationService):
                 logger.warning("Refusing unsafe custom API request for %s (URL failed SSRF check)", ip_address)
                 return {"error": "unsafe_url"}
 
-            response = requests.get(url, headers=headers, timeout=30, allow_redirects=False)
+            response = requests.get(url, headers=headers, timeout=10, allow_redirects=False)
             response.raise_for_status()
 
             data = response.json()

@@ -1,10 +1,45 @@
+import logging
 import time
 
+from django.conf import settings as django_settings
 from django.core.cache import cache
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.utils.models import BaseModel
+
+logger = logging.getLogger(__name__)
+
+# Set the first time the non-atomic cache fallback is used, so we only warn once
+# per process instead of spamming the log on every request.
+_warned_non_atomic_cache = False
+
+
+def _warn_non_atomic_cache_once():
+    """Log that rate limiting fell back to a non-atomic cache read-modify-write.
+
+    Only logs the first time this happens in the process. If the active default
+    cache backend is Django's DummyCache, the fallback's cache.get() always
+    returns the default, so the count never increments and rate limiting is
+    effectively disabled - that case is escalated to ERROR.
+    """
+    global _warned_non_atomic_cache
+    if _warned_non_atomic_cache:
+        return
+    _warned_non_atomic_cache = True
+
+    default_backend = django_settings.CACHES.get("default", {}).get("BACKEND", "")
+    if "dummy" in default_backend.lower():
+        logger.error(
+            "Rate limiting is using Django's DummyCache as the default cache backend, "
+            "which never stores values. Rate limiting is effectively DISABLED. "
+            "Configure a real cache backend (Redis/Memcached) to enforce rate limits."
+        )
+    else:
+        logger.warning(
+            "Rate limiting is running on a non-atomic cache backend (counts may be "
+            "inaccurate or disabled). Use Redis/Memcached for accurate limits."
+        )
 
 
 class RateLimitRule(BaseModel):
@@ -205,7 +240,10 @@ class RateLimitRule(BaseModel):
         try:
             current_count = cache.incr(cache_key)
         except ValueError:
-            # Fallback if cache doesn't support incr (e.g., DummyCache in dev)
+            # Fallback if cache doesn't support incr (e.g., DummyCache in dev).
+            # Not atomic (races under concurrent load), so surface it loudly
+            # rather than silently under- or never-counting requests.
+            _warn_non_atomic_cache_once()
             current_count = cache.get(cache_key, 0) + 1
             cache.set(cache_key, current_count, window)
 

@@ -118,7 +118,7 @@ Detected At: {timezone.now().isoformat()}
 Request Details:
 - Path: {threat_info.get("path", "N/A")}
 - Method: {threat_info.get("method", "N/A")}
-- Matched Value: {threat_info.get("matched_value", "N/A")[:200]}
+- Matched Value: {(threat_info.get("matched_value") or "N/A")[:200]}
 
 Immediate action may be required. Review this activity in the Web Security admin panel.
 """

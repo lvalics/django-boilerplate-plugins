@@ -1,6 +1,6 @@
 id = "web_security"
 name = "Web Security"
-version = "1.4.0"
+version = "1.5.0"
 description = "Threat detection, rate limiting, IP reputation checking, and firewall integration (Cloudflare, AWS WAF, Nginx, iptables)."
 target = "django-boilerplate"
 edition = "free"
@@ -42,6 +42,9 @@ schedule = 21600.0
 [celery_beat_schedule.cleanup-reputation-cache]
 task = "apps.web_security.tasks.cleanup_expired_reputation_cache"
 schedule = 86400.0
+[celery_beat_schedule.cleanup-ip-threat-summaries]
+task = "apps.web_security.tasks.cleanup_old_ip_threat_summaries"
+schedule = 604800.0
 
 [[env_vars]]
 name = "EXEMPT_IPS"
