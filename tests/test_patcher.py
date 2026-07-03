@@ -37,3 +37,11 @@ def test_urls_block_valid():
     block = build_urls_block(_m())
     assert 'include("apps.web_security.urls")' in block
     ast.parse(block)
+
+def test_settings_block_executes_with_bool_values():
+    m = Manifest(id="p", name="P", version="1",
+                 celery_beat_schedule={"job": {"task": "t", "schedule": 60.0, "enabled": True}})
+    block = build_settings_block(m)
+    ns = {"INSTALLED_APPS": [], "MIDDLEWARE": []}
+    exec(compile(block, "<block>", "exec"), ns)   # must NOT raise (true/false would NameError)
+    assert ns["CELERY_BEAT_SCHEDULE"]["job"]["enabled"] is True

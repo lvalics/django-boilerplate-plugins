@@ -9,16 +9,32 @@ def _start(plugin_id: str) -> str:
 def _end(plugin_id: str) -> str:
     return f"# <<< plugin: {plugin_id} <<<"
 
+def _py_literal(value) -> str:
+    """Render a value as a valid, double-quoted Python literal (stdlib-only)."""
+    if isinstance(value, bool):          # must precede int — bool is a subclass of int
+        return "True" if value else "False"
+    if value is None:
+        return "None"
+    if isinstance(value, (int, float)):
+        return repr(value)
+    if isinstance(value, str):
+        return json.dumps(value)         # double-quoted, correctly escaped, valid Python
+    if isinstance(value, list):
+        return "[" + ", ".join(_py_literal(v) for v in value) + "]"
+    if isinstance(value, dict):
+        return "{" + ", ".join(f"{_py_literal(k)}: {_py_literal(v)}" for k, v in value.items()) + "}"
+    raise TypeError(f"unsupported manifest value type for code emission: {type(value).__name__}")
+
 def build_settings_block(m: Manifest) -> str:
     lines = [_start(m.id)]
     if m.installed_apps:
-        lines.append(f"INSTALLED_APPS += {json.dumps(m.installed_apps)}")
+        lines.append(f"INSTALLED_APPS += {_py_literal(m.installed_apps)}")
     if m.middleware:
-        lines.append(f"MIDDLEWARE += {json.dumps(m.middleware)}")
+        lines.append(f"MIDDLEWARE += {_py_literal(m.middleware)}")
     if m.celery_beat_schedule:
         lines.append(
             "CELERY_BEAT_SCHEDULE = {**globals().get('CELERY_BEAT_SCHEDULE', {}), "
-            f"**{json.dumps(m.celery_beat_schedule)}}}"
+            f"**{_py_literal(m.celery_beat_schedule)}}}"
         )
     lines.append(_end(m.id))
     return "\n".join(lines)
@@ -26,7 +42,7 @@ def build_settings_block(m: Manifest) -> str:
 def build_urls_block(m: Manifest) -> str:
     lines = [_start(m.id), "from django.urls import include, path"]
     for prefix, module in m.url_mappings.items():
-        lines.append(f'urlpatterns += [path({json.dumps(prefix)}, include({json.dumps(module)}))]')
+        lines.append(f'urlpatterns += [path({_py_literal(prefix)}, include({_py_literal(module)}))]')
     lines.append(_end(m.id))
     return "\n".join(lines)
 
