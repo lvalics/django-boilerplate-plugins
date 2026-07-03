@@ -11,7 +11,7 @@ def _end(plugin_id: str) -> str:
 
 def _py_literal(value) -> str:
     """Render a value as a valid, double-quoted Python literal (stdlib-only)."""
-    if isinstance(value, bool):          # must precede int — bool is a subclass of int
+    if isinstance(value, bool):          # check bool before int (bool is a subclass of int)
         return "True" if value else "False"
     if value is None:
         return "None"

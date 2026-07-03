@@ -24,13 +24,16 @@ def main(argv=None) -> int:
         return 0
     if not args.plugin or not args.target:
         parser.error("plugin and target are required (or use --list)")
+    if not (PLUGINS_ROOT / args.plugin / "plugin.toml").is_file():
+        print(f"error: unknown plugin '{args.plugin}' (see --list)", file=sys.stderr)
+        return 1
     try:
         if args.uninstall:
             runner.uninstall(PLUGINS_ROOT, args.plugin, Path(args.target), apply=args.apply)
         else:
             runner.install(PLUGINS_ROOT, args.plugin, Path(args.target),
                            apply=args.apply, force=args.force)
-    except (ValueError, FileExistsError, runner.EditionBlocked) as exc:
+    except (ValueError, FileExistsError, FileNotFoundError, runner.EditionBlocked) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     return 0

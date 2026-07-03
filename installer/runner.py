@@ -120,9 +120,9 @@ def _print_plan(m, plan, decision) -> None:
     print(f"  Files to copy: {len(plan.copies)}")
     for op in plan.copies:
         print(f"    {'overwrite' if op.exists else 'new'}: {op.dest}")
-    print("  Settings patch:\n" + "\n".join("    " + l for l in plan.settings_block.splitlines()))
+    print("  Settings patch:\n" + "\n".join("    " + line for line in plan.settings_block.splitlines()))
     if plan.urls_block:
-        print("  URLs patch:\n" + "\n".join("    " + l for l in plan.urls_block.splitlines()))
+        print("  URLs patch:\n" + "\n".join("    " + line for line in plan.urls_block.splitlines()))
 
 def _print_post_install(m) -> None:
     print("\nInstalled. Manual steps:")
