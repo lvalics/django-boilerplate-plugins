@@ -47,9 +47,10 @@ except ImportError:
     # Session-auth fallback when the API-key app is absent.
     from rest_framework.permissions import IsAuthenticated as IsAuthenticatedOrHasUserAPIKey
 from apps.sites.models import SiteMember, SiteProfile
-from apps.sites.permissions import HasSiteAccess, HasSiteAdminAccess
+from apps.sites.permissions import HasSiteAccess, HasSiteAdminAccess, IsSuperUser
 from apps.sites.serializers import (
     PublicSiteConfigSerializer,
+    SiteAdminUpdateSerializer,
     SiteBrandingSerializer,
     SiteDetailSerializer,
     SiteFeaturesSerializer,
@@ -253,6 +254,7 @@ class SiteViewSet(viewsets.ModelViewSet):
         Assign permissions based on action:
         - list: authenticated (shows only accessible sites)
         - retrieve: HasSiteAccess
+        - create/destroy: superuser only (site admins must not create/delete sites)
         - update/partial_update: HasSiteAdminAccess
         - member actions: HasSiteAdminAccess
         """
@@ -260,6 +262,8 @@ class SiteViewSet(viewsets.ModelViewSet):
             return [IsAuthenticatedOrHasUserAPIKey()]
         elif self.action == "retrieve":
             return [IsAuthenticatedOrHasUserAPIKey(), HasSiteAccess()]
+        elif self.action in ("create", "destroy"):
+            return [IsAuthenticatedOrHasUserAPIKey(), IsSuperUser()]
         else:
             return [IsAuthenticatedOrHasUserAPIKey(), HasSiteAdminAccess()]
 
@@ -284,7 +288,12 @@ class SiteViewSet(viewsets.ModelViewSet):
         if self.action == "list":
             return SiteListSerializer
         elif self.action in ["update", "partial_update"]:
-            return SiteUpdateSerializer
+            # Superusers may edit security-critical fields; site admins are restricted
+            # to branding/SEO/feature fields.
+            user = getattr(self.request, "user", None)
+            if user and user.is_superuser:
+                return SiteUpdateSerializer
+            return SiteAdminUpdateSerializer
         return SiteDetailSerializer
 
     def get_object(self):
@@ -352,22 +361,20 @@ class SiteViewSet(viewsets.ModelViewSet):
     @extend_schema(
         operation_id="sites_add_member",
         summary="Add site member",
-        description="Add a user as a site member by email. Requires admin role. "
-        "Automatically creates an API key for the user if they don't have one. "
-        "The API key is returned in the response (shown only once).",
+        description="Add an existing user as a site member by email. Requires admin role. "
+        "No API key is created or returned (key provisioning is superuser-only, via the admin).",
         request=SiteMemberCreateSerializer,
         responses={201: SiteMemberCreateResponseSerializer},
     )
     @action(detail=True, methods=["post"], url_path="members/add")
     def add_member(self, request, pk=None):
-        """POST /api/sites/{id}/members/add/ - Add a member with auto-created API key."""
+        """POST /api/sites/{id}/members/add/ - Add an existing user as a member."""
         site = self.get_object()
 
         serializer = SiteMemberCreateSerializer(data=request.data, context={"request": request, "site_profile": site})
         serializer.is_valid(raise_exception=True)
         member = serializer.save()
 
-        # Use response serializer that includes the API key
         return Response(SiteMemberCreateResponseSerializer(member).data, status=status.HTTP_201_CREATED)
 
     @extend_schema(

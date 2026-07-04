@@ -10,6 +10,21 @@ from rest_framework.permissions import BasePermission
 from apps.sites.models import SiteMember, SiteProfile
 
 
+class IsSuperUser(BasePermission):
+    """
+    Allow only authenticated superusers.
+
+    Used to gate site create/destroy: creating or deleting a SiteProfile is a
+    superuser-only operation. Site admins must not be able to fall back through
+    request.site_config to create or destroy sites.
+    """
+
+    message = "Only superusers may perform this action."
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_authenticated and request.user.is_superuser)
+
+
 class HasSiteAccess(BasePermission):
     """
     Check if the authenticated user has any access to the requested site.

@@ -13,11 +13,6 @@ See SiteProfile.to_public_config_dict() for the filtering logic.
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-try:
-    # Optional integration: the API-key app is not part of the free boilerplate.
-    from apps.api.models import UserAPIKey
-except ImportError:
-    UserAPIKey = None
 from apps.sites.models import SiteMember, SiteProfile
 
 User = get_user_model()
@@ -180,10 +175,42 @@ class SiteDetailSerializer(serializers.ModelSerializer):
         return obj.members.count()
 
 
+class SiteAdminUpdateSerializer(serializers.ModelSerializer):
+    """
+    Serializer for site admins (non-superusers) updating a site.
+
+    Restricted to branding, SEO, localization, and feature fields. Security-critical
+    fields (scripts, custom_css, extra_settings, auth_*, integrations, email_settings,
+    is_active, is_primary, path_prefix, template_dir) are intentionally excluded and can
+    only be edited by superusers via SiteUpdateSerializer. See the ViewSet's
+    get_serializer_class, which selects the serializer by request.user.is_superuser.
+    """
+
+    class Meta:
+        model = SiteProfile
+        fields = [
+            "site_name",
+            "tagline",
+            "theme",
+            "logo",
+            "favicon",
+            "primary_color",
+            "secondary_color",
+            "meta_defaults",
+            "default_language",
+            "available_languages",
+            "timezone",
+            "features",
+        ]
+
+
 class SiteUpdateSerializer(serializers.ModelSerializer):
     """
-    Serializer for updating site configuration (admin only).
-    Excludes system fields and sensitive integrations.
+    Full update serializer for superusers only.
+
+    Includes security-critical fields (scripts, custom_css, extra_settings, auth_*,
+    integrations, email_settings, is_active, path_prefix, template_dir). The ViewSet
+    only hands this serializer to superusers; site admins get SiteAdminUpdateSerializer.
     """
 
     class Meta:
@@ -263,18 +290,16 @@ class SiteMemberCreateSerializer(serializers.Serializer):
     """
     Serializer for adding a new site member.
 
-    Automatically creates an API key for the user if they don't have one.
-    The API key is returned in the response (shown only once).
+    Adds an existing user to the site with a role. API-key provisioning is intentionally
+    NOT part of this path: minting/returning a plaintext key for an arbitrary user here
+    would allow account takeover. API keys are provisioned only via the Django admin
+    (superuser) flow.
     """
 
     email = serializers.EmailField(help_text="Email of the user to add.")
     role = serializers.ChoiceField(
         choices=SiteMember.Role.choices,
         default=SiteMember.Role.VIEWER,
-    )
-    create_api_key = serializers.BooleanField(
-        default=True,
-        help_text="Create an API key for this user if they don't have one.",
     )
 
     def validate_email(self, value):
@@ -300,47 +325,25 @@ class SiteMemberCreateSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         site_profile = self.context["site_profile"]
-        create_api_key = validated_data.pop("create_api_key", True)
 
-        # Create the site member
-        member = SiteMember.objects.create(
+        # Create the site member. No API key is minted here (see class docstring).
+        return SiteMember.objects.create(
             site_profile=site_profile,
             user=self._user,
             role=validated_data["role"],
         )
 
-        # Create API key if requested and user doesn't have one
-        api_key_string = None
-        if create_api_key and UserAPIKey is not None:
-            existing_key = UserAPIKey.objects.filter(user=self._user, revoked=False).first()
-            if existing_key:
-                # User already has a key, don't create a new one
-                api_key_string = None  # Can't show existing key
-            else:
-                # Create new API key
-                api_key, api_key_string = UserAPIKey.objects.create_key(
-                    name=f"Site Access - {site_profile.site_name}",
-                    user=self._user,
-                )
-
-        # Store the key string for the response serializer
-        member._api_key_string = api_key_string
-        return member
-
 
 class SiteMemberCreateResponseSerializer(serializers.ModelSerializer):
     """
-    Response serializer for newly created site member.
+    Response serializer for a newly created site member.
 
-    Includes the API key if one was created (shown only once).
+    Does NOT expose an API key: key provisioning is not part of the member-add API path.
     """
 
     user_id = serializers.IntegerField(source="user.id", read_only=True)
     email = serializers.EmailField(source="user.email", read_only=True)
     user_name = serializers.SerializerMethodField()
-    api_key = serializers.SerializerMethodField(
-        help_text="API key for this user. Only shown once when created. Null if user already had an API key."
-    )
 
     class Meta:
         model = SiteMember
@@ -351,16 +354,11 @@ class SiteMemberCreateResponseSerializer(serializers.ModelSerializer):
             "user_name",
             "role",
             "is_owner",
-            "api_key",
             "created_at",
         ]
 
     def get_user_name(self, obj):
         return obj.user.get_display_name() if hasattr(obj.user, "get_display_name") else str(obj.user)
-
-    def get_api_key(self, obj):
-        # Return the API key string if it was created
-        return getattr(obj, "_api_key_string", None)
 
 
 class SiteMemberUpdateSerializer(serializers.ModelSerializer):

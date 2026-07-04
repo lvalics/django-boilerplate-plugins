@@ -304,6 +304,87 @@ class SiteManagementAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("site_id is required", str(response.data))
 
+    # --- F1: member-add never mints/returns an API key ---
+
+    def test_add_member_response_excludes_api_key(self):
+        """F1: adding a member returns no api_key field (no key is minted for the user)."""
+        new_user = User.objects.create_user(
+            username="f1_new",
+            email="f1_new@test.com",
+            password="testpass123",
+        )
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse("sites:site-add-member", kwargs={"pk": self.profile.pk})
+        response = self.client.post(url, {"email": new_user.email, "role": "viewer"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertNotIn("api_key", response.json())
+        self.assertTrue(SiteMember.objects.filter(site_profile=self.profile, user=new_user).exists())
+
+    def test_add_member_rejects_create_api_key_flag(self):
+        """F1: the removed create_api_key input has no effect and no key field is returned."""
+        new_user = User.objects.create_user(
+            username="f1_flag",
+            email="f1_flag@test.com",
+            password="testpass123",
+        )
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse("sites:site-add-member", kwargs={"pk": self.profile.pk})
+        response = self.client.post(
+            url,
+            {"email": new_user.email, "role": "viewer", "create_api_key": True},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertNotIn("api_key", response.json())
+
+    # --- F2: create/destroy are superuser-only; site admins get a restricted serializer ---
+
+    def test_create_site_forbidden_for_site_admin(self):
+        """F2: a site admin (non-superuser) cannot create a site."""
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse("sites:site-list")
+        response = self.client.post(url, {"site_name": "Rogue Site"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_destroy_site_forbidden_for_site_admin(self):
+        """F2: a site admin (non-superuser) cannot delete a site."""
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse("sites:site-detail", kwargs={"pk": self.profile.pk})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_site_admin_cannot_edit_security_fields(self):
+        """F2: a site admin's update silently ignores security-critical fields."""
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse("sites:site-detail", kwargs={"pk": self.profile.pk})
+        response = self.client.patch(
+            url,
+            {
+                "site_name": "Admin Renamed",
+                "custom_css": "body{display:none}",
+                "head_scripts": [{"type": "inline", "content": "alert(1)"}],
+                "auth_mode": "shared",
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.profile.refresh_from_db()
+        # Allowed branding field changed.
+        self.assertEqual(self.profile.site_name, "Admin Renamed")
+        # Security-critical fields untouched.
+        self.assertEqual(self.profile.custom_css, "")
+        self.assertEqual(self.profile.head_scripts, [])
+        self.assertEqual(self.profile.auth_mode, "isolated")
+
+    def test_superuser_can_edit_security_fields(self):
+        """F2: a superuser may edit security-critical fields."""
+        self.client.force_authenticate(user=self.superuser)
+        url = reverse("sites:site-detail", kwargs={"pk": self.profile.pk})
+        response = self.client.patch(url, {"custom_css": "body{color:red}"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.custom_css, "body{color:red}")
+
 
 @unittest.skipUnless(HAS_API_KEYS, "requires the optional apps.api key app")
 class SiteMemberManagementAPITest(TestCase):
@@ -368,48 +449,16 @@ class SiteMemberManagementAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_add_member(self):
-        """Test adding a new member with auto-created API key."""
+        """Test adding a new member (no API key is minted or returned)."""
         self.client.force_authenticate(user=self.admin_user)
         url = reverse("sites:site-add-member", kwargs={"pk": self.profile.pk})
         response = self.client.post(url, {"email": "new_member@test.com", "role": "viewer"}, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(SiteMember.objects.filter(site_profile=self.profile, user=self.new_user).exists())
-        # Verify API key was created and returned
+        # F1: the response must NOT contain an API key, and no key may be created.
         data = response.json()
-        self.assertIn("api_key", data)
-        self.assertIsNotNone(data["api_key"])
-        # Verify the API key was actually created in the database
-        self.assertTrue(UserAPIKey.objects.filter(user=self.new_user).exists())
-
-    def test_add_member_no_api_key_creation(self):
-        """Test adding a member without creating an API key."""
-        self.client.force_authenticate(user=self.admin_user)
-        url = reverse("sites:site-add-member", kwargs={"pk": self.profile.pk})
-        response = self.client.post(
-            url,
-            {"email": "new_member@test.com", "role": "viewer", "create_api_key": False},
-            format="json",
-        )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        data = response.json()
-        self.assertIsNone(data["api_key"])
-        # Verify no API key was created
+        self.assertNotIn("api_key", data)
         self.assertFalse(UserAPIKey.objects.filter(user=self.new_user).exists())
-
-    def test_add_member_existing_api_key(self):
-        """Test adding a member who already has an API key."""
-        # Create an API key for the user first
-        UserAPIKey.objects.create_key(name="Existing Key", user=self.new_user)
-
-        self.client.force_authenticate(user=self.admin_user)
-        url = reverse("sites:site-add-member", kwargs={"pk": self.profile.pk})
-        response = self.client.post(url, {"email": "new_member@test.com", "role": "viewer"}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        data = response.json()
-        # API key should be None since user already had one
-        self.assertIsNone(data["api_key"])
-        # Should still only have 1 API key
-        self.assertEqual(UserAPIKey.objects.filter(user=self.new_user).count(), 1)
 
     def test_add_member_duplicate(self):
         """Test adding an existing member fails."""
