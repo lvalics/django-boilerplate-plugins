@@ -1,10 +1,10 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Single Testimonial Zone Template #}
 {# Uses zone.testimonial if linked, or content for custom testimonial #}
 
 {% with content=zone.content config=zone.config testimonial=zone.testimonial %}
 {% with style=config.style|default:"centered" %}
-<section class="py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'4xl' }}">
 
     {% if content.title %}
@@ -18,13 +18,13 @@
     {% if style == "quote" %}
     {# Quote style with large quotation marks #}
     <div class="relative">
-      <svg class="absolute top-0 left-0 w-16 h-16 text-{{ config.quote_color|default:'primary' }}/20 -translate-x-4 -translate-y-4" fill="currentColor" viewBox="0 0 32 32">
+      <svg class="absolute top-0 left-0 w-16 h-16 {{ config.quote_color|default:'primary/20'|text_color }} -translate-x-4 -translate-y-4" fill="currentColor" viewBox="0 0 32 32">
         <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14H6c0-2.2 1.8-4 4-4V8zm14 0c-3.3 0-6 2.7-6 6v10h10V14h-8c0-2.2 1.8-4 4-4V8z"/>
       </svg>
 
       <div class="text-center py-8">
         {% if testimonial %}
-        <blockquote class="text-xl md:text-2xl italic text-{{ config.text_color|default:'base-content' }} mb-6 leading-relaxed">
+        <blockquote class="text-xl md:text-2xl italic {{ config.text_color|default:'base-content'|text_color }} mb-6 leading-relaxed">
           "{{ testimonial.text }}"
         </blockquote>
 
@@ -37,7 +37,7 @@
           </div>
           {% endif %}
           <div class="text-left">
-            <p class="font-bold text-{{ config.text_color|default:'base-content' }}">{{ testimonial.author_name }}</p>
+            <p class="font-bold {{ config.text_color|default:'base-content'|text_color }}">{{ testimonial.author_name }}</p>
             {% if testimonial.author_title %}
             <p class="text-sm text-base-content/70">{{ testimonial.author_title }}</p>
             {% endif %}
@@ -55,7 +55,7 @@
         {% endif %}
 
         {% else %}
-        <blockquote class="text-xl md:text-2xl italic text-{{ config.text_color|default:'base-content' }} mb-6 leading-relaxed">
+        <blockquote class="text-xl md:text-2xl italic {{ config.text_color|default:'base-content'|text_color }} mb-6 leading-relaxed">
           "{{ content.text }}"
         </blockquote>
         <p class="font-bold">{{ content.author_name }}</p>
@@ -68,7 +68,7 @@
 
     {% elif style == "card-horizontal" %}
     {# Horizontal card with image on side #}
-    <div class="card lg:card-side bg-{{ config.card_bg|default:'base-200' }} shadow-xl">
+    <div class="card lg:card-side {{ config.card_bg|default:'base-200'|bg_color }} shadow-xl">
       {% if testimonial and testimonial.author_photo %}
       <figure class="lg:w-1/3">
         <img src="{{ testimonial.author_photo.url }}" alt="{{ testimonial.author_name }}" class="w-full h-full object-cover" />
@@ -115,13 +115,13 @@
 
     {% else %}
     {# Default centered style #}
-    <div class="card bg-{{ config.card_bg|default:'base-200' }} shadow-xl">
+    <div class="card {{ config.card_bg|default:'base-200'|bg_color }} shadow-xl">
       <div class="card-body items-center text-center">
         {% if testimonial %}
         {# Use linked testimonial #}
         {% if testimonial.author_photo %}
         <div class="avatar mb-4">
-          <div class="w-20 rounded-full ring ring-{{ config.ring_color|default:'primary' }} ring-offset-base-100 ring-offset-2">
+          <div class="w-20 rounded-full ring {{ config.ring_color|default:'primary'|ring_color }} ring-offset-base-100 ring-offset-2">
             <img src="{{ testimonial.author_photo.url }}" alt="{{ testimonial.author_name }}" />
           </div>
         </div>
@@ -157,7 +157,7 @@
         {# Use content-based testimonial #}
         {% if content.image %}
         <div class="avatar mb-4">
-          <div class="w-20 rounded-full ring ring-{{ config.ring_color|default:'primary' }} ring-offset-base-100 ring-offset-2">
+          <div class="w-20 rounded-full ring {{ config.ring_color|default:'primary'|ring_color }} ring-offset-base-100 ring-offset-2">
             <img src="{{ content.image }}" alt="{{ content.author_name }}" />
           </div>
         </div>

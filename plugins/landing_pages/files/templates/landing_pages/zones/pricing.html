@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Pricing Zone Template #}
 {# Pricing tables with multiple style options and scroll animations #}
 {# Styles: cards, minimal, gradient, comparison, single #}
@@ -6,7 +6,7 @@
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"cards" %}
 
-<section class="pricing-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}"
+<section class="pricing-section py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}"
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'6xl' }}">
 
@@ -14,17 +14,17 @@
     {% if content.title or content.subtitle %}
     <div class="text-{{ config.header_align|default:'center' }} mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
       {% if content.badge %}
-      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
       {% endif %}
 
       {% if content.title %}
-      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'base-content' }} mb-4">
+      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} {{ config.title_color|default:'base-content'|text_color }} mb-4">
         {{ content.title }}
       </h2>
       {% endif %}
 
       {% if content.subtitle %}
-      <p class="text-{{ config.subtitle_size|default:'lg' }} text-{{ config.subtitle_color|default:'base-content/70' }} max-w-{{ config.subtitle_max_width|default:'2xl' }} {% if config.header_align == 'center' %}mx-auto{% endif %}">
+      <p class="text-{{ config.subtitle_size|default:'lg' }} {{ config.subtitle_color|default:'base-content/70'|text_color }} max-w-{{ config.subtitle_max_width|default:'2xl' }} {% if config.header_align == 'center' %}mx-auto{% endif %}">
         {{ content.subtitle }}
       </p>
       {% endif %}
@@ -32,11 +32,11 @@
       {# Billing Toggle #}
       {% if content.show_toggle %}
       <div class="flex items-center justify-center gap-4 mt-6">
-        <span class="text-{{ config.toggle_text_color|default:'base-content/70' }}">{% if content.toggle_monthly %}{{ content.toggle_monthly }}{% else %}{% translate "Monthly" %}{% endif %}</span>
-        <input type="checkbox" class="toggle toggle-{{ config.toggle_color|default:'primary' }}" id="pricing-toggle-{{ zone.id }}" />
-        <span class="text-{{ config.toggle_text_color|default:'base-content/70' }}">{% if content.toggle_annual %}{{ content.toggle_annual }}{% else %}{% translate "Annual" %}{% endif %}</span>
+        <span class="{{ config.toggle_text_color|default:'base-content/70'|text_color }}">{% if content.toggle_monthly %}{{ content.toggle_monthly }}{% else %}{% translate "Monthly" %}{% endif %}</span>
+        <input type="checkbox" class="toggle {{ config.toggle_color|default:'primary'|toggle_color }}" id="pricing-toggle-{{ zone.id }}" />
+        <span class="{{ config.toggle_text_color|default:'base-content/70'|text_color }}">{% if content.toggle_annual %}{{ content.toggle_annual }}{% else %}{% translate "Annual" %}{% endif %}</span>
         {% if content.toggle_discount %}
-        <span class="badge badge-{{ config.discount_badge_color|default:'success' }}">{{ content.toggle_discount }}</span>
+        <span class="badge {{ config.discount_badge_color|default:'success'|badge_color }}">{{ content.toggle_discount }}</span>
         {% endif %}
       </div>
       {% endif %}
@@ -47,13 +47,13 @@
     {% if style == "cards" %}
     <div class="grid grid-cols-1 md:grid-cols-{{ content.plans|length|default:'3' }} gap-{{ config.gap|default:'8' }}">
       {% for plan in content.plans %}
-      <div class="pricing-item card bg-{{ config.card_bg|default:'base-100' }} {% if config.shadow %}shadow-{{ config.shadow }}{% else %}shadow-xl{% endif %} relative
-                  {% if plan.featured %}border-2 border-{{ config.featured_border|default:'primary' }} scale-105 z-10{% endif %}
+      <div class="pricing-item card {{ config.card_bg|default:'base-100'|bg_color }} {% if config.shadow %}shadow-{{ config.shadow }}{% else %}shadow-xl{% endif %} relative
+                  {% if plan.featured %}border-2 {{ config.featured_border|default:'primary'|border_color }} scale-105 z-10{% endif %}
                   {% if config.hover_effect %}hover:shadow-2xl hover:-translate-y-1 transition-all duration-300{% endif %}
                   {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         {% if plan.featured and plan.featured_text %}
-        <div class="badge badge-{{ config.featured_badge_color|default:'primary' }} badge-lg absolute -top-3 left-1/2 -translate-x-1/2">
+        <div class="badge {{ config.featured_badge_color|default:'primary'|badge_color }} badge-lg absolute -top-3 left-1/2 -translate-x-1/2">
           {% if plan.featured_text %}{{ plan.featured_text }}{% else %}{% translate "Most Popular" %}{% endif %}
         </div>
         {% endif %}
@@ -66,7 +66,7 @@
           <h3 class="card-title text-{{ config.plan_name_size|default:'2xl' }}">{{ plan.name }}</h3>
 
           {% if plan.description %}
-          <p class="text-{{ config.plan_desc_color|default:'base-content/70' }} text-sm">{{ plan.description }}</p>
+          <p class="{{ config.plan_desc_color|default:'base-content/70'|text_color }} text-sm">{{ plan.description }}</p>
           {% endif %}
 
           <div class="my-{{ config.price_margin|default:'6' }}">
@@ -75,16 +75,16 @@
               {% if plan.monthly_original_price %}
               <span class="text-lg line-through text-base-content/50 mr-2">{{ plan.currency|default:'$' }}{{ plan.monthly_original_price }}</span>
               {% endif %}
-              <span class="text-{{ config.price_size|default:'4xl' }} font-bold text-{{ config.price_color|default:'base-content' }}">{{ plan.currency|default:'$' }}{{ plan.monthly_price }}</span>
-              <span class="text-{{ config.period_color|default:'base-content/70' }}">/{% translate "mo" %}</span>
+              <span class="text-{{ config.price_size|default:'4xl' }} font-bold {{ config.price_color|default:'base-content'|text_color }}">{{ plan.currency|default:'$' }}{{ plan.monthly_price }}</span>
+              <span class="{{ config.period_color|default:'base-content/70'|text_color }}">/{% translate "mo" %}</span>
             </div>
             {# Annual pricing (hidden by default) #}
             <div class="pricing-annual hidden" data-pricing="annual">
               {% if plan.annual_original_price %}
               <span class="text-lg line-through text-base-content/50 mr-2">{{ plan.currency|default:'$' }}{{ plan.annual_original_price }}</span>
               {% endif %}
-              <span class="text-{{ config.price_size|default:'4xl' }} font-bold text-{{ config.price_color|default:'base-content' }}">{{ plan.currency|default:'$' }}{{ plan.annual_price }}</span>
-              <span class="text-{{ config.period_color|default:'base-content/70' }}">/{% translate "yr" %}</span>
+              <span class="text-{{ config.price_size|default:'4xl' }} font-bold {{ config.price_color|default:'base-content'|text_color }}">{{ plan.currency|default:'$' }}{{ plan.annual_price }}</span>
+              <span class="{{ config.period_color|default:'base-content/70'|text_color }}">/{% translate "yr" %}</span>
             </div>
           </div>
 
@@ -92,12 +92,12 @@
             {% for feature in plan.features %}
             <li class="flex items-start gap-2">
               {% if feature.included == False %}
-              <svg class="w-5 h-5 text-{{ config.excluded_icon_color|default:'base-content/30' }} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 {{ config.excluded_icon_color|default:'base-content/30'|text_color }} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
               <span class="text-base-content/50 line-through">{{ feature.text|default:feature }}</span>
               {% else %}
-              <svg class="w-5 h-5 text-{{ config.check_color|default:'success' }} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 {{ config.check_color|default:'success'|text_color }} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span>{{ feature.text|default:feature }}</span>
@@ -108,7 +108,7 @@
 
           {% if plan.cta_text and plan.cta_url %}
           <a href="{{ plan.cta_url }}"
-             class="btn {% if plan.featured %}btn-{{ config.featured_btn_style|default:'primary' }}{% else %}btn-{{ config.btn_style|default:'outline' }}{% endif %} btn-block"
+             class="btn {% if plan.featured %}{{ config.featured_btn_style|default:'primary'|btn_color }}{% else %}{{ config.btn_style|default:'outline'|btn_color }}{% endif %} btn-block"
              data-event="cta_click" data-zone-id="{{ zone.id }}" data-plan="{{ plan.name }}">
             {{ plan.cta_text }}
           </a>
@@ -127,7 +127,7 @@
     <div class="grid grid-cols-1 md:grid-cols-{{ content.plans|length|default:'3' }} gap-{{ config.gap|default:'6' }}">
       {% for plan in content.plans %}
       <div class="pricing-item p-{{ config.padding|default:'8' }} rounded-{{ config.rounded|default:'2xl' }}
-                  {% if plan.featured %}bg-{{ config.featured_bg|default:'primary' }} text-{{ config.featured_text|default:'primary-content' }}{% else %}bg-{{ config.card_bg|default:'base-200' }}{% endif %}
+                  {% if plan.featured %}{{ config.featured_bg|default:'primary'|bg_color }} {{ config.featured_text|default:'primary-content'|text_color }}{% else %}{{ config.card_bg|default:'base-200'|bg_color }}{% endif %}
                   {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
 
@@ -172,7 +172,7 @@
     <div class="grid grid-cols-1 md:grid-cols-{{ content.plans|length|default:'3' }} gap-{{ config.gap|default:'6' }}">
       {% for plan in content.plans %}
       <div class="pricing-item card overflow-hidden
-                  {% if plan.featured %}bg-gradient-to-br from-{{ config.gradient_from|default:'primary' }} to-{{ config.gradient_to|default:'secondary' }} text-primary-content{% else %}bg-{{ config.card_bg|default:'base-200' }}{% endif %}
+                  {% if plan.featured %}bg-gradient-to-br {{ config.gradient_from|default:'primary'|from_color }} {{ config.gradient_to|default:'secondary'|to_color }} text-primary-content{% else %}{{ config.card_bg|default:'base-200'|bg_color }}{% endif %}
                   {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
                   {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
@@ -221,11 +221,11 @@
     {# Style: Single (One prominent plan) #}
     {% elif style == "single" %}
     {% with plan=content.plans.0 %}
-    <div class="pricing-item max-w-lg mx-auto card bg-{{ config.card_bg|default:'base-100' }} shadow-2xl
+    <div class="pricing-item max-w-lg mx-auto card {{ config.card_bg|default:'base-100'|bg_color }} shadow-2xl
                 {% if config.animate != 'false' %}zone-item{% endif %}">
       <div class="card-body items-center text-center p-10">
         {% if plan.badge %}
-        <div class="badge badge-{{ config.badge_style|default:'primary' }} badge-lg mb-4">{{ plan.badge }}</div>
+        <div class="badge {{ config.badge_style|default:'primary'|badge_color }} badge-lg mb-4">{{ plan.badge }}</div>
         {% endif %}
 
         <h3 class="text-3xl font-bold mb-2">{{ plan.name }}</h3>
@@ -285,7 +285,7 @@
     {# Money-back guarantee note #}
     {% if content.guarantee_text %}
     <div class="text-center mt-{{ config.guarantee_margin|default:'8' }} {% if config.animate != 'false' %}zone-cta{% endif %}">
-      <p class="text-{{ config.guarantee_color|default:'base-content/70' }} flex items-center justify-center gap-2">
+      <p class="{{ config.guarantee_color|default:'base-content/70'|text_color }} flex items-center justify-center gap-2">
         <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
         </svg>

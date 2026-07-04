@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Banner Zone Template #}
 {# Sticky banners for announcements, CTAs, navigation help #}
 {# Styles: default, marketing, informational #}
@@ -22,7 +22,7 @@
 {% if style == "marketing" %}
 {# Marketing CTA Banner - Floating centered with shadow #}
 <div class="fixed z-50 flex justify-center w-full px-4 {{ position }}-0 {% if position == 'top' %}pt-4{% else %}pb-4{% endif %}">
-  <div class="w-full max-w-screen-xl p-4 bg-{{ config.background_color|default:'base-100' }} border border-{{ config.border_color|default:'base-300' }} rounded-lg shadow-lg">
+  <div class="w-full max-w-screen-xl p-4 {{ config.background_color|default:'base-100'|bg_color }} border {{ config.border_color|default:'base-300'|border_color }} rounded-lg shadow-lg">
     <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
       {# Logo/Icon #}
       {% if content.icon or content.logo %}
@@ -32,7 +32,7 @@
           <img src="{{ content.logo }}" alt="{{ content.logo_alt|default:'Logo' }}" class="h-8">
         </a>
         {% elif content.icon %}
-        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-{{ config.icon_bg|default:'primary' }}/10">
+        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ config.icon_bg|default:'primary/10'|bg_color }}">
           <span class="text-2xl">{{ content.icon }}</span>
         </div>
         {% endif %}
@@ -40,14 +40,14 @@
       {% endif %}
 
       {# Message #}
-      <p class="text-sm font-medium text-{{ config.text_color|default:'base-content' }} md:text-base flex-1 text-center md:text-left">
+      <p class="text-sm font-medium {{ config.text_color|default:'base-content'|text_color }} md:text-base flex-1 text-center md:text-left">
         {{ content.message }}
       </p>
 
       {# CTA Buttons #}
       <div class="flex items-center gap-3 flex-shrink-0">
         {% if content.primary_cta %}
-        <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-sm">
+        <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} btn-sm">
           {{ content.primary_cta.text }}
         </a>
         {% endif %}
@@ -60,7 +60,7 @@
         {# Dismiss Button #}
         {% if config.dismissible|default:True %}
         <button type="button" data-dismiss-banner="{{ banner_id }}"
-                class="btn btn-ghost btn-sm btn-square text-{{ config.dismiss_color|default:'base-content/60' }} hover:text-{{ config.dismiss_hover_color|default:'base-content' }}">
+                class="btn btn-ghost btn-sm btn-square {{ config.dismiss_color|default:'base-content/60'|text_color }} hover:{{ config.dismiss_hover_color|default:'base-content'|text_color }}">
           <span class="sr-only">{% trans "Dismiss" %}</span>
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -74,16 +74,16 @@
 
 {% elif style == "informational" %}
 {# Informational Banner - Full width with more content #}
-<div class="fixed {{ position }}-0 start-0 z-50 w-full p-4 border-{{ position == 'top' and 'b' or 't' }} border-{{ config.border_color|default:'base-300' }} bg-{{ config.background_color|default:'info/10' }}">
+<div class="fixed {{ position }}-0 start-0 z-50 w-full p-4 {% if position == 'top' %}border-b{% else %}border-t{% endif %} {{ config.border_color|default:'base-300'|border_color }} {{ config.background_color|default:'info/10'|bg_color }}">
   <div class="flex flex-col items-center justify-between gap-4 mx-auto max-w-screen-xl md:flex-row">
     <div class="flex-1">
       {% if content.title %}
-      <h3 class="font-semibold text-{{ config.title_color|default:'base-content' }}">
+      <h3 class="font-semibold {{ config.title_color|default:'base-content'|text_color }}">
         {{ content.title }}
       </h3>
       {% endif %}
       {% if content.message %}
-      <p class="text-sm text-{{ config.text_color|default:'base-content/70' }}">
+      <p class="text-sm {{ config.text_color|default:'base-content/70'|text_color }}">
         {{ content.message }}
       </p>
       {% endif %}
@@ -91,7 +91,7 @@
 
     <div class="flex items-center gap-3 flex-shrink-0">
       {% if content.primary_cta %}
-      <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-sm">
+      <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} btn-sm">
         {{ content.primary_cta.text }}
       </a>
       {% endif %}
@@ -116,11 +116,11 @@
 
 {% else %}
 {# Default Banner - Simple sticky bar #}
-<div class="fixed {{ position }}-0 start-0 z-50 flex justify-between w-full p-4 border-{{ position == 'top' and 'b' or 't' }} border-{{ config.border_color|default:'base-300' }} bg-{{ config.background_color|default:'base-100' }}">
+<div class="fixed {{ position }}-0 start-0 z-50 flex justify-between w-full p-4 {% if position == 'top' %}border-b{% else %}border-t{% endif %} {{ config.border_color|default:'base-300'|border_color }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="flex items-center mx-auto gap-4">
     {# Icon #}
     {% if content.icon %}
-    <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-{{ config.icon_bg|default:'primary' }}/10 text-{{ config.icon_color|default:'primary' }}">
+    <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full {{ config.icon_bg|default:'primary/10'|bg_color }} {{ config.icon_color|default:'primary'|text_color }}">
       {% if content.icon == "info" %}
       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
@@ -144,10 +144,10 @@
     {% endif %}
 
     {# Message with optional link #}
-    <span class="text-sm font-medium text-{{ config.text_color|default:'base-content' }}">
+    <span class="text-sm font-medium {{ config.text_color|default:'base-content'|text_color }}">
       {{ content.message }}
       {% if content.link %}
-      <a href="{{ content.link.url }}" class="link link-{{ config.link_color|default:'primary' }} ms-1">
+      <a href="{{ content.link.url }}" class="link {{ config.link_color|default:'primary'|link_color }} ms-1">
         {{ content.link.text }}
         <svg class="w-3 h-3 inline-block ms-1" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -161,7 +161,7 @@
   {% if config.dismissible|default:True %}
   <div class="flex items-center">
     <button type="button" data-dismiss-banner="{{ banner_id }}"
-            class="btn btn-ghost btn-sm btn-square text-{{ config.dismiss_color|default:'base-content/60' }}">
+            class="btn btn-ghost btn-sm btn-square {{ config.dismiss_color|default:'base-content/60'|text_color }}">
       <span class="sr-only">{% trans "Dismiss" %}</span>
       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -229,12 +229,12 @@
 
 <style>
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY({{ position == 'top' and '-10px' or '10px' }}); }
+  from { opacity: 0; transform: translateY({% if position == 'top' %}-10px{% else %}10px{% endif %}); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeOut {
   from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY({{ position == 'top' and '-10px' or '10px' }}); }
+  to { opacity: 0; transform: translateY({% if position == 'top' %}-10px{% else %}10px{% endif %}); }
 }
 .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
 .animate-fade-out { animation: fadeOut 0.2s ease-in forwards; }

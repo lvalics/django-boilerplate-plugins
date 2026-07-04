@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Jumbotron Zone Template #}
 {# Content sections similar to hero but not full-screen #}
 {# Styles: default, background-image, video, form, gradient, cards #}
@@ -8,11 +8,11 @@
 
 {% if style == "background-image" %}
 {# Background Image Jumbotron with overlay #}
-<section class="bg-center bg-no-repeat bg-cover bg-blend-multiply bg-{{ config.overlay_color|default:'gray-700' }}"
+<section class="bg-center bg-no-repeat bg-cover bg-blend-multiply {{ config.overlay_color|default:'neutral'|bg_color }}"
          style="background-image: url('{{ content.background_image }}');">
   <div class="px-4 mx-auto max-w-screen-{{ config.max_width|default:'xl' }} text-center py-{{ config.padding_y|default:'24' }} lg:py-{{ config.padding_y_lg|default:'32' }}">
     {% if content.badge %}
-    <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium text-{{ config.badge_text_color|default:'white' }} bg-{{ config.badge_bg|default:'primary' }}/20 rounded-full">
+    <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium {{ config.badge_text_color|default:'white'|text_color }} {{ config.badge_bg|default:'primary/20'|bg_color }} rounded-full">
       {{ content.badge }}
     </span>
     {% endif %}
@@ -22,7 +22,7 @@
     </h1>
 
     {% if content.description %}
-    <p class="mb-8 text-lg font-normal text-{{ config.text_color|default:'gray-300' }} lg:text-xl sm:px-16 lg:px-48">
+    <p class="mb-8 text-lg font-normal {{ config.text_color|default:'neutral-content'|text_color }} lg:text-xl sm:px-16 lg:px-48">
       {{ content.description }}
     </p>
     {% endif %}
@@ -30,7 +30,7 @@
     {% if content.primary_cta or content.secondary_cta %}
     <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
       {% if content.primary_cta %}
-      <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-lg">
+      <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} btn-lg">
         {{ content.primary_cta.text }}
         {% if config.show_arrow %}
         <svg class="w-4 h-4 ms-2 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@
       </a>
       {% endif %}
       {% if content.secondary_cta %}
-      <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'solid' %}btn-{{ config.secondary_btn_color|default:'white' }}{% elif config.secondary_btn_style == 'ghost' %}btn-ghost{% else %}btn-outline btn-{{ config.secondary_btn_color|default:'white' }}{% endif %} btn-lg">
+      <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'solid' %}{{ config.secondary_btn_color|default:'neutral'|btn_color }}{% elif config.secondary_btn_style == 'ghost' %}btn-ghost{% else %}btn-outline {{ config.secondary_btn_color|default:'neutral'|btn_color }}{% endif %} btn-lg">
         {{ content.secondary_cta.text }}
       </a>
       {% endif %}
@@ -51,23 +51,23 @@
 
 {% elif style == "video" %}
 {# Two-column with embedded video #}
-<section class="bg-{{ config.background_color|default:'base-200' }}">
+<section class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="py-{{ config.padding_y|default:'8' }} px-4 mx-auto max-w-screen-{{ config.max_width|default:'xl' }} lg:py-{{ config.padding_y_lg|default:'16' }}">
     <div class="grid gap-8 items-center lg:grid-cols-2">
       {# Content Column #}
       <div class="{% if config.video_first %}order-2 lg:order-2{% endif %}">
         {% if content.badge %}
-        <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium text-{{ config.badge_text_color|default:'primary' }} bg-{{ config.badge_bg|default:'primary' }}/10 rounded-full">
+        <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium {{ config.badge_text_color|default:'primary'|text_color }} {{ config.badge_bg|default:'primary/10'|bg_color }} rounded-full">
           {{ content.badge }}
         </span>
         {% endif %}
 
-        <h1 class="mb-4 text-3xl font-extrabold tracking-tight leading-none text-{{ config.title_color|default:'base-content' }} md:text-4xl lg:text-5xl">
+        <h1 class="mb-4 text-3xl font-extrabold tracking-tight leading-none {{ config.title_color|default:'base-content'|text_color }} md:text-4xl lg:text-5xl">
           {{ content.title }}
         </h1>
 
         {% if content.description %}
-        <p class="mb-6 text-lg font-normal text-{{ config.text_color|default:'base-content/70' }} lg:text-xl">
+        <p class="mb-6 text-lg font-normal {{ config.text_color|default:'base-content/70'|text_color }} lg:text-xl">
           {{ content.description }}
         </p>
         {% endif %}
@@ -75,12 +75,12 @@
         {% if content.primary_cta or content.secondary_cta %}
         <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
           {% if content.primary_cta %}
-          <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }}">
+          <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }}">
             {{ content.primary_cta.text }}
           </a>
           {% endif %}
           {% if content.secondary_cta %}
-          <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'outline' %}btn-outline{% elif config.secondary_btn_style == 'solid' %}btn-{{ config.secondary_btn_color|default:'neutral' }}{% else %}btn-ghost{% endif %}">
+          <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'outline' %}btn-outline{% elif config.secondary_btn_style == 'solid' %}{{ config.secondary_btn_color|default:'neutral'|btn_color }}{% else %}btn-ghost{% endif %}">
             {{ content.secondary_cta.text }}
           </a>
           {% endif %}
@@ -122,23 +122,23 @@
 
 {% elif style == "form" %}
 {# Two-column with form component #}
-<section class="bg-{{ config.background_color|default:'base-200' }}">
+<section class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="py-{{ config.padding_y|default:'8' }} px-4 mx-auto max-w-screen-{{ config.max_width|default:'xl' }} lg:py-{{ config.padding_y_lg|default:'16' }} lg:px-6">
     <div class="grid gap-8 items-center lg:grid-cols-2">
       {# Content Column #}
       <div>
         {% if content.badge %}
-        <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium text-{{ config.badge_text_color|default:'primary' }} bg-{{ config.badge_bg|default:'primary' }}/10 rounded-full">
+        <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium {{ config.badge_text_color|default:'primary'|text_color }} {{ config.badge_bg|default:'primary/10'|bg_color }} rounded-full">
           {{ content.badge }}
         </span>
         {% endif %}
 
-        <h1 class="mb-4 text-3xl font-extrabold tracking-tight leading-none text-{{ config.title_color|default:'base-content' }} md:text-4xl lg:text-5xl">
+        <h1 class="mb-4 text-3xl font-extrabold tracking-tight leading-none {{ config.title_color|default:'base-content'|text_color }} md:text-4xl lg:text-5xl">
           {{ content.title }}
         </h1>
 
         {% if content.description %}
-        <p class="mb-6 text-lg font-normal text-{{ config.text_color|default:'base-content/70' }} lg:text-xl">
+        <p class="mb-6 text-lg font-normal {{ config.text_color|default:'base-content/70'|text_color }} lg:text-xl">
           {{ content.description }}
         </p>
         {% endif %}
@@ -147,10 +147,10 @@
         <ul class="space-y-3 mt-6">
           {% for feature in content.features %}
           <li class="flex items-center gap-3">
-            <svg class="w-5 h-5 text-{{ config.check_color|default:'success' }} flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 {{ config.check_color|default:'success'|text_color }} flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-{{ config.text_color|default:'base-content' }}">{{ feature }}</span>
+            <span class="{{ config.text_color|default:'base-content'|text_color }}">{{ feature }}</span>
           </li>
           {% endfor %}
         </ul>
@@ -158,7 +158,7 @@
       </div>
 
       {# Form Column #}
-      <div class="card bg-{{ config.form_bg|default:'base-100' }} shadow-xl">
+      <div class="card {{ config.form_bg|default:'base-100'|bg_color }} shadow-xl">
         <div class="card-body">
           {% if content.form_title %}
           <h2 class="card-title text-xl mb-4">{{ content.form_title }}</h2>
@@ -183,7 +183,7 @@
               </select>
               {% elif field.type == "checkbox" %}
               <label class="label cursor-pointer justify-start gap-3">
-                <input type="checkbox" name="{{ field.name }}" class="checkbox checkbox-{{ config.primary_btn_color|default:'primary' }}" {% if field.required %}required{% endif %} />
+                <input type="checkbox" name="{{ field.name }}" class="checkbox {{ config.primary_btn_color|default:'primary'|checkbox_color }}" {% if field.required %}required{% endif %} />
                 <span class="label-text">{{ field.placeholder }}</span>
               </label>
               {% else %}
@@ -195,7 +195,7 @@
             </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-{{ config.primary_btn_color|default:'primary' }} w-full">
+            <button type="submit" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} w-full">
               {% if content.form_submit %}{{ content.form_submit }}{% else %}{% translate "Submit" %}{% endif %}
             </button>
           </form>
@@ -211,30 +211,30 @@
 
 {% elif style == "gradient" %}
 {# Gradient background with optional search/newsletter form #}
-<section class="bg-gradient-to-b from-{{ config.gradient_from|default:'primary/5' }} via-{{ config.gradient_via|default:'base-100' }} to-{{ config.gradient_to|default:'base-100' }}">
+<section class="bg-gradient-to-b {{ config.gradient_from|default:'primary/5'|from_color }} {{ config.gradient_via|default:'base-100'|via_color }} {{ config.gradient_to|default:'base-100'|to_color }}">
   {% if config.show_pattern %}
   <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 80 80\"%3E%3Cpath fill=\"%23000\" d=\"M0 0h80v80H0z\"/%3E%3Cpath fill=\"%23fff\" d=\"M0 0h40v40H0zM40 40h40v40H40z\"/%3E%3C/svg%3E'); background-size: 20px 20px;"></div>
   {% endif %}
 
   <div class="relative py-{{ config.padding_y|default:'8' }} px-4 mx-auto max-w-screen-{{ config.max_width|default:'xl' }} text-center lg:py-{{ config.padding_y_lg|default:'16' }}">
     {% if content.alert %}
-    <div class="alert alert-{{ config.alert_type|default:'info' }} mb-6 inline-flex">
+    <div class="alert {{ config.alert_type|default:'info'|alert_color }} mb-6 inline-flex">
       {{ content.alert }}
     </div>
     {% endif %}
 
     {% if content.badge %}
-    <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium text-{{ config.badge_text_color|default:'primary' }} bg-{{ config.badge_bg|default:'primary' }}/10 rounded-full">
+    <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium {{ config.badge_text_color|default:'primary'|text_color }} {{ config.badge_bg|default:'primary/10'|bg_color }} rounded-full">
       {{ content.badge }}
     </span>
     {% endif %}
 
-    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-{{ config.title_color|default:'base-content' }} md:text-5xl lg:text-6xl">
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none {{ config.title_color|default:'base-content'|text_color }} md:text-5xl lg:text-6xl">
       {{ content.title }}
     </h1>
 
     {% if content.description %}
-    <p class="mb-8 text-lg font-normal text-{{ config.text_color|default:'base-content/70' }} lg:text-xl sm:px-16 xl:px-48">
+    <p class="mb-8 text-lg font-normal {{ config.text_color|default:'base-content/70'|text_color }} lg:text-xl sm:px-16 xl:px-48">
       {{ content.description }}
     </p>
     {% endif %}
@@ -245,7 +245,7 @@
         <input type="search" name="{{ content.search_name|default:'q' }}"
                class="input input-bordered join-item flex-1"
                placeholder="{% if content.search_placeholder %}{{ content.search_placeholder }}{% else %}{% translate 'Search...' %}{% endif %}" />
-        <button type="submit" class="btn btn-{{ config.primary_btn_color|default:'primary' }} join-item">
+        <button type="submit" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} join-item">
           {% if config.search_icon %}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -263,7 +263,7 @@
                class="input input-bordered join-item flex-1"
                placeholder="{% if content.newsletter_placeholder %}{{ content.newsletter_placeholder }}{% else %}{% translate 'Enter your email' %}{% endif %}"
                required />
-        <button type="submit" class="btn btn-{{ config.primary_btn_color|default:'primary' }} join-item">
+        <button type="submit" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} join-item">
           {% if content.newsletter_button %}{{ content.newsletter_button }}{% else %}{% translate "Subscribe" %}{% endif %}
         </button>
       </div>
@@ -275,12 +275,12 @@
     {% if content.primary_cta or content.secondary_cta %}
     <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
       {% if content.primary_cta %}
-      <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-lg">
+      <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} btn-lg">
         {{ content.primary_cta.text }}
       </a>
       {% endif %}
       {% if content.secondary_cta %}
-      <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'outline' %}btn-outline{% elif config.secondary_btn_style == 'solid' %}btn-{{ config.secondary_btn_color|default:'neutral' }}{% else %}btn-ghost{% endif %} btn-lg">
+      <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'outline' %}btn-outline{% elif config.secondary_btn_style == 'solid' %}{{ config.secondary_btn_color|default:'neutral'|btn_color }}{% else %}btn-ghost{% endif %} btn-lg">
         {{ content.secondary_cta.text }}
       </a>
       {% endif %}
@@ -292,26 +292,26 @@
 
 {% elif style == "cards" %}
 {# Main content with card grid below #}
-<section class="bg-{{ config.background_color|default:'base-200' }}">
+<section class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="py-{{ config.padding_y|default:'8' }} px-4 mx-auto max-w-screen-{{ config.max_width|default:'xl' }} lg:py-{{ config.padding_y_lg|default:'16' }}">
     {# Main Featured Card #}
-    <div class="card bg-{{ config.featured_bg|default:'base-100' }} shadow-xl mb-8">
+    <div class="card {{ config.featured_bg|default:'base-100'|bg_color }} shadow-xl mb-8">
       <div class="card-body {% if config.featured_centered %}text-center items-center{% endif %}">
         {% if content.featured_badge %}
-        <div class="badge badge-{{ config.featured_badge_color|default:'primary' }} mb-2">{{ content.featured_badge }}</div>
+        <div class="badge {{ config.featured_badge_color|default:'primary'|badge_color }} mb-2">{{ content.featured_badge }}</div>
         {% endif %}
 
         <h1 class="card-title text-3xl md:text-4xl">{{ content.title }}</h1>
 
         {% if content.description %}
-        <p class="text-{{ config.text_color|default:'base-content/70' }} text-lg max-w-2xl">
+        <p class="{{ config.text_color|default:'base-content/70'|text_color }} text-lg max-w-2xl">
           {{ content.description }}
         </p>
         {% endif %}
 
         {% if content.primary_cta %}
         <div class="card-actions mt-4">
-          <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }}">
+          <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }}">
             {{ content.primary_cta.text }}
             <svg class="w-4 h-4 ms-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -326,7 +326,7 @@
     {% if content.cards %}
     <div class="grid gap-6 md:grid-cols-{{ config.columns|default:'2' }} lg:grid-cols-{{ config.columns|default:'2' }}">
       {% for card in content.cards %}
-      <div class="card bg-{{ config.card_bg|default:'base-100' }} shadow-lg hover:shadow-xl transition-shadow">
+      <div class="card {{ config.card_bg|default:'base-100'|bg_color }} shadow-lg hover:shadow-xl transition-shadow">
         {% if card.image %}
         <figure class="h-48">
           <img src="{{ card.image }}" alt="{{ card.title }}" class="w-full h-full object-cover" />
@@ -334,11 +334,11 @@
         {% endif %}
         <div class="card-body">
           {% if card.badge %}
-          <div class="badge badge-{{ card.badge_color|default:'ghost' }} mb-2">{{ card.badge }}</div>
+          <div class="badge {{ card.badge_color|default:'ghost'|badge_color }} mb-2">{{ card.badge }}</div>
           {% endif %}
 
           {% if card.icon %}
-          <div class="w-12 h-12 rounded-lg bg-{{ config.icon_bg|default:'primary' }}/10 flex items-center justify-center mb-3">
+          <div class="w-12 h-12 rounded-lg {{ config.icon_bg|default:'primary/10'|bg_color }} flex items-center justify-center mb-3">
             <span class="text-2xl">{{ card.icon }}</span>
           </div>
           {% endif %}
@@ -351,7 +351,7 @@
 
           {% if card.link %}
           <div class="card-actions justify-end mt-auto">
-            <a href="{{ card.link.url }}" class="link link-{{ config.link_color|default:'primary' }} inline-flex items-center gap-1">
+            <a href="{{ card.link.url }}" class="link {{ config.link_color|default:'primary'|link_color }} inline-flex items-center gap-1">
               {% if card.link.text %}{{ card.link.text }}{% else %}{% translate "Read more" %}{% endif %}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -369,20 +369,20 @@
 
 {% else %}
 {# Default Jumbotron - solid background, centered #}
-<section class="bg-{{ config.background_color|default:'base-200' }}">
+<section class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="py-{{ config.padding_y|default:'8' }} px-4 mx-auto max-w-screen-{{ config.max_width|default:'xl' }} text-center lg:py-{{ config.padding_y_lg|default:'16' }}">
     {% if content.badge %}
-    <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium text-{{ config.badge_text_color|default:'primary' }} bg-{{ config.badge_bg|default:'primary' }}/10 rounded-full">
+    <span class="inline-flex items-center px-3 py-1 mb-4 text-sm font-medium {{ config.badge_text_color|default:'primary'|text_color }} {{ config.badge_bg|default:'primary/10'|bg_color }} rounded-full">
       {{ content.badge }}
     </span>
     {% endif %}
 
-    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-{{ config.title_color|default:'base-content' }} md:text-5xl lg:text-6xl">
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none {{ config.title_color|default:'base-content'|text_color }} md:text-5xl lg:text-6xl">
       {{ content.title }}
     </h1>
 
     {% if content.description %}
-    <p class="mb-8 text-lg font-normal text-{{ config.text_color|default:'base-content/70' }} lg:text-xl sm:px-16 lg:px-48">
+    <p class="mb-8 text-lg font-normal {{ config.text_color|default:'base-content/70'|text_color }} lg:text-xl sm:px-16 lg:px-48">
       {{ content.description }}
     </p>
     {% endif %}
@@ -390,7 +390,7 @@
     {% if content.primary_cta or content.secondary_cta %}
     <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
       {% if content.primary_cta %}
-      <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-lg">
+      <a href="{{ content.primary_cta.url }}" class="btn {{ config.primary_btn_color|default:'primary'|btn_color }} btn-lg">
         {{ content.primary_cta.text }}
         {% if config.show_arrow %}
         <svg class="w-4 h-4 ms-2 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -400,7 +400,7 @@
       </a>
       {% endif %}
       {% if content.secondary_cta %}
-      <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'solid' %}btn-{{ config.secondary_btn_color|default:'neutral' }}{% elif config.secondary_btn_style == 'ghost' %}btn-ghost{% else %}btn-outline{% endif %} btn-lg">
+      <a href="{{ content.secondary_cta.url }}" class="btn {% if config.secondary_btn_style == 'solid' %}{{ config.secondary_btn_color|default:'neutral'|btn_color }}{% elif config.secondary_btn_style == 'ghost' %}btn-ghost{% else %}btn-outline{% endif %} btn-lg">
         {{ content.secondary_cta.text }}
       </a>
       {% endif %}

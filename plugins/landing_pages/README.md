@@ -112,16 +112,27 @@ a single site (e.g. `templates/<template_dir>/landing_pages/zones/faq.html`).
 Tailwind 4's JIT compiler only emits classes it sees as literals in scanned
 files. Zone styling classes are assembled from editor-configured values
 (`bg-primary`, `btn-accent`, ...), so they never appear literally in templates.
-`templates/landing_pages/tailwind-safelist.html` lists every class the
-color enum can produce inside an HTML comment; because it lives in
-`templates/`, the Tailwind scan picks it up and keeps those classes in your CSS
-build. Deleting it ships unstyled pages in production builds.
+`templates/landing_pages/tailwind-safelist.html` lists every class the zone
+templates can produce inside an HTML comment - the full color cross-product of
+the validated color filters, the color/opacity combinations used by template
+defaults and shipped presets, and every size/spacing/typography class implied
+by template defaults and preset values. Because it lives in `templates/`, the
+Tailwind scan picks it up and keeps those classes in your CSS build. Deleting
+it ships unstyled pages in production builds.
+
+The safelist is **test-enforced**: a repo test parses every remaining
+`prefix-{{ ...|default:'x' }}` interpolation in the zone templates and asserts
+the implied class is present, so template edits cannot silently reintroduce
+missing classes.
 
 Color-ish zone config values are constrained to the DaisyUI semantic palette
 (`primary`, `secondary`, `accent`, `neutral`, `info`, `success`, `warning`,
-`error`, `base-100/200/300` and their `-content` variants). Unknown values fall
-back to a safe default. Arbitrary hex colors are supported and rendered as
-inline styles (never classes).
+`error`, `base-100/200/300` and their `-content` variants) plus Tailwind core
+`black`/`white`/`transparent`, optionally with a fixed-step opacity suffix
+(e.g. `base-content/70`). Unknown values fall back to a safe default. Arbitrary
+hex colors are supported and rendered as inline styles (never classes). Custom
+color/opacity combinations beyond the shipped set must be appended to the
+safelist manually.
 
 ## Optional root catch-all
 

@@ -1,11 +1,11 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Table Zone Template #}
 {# Styles: default, comparison #}
 
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"default" %}
 
-<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'12' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'6xl' }}">
 
     {% if content.title %}
@@ -21,17 +21,17 @@
     <div class="overflow-x-auto">
       <table class="table w-full {% if config.striped %}table-zebra{% endif %}">
         <thead>
-          <tr class="bg-{{ config.header_bg|default:'base-200' }}">
-            <th class="text-left text-{{ config.header_text|default:'base-content' }}">{{ content.feature_column|default:"Features" }}</th>
+          <tr class="{{ config.header_bg|default:'base-200'|bg_color }}">
+            <th class="text-left {{ config.header_text|default:'base-content'|text_color }}">{{ content.feature_column|default:"Features" }}</th>
             {% for plan in content.plans %}
             <th class="text-center">
               <div class="flex flex-col items-center gap-1">
                 {% if plan.badge %}
-                <span class="badge badge-{{ plan.badge_color|default:'primary' }} badge-sm">{{ plan.badge }}</span>
+                <span class="badge {{ plan.badge_color|default:'primary'|badge_color }} badge-sm">{{ plan.badge }}</span>
                 {% endif %}
-                <span class="text-lg font-bold text-{{ config.header_text|default:'base-content' }}">{{ plan.name }}</span>
+                <span class="text-lg font-bold {{ config.header_text|default:'base-content'|text_color }}">{{ plan.name }}</span>
                 {% if plan.price %}
-                <span class="text-2xl font-bold text-{{ config.price_color|default:'primary' }}">{{ plan.price }}</span>
+                <span class="text-2xl font-bold {{ config.price_color|default:'primary'|text_color }}">{{ plan.price }}</span>
                 {% if plan.period %}
                 <span class="text-sm text-base-content/60">{{ plan.period }}</span>
                 {% endif %}
@@ -57,11 +57,11 @@
             {% for value in feature.values %}
             <td class="text-center">
               {% if value == True or value == "true" or value == "yes" %}
-              <svg class="w-6 h-6 mx-auto text-{{ config.check_color|default:'success' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 mx-auto {{ config.check_color|default:'success'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               {% elif value == False or value == "false" or value == "no" %}
-              <svg class="w-6 h-6 mx-auto text-{{ config.x_color|default:'base-content/30' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 mx-auto {{ config.x_color|default:'base-content/30'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
               {% else %}
@@ -79,7 +79,7 @@
             {% for plan in content.plans %}
             <td class="text-center py-4">
               {% if plan.cta %}
-              <a href="{{ plan.cta.url }}" class="btn btn-{{ plan.cta.color|default:'primary' }} {% if plan.highlighted %}btn-lg{% endif %}">
+              <a href="{{ plan.cta.url }}" class="btn {{ plan.cta.color|default:'primary'|btn_color }} {% if plan.highlighted %}btn-lg{% endif %}">
                 {{ plan.cta.text }}
               </a>
               {% endif %}
@@ -99,9 +99,9 @@
         <caption class="text-left text-base-content/70 mb-2">{{ content.caption }}</caption>
         {% endif %}
         <thead>
-          <tr class="bg-{{ config.header_bg|default:'base-200' }}">
+          <tr class="{{ config.header_bg|default:'base-200'|bg_color }}">
             {% for header in content.headers %}
-            <th class="{% if header.align %}text-{{ header.align }}{% else %}text-left{% endif %} text-{{ config.header_text|default:'base-content' }}">
+            <th class="{% if header.align %}text-{{ header.align }}{% else %}text-left{% endif %} {{ config.header_text|default:'base-content'|text_color }}">
               {{ header.label|default:header }}
             </th>
             {% endfor %}
@@ -127,9 +127,9 @@
                 </div>
               </div>
               {% elif cell.badge %}
-              <span class="badge badge-{{ cell.badge_color|default:'ghost' }}">{{ cell.value }}</span>
+              <span class="badge {{ cell.badge_color|default:'ghost'|badge_color }}">{{ cell.value }}</span>
               {% elif cell.link %}
-              <a href="{{ cell.link }}" class="link link-{{ config.link_color|default:'primary' }}">{{ cell.value }}</a>
+              <a href="{{ cell.link }}" class="link {{ config.link_color|default:'primary'|link_color }}">{{ cell.value }}</a>
               {% else %}
               {{ cell.value|default:cell }}
               {% endif %}
@@ -140,7 +140,7 @@
         </tbody>
         {% if content.footer_row %}
         <tfoot>
-          <tr class="bg-{{ config.footer_bg|default:'base-200' }} font-bold">
+          <tr class="{{ config.footer_bg|default:'base-200'|bg_color }} font-bold">
             {% for cell in content.footer_row %}
             <td class="{% if cell.align %}text-{{ cell.align }}{% endif %}">{{ cell.value|default:cell }}</td>
             {% endfor %}

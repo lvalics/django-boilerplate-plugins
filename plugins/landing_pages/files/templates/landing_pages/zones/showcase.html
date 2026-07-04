@@ -1,11 +1,11 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Showcase Zone Template #}
 {# Product/Feature showcase with background image, title, and specs #}
 {# Includes scroll-based animations for image scale and text fade-in #}
 
 {% with content=zone.content config=zone.config %}
 
-<section class="showcase-section relative overflow-hidden bg-{{ config.background_color|default:'black' }}"
+<section class="showcase-section relative overflow-hidden {{ config.background_color|default:'black'|bg_color }}"
          {% if config.min_height %}style="min-height: {{ config.min_height }};"{% endif %}
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
 
@@ -24,7 +24,7 @@
 
     {# Additional overlay for text readability #}
     {% if config.overlay %}
-    <div class="absolute inset-0 bg-{{ config.overlay_color|default:'black' }}/{{ config.overlay_opacity|default:'30' }}"></div>
+    <div class="absolute inset-0 {{ config.overlay_color|default:'black'|bg_color }}/{{ config.overlay_opacity|default:'30' }}"></div>
     {% endif %}
   </div>
 
@@ -35,11 +35,11 @@
     {# Title Section #}
     {% if content.title %}
     <div class="zone-title text-center {% if config.title_position == 'top' %}mb-auto pt-12{% elif config.title_position == 'bottom' %}mt-auto pb-32{% else %}my-auto{% endif %}">
-      <h2 class="text-{{ config.title_size|default:'4xl' }} md:text-{{ config.title_size_md|default:'5xl' }} lg:text-{{ config.title_size_lg|default:'6xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'white' }} leading-tight">
+      <h2 class="text-{{ config.title_size|default:'4xl' }} md:text-{{ config.title_size_md|default:'5xl' }} lg:text-{{ config.title_size_lg|default:'6xl' }} font-{{ config.title_weight|default:'bold' }} {{ config.title_color|default:'white'|text_color }} leading-tight">
         {{ content.title|safe }}
       </h2>
       {% if content.subtitle %}
-      <p class="mt-4 text-{{ config.subtitle_size|default:'xl' }} text-{{ config.subtitle_color|default:'white/80' }} max-w-2xl mx-auto">
+      <p class="mt-4 text-{{ config.subtitle_size|default:'xl' }} {{ config.subtitle_color|default:'white/80'|text_color }} max-w-2xl mx-auto">
         {{ content.subtitle }}
       </p>
       {% endif %}
@@ -52,10 +52,10 @@
       <div class="flex flex-wrap justify-center gap-{{ config.specs_gap|default:'8' }} md:gap-{{ config.specs_gap_md|default:'16' }}">
         {% for spec in content.specs %}
         <div class="text-center px-4">
-          <div class="text-{{ config.value_size|default:'3xl' }} md:text-{{ config.value_size_md|default:'5xl' }} font-{{ config.value_weight|default:'bold' }} text-{{ config.value_color|default:'white' }}">
+          <div class="text-{{ config.value_size|default:'3xl' }} md:text-{{ config.value_size_md|default:'5xl' }} font-{{ config.value_weight|default:'bold' }} {{ config.value_color|default:'white'|text_color }}">
             {{ spec.value }}
           </div>
-          <div class="text-{{ config.label_size|default:'sm' }} text-{{ config.label_color|default:'white/70' }} mt-1 uppercase tracking-wider">
+          <div class="text-{{ config.label_size|default:'sm' }} {{ config.label_color|default:'white/70'|text_color }} mt-1 uppercase tracking-wider">
             {{ spec.label }}
           </div>
         </div>
@@ -68,7 +68,7 @@
     {% if content.cta %}
     <div class="zone-cta text-center mt-8">
       <a href="{{ content.cta.url }}"
-         class="btn btn-{{ config.cta_style|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %} {% if config.cta_outline %}btn-outline{% endif %}">
+         class="btn {{ config.cta_style|default:'primary'|btn_color }} {% if config.cta_size %}{{ config.cta_size|btn_size }}{% endif %} {% if config.cta_outline %}btn-outline{% endif %}">
         {{ content.cta.text }}
       </a>
     </div>

@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Benefits Grid Zone Template #}
 {# Highly configurable grid of features/benefits with icons #}
 {# Styles: minimal, card, bordered, gradient, icon-left #}
@@ -6,7 +6,7 @@
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"card" %}
 
-<section class="benefits-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}"
+<section class="benefits-section py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}"
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
   <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
 
@@ -14,17 +14,17 @@
     {% if content.title or content.subtitle %}
     <div class="text-center mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
       {% if content.badge %}
-      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
       {% endif %}
 
       {% if content.title %}
-      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'base-content' }} mb-4">
+      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} {{ config.title_color|default:'base-content'|text_color }} mb-4">
         {{ content.title }}
       </h2>
       {% endif %}
 
       {% if content.subtitle %}
-      <p class="text-{{ config.subtitle_size|default:'lg' }} text-{{ config.subtitle_color|default:'base-content/70' }} max-w-{{ config.subtitle_max_width|default:'2xl' }} mx-auto">
+      <p class="text-{{ config.subtitle_size|default:'lg' }} {{ config.subtitle_color|default:'base-content/70'|text_color }} max-w-{{ config.subtitle_max_width|default:'2xl' }} mx-auto">
         {{ content.subtitle }}
       </p>
       {% endif %}
@@ -47,7 +47,7 @@
         {# Style: Minimal - Just icon, title, description #}
         {% if style == "minimal" %}
         <div class="text-{{ config.align|default:'center' }} p-{{ config.item_padding|default:'4' }}
-                    {% if config.hover_effect %}hover:bg-{{ config.hover_bg|default:'base-200' }} rounded-{{ config.rounded|default:'lg' }} transition-colors duration-300{% endif %}">
+                    {% if config.hover_effect %}hover:{{ config.hover_bg|default:'base-200'|bg_color }} rounded-{{ config.rounded|default:'lg' }} transition-colors duration-300{% endif %}">
 
           {# Icon #}
           {% if item.icon and config.show_icon != False %}
@@ -55,7 +55,7 @@
             {% if config.icon_type == "image" %}
             <img src="{{ item.icon }}" alt="" class="w-{{ config.icon_size|default:'12' }} h-{{ config.icon_size|default:'12' }} object-contain" />
             {% elif config.icon_type == "svg" %}
-            <div class="w-{{ config.icon_size|default:'12' }} h-{{ config.icon_size|default:'12' }} text-{{ config.icon_color|default:'primary' }}">
+            <div class="w-{{ config.icon_size|default:'12' }} h-{{ config.icon_size|default:'12' }} {{ config.icon_color|default:'primary'|text_color }}">
               {{ item.icon|safe }}
             </div>
             {% else %}
@@ -66,14 +66,14 @@
 
           {# Title #}
           {% if item.title %}
-          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} text-{{ config.item_title_color|default:'base-content' }} mb-{{ config.title_margin|default:'2' }}">
+          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} {{ config.item_title_color|default:'base-content'|text_color }} mb-{{ config.title_margin|default:'2' }}">
             {{ item.title }}
           </h3>
           {% endif %}
 
           {# Description #}
           {% if item.description and config.show_description != False %}
-          <p class="text-{{ config.item_desc_size|default:'sm' }} text-{{ config.item_desc_color|default:'base-content/70' }} leading-relaxed">
+          <p class="text-{{ config.item_desc_size|default:'sm' }} {{ config.item_desc_color|default:'base-content/70'|text_color }} leading-relaxed">
             {{ item.description }}
           </p>
           {% endif %}
@@ -81,22 +81,22 @@
 
         {# Style: Card - With background and shadow #}
         {% elif style == "card" %}
-        <div class="bg-{{ config.card_bg|default:'base-200' }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.item_padding|default:'6' }}
+        <div class="{{ config.card_bg|default:'base-200'|bg_color }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.item_padding|default:'6' }}
                     {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
                     {% if config.hover_effect %}hover:shadow-{{ config.hover_shadow|default:'lg' }} hover:-translate-y-1 transition-all duration-300{% endif %}
                     text-{{ config.align|default:'center' }}
-                    {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}">
+                    {% if config.border %}border {{ config.border_color|default:'base-300'|border_color }}{% endif %}">
 
           {# Icon #}
           {% if item.icon and config.show_icon != False %}
           <div class="mb-{{ config.icon_margin|default:'4' }} {% if config.align == 'left' %}{% else %}flex justify-center{% endif %}">
             {% if config.icon_bg %}
-            <div class="w-{{ config.icon_container_size|default:'14' }} h-{{ config.icon_container_size|default:'14' }} rounded-{{ config.icon_rounded|default:'full' }} bg-{{ config.icon_bg }} flex items-center justify-center">
+            <div class="w-{{ config.icon_container_size|default:'14' }} h-{{ config.icon_container_size|default:'14' }} rounded-{{ config.icon_rounded|default:'full' }} {{ config.icon_bg|bg_color }} flex items-center justify-center">
             {% endif %}
               {% if config.icon_type == "image" %}
               <img src="{{ item.icon }}" alt="" class="w-{{ config.icon_size|default:'8' }} h-{{ config.icon_size|default:'8' }} object-contain" />
               {% elif config.icon_type == "svg" %}
-              <div class="w-{{ config.icon_size|default:'8' }} h-{{ config.icon_size|default:'8' }} text-{{ config.icon_color|default:'primary' }}">
+              <div class="w-{{ config.icon_size|default:'8' }} h-{{ config.icon_size|default:'8' }} {{ config.icon_color|default:'primary'|text_color }}">
                 {{ item.icon|safe }}
               </div>
               {% else %}
@@ -108,21 +108,21 @@
 
           {# Title #}
           {% if item.title %}
-          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} text-{{ config.item_title_color|default:'base-content' }} mb-{{ config.title_margin|default:'2' }}">
+          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} {{ config.item_title_color|default:'base-content'|text_color }} mb-{{ config.title_margin|default:'2' }}">
             {{ item.title }}
           </h3>
           {% endif %}
 
           {# Description #}
           {% if item.description and config.show_description != False %}
-          <p class="text-{{ config.item_desc_size|default:'sm' }} text-{{ config.item_desc_color|default:'base-content/70' }} leading-relaxed">
+          <p class="text-{{ config.item_desc_size|default:'sm' }} {{ config.item_desc_color|default:'base-content/70'|text_color }} leading-relaxed">
             {{ item.description }}
           </p>
           {% endif %}
 
           {# Link #}
           {% if item.link %}
-          <a href="{{ item.link.url }}" class="inline-flex items-center gap-1 mt-4 text-{{ config.link_color|default:'primary' }} hover:underline text-sm font-medium">
+          <a href="{{ item.link.url }}" class="inline-flex items-center gap-1 mt-4 {{ config.link_color|default:'primary'|text_color }} hover:underline text-sm font-medium">
             {% if item.link.text %}{{ item.link.text }}{% else %}{% translate "Learn more" %}{% endif %}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -133,9 +133,9 @@
 
         {# Style: Bordered - Outline cards #}
         {% elif style == "bordered" %}
-        <div class="border-{{ config.border_width|default:'2' }} border-{{ config.border_color|default:'base-300' }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.item_padding|default:'6' }}
-                    bg-{{ config.card_bg|default:'transparent' }}
-                    {% if config.hover_effect %}hover:border-{{ config.hover_border|default:'primary' }} hover:bg-{{ config.hover_bg|default:'base-200/50' }} transition-all duration-300{% endif %}
+        <div class="{{ config.border_width|default:'2'|border_width }} {{ config.border_color|default:'base-300'|border_color }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.item_padding|default:'6' }}
+                    {{ config.card_bg|default:'transparent'|bg_color }}
+                    {% if config.hover_effect %}hover:{{ config.hover_border|default:'primary'|border_color }} hover:{{ config.hover_bg|default:'base-200/50'|bg_color }} transition-all duration-300{% endif %}
                     text-{{ config.align|default:'center' }}">
 
           {# Icon #}
@@ -144,7 +144,7 @@
             {% if config.icon_type == "image" %}
             <img src="{{ item.icon }}" alt="" class="w-{{ config.icon_size|default:'10' }} h-{{ config.icon_size|default:'10' }} object-contain" />
             {% elif config.icon_type == "svg" %}
-            <div class="w-{{ config.icon_size|default:'10' }} h-{{ config.icon_size|default:'10' }} text-{{ config.icon_color|default:'primary' }}">
+            <div class="w-{{ config.icon_size|default:'10' }} h-{{ config.icon_size|default:'10' }} {{ config.icon_color|default:'primary'|text_color }}">
               {{ item.icon|safe }}
             </div>
             {% else %}
@@ -155,14 +155,14 @@
 
           {# Title #}
           {% if item.title %}
-          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} text-{{ config.item_title_color|default:'base-content' }} mb-{{ config.title_margin|default:'2' }}">
+          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} {{ config.item_title_color|default:'base-content'|text_color }} mb-{{ config.title_margin|default:'2' }}">
             {{ item.title }}
           </h3>
           {% endif %}
 
           {# Description #}
           {% if item.description and config.show_description != False %}
-          <p class="text-{{ config.item_desc_size|default:'sm' }} text-{{ config.item_desc_color|default:'base-content/70' }} leading-relaxed">
+          <p class="text-{{ config.item_desc_size|default:'sm' }} {{ config.item_desc_color|default:'base-content/70'|text_color }} leading-relaxed">
             {{ item.description }}
           </p>
           {% endif %}
@@ -170,9 +170,9 @@
 
         {# Style: Gradient - Gradient background cards #}
         {% elif style == "gradient" %}
-        <div class="bg-gradient-to-{{ config.gradient_direction|default:'br' }} from-{{ config.gradient_from|default:'primary/10' }} to-{{ config.gradient_to|default:'secondary/10' }}
+        <div class="bg-gradient-to-{{ config.gradient_direction|default:'br' }} {{ config.gradient_from|default:'primary/10'|from_color }} {{ config.gradient_to|default:'secondary/10'|to_color }}
                     rounded-{{ config.rounded|default:'xl' }} p-{{ config.item_padding|default:'6' }}
-                    {% if config.hover_effect %}hover:from-{{ config.hover_gradient_from|default:'primary/20' }} hover:to-{{ config.hover_gradient_to|default:'secondary/20' }} transition-all duration-300{% endif %}
+                    {% if config.hover_effect %}hover:{{ config.hover_gradient_from|default:'primary/20'|from_color }} hover:{{ config.hover_gradient_to|default:'secondary/20'|to_color }} transition-all duration-300{% endif %}
                     text-{{ config.align|default:'center' }}">
 
           {# Icon #}
@@ -181,7 +181,7 @@
             {% if config.icon_type == "image" %}
             <img src="{{ item.icon }}" alt="" class="w-{{ config.icon_size|default:'10' }} h-{{ config.icon_size|default:'10' }} object-contain" />
             {% elif config.icon_type == "svg" %}
-            <div class="w-{{ config.icon_size|default:'10' }} h-{{ config.icon_size|default:'10' }} text-{{ config.icon_color|default:'primary' }}">
+            <div class="w-{{ config.icon_size|default:'10' }} h-{{ config.icon_size|default:'10' }} {{ config.icon_color|default:'primary'|text_color }}">
               {{ item.icon|safe }}
             </div>
             {% else %}
@@ -192,14 +192,14 @@
 
           {# Title #}
           {% if item.title %}
-          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} text-{{ config.item_title_color|default:'base-content' }} mb-{{ config.title_margin|default:'2' }}">
+          <h3 class="text-{{ config.item_title_size|default:'lg' }} font-{{ config.item_title_weight|default:'semibold' }} {{ config.item_title_color|default:'base-content'|text_color }} mb-{{ config.title_margin|default:'2' }}">
             {{ item.title }}
           </h3>
           {% endif %}
 
           {# Description #}
           {% if item.description and config.show_description != False %}
-          <p class="text-{{ config.item_desc_size|default:'sm' }} text-{{ config.item_desc_color|default:'base-content/70' }} leading-relaxed">
+          <p class="text-{{ config.item_desc_size|default:'sm' }} {{ config.item_desc_color|default:'base-content/70'|text_color }} leading-relaxed">
             {{ item.description }}
           </p>
           {% endif %}
@@ -208,19 +208,19 @@
         {# Style: Icon Left - Horizontal layout #}
         {% elif style == "icon-left" %}
         <div class="flex gap-{{ config.icon_gap|default:'4' }} p-{{ config.item_padding|default:'4' }}
-                    {% if config.card_bg %}bg-{{ config.card_bg }} rounded-{{ config.rounded|default:'lg' }}{% endif %}
-                    {% if config.hover_effect %}hover:bg-{{ config.hover_bg|default:'base-200' }} rounded-{{ config.rounded|default:'lg' }} transition-colors duration-300{% endif %}">
+                    {% if config.card_bg %}{{ config.card_bg|bg_color }} rounded-{{ config.rounded|default:'lg' }}{% endif %}
+                    {% if config.hover_effect %}hover:{{ config.hover_bg|default:'base-200'|bg_color }} rounded-{{ config.rounded|default:'lg' }} transition-colors duration-300{% endif %}">
 
           {# Icon #}
           {% if item.icon and config.show_icon != False %}
           <div class="flex-shrink-0">
             {% if config.icon_bg %}
-            <div class="w-{{ config.icon_container_size|default:'12' }} h-{{ config.icon_container_size|default:'12' }} rounded-{{ config.icon_rounded|default:'lg' }} bg-{{ config.icon_bg }} flex items-center justify-center">
+            <div class="w-{{ config.icon_container_size|default:'12' }} h-{{ config.icon_container_size|default:'12' }} rounded-{{ config.icon_rounded|default:'lg' }} {{ config.icon_bg|bg_color }} flex items-center justify-center">
             {% endif %}
               {% if config.icon_type == "image" %}
               <img src="{{ item.icon }}" alt="" class="w-{{ config.icon_size|default:'6' }} h-{{ config.icon_size|default:'6' }} object-contain" />
               {% elif config.icon_type == "svg" %}
-              <div class="w-{{ config.icon_size|default:'6' }} h-{{ config.icon_size|default:'6' }} text-{{ config.icon_color|default:'primary' }}">
+              <div class="w-{{ config.icon_size|default:'6' }} h-{{ config.icon_size|default:'6' }} {{ config.icon_color|default:'primary'|text_color }}">
                 {{ item.icon|safe }}
               </div>
               {% else %}
@@ -233,13 +233,13 @@
           {# Content #}
           <div>
             {% if item.title %}
-            <h3 class="text-{{ config.item_title_size|default:'base' }} font-{{ config.item_title_weight|default:'semibold' }} text-{{ config.item_title_color|default:'base-content' }} mb-{{ config.title_margin|default:'1' }}">
+            <h3 class="text-{{ config.item_title_size|default:'base' }} font-{{ config.item_title_weight|default:'semibold' }} {{ config.item_title_color|default:'base-content'|text_color }} mb-{{ config.title_margin|default:'1' }}">
               {{ item.title }}
             </h3>
             {% endif %}
 
             {% if item.description and config.show_description != False %}
-            <p class="text-{{ config.item_desc_size|default:'sm' }} text-{{ config.item_desc_color|default:'base-content/70' }} leading-relaxed">
+            <p class="text-{{ config.item_desc_size|default:'sm' }} {{ config.item_desc_color|default:'base-content/70'|text_color }} leading-relaxed">
               {{ item.description }}
             </p>
             {% endif %}
@@ -255,7 +255,7 @@
     {% if content.cta %}
     <div class="text-center mt-{{ config.cta_margin|default:'12' }} {% if config.animate != 'false' %}zone-cta{% endif %}">
       <a href="{{ content.cta.url }}"
-         class="btn btn-{{ config.cta_style|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %} {% if config.cta_outline %}btn-outline{% endif %}">
+         class="btn {{ config.cta_style|default:'primary'|btn_color }} {% if config.cta_size %}{{ config.cta_size|btn_size }}{% endif %} {% if config.cta_outline %}btn-outline{% endif %}">
         {{ content.cta.text }}
       </a>
     </div>

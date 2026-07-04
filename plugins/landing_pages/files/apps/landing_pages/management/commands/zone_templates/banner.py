@@ -176,7 +176,7 @@ APPEARANCE
             "position": "top",
             "display_mode": "immediate",
             "dismissible": True,
-            "background_color": "#e8e8e8",
+            "background_color": "base-200",
             "title_color": "base-content",
             "text_color": "base-content/70",
             "primary_btn_color": "primary",

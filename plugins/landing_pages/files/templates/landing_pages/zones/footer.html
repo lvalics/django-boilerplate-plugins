@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Footer Zone Template #}
 {# Styles: default (with columns), simple, minimal, centered #}
 
@@ -7,9 +7,9 @@
 
 {% if style == "simple" %}
 {# Simple Footer - Logo, copyright, social icons in one line #}
-<footer class="bg-{{ config.background_color|default:'base-200' }}">
+<footer class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="w-full mx-auto max-w-screen-{{ config.max_width|default:'xl' }} p-4 md:flex md:items-center md:justify-between">
-    <span class="text-sm text-{{ config.text_color|default:'base-content/70' }} sm:text-center">
+    <span class="text-sm {{ config.text_color|default:'base-content/70'|text_color }} sm:text-center">
       © {{ content.copyright_year|default:"2024" }}
       {% if content.company_url %}
       <a href="{{ content.company_url }}" class="hover:underline">{{ content.company_name|default:"Company" }}™</a>
@@ -19,7 +19,7 @@
       . {% trans "All Rights Reserved." %}
     </span>
     {% if content.links %}
-    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-{{ config.text_color|default:'base-content/70' }} sm:mt-0">
+    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium {{ config.text_color|default:'base-content/70'|text_color }} sm:mt-0">
       {% for link in content.links %}
       <li>
         <a href="{{ link.url }}" class="hover:underline {% if not forloop.last %}me-4 md:me-6{% endif %}">{{ link.text }}</a>
@@ -32,9 +32,9 @@
 
 {% elif style == "minimal" %}
 {# Minimal Footer - Just copyright centered #}
-<footer class="bg-{{ config.background_color|default:'base-200' }} py-{{ config.padding_y|default:'6' }}">
+<footer class="{{ config.background_color|default:'base-200'|bg_color }} py-{{ config.padding_y|default:'6' }}">
   <div class="w-full mx-auto max-w-screen-{{ config.max_width|default:'xl' }} px-4 text-center">
-    <span class="text-sm text-{{ config.text_color|default:'base-content/70' }}">
+    <span class="text-sm {{ config.text_color|default:'base-content/70'|text_color }}">
       © {{ content.copyright_year|default:"2024" }}
       {% if content.company_url %}
       <a href="{{ content.company_url }}" class="hover:underline">{{ content.company_name|default:"Company" }}</a>
@@ -48,7 +48,7 @@
 
 {% elif style == "centered" %}
 {# Centered Footer - Logo, nav links, social, copyright stacked #}
-<footer class="bg-{{ config.background_color|default:'base-200' }}">
+<footer class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="mx-auto w-full max-w-screen-{{ config.max_width|default:'xl' }} p-4 py-6 lg:py-8">
     <div class="flex flex-col items-center text-center">
       {# Logo #}
@@ -58,7 +58,7 @@
         <img src="{{ content.logo }}" class="h-8 me-3" alt="{{ content.brand_name|default:'Logo' }}" />
         {% endif %}
         {% if content.brand_name %}
-        <span class="self-center text-2xl font-semibold whitespace-nowrap text-{{ config.brand_color|default:'base-content' }}">
+        <span class="self-center text-2xl font-semibold whitespace-nowrap {{ config.brand_color|default:'base-content'|text_color }}">
           {{ content.brand_name }}
         </span>
         {% endif %}
@@ -67,7 +67,7 @@
 
       {# Navigation Links #}
       {% if content.nav_links %}
-      <ul class="flex flex-wrap justify-center items-center mb-6 text-sm font-medium text-{{ config.text_color|default:'base-content/70' }}">
+      <ul class="flex flex-wrap justify-center items-center mb-6 text-sm font-medium {{ config.text_color|default:'base-content/70'|text_color }}">
         {% for link in content.nav_links %}
         <li>
           <a href="{{ link.url }}" class="hover:underline {% if not forloop.last %}me-4 md:me-6{% endif %}">{{ link.text }}</a>
@@ -80,7 +80,7 @@
       {% if content.social_links %}
       <div class="flex justify-center space-x-5 mb-6">
         {% for social in content.social_links %}
-        <a href="{{ social.url }}" class="text-{{ config.social_color|default:'base-content/60' }} hover:text-{{ config.social_hover_color|default:'base-content' }}" target="_blank" rel="noopener noreferrer">
+        <a href="{{ social.url }}" class="{{ config.social_color|default:'base-content/60'|text_color }} hover:{{ config.social_hover_color|default:'base-content'|text_color }}" target="_blank" rel="noopener noreferrer">
           {% include "landing_pages/zones/_social_icon.html" with platform=social.platform %}
           <span class="sr-only">{{ social.platform }}</span>
         </a>
@@ -89,7 +89,7 @@
       {% endif %}
 
       {# Copyright #}
-      <span class="text-sm text-{{ config.text_color|default:'base-content/70' }}">
+      <span class="text-sm {{ config.text_color|default:'base-content/70'|text_color }}">
         © {{ content.copyright_year|default:"2024" }}
         {% if content.company_url %}
         <a href="{{ content.company_url }}" class="hover:underline">{{ content.company_name|default:"Company" }}™</a>
@@ -104,7 +104,7 @@
 
 {% else %}
 {# Default Footer - Full with columns #}
-<footer class="bg-{{ config.background_color|default:'base-200' }}">
+<footer class="{{ config.background_color|default:'base-200'|bg_color }}">
   <div class="mx-auto w-full max-w-screen-{{ config.max_width|default:'xl' }} p-4 py-6 lg:py-8">
     <div class="md:flex md:justify-between">
       {# Brand Section #}
@@ -114,13 +114,13 @@
           <img src="{{ content.logo }}" class="h-8 me-3" alt="{{ content.brand_name|default:'Logo' }}" />
           {% endif %}
           {% if content.brand_name %}
-          <span class="self-center text-2xl font-semibold whitespace-nowrap text-{{ config.brand_color|default:'base-content' }}">
+          <span class="self-center text-2xl font-semibold whitespace-nowrap {{ config.brand_color|default:'base-content'|text_color }}">
             {{ content.brand_name }}
           </span>
           {% endif %}
         </a>
         {% if content.brand_description %}
-        <p class="mt-4 max-w-xs text-sm text-{{ config.text_color|default:'base-content/70' }}">
+        <p class="mt-4 max-w-xs text-sm {{ config.text_color|default:'base-content/70'|text_color }}">
           {{ content.brand_description }}
         </p>
         {% endif %}
@@ -131,10 +131,10 @@
       <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-{{ content.columns|length|default:'3' }}">
         {% for column in content.columns %}
         <div>
-          <h2 class="mb-6 text-sm font-semibold text-{{ config.heading_color|default:'base-content' }} uppercase">
+          <h2 class="mb-6 text-sm font-semibold {{ config.heading_color|default:'base-content'|text_color }} uppercase">
             {{ column.title }}
           </h2>
-          <ul class="text-{{ config.text_color|default:'base-content/70' }} font-medium">
+          <ul class="{{ config.text_color|default:'base-content/70'|text_color }} font-medium">
             {% for link in column.links %}
             <li {% if not forloop.last %}class="mb-4"{% endif %}>
               <a href="{{ link.url }}" class="hover:underline"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
@@ -149,11 +149,11 @@
       {% endif %}
     </div>
 
-    <hr class="my-6 border-{{ config.border_color|default:'base-300' }} sm:mx-auto lg:my-8" />
+    <hr class="my-6 {{ config.border_color|default:'base-300'|border_color }} sm:mx-auto lg:my-8" />
 
     {# Bottom Section #}
     <div class="sm:flex sm:items-center sm:justify-between">
-      <span class="text-sm text-{{ config.text_color|default:'base-content/70' }} sm:text-center">
+      <span class="text-sm {{ config.text_color|default:'base-content/70'|text_color }} sm:text-center">
         © {{ content.copyright_year|default:"2024" }}
         {% if content.company_url %}
         <a href="{{ content.company_url }}" class="hover:underline">{{ content.company_name|default:"Company" }}™</a>
@@ -167,7 +167,7 @@
       {% if content.social_links %}
       <div class="flex mt-4 sm:justify-center sm:mt-0">
         {% for social in content.social_links %}
-        <a href="{{ social.url }}" class="text-{{ config.social_color|default:'base-content/60' }} hover:text-{{ config.social_hover_color|default:'base-content' }} {% if not forloop.first %}ms-5{% endif %}" target="_blank" rel="noopener noreferrer">
+        <a href="{{ social.url }}" class="{{ config.social_color|default:'base-content/60'|text_color }} hover:{{ config.social_hover_color|default:'base-content'|text_color }} {% if not forloop.first %}ms-5{% endif %}" target="_blank" rel="noopener noreferrer">
           {% include "landing_pages/zones/_social_icon.html" with platform=social.platform %}
           <span class="sr-only">{{ social.platform }}</span>
         </a>

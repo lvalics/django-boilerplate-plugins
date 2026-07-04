@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Final CTA Zone Template #}
 {# Last chance call-to-action with urgency and multiple style options #}
 {# Styles: centered, split, gradient, minimal, boxed #}
@@ -8,9 +8,9 @@
 
 <section class="final-cta-section py-{{ config.padding_y|default:'20' }}
                 {% if style == 'gradient' %}text-white
-                {% elif style == 'boxed' %}{% if config.background_color|slice:':1' == '#' %}{% else %}bg-{{ config.background_color|default:'base-200' }}{% endif %}
-                {% elif style == 'minimal' %}{% if config.background_color|slice:':1' == '#' %}{% else %}bg-{{ config.background_color|default:'base-200' }}{% endif %}
-                {% else %}{% if config.background_color|slice:':1' == '#' %}{% else %}bg-{{ config.background_color|default:'primary' }}{% endif %} text-{{ config.text_color|default:'primary-content' }}{% endif %}"
+                {% elif style == 'boxed' %}{% if config.background_color|slice:':1' == '#' %}{% else %}{{ config.background_color|default:'base-200'|bg_color }}{% endif %}
+                {% elif style == 'minimal' %}{% if config.background_color|slice:':1' == '#' %}{% else %}{{ config.background_color|default:'base-200'|bg_color }}{% endif %}
+                {% else %}{% if config.background_color|slice:':1' == '#' %}{% else %}{{ config.background_color|default:'primary'|bg_color }}{% endif %} {{ config.text_color|default:'primary-content'|text_color }}{% endif %}"
          {% if style == 'gradient' %}style="background: linear-gradient(to bottom right, {{ config.gradient_from_color|default:'#0f172a' }}, {{ config.gradient_to_color|default:'#334155' }});"
          {% elif config.background_color|slice:':1' == '#' %}style="background-color: {{ config.background_color }};"{% endif %}
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
@@ -21,7 +21,7 @@
     <div class="text-center">
       <div class="final-cta-content {% if config.animate != 'false' %}zone-item{% endif %}">
         {% if content.urgency_text %}
-        <div class="badge badge-{{ config.urgency_color|default:'warning' }} badge-lg mb-6 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
+        <div class="badge {{ config.urgency_color|default:'warning'|badge_color }} badge-lg mb-6 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
           {{ content.urgency_text |safe }}
         </div>
         {% endif %}
@@ -54,7 +54,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           {% if content.cta_text and content.cta_url %}
           <a href="{{ content.cta_url }}"
-             class="btn btn-{{ config.cta_style|default:'secondary' }} btn-{{ config.cta_size|default:'lg' }}"
+             class="btn {{ config.cta_style|default:'secondary'|btn_color }} {{ config.cta_size|default:'lg'|btn_size }}"
              data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
             {{ content.cta_text |safe }}
           </a>
@@ -62,7 +62,7 @@
 
           {% if content.secondary_cta_text and content.secondary_cta_url %}
           <a href="{{ content.secondary_cta_url }}"
-             class="btn btn-outline btn-{{ config.cta_size|default:'lg' }} {% if style != 'boxed' and style != 'minimal' %}border-current text-current hover:bg-white/10{% endif %}"
+             class="btn btn-outline {{ config.cta_size|default:'lg'|btn_size }} {% if style != 'boxed' and style != 'minimal' %}border-current text-current hover:bg-white/10{% endif %}"
              data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="secondary">
             {{ content.secondary_cta_text |safe }}
           </a>
@@ -97,7 +97,7 @@
     <div class="flex flex-col lg:flex-row items-center gap-12">
       <div class="flex-1 text-center lg:text-left final-cta-content {% if config.animate != 'false' %}zone-item{% endif %}">
         {% if content.urgency_text %}
-        <div class="badge badge-{{ config.urgency_color|default:'warning' }} badge-lg mb-6 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
+        <div class="badge {{ config.urgency_color|default:'warning'|badge_color }} badge-lg mb-6 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
           {{ content.urgency_text |safe }}
         </div>
         {% endif %}
@@ -126,7 +126,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           {% if content.cta_text and content.cta_url %}
           <a href="{{ content.cta_url }}"
-             class="btn btn-{{ config.cta_style|default:'secondary' }} btn-lg"
+             class="btn {{ config.cta_style|default:'secondary'|btn_color }} btn-lg"
              data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
             {{ content.cta_text |safe }}
           </a>
@@ -147,7 +147,7 @@
       </div>
 
       {% if content.image %}
-      <div class="final-cta-image flex-shrink-0 w-full lg:w-2/5 rounded-2xl {% if config.image_bg %}bg-{{ config.image_bg }} p-8{% endif %} {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
+      <div class="final-cta-image flex-shrink-0 w-full lg:w-2/5 rounded-2xl {% if config.image_bg %}{{ config.image_bg|bg_color }} p-8{% endif %} {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
         <img src="{{ content.image }}" alt="{{ content.headline |safe }}" class="{% if not config.image_bg %}rounded-2xl shadow-2xl{% endif %} w-full" loading="lazy" />
       </div>
       {% endif %}
@@ -223,7 +223,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           {% if content.cta_text and content.cta_url %}
           <a href="{{ content.cta_url }}"
-             class="btn btn-{{ config.cta_style|default:'primary' }} btn-lg"
+             class="btn {{ config.cta_style|default:'primary'|btn_color }} btn-lg"
              data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
             {{ content.cta_text |safe }}
           </a>
@@ -246,10 +246,10 @@
 
     {# Style: Boxed (Card-style CTA) #}
     {% elif style == "boxed" %}
-    <div class="final-cta-content card bg-{{ config.card_bg|default:'primary' }} text-{{ config.card_text|default:'primary-content' }} shadow-{{ config.shadow|default:'2xl' }} max-w-4xl mx-auto {% if config.animate != 'false' %}zone-item{% endif %}">
+    <div class="final-cta-content card {{ config.card_bg|default:'primary'|bg_color }} {{ config.card_text|default:'primary-content'|text_color }} shadow-{{ config.shadow|default:'2xl' }} max-w-4xl mx-auto {% if config.animate != 'false' %}zone-item{% endif %}">
       <div class="card-body items-center text-center p-{{ config.padding|default:'12' }}">
         {% if content.urgency_text %}
-        <div class="badge badge-{{ config.urgency_color|default:'warning' }} badge-lg mb-4 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
+        <div class="badge {{ config.urgency_color|default:'warning'|badge_color }} badge-lg mb-4 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
           {{ content.urgency_text |safe }}
         </div>
         {% endif %}
@@ -278,7 +278,7 @@
         <div class="card-actions">
           {% if content.cta_text and content.cta_url %}
           <a href="{{ content.cta_url }}"
-             class="btn btn-{{ config.cta_style|default:'secondary' }} btn-lg"
+             class="btn {{ config.cta_style|default:'secondary'|btn_color }} btn-lg"
              data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
             {{ content.cta_text |safe }}
           </a>

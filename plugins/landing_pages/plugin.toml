@@ -34,7 +34,7 @@ to be installed FIRST - it provides the SiteProfile model that pages are scoped 
 
 1. Run migrations:  make migrations ARGS='landing_pages' && make migrate
 
-2. Install the zone template presets (90+ ready-made zone presets):
+2. Install the zone template presets (94 ready-made zone presets across 24 zone types):
      make manage ARGS='install_zone_templates'
 
 3. Create your first page in Admin > Landing Pages > Landing Pages: set a title/slug,

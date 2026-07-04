@@ -1,9 +1,9 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Gallery Zone Template - Multiple Flowbite-style layouts #}
 
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"grid" %}
-<section class="py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
 
     {% if content.title %}
@@ -209,7 +209,7 @@
       <!-- Filter buttons -->
       <div class="flex items-center justify-center py-4 flex-wrap gap-2 mb-6">
         <button type="button" data-filter="all"
-                class="filter-btn px-5 py-2.5 text-sm font-medium rounded-full border border-{{ config.active_color|default:'primary' }} bg-{{ config.active_color|default:'primary' }} text-{{ config.active_text|default:'primary-content' }}">
+                class="filter-btn px-5 py-2.5 text-sm font-medium rounded-full border {{ config.active_color|default:'primary'|border_color }} {{ config.active_color|default:'primary'|bg_color }} {{ config.active_text|default:'primary-content'|text_color }}">
           {% translate "All" %}
         </button>
         {% for category in content.categories %}
@@ -249,11 +249,11 @@
 
           // Update button styles
           filterBtns.forEach(b => {
-            b.classList.remove('bg-{{ config.active_color|default:"primary" }}', 'text-{{ config.active_text|default:"primary-content" }}', 'border-{{ config.active_color|default:"primary" }}');
+            b.classList.remove('{{ config.active_color|default:'primary'|bg_color }}', '{{ config.active_text|default:'primary-content'|text_color }}', '{{ config.active_color|default:'primary'|border_color }}');
             b.classList.add('bg-base-100', 'text-base-content', 'border-base-300');
           });
           this.classList.remove('bg-base-100', 'text-base-content', 'border-base-300');
-          this.classList.add('bg-{{ config.active_color|default:"primary" }}', 'text-{{ config.active_text|default:"primary-content" }}', 'border-{{ config.active_color|default:"primary" }}');
+          this.classList.add('{{ config.active_color|default:'primary'|bg_color }}', '{{ config.active_text|default:'primary-content'|text_color }}', '{{ config.active_color|default:'primary'|border_color }}');
 
           // Filter items
           items.forEach(item => {

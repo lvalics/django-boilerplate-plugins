@@ -1,11 +1,11 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Video Zone Template #}
 {# Supports: self-hosted, YouTube, Vimeo #}
 {# Config options: autoplay, muted, controls, loop, aspect ratio, sizing #}
 
 {% with content=zone.content config=zone.config %}
 
-<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'12' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
 
     {% if content.title %}
@@ -22,10 +22,10 @@
       {# Aspect Ratio Wrapper #}
       <div class="{% if config.aspect_ratio == '4:3' %}aspect-[4/3]{% elif config.aspect_ratio == '1:1' %}aspect-square{% elif config.aspect_ratio == '21:9' %}aspect-[21/9]{% else %}aspect-video{% endif %}
                   {% if config.rounded %}rounded-{{ config.rounded }}{% endif %}
-                  {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}
+                  {% if config.border %}border {{ config.border_color|default:'base-300'|border_color }}{% endif %}
                   {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
                   overflow-hidden
-                  {% if config.ring %}ring-{{ config.ring }} ring-{{ config.ring_color|default:'primary' }} ring-offset-{{ config.ring_offset|default:'2' }}{% endif %}">
+                  {% if config.ring %}ring-{{ config.ring }} {{ config.ring_color|default:'primary'|ring_color }} ring-offset-{{ config.ring_offset|default:'2' }}{% endif %}">
 
         {% if content.source == "youtube" %}
         {# YouTube Embed #}
@@ -75,7 +75,7 @@
     {# CTA below video #}
     {% if content.cta %}
     <div class="text-center mt-8">
-      <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_color|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %}">
+      <a href="{{ content.cta.url }}" class="btn {{ config.cta_color|default:'primary'|btn_color }} {% if config.cta_size %}{{ config.cta_size|btn_size }}{% endif %}">
         {{ content.cta.text }}
       </a>
     </div>

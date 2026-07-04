@@ -266,3 +266,85 @@ def test_gettext_kept():
     src = (APP_ROOT / "models/pages.py").read_text(encoding="utf-8")
     assert "gettext_lazy" in src
     assert re.search(r"\b_\(", src)
+
+
+# --- 6. Tailwind safelist completeness (self-verifying, F1/F2 fix pass) --------
+
+
+TEMPLATES_ROOT = FILES_ROOT / "templates/landing_pages"
+ZONES_ROOT = TEMPLATES_ROOT / "zones"
+
+# prefix-{{ ... default:'value' }} interpolations remaining in zone templates
+# (color sites go through validated filters after F1 and no longer match).
+CLASS_INTERP_RE = re.compile(r"([a-z][a-z0-9-]*)-\{\{[^}]*default:'([a-z0-9/.-]+)'")
+
+# DOM id / JS hook prefixes, not Tailwind utilities.
+NON_UTILITY_PREFIXES = {
+    "field",
+    "zone",
+    "carousel",
+    "carousel-modal",
+    "faq-accordion",
+    "gallery",
+    "lightbox",
+    "order-form",
+    "pricing-toggle",
+}
+
+
+def _safelist_classes():
+    text = (TEMPLATES_ROOT / "tailwind-safelist.html").read_text(encoding="utf-8")
+    body = text.split("<!--", 1)[1].split("-->", 1)[0]
+    return {
+        line.strip()
+        for line in body.splitlines()
+        if line.strip() and " " not in line.strip() and not line.strip().startswith("=")
+    }
+
+
+def test_safelist_covers_all_template_interpolations():
+    """Every literal class implied by a prefix-{{ ...|default:'x' }} site is safelisted."""
+    safelist = _safelist_classes()
+    implied = set()
+    for tpl in sorted(ZONES_ROOT.glob("*.html")):
+        for prefix, value in CLASS_INTERP_RE.findall(tpl.read_text(encoding="utf-8")):
+            if prefix not in NON_UTILITY_PREFIXES:
+                implied.add(f"{prefix}-{value}")
+    assert len(implied) > 100, f"suspiciously few interpolated classes found ({len(implied)})"
+    missing = sorted(implied - safelist)
+    assert missing == [], f"classes implied by zone templates but missing from tailwind-safelist.html: {missing}"
+
+
+def test_safelist_keeps_color_enum_cross_product():
+    """Spot-check the enum cross-product (incl. the black/white/transparent core extension)."""
+    safelist = _safelist_classes()
+    missing = [
+        cls
+        for cls in (
+            "bg-primary", "bg-accent", "bg-base-200", "bg-black", "bg-white", "bg-transparent",
+            "text-base-300", "text-white", "text-base-content", "text-primary-content",
+            "border-base-300", "border-secondary", "btn-primary", "btn-outline", "btn-ghost",
+            "badge-accent", "badge-outline", "ring-primary", "link-primary", "divide-base-300",
+            "from-primary", "via-base-100", "to-secondary", "checkbox-primary", "radio-primary",
+            "toggle-primary", "alert-info",
+            # variant + opacity combos used by the shipped presets/defaults
+            "hover:bg-base-200/50", "text-base-content/70", "peer-checked:bg-primary",
+            "file:text-primary-content", "focus:ring-primary/50",
+        )
+        if cls not in safelist
+    ]
+    assert missing == [], f"expected safelist entries missing: {missing}"
+
+
+def test_zone_templates_use_color_filters():
+    """No raw color-class interpolation survives F1 (colors go through validated filters)."""
+    offenders = []
+    for tpl in sorted(ZONES_ROOT.glob("*.html")):
+        text = tpl.read_text(encoding="utf-8")
+        for needle in ("bg-{{", "btn-{{", "badge-{{", "border-{{"):
+            if needle in text:
+                offenders.append(f"{tpl.name}: {needle}")
+    assert offenders == [], f"raw color interpolations remain: {offenders}"
+    tags = (APP_ROOT / "templatetags/landing_page_tags.py").read_text(encoding="utf-8")
+    for filter_name in ("bg_color", "text_color", "btn_color", "border_color", "badge_color", "text_content_color"):
+        assert f'"{filter_name}"' in tags or f"def {filter_name}" in tags, filter_name

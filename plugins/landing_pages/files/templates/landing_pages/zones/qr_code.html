@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# QR Code Zone Template #}
 {# Styles: default, card, profile #}
 
@@ -7,24 +7,24 @@
 {% with qr_size=config.qr_size|default:"200" %}
 {% with qr_url=content.url|default:request.build_absolute_uri|urlencode %}
 
-<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'12' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4">
 
     {% if style == "profile" %}
     {# Share Profile with QR Code #}
-    <div class="card bg-{{ config.card_bg|default:'base-200' }} shadow-xl max-w-sm mx-auto">
+    <div class="card {{ config.card_bg|default:'base-200'|bg_color }} shadow-xl max-w-sm mx-auto">
       <div class="card-body items-center text-center">
         {# Profile Avatar and Name #}
         <div class="flex flex-col items-center gap-3 mb-4">
           {% if content.avatar %}
           <div class="avatar">
-            <div class="w-16 h-16 rounded-full ring ring-{{ config.ring_color|default:'primary' }} ring-offset-base-100 ring-offset-2">
+            <div class="w-16 h-16 rounded-full ring {{ config.ring_color|default:'primary'|ring_color }} ring-offset-base-100 ring-offset-2">
               <img src="{{ content.avatar }}" alt="{{ content.name }}" />
             </div>
           </div>
           {% endif %}
           {% if content.name %}
-          <h3 class="text-2xl font-bold text-{{ config.title_color|default:'base-content' }}">{{ content.name }}</h3>
+          <h3 class="text-2xl font-bold {{ config.title_color|default:'base-content'|text_color }}">{{ content.name }}</h3>
           {% endif %}
           {% if content.handle %}
           <span class="text-base-content/60">{{ content.handle }}</span>
@@ -45,7 +45,7 @@
         {% endif %}
 
         {% if content.cta %}
-        <a href="{{ content.cta.url }}" class="btn btn-{{ config.btn_color|default:'primary' }} mt-4">
+        <a href="{{ content.cta.url }}" class="btn {{ config.btn_color|default:'primary'|btn_color }} mt-4">
           {{ content.cta.text }}
         </a>
         {% endif %}
@@ -54,10 +54,10 @@
 
     {% elif style == "card" %}
     {# QR Code with Card #}
-    <div class="card bg-{{ config.card_bg|default:'base-200' }} shadow-xl max-w-sm mx-auto">
+    <div class="card {{ config.card_bg|default:'base-200'|bg_color }} shadow-xl max-w-sm mx-auto">
       <div class="card-body">
         {# QR Code with optional background #}
-        <a href="{{ content.url }}" class="block mx-auto p-4 bg-{{ config.qr_bg|default:'white' }} rounded-lg">
+        <a href="{{ content.url }}" class="block mx-auto p-4 {{ config.qr_bg|default:'white'|bg_color }} rounded-lg">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size={{ qr_size }}x{{ qr_size }}&data={{ qr_url }}&bgcolor=ffffff&color={{ config.qr_color|default:'000000' }}"
                alt="{% translate 'QR Code' %}"
                class="mx-auto"
@@ -74,7 +74,7 @@
         {% endif %}
 
         {% if content.help_link.text %}
-        <a href="{{ content.help_link.url }}" class="link link-{{ config.link_color|default:'primary' }} text-sm inline-flex items-center gap-1 justify-center mt-4">
+        <a href="{{ content.help_link.url }}" class="link {{ config.link_color|default:'primary'|link_color }} text-sm inline-flex items-center gap-1 justify-center mt-4">
           {{ content.help_link.text }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -88,7 +88,7 @@
     {# Default - Simple QR Code #}
     <div class="flex flex-col items-center">
       {% if content.title %}
-      <h2 class="text-2xl font-bold mb-4 text-{{ config.title_color|default:'base-content' }}">{{ content.title }}</h2>
+      <h2 class="text-2xl font-bold mb-4 {{ config.title_color|default:'base-content'|text_color }}">{{ content.title }}</h2>
       {% endif %}
 
       <a href="{{ content.url }}" class="block p-4 bg-white rounded-lg shadow-lg">

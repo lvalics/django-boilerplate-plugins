@@ -1,6 +1,6 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {% with content=zone.content config=zone.config %}
-<section class="py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4">
     {% if content.title %}
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">{{ content.title }}</h2>
@@ -199,7 +199,7 @@
               <p class="text-sm md:text-lg mb-4 text-white/80">{{ slide.description }}</p>
               {% endif %}
               {% if slide.cta_text and slide.cta_url %}
-              <a href="{{ slide.cta_url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">
+              <a href="{{ slide.cta_url }}" class="btn {{ config.cta_style|default:'primary'|btn_color }}">
                 {{ slide.cta_text }}
               </a>
               {% endif %}

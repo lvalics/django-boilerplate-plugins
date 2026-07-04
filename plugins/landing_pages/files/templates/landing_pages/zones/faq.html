@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# FAQ Zone Template #}
 {# Frequently Asked Questions with multiple style options and scroll animations #}
 {# Styles: accordion, cards, two-column, simple, boxed #}
@@ -6,7 +6,7 @@
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"accordion" %}
 
-<section class="faq-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}" id="faq"
+<section class="faq-section py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}" id="faq"
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'4xl' }}">
 
@@ -14,17 +14,17 @@
     {% if content.title or content.subtitle %}
     <div class="text-{{ config.header_align|default:'center' }} mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
       {% if content.badge %}
-      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
       {% endif %}
 
       {% if content.title %}
-      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'base-content' }} mb-4">
+      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} {{ config.title_color|default:'base-content'|text_color }} mb-4">
         {{ content.title }}
       </h2>
       {% endif %}
 
       {% if content.subtitle %}
-      <p class="text-{{ config.subtitle_size|default:'lg' }} text-{{ config.subtitle_color|default:'base-content/70' }} max-w-{{ config.subtitle_max_width|default:'2xl' }} {% if config.header_align == 'center' %}mx-auto{% endif %}">
+      <p class="text-{{ config.subtitle_size|default:'lg' }} {{ config.subtitle_color|default:'base-content/70'|text_color }} max-w-{{ config.subtitle_max_width|default:'2xl' }} {% if config.header_align == 'center' %}mx-auto{% endif %}">
         {{ content.subtitle }}
       </p>
       {% endif %}
@@ -35,20 +35,20 @@
     {% if style == "accordion" %}
     <div class="space-y-{{ config.gap|default:'4' }}">
       {% for item in content.questions %}
-      <div class="faq-item collapse collapse-{{ config.collapse_style|default:'plus' }} bg-{{ config.item_bg|default:'base-200' }} rounded-{{ config.rounded|default:'xl' }}
+      <div class="faq-item collapse collapse-{{ config.collapse_style|default:'plus' }} {{ config.item_bg|default:'base-200'|bg_color }} rounded-{{ config.rounded|default:'xl' }}
                   {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
-                  {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}
+                  {% if config.border %}border {{ config.border_color|default:'base-300'|border_color }}{% endif %}
                   {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         <input type="{% if config.allow_multiple %}checkbox{% else %}radio{% endif %}" name="faq-accordion-{{ zone.id }}" {% if config.first_open and forloop.first %}checked{% endif %} />
         <div class="collapse-title text-{{ config.question_size|default:'lg' }} font-{{ config.question_weight|default:'medium' }} pr-12">
           {% if config.numbered %}
-          <span class="badge badge-{{ config.number_color|default:'primary' }} badge-sm mr-3">{{ forloop.counter }}</span>
+          <span class="badge {{ config.number_color|default:'primary'|badge_color }} badge-sm mr-3">{{ forloop.counter }}</span>
           {% endif %}
           {{ item.question }}
         </div>
         <div class="collapse-content">
-          <div class="prose max-w-none text-{{ config.answer_color|default:'base-content/80' }}">
+          <div class="prose max-w-none {{ config.answer_color|default:'base-content/80'|text_color }}">
             {{ item.answer|safe }}
           </div>
         </div>
@@ -60,20 +60,20 @@
     {% elif style == "cards" %}
     <div class="grid grid-cols-1 md:grid-cols-{{ config.columns|default:'2' }} gap-{{ config.gap|default:'6' }}">
       {% for item in content.questions %}
-      <div class="faq-item card bg-{{ config.item_bg|default:'base-200' }} {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
+      <div class="faq-item card {{ config.item_bg|default:'base-200'|bg_color }} {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
                   {% if config.hover_effect %}hover:shadow-lg transition-shadow{% endif %}
                   {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         <div class="card-body">
           <h3 class="card-title text-{{ config.question_size|default:'lg' }}">
             {% if config.show_icon %}
-            <svg class="w-6 h-6 text-{{ config.icon_color|default:'primary' }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 {{ config.icon_color|default:'primary'|text_color }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             {% endif %}
             {{ item.question }}
           </h3>
-          <p class="text-{{ config.answer_color|default:'base-content/70' }}">{{ item.answer }}</p>
+          <p class="{{ config.answer_color|default:'base-content/70'|text_color }}">{{ item.answer }}</p>
         </div>
       </div>
       {% endfor %}
@@ -87,29 +87,29 @@
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         <h3 class="text-{{ config.question_size|default:'lg' }} font-{{ config.question_weight|default:'semibold' }} mb-3 flex items-start gap-3">
           {% if config.numbered %}
-          <span class="badge badge-{{ config.number_color|default:'primary' }} flex-shrink-0">{{ forloop.counter }}</span>
+          <span class="badge {{ config.number_color|default:'primary'|badge_color }} flex-shrink-0">{{ forloop.counter }}</span>
           {% elif config.show_icon %}
-          <svg class="w-6 h-6 text-{{ config.icon_color|default:'primary' }} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 {{ config.icon_color|default:'primary'|text_color }} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
           {% endif %}
           <span>{{ item.question }}</span>
         </h3>
-        <p class="text-{{ config.answer_color|default:'base-content/70' }} {% if config.numbered or config.show_icon %}pl-9{% endif %}">{{ item.answer }}</p>
+        <p class="{{ config.answer_color|default:'base-content/70'|text_color }} {% if config.numbered or config.show_icon %}pl-9{% endif %}">{{ item.answer }}</p>
       </div>
       {% endfor %}
     </div>
 
     {# Style: Simple (No background, minimal) #}
     {% elif style == "simple" %}
-    <div class="divide-y divide-{{ config.divider_color|default:'base-300' }}">
+    <div class="divide-y {{ config.divider_color|default:'base-300'|divide_color }}">
       {% for item in content.questions %}
       <div class="faq-item py-{{ config.item_padding|default:'6' }} {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         <h3 class="text-{{ config.question_size|default:'lg' }} font-{{ config.question_weight|default:'semibold' }} mb-2">
           {{ item.question }}
         </h3>
-        <p class="text-{{ config.answer_color|default:'base-content/70' }}">{{ item.answer }}</p>
+        <p class="{{ config.answer_color|default:'base-content/70'|text_color }}">{{ item.answer }}</p>
       </div>
       {% endfor %}
     </div>
@@ -118,17 +118,17 @@
     {% elif style == "boxed" %}
     <div class="space-y-{{ config.gap|default:'4' }}">
       {% for item in content.questions %}
-      <div class="faq-item border-{{ config.border_width|default:'2' }} border-{{ config.border_color|default:'base-300' }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.padding|default:'6' }}
-                  {% if config.hover_effect %}hover:border-{{ config.hover_border|default:'primary' }} transition-colors{% endif %}
+      <div class="faq-item {{ config.border_width|default:'2'|border_width }} {{ config.border_color|default:'base-300'|border_color }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.padding|default:'6' }}
+                  {% if config.hover_effect %}hover:{{ config.hover_border|default:'primary'|border_color }} transition-colors{% endif %}
                   {% if config.animate != 'false' %}zone-item{% endif %}"
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         <h3 class="text-{{ config.question_size|default:'lg' }} font-{{ config.question_weight|default:'semibold' }} mb-3 flex items-center gap-3">
           {% if config.numbered %}
-          <span class="w-8 h-8 rounded-full bg-{{ config.number_bg|default:'primary' }} text-{{ config.number_text|default:'primary-content' }} flex items-center justify-center text-sm font-bold flex-shrink-0">{{ forloop.counter }}</span>
+          <span class="w-8 h-8 rounded-full {{ config.number_bg|default:'primary'|bg_color }} {{ config.number_text|default:'primary-content'|text_color }} flex items-center justify-center text-sm font-bold flex-shrink-0">{{ forloop.counter }}</span>
           {% endif %}
           {{ item.question }}
         </h3>
-        <p class="text-{{ config.answer_color|default:'base-content/70' }} {% if config.numbered %}pl-11{% endif %}">{{ item.answer }}</p>
+        <p class="{{ config.answer_color|default:'base-content/70'|text_color }} {% if config.numbered %}pl-11{% endif %}">{{ item.answer }}</p>
       </div>
       {% endfor %}
     </div>
@@ -137,9 +137,9 @@
     {# Contact CTA #}
     {% if content.contact_text %}
     <div class="text-center mt-{{ config.contact_margin|default:'12' }} {% if config.animate != 'false' %}zone-cta{% endif %}">
-      <p class="text-{{ config.contact_color|default:'base-content/70' }} mb-4">{{ content.contact_text }}</p>
+      <p class="{{ config.contact_color|default:'base-content/70'|text_color }} mb-4">{{ content.contact_text }}</p>
       {% if content.contact_cta %}
-      <a href="{{ content.contact_cta.url }}" class="btn btn-{{ config.contact_btn_style|default:'primary' }}">
+      <a href="{{ content.contact_cta.url }}" class="btn {{ config.contact_btn_style|default:'primary'|btn_color }}">
         {{ content.contact_cta.text }}
       </a>
       {% endif %}

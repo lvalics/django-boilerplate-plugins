@@ -28,24 +28,24 @@
   {% endif %}
 
   <!-- Dark Overlay -->
-  <div class="absolute inset-0 bg-{{ config.overlay_color|default:'black' }}/{{ config.overlay_opacity|default:'50' }}"></div>
+  <div class="absolute inset-0 {{ config.overlay_color|default:'black'|bg_color }}/{{ config.overlay_opacity|default:'50' }}"></div>
 
   <!-- Content -->
   <div class="relative z-10 container mx-auto px-4 text-center">
     {% if content.badge_text %}
-    <span class="inline-block px-4 py-1 mb-6 text-sm font-medium rounded-full bg-{{ config.badge_bg|default:'primary' }}/20 text-{{ config.badge_text_color|default:'primary-content' }} border border-{{ config.badge_border|default:'primary' }}/30">
+    <span class="inline-block px-4 py-1 mb-6 text-sm font-medium rounded-full {{ config.badge_bg|default:'primary/20'|bg_color }} {{ config.badge_text_color|default:'primary-content'|text_color }} border {{ config.badge_border|default:'primary/30'|border_color }}">
       {{ content.badge_text }}
     </span>
     {% endif %}
 
     {% if content.headline %}
-    <h1 class="mb-4 text-4xl font-extrabold tracking-tight text-{{ config.text_color|default:'white' }} md:text-5xl lg:text-6xl xl:text-7xl animate-fade-in-up">
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight {{ config.text_color|default:'white'|text_color }} md:text-5xl lg:text-6xl xl:text-7xl animate-fade-in-up">
       {{ content.headline |safe }}
     </h1>
     {% endif %}
 
     {% if content.subheadline %}
-    <p class="mx-auto mb-8 max-w-3xl text-lg text-{{ config.subtext_color|default:'white/80' }} lg:text-xl xl:text-2xl animate-fade-in-up animation-delay-200">
+    <p class="mx-auto mb-8 max-w-3xl text-lg {{ config.subtext_color|default:'white/80'|text_color }} lg:text-xl xl:text-2xl animate-fade-in-up animation-delay-200">
       {{ content.subheadline |safe }}
     </p>
     {% endif %}
@@ -53,7 +53,7 @@
     <div class="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up animation-delay-400">
       {% if content.primary_cta_text and content.primary_cta_url %}
       <a href="{{ content.primary_cta_url }}"
-         class="btn btn-{{ config.primary_cta_style|default:'primary' }} btn-lg gap-2"
+         class="btn {{ config.primary_cta_style|default:'primary'|btn_color }} btn-lg gap-2"
          data-event="cta_click"
          data-zone-id="{{ zone.id }}"
          data-cta-type="primary">
@@ -68,7 +68,7 @@
 
       {% if content.secondary_cta_text and content.secondary_cta_url %}
       <a href="{{ content.secondary_cta_url }}"
-         class="btn btn-{{ config.secondary_cta_style|default:'ghost' }} btn-lg text-{{ config.text_color|default:'white' }} border-{{ config.text_color|default:'white' }}/30 hover:bg-{{ config.text_color|default:'white' }}/10"
+         class="btn {{ config.secondary_cta_style|default:'ghost'|btn_color }} btn-lg {{ config.text_color|default:'white'|text_color }} {{ config.text_color|default:'white/30'|border_color }} hover:{{ config.text_color|default:'white/10'|bg_color }}"
          data-event="cta_click"
          data-zone-id="{{ zone.id }}"
          data-cta-type="secondary">
@@ -79,7 +79,7 @@
 
     {% if content.scroll_indicator %}
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-      <svg class="w-6 h-6 text-{{ config.text_color|default:'white' }}/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-6 h-6 {{ config.text_color|default:'white/60'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
       </svg>
     </div>
@@ -92,7 +92,7 @@
 {# ═══════════════════════════════════════════════════════════════ #}
 {# VISUAL SPLIT HERO (default) - Two column: content + image/video #}
 {# ═══════════════════════════════════════════════════════════════ #}
-<section class="{% if not config.background_color or config.background_color|slice:':1' != '#' %}bg-{{ config.background_color|default:'base-100' }}{% endif %}"{% if config.background_color and config.background_color|slice:":1" == "#" %} style="background-color: {{ config.background_color }}"{% endif %}>
+<section class="{% if not config.background_color or config.background_color|slice:':1' != '#' %}{{ config.background_color|default:'base-100'|bg_color }}{% endif %}"{% if config.background_color and config.background_color|slice:":1" == "#" %} style="background-color: {{ config.background_color }}"{% endif %}>
   <div class="container mx-auto px-4 py-8 lg:py-16">
     <div class="grid lg:grid-cols-12 lg:gap-8 xl:gap-12 items-center">
       <!-- Left Content -->
@@ -112,7 +112,7 @@
         <div class="flex flex-col sm:flex-row gap-3">
           {% if content.primary_cta_text and content.primary_cta_url %}
           <a href="{{ content.primary_cta_url }}"
-             class="btn btn-{{ config.primary_cta_style|default:'primary' }} btn-lg inline-flex items-center justify-center gap-2"
+             class="btn {{ config.primary_cta_style|default:'primary'|btn_color }} btn-lg inline-flex items-center justify-center gap-2"
              data-event="cta_click"
              data-zone-id="{{ zone.id }}"
              data-cta-type="primary">
@@ -125,7 +125,7 @@
 
           {% if content.secondary_cta_text and content.secondary_cta_url %}
           <a href="{{ content.secondary_cta_url }}"
-             class="btn btn-{{ config.secondary_cta_style|default:'ghost' }} btn-lg inline-flex items-center justify-center"
+             class="btn {{ config.secondary_cta_style|default:'ghost'|btn_color }} btn-lg inline-flex items-center justify-center"
              data-event="cta_click"
              data-zone-id="{{ zone.id }}"
              data-cta-type="secondary">
@@ -149,7 +149,7 @@
       </div>
 
       <!-- Right Visual -->
-      <div class="hidden lg:col-span-5 lg:flex lg:justify-end{% if config.image_container_bg and config.image_container_bg|slice:':1' != '#' %} bg-{{ config.image_container_bg }}{% endif %} rounded-lg p-4"{% if config.image_container_bg and config.image_container_bg|slice:":1" == "#" %} style="background-color: {{ config.image_container_bg }}"{% endif %}>
+      <div class="hidden lg:col-span-5 lg:flex lg:justify-end{% if config.image_container_bg and config.image_container_bg|slice:':1' != '#' %} {{ config.image_container_bg|bg_color }}{% endif %} rounded-lg p-4"{% if config.image_container_bg and config.image_container_bg|slice:":1" == "#" %} style="background-color: {{ config.image_container_bg }}"{% endif %}>
         {% if content.image_url %}
         <img src="{{ content.image_url }}"
              alt="{% if content.image_alt %}{{ content.image_alt }}{% else %}{% translate 'Hero image' %}{% endif %}"

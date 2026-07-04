@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# About Us / About Instructor Zone Template #}
 {# Flexible about section with multiple layout options and scroll animations #}
 {# Styles: single-column, two-column, image-left, image-right, three-column, team-grid #}
@@ -6,7 +6,7 @@
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"image-left" %}
 
-<section class="about-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}"
+<section class="about-section py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-100'|bg_color }}"
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'6xl' }}">
 
@@ -15,29 +15,29 @@
     <div class="max-w-3xl mx-auto text-center">
       <div class="about-content {% if config.animate != 'false' %}zone-item{% endif %}">
         {% if content.badge %}
-        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
         {% endif %}
 
         {% if content.photo %}
         <div class="avatar mb-6">
-          <div class="w-{{ config.avatar_size|default:'32' }} rounded-{{ config.avatar_shape|default:'full' }} ring ring-{{ config.ring_color|default:'primary' }} ring-offset-base-100 ring-offset-4 mx-auto">
+          <div class="w-{{ config.avatar_size|default:'32' }} rounded-{{ config.avatar_shape|default:'full' }} ring {{ config.ring_color|default:'primary'|ring_color }} ring-offset-base-100 ring-offset-4 mx-auto">
             <img src="{{ content.photo }}" alt="{{ content.name }}" loading="lazy" />
           </div>
         </div>
         {% endif %}
 
         {% if content.name %}
-        <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-{{ config.name_weight|default:'bold' }} text-{{ config.name_color|default:'base-content' }} mb-2">
+        <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-{{ config.name_weight|default:'bold' }} {{ config.name_color|default:'base-content'|text_color }} mb-2">
           {{ content.name }}
         </h2>
         {% endif %}
 
         {% if content.title %}
-        <p class="text-{{ config.title_size|default:'xl' }} text-{{ config.title_color|default:'primary' }} mb-6">{{ content.title }}</p>
+        <p class="text-{{ config.title_size|default:'xl' }} {{ config.title_color|default:'primary'|text_color }} mb-6">{{ content.title }}</p>
         {% endif %}
 
         {% if content.bio %}
-        <div class="prose prose-lg max-w-none text-{{ config.bio_color|default:'base-content/80' }} mb-8">
+        <div class="prose prose-lg max-w-none {{ config.bio_color|default:'base-content/80'|text_color }} mb-8">
           {{ content.bio|safe }}
         </div>
         {% endif %}
@@ -45,7 +45,7 @@
         {% if content.credentials %}
         <div class="flex flex-wrap gap-2 justify-center mb-6">
           {% for credential in content.credentials %}
-          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          <span class="badge {{ config.credential_style|default:'outline'|badge_color }} badge-lg">{{ credential }}</span>
           {% endfor %}
         </div>
         {% endif %}
@@ -54,7 +54,7 @@
 
         {% if content.cta %}
         <div class="mt-6">
-          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+          <a href="{{ content.cta.url }}" class="btn {{ config.cta_style|default:'primary'|btn_color }}">{{ content.cta.text }}</a>
         </div>
         {% endif %}
       </div>
@@ -66,7 +66,7 @@
       {# Left Column #}
       <div class="about-content {% if config.animate != 'false' %}zone-item{% endif %}">
         {% if content.badge %}
-        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
         {% endif %}
 
         {% if content.name %}
@@ -74,7 +74,7 @@
         {% endif %}
 
         {% if content.title %}
-        <p class="text-xl text-{{ config.title_color|default:'primary' }} mb-4">{{ content.title }}</p>
+        <p class="text-xl {{ config.title_color|default:'primary'|text_color }} mb-4">{{ content.title }}</p>
         {% endif %}
 
         {% if content.intro %}
@@ -95,7 +95,7 @@
         {% if content.credentials %}
         <div class="flex flex-wrap gap-2 mb-6">
           {% for credential in content.credentials %}
-          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          <span class="badge {{ config.credential_style|default:'outline'|badge_color }} badge-lg">{{ credential }}</span>
           {% endfor %}
         </div>
         {% endif %}
@@ -104,7 +104,7 @@
 
         {% if content.cta %}
         <div class="mt-6">
-          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+          <a href="{{ content.cta.url }}" class="btn {{ config.cta_style|default:'primary'|btn_color }}">{{ content.cta.text }}</a>
         </div>
         {% endif %}
       </div>
@@ -125,7 +125,7 @@
       {# Content Column #}
       <div class="about-content flex-1 {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
         {% if content.badge %}
-        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
         {% endif %}
 
         {% if content.name %}
@@ -133,7 +133,7 @@
         {% endif %}
 
         {% if content.title %}
-        <p class="text-xl text-{{ config.title_color|default:'primary' }} mb-6">{{ content.title }}</p>
+        <p class="text-xl {{ config.title_color|default:'primary'|text_color }} mb-6">{{ content.title }}</p>
         {% endif %}
 
         {% if content.bio %}
@@ -145,7 +145,7 @@
         {% if content.credentials %}
         <div class="flex flex-wrap gap-2 mb-6">
           {% for credential in content.credentials %}
-          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          <span class="badge {{ config.credential_style|default:'outline'|badge_color }} badge-lg">{{ credential }}</span>
           {% endfor %}
         </div>
         {% endif %}
@@ -154,7 +154,7 @@
 
         {% if content.cta %}
         <div class="mt-6">
-          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+          <a href="{{ content.cta.url }}" class="btn {{ config.cta_style|default:'primary'|btn_color }}">{{ content.cta.text }}</a>
         </div>
         {% endif %}
       </div>
@@ -175,7 +175,7 @@
       {# Content Column #}
       <div class="about-content flex-1 {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
         {% if content.badge %}
-        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
         {% endif %}
 
         {% if content.name %}
@@ -183,7 +183,7 @@
         {% endif %}
 
         {% if content.title %}
-        <p class="text-xl text-{{ config.title_color|default:'primary' }} mb-6">{{ content.title }}</p>
+        <p class="text-xl {{ config.title_color|default:'primary'|text_color }} mb-6">{{ content.title }}</p>
         {% endif %}
 
         {% if content.bio %}
@@ -195,7 +195,7 @@
         {% if content.credentials %}
         <div class="flex flex-wrap gap-2 mb-6">
           {% for credential in content.credentials %}
-          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          <span class="badge {{ config.credential_style|default:'outline'|badge_color }} badge-lg">{{ credential }}</span>
           {% endfor %}
         </div>
         {% endif %}
@@ -204,7 +204,7 @@
 
         {% if content.cta %}
         <div class="mt-6">
-          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+          <a href="{{ content.cta.url }}" class="btn {{ config.cta_style|default:'primary'|btn_color }}">{{ content.cta.text }}</a>
         </div>
         {% endif %}
       </div>
@@ -214,7 +214,7 @@
     {% elif style == "three-column" %}
     <div class="text-center mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
       {% if content.badge %}
-      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
       {% endif %}
 
       {% if content.title %}
@@ -255,7 +255,7 @@
     {% elif style == "team-grid" %}
     <div class="text-center mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
       {% if content.badge %}
-      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      <span class="badge {{ config.badge_color|default:'primary'|badge_color }} mb-4">{{ content.badge }}</span>
       {% endif %}
 
       {% if content.title %}
@@ -273,7 +273,7 @@
            {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
         {% if member.photo %}
         <div class="avatar mb-4">
-          <div class="w-{{ config.avatar_size|default:'32' }} rounded-{{ config.avatar_shape|default:'full' }} mx-auto ring ring-{{ config.ring_color|default:'base-300' }} ring-offset-2">
+          <div class="w-{{ config.avatar_size|default:'32' }} rounded-{{ config.avatar_shape|default:'full' }} mx-auto ring {{ config.ring_color|default:'base-300'|ring_color }} ring-offset-2">
             <img src="{{ member.photo }}" alt="{{ member.name }}" loading="lazy" />
           </div>
         </div>
@@ -284,7 +284,7 @@
         {% endif %}
 
         {% if member.role %}
-        <p class="text-{{ config.title_color|default:'primary' }} mb-2">{{ member.role }}</p>
+        <p class="{{ config.title_color|default:'primary'|text_color }} mb-2">{{ member.role }}</p>
         {% endif %}
 
         {% if member.bio %}

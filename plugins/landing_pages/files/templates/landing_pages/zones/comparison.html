@@ -1,10 +1,10 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Comparison Slider Zone Template #}
 {# Before/After image comparison with draggable slider #}
 
 {% with content=zone.content config=zone.config %}
 
-<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+<section class="py-{{ config.padding_y|default:'12' }} {{ config.background_color|default:'base-100'|bg_color }}">
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'4xl' }}">
 
     {% if content.title %}
@@ -34,11 +34,11 @@
       </div>
 
       {# Slider Handle #}
-      <div class="comparison-handle absolute top-0 bottom-0 w-1 bg-{{ config.handle_color|default:'white' }} cursor-ew-resize"
+      <div class="comparison-handle absolute top-0 bottom-0 w-1 {{ config.handle_color|default:'white'|bg_color }} cursor-ew-resize"
            style="left: 50%; transform: translateX(-50%);">
         {# Handle Circle #}
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-{{ config.handle_color|default:'white' }} shadow-lg flex items-center justify-center">
-          <svg class="w-6 h-6 text-{{ config.handle_icon_color|default:'base-content' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full {{ config.handle_color|default:'white'|bg_color }} shadow-lg flex items-center justify-center">
+          <svg class="w-6 h-6 {{ config.handle_icon_color|default:'base-content'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/>
           </svg>
         </div>
@@ -55,7 +55,8 @@
 
     {# Labels #}
     {% if content.before_label or content.after_label %}
-    <div class="flex justify-between max-w-{{ config.slider_max_width|default:'800px' }} mx-auto mt-4 px-4">
+    {# slider_max_width is a CSS length (e.g. "800px"), not a Tailwind size - inline style like the slider above #}
+    <div class="flex justify-between mx-auto mt-4 px-4" style="max-width: {{ config.slider_max_width|default:'800px' }};">
       <span class="text-sm font-medium text-base-content/70">{% if content.before_label %}{{ content.before_label }}{% else %}{% translate "Before" %}{% endif %}</span>
       <span class="text-sm font-medium text-base-content/70">{% if content.after_label %}{{ content.after_label }}{% else %}{% translate "After" %}{% endif %}</span>
     </div>

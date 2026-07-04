@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Social Proof CTA Zone Template #}
 {# Stats, logos, testimonial quote, and CTA with scroll animations #}
 {# Styles: default, dark, gradient, minimal #}
@@ -7,10 +7,10 @@
 {% with style=config.style|default:"default" %}
 
 <section class="social-proof-section py-{{ config.padding_y|default:'16' }}
-                {% if style == 'gradient' %}bg-gradient-to-{{ config.gradient_direction|default:'r' }} from-{{ config.gradient_from|default:'primary' }} to-{{ config.gradient_to|default:'secondary' }}
-                {% elif style == 'dark' %}bg-{{ config.background_color|default:'neutral' }}
-                {% else %}bg-{{ config.background_color|default:'primary' }}{% endif %}
-                {% if style != 'minimal' %}text-{{ config.text_color|default:'primary-content' }}{% endif %}"
+                {% if style == 'gradient' %}bg-gradient-to-{{ config.gradient_direction|default:'r' }} {{ config.gradient_from|default:'primary'|from_color }} {{ config.gradient_to|default:'secondary'|to_color }}
+                {% elif style == 'dark' %}{{ config.background_color|default:'neutral'|bg_color }}
+                {% else %}{{ config.background_color|default:'primary'|bg_color }}{% endif %}
+                {% if style != 'minimal' %}{{ config.text_color|default:'primary-content'|text_color }}{% endif %}"
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
 
   <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
@@ -18,7 +18,7 @@
     {# Badge #}
     {% if content.badge %}
     <div class="text-center mb-6 {% if config.animate != 'false' %}zone-header{% endif %}">
-      <span class="badge badge-{{ config.badge_style|default:'secondary' }} badge-lg">{{ content.badge |safe }}</span>
+      <span class="badge {{ config.badge_style|default:'secondary'|badge_color }} badge-lg">{{ content.badge |safe }}</span>
     </div>
     {% endif %}
 
@@ -46,7 +46,7 @@
       {% for stat in content.stats %}
       <div class="text-center px-{{ config.stat_padding|default:'4' }}">
         <div class="text-{{ config.stat_value_size|default:'4xl' }} md:text-{{ config.stat_value_size_md|default:'5xl' }} font-{{ config.stat_value_weight|default:'bold' }}
-                    {% if config.stat_value_color %}text-{{ config.stat_value_color }}{% endif %}">
+                    {% if config.stat_value_color %}{{ config.stat_value_color|text_color }}{% endif %}">
           {{ stat.value }}
         </div>
         <div class="text-{{ config.stat_label_size|default:'sm' }} uppercase tracking-wider opacity-{{ config.stat_label_opacity|default:'80' }} mt-1">
@@ -101,7 +101,7 @@
     <div class="text-center flex flex-wrap justify-center gap-4 {% if config.animate != 'false' %}zone-cta{% endif %}">
       {% if content.cta_text and content.cta_url %}
       <a href="{{ content.cta_url }}"
-         class="btn btn-{{ config.cta_style|default:'secondary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% else %}btn-lg{% endif %}"
+         class="btn {{ config.cta_style|default:'secondary'|btn_color }} {% if config.cta_size %}{{ config.cta_size|btn_size }}{% else %}btn-lg{% endif %}"
          data-event="cta_click"
          data-zone-id="{{ zone.id }}">
         {{ content.cta_text |safe }}
@@ -109,7 +109,7 @@
       {% endif %}
       {% if content.secondary_cta_text and content.secondary_cta_url %}
       <a href="{{ content.secondary_cta_url }}"
-         class="btn btn-{{ config.secondary_cta_style|default:'ghost' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% else %}btn-lg{% endif %}"
+         class="btn {{ config.secondary_cta_style|default:'ghost'|btn_color }} {% if config.cta_size %}{{ config.cta_size|btn_size }}{% else %}btn-lg{% endif %}"
          data-event="secondary_cta_click"
          data-zone-id="{{ zone.id }}">
         {{ content.secondary_cta_text |safe }}

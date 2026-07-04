@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n landing_page_tags %}
 {# Guarantee Zone Template #}
 {# Money-back guarantee, satisfaction guarantee, or trust section with scroll animations #}
 {# Styles: card, banner, minimal, badge, split #}
@@ -6,26 +6,26 @@
 {% with content=zone.content config=zone.config %}
 {% with style=config.style|default:"card" %}
 
-<section class="guarantee-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-200' }}"
+<section class="guarantee-section py-{{ config.padding_y|default:'16' }} {{ config.background_color|default:'base-200'|bg_color }}"
          {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
   <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'4xl' }}">
 
     {# Style: Card (Default) #}
     {% if style == "card" %}
-    <div class="guarantee-content card bg-{{ config.card_bg|default:'base-100' }} shadow-{{ config.shadow|default:'xl' }} {% if config.animate != 'false' %}zone-item{% endif %}">
+    <div class="guarantee-content card {{ config.card_bg|default:'base-100'|bg_color }} shadow-{{ config.shadow|default:'xl' }} {% if config.animate != 'false' %}zone-item{% endif %}">
       <div class="card-body items-center text-center p-{{ config.padding|default:'10' }}">
         {% if content.icon %}
         <div class="text-{{ config.icon_size|default:'6xl' }} mb-4">{{ content.icon }}</div>
         {% else %}
         <div class="mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-{{ config.icon_size|default:'20' }} h-{{ config.icon_size|default:'20' }} text-{{ config.icon_color|default:'success' }} mx-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-{{ config.icon_size|default:'20' }} h-{{ config.icon_size|default:'20' }} {{ config.icon_color|default:'success'|text_color }} mx-auto">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
           </svg>
         </div>
         {% endif %}
 
         {% if content.badge %}
-        <div class="badge badge-{{ config.badge_color|default:'success' }} badge-lg mb-4">{{ content.badge }}</div>
+        <div class="badge {{ config.badge_color|default:'success'|badge_color }} badge-lg mb-4">{{ content.badge }}</div>
         {% endif %}
 
         {% if content.title %}
@@ -33,7 +33,7 @@
         {% endif %}
 
         {% if content.text %}
-        <div class="prose prose-lg max-w-none text-{{ config.text_color|default:'base-content/80' }}">
+        <div class="prose prose-lg max-w-none {{ config.text_color|default:'base-content/80'|text_color }}">
           {{ content.text|safe }}
         </div>
         {% endif %}
@@ -41,8 +41,8 @@
         {% if content.features %}
         <ul class="flex flex-wrap justify-center gap-4 mt-6">
           {% for feature in content.features %}
-          <li class="flex items-center gap-2 text-{{ config.feature_color|default:'base-content/70' }}">
-            <svg class="w-5 h-5 text-{{ config.check_color|default:'success' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <li class="flex items-center gap-2 {{ config.feature_color|default:'base-content/70'|text_color }}">
+            <svg class="w-5 h-5 {{ config.check_color|default:'success'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             {{ feature }}
@@ -84,7 +84,7 @@
 
         {% if content.cta %}
         <div class="flex-shrink-0">
-          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'secondary' }}">{{ content.cta.text }}</a>
+          <a href="{{ content.cta.url }}" class="btn {{ config.cta_style|default:'secondary'|btn_color }}">{{ content.cta.text }}</a>
         </div>
         {% endif %}
       </div>
@@ -97,7 +97,7 @@
         {% if content.icon %}
         <span class="text-4xl">{{ content.icon }}</span>
         {% else %}
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-{{ config.icon_color|default:'success' }}">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 {{ config.icon_color|default:'success'|text_color }}">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
         </svg>
         {% endif %}
@@ -106,15 +106,15 @@
         {% endif %}
       </div>
       {% if content.text %}
-      <p class="text-{{ config.text_color|default:'base-content/70' }} max-w-2xl mx-auto">{{ content.text }}</p>
+      <p class="{{ config.text_color|default:'base-content/70'|text_color }} max-w-2xl mx-auto">{{ content.text }}</p>
       {% endif %}
     </div>
 
     {# Style: Badge (Large centered badge) #}
     {% elif style == "badge" %}
     <div class="guarantee-content text-center {% if config.animate != 'false' %}zone-item{% endif %}">
-      <div class="inline-block p-8 rounded-full bg-{{ config.badge_bg|default:'success/10' }} mb-6">
-        <div class="w-32 h-32 rounded-full bg-{{ config.badge_color|default:'success' }} text-{{ config.badge_text|default:'success-content' }} flex flex-col items-center justify-center">
+      <div class="inline-block p-8 rounded-full {{ config.badge_bg|default:'success/10'|bg_color }} mb-6">
+        <div class="w-32 h-32 rounded-full {{ config.badge_color|default:'success'|bg_color }} {{ config.badge_text|default:'success-content'|text_color }} flex flex-col items-center justify-center">
           {% if content.badge_number %}
           <span class="text-4xl font-bold">{{ content.badge_number }}</span>
           {% endif %}
@@ -128,14 +128,14 @@
       {% endif %}
 
       {% if content.text %}
-      <p class="text-{{ config.text_color|default:'base-content/70' }} max-w-2xl mx-auto mb-6">{{ content.text }}</p>
+      <p class="{{ config.text_color|default:'base-content/70'|text_color }} max-w-2xl mx-auto mb-6">{{ content.text }}</p>
       {% endif %}
 
       {% if content.features %}
       <div class="flex flex-wrap justify-center gap-6">
         {% for feature in content.features %}
         <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-{{ config.check_color|default:'success' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 {{ config.check_color|default:'success'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>
           <span>{{ feature }}</span>
@@ -152,14 +152,14 @@
         {% if content.icon %}
         <div class="text-7xl">{{ content.icon }}</div>
         {% else %}
-        <div class="w-32 h-32 rounded-full bg-{{ config.icon_bg|default:'success/10' }} flex items-center justify-center mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-{{ config.icon_color|default:'success' }}">
+        <div class="w-32 h-32 rounded-full {{ config.icon_bg|default:'success/10'|bg_color }} flex items-center justify-center mx-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 {{ config.icon_color|default:'success'|text_color }}">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
           </svg>
         </div>
         {% endif %}
         {% if content.badge %}
-        <div class="badge badge-{{ config.badge_color|default:'success' }} badge-lg mt-4">{{ content.badge }}</div>
+        <div class="badge {{ config.badge_color|default:'success'|badge_color }} badge-lg mt-4">{{ content.badge }}</div>
         {% endif %}
       </div>
 
@@ -169,7 +169,7 @@
         {% endif %}
 
         {% if content.text %}
-        <div class="prose prose-lg max-w-none text-{{ config.text_color|default:'base-content/80' }} mb-6">
+        <div class="prose prose-lg max-w-none {{ config.text_color|default:'base-content/80'|text_color }} mb-6">
           {{ content.text|safe }}
         </div>
         {% endif %}
@@ -178,7 +178,7 @@
         <ul class="space-y-2">
           {% for feature in content.features %}
           <li class="flex items-center gap-2 {% if config.header_align != 'left' %}justify-center md:justify-start{% endif %}">
-            <svg class="w-5 h-5 text-{{ config.check_color|default:'success' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 {{ config.check_color|default:'success'|text_color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             {{ feature }}

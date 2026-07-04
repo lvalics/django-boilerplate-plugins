@@ -4,10 +4,12 @@ Template tags for the landing pages plugin.
 Tailwind 4 note: Tailwind's JIT compiler only emits classes it sees as string
 literals at build time, so these helpers never interpolate arbitrary values
 into class names. Color-ish config values are constrained to the DaisyUI
-semantic enum (ALLOWED_COLORS, all covered by templates/landing_pages/
-tailwind-safelist.html); unknown values fall back to a safe default. Arbitrary
-hex colors always take the inline-style path (CSS custom properties /
-color-mix), never a class.
+semantic enum plus Tailwind core black/white/transparent, optionally with a
+fixed-step opacity suffix like "base-content/70" (see ALLOWED_COLORS /
+CORE_COLORS / OPACITY_STEPS; all shipped combinations are covered by
+templates/landing_pages/tailwind-safelist.html, which is enforced by a repo
+test); unknown values fall back to a safe default. Arbitrary hex colors always
+take the inline-style path (CSS custom properties / color-mix), never a class.
 """
 
 import json
@@ -46,29 +48,119 @@ ALLOWED_COLORS = {
     "base-content",
 }
 
+# Tailwind core color keywords that are also valid for bg-/text-/border-/ring-/
+# gradient utilities (all combinations covered by tailwind-safelist.html).
+CORE_COLORS = {"black", "white", "transparent"}
+
+# Colors accepted by the utility-class filters (bg_color, text_color, ...).
+UTILITY_COLORS = ALLOWED_COLORS | CORE_COLORS
+
+# Fixed opacity steps allowed in "color/NN" values (e.g. "base-content/70").
+# Only steps from this set produce a class; anything else falls back. The
+# shipped defaults/presets' combinations are safelisted; custom combinations
+# must be added to tailwind-safelist.html (see README).
+OPACITY_STEPS = {"5", "10", "20", "30", "40", "50", "60", "70", "80", "90"}
+
+# DaisyUI component style modifiers accepted alongside colors by btn/badge.
+BTN_STYLES = {"outline", "ghost", "link", "soft", "dash"}
+BADGE_STYLES = {"outline", "ghost", "soft", "dash"}
+ALERT_TYPES = {"info", "success", "warning", "error"}
+BTN_SIZES = {"xs", "sm", "md", "lg", "xl"}
+BADGE_SIZES = {"xs", "sm", "md", "lg", "xl"}
+BORDER_WIDTHS = {"0", "2", "4", "8"}
+
 _warned_colors: set[str] = set()
 
 
-def _validated_color(value, default):
+def _validated_color(value, default, allowed=None, allow_opacity=False):
     """
-    Constrain a color-ish config value to the DaisyUI enum.
+    Constrain a color-ish config value to the DaisyUI enum (plus Tailwind core
+    black/white/transparent where ``allowed`` includes them).
 
+    With ``allow_opacity``, "color/NN" values are accepted when the color part
+    is allowed and NN is a fixed opacity step (so the class stays safelistable).
     Unknown values fall back to ``default`` (logged once per value) so an
     editor typo can never inject an un-emitted Tailwind class.
     """
     if not value or not isinstance(value, str):
         return default
-    if value in ALLOWED_COLORS:
+    if allowed is None:
+        allowed = ALLOWED_COLORS
+    if value in allowed:
         return value
+    if allow_opacity and "/" in value:
+        color, _, opacity = value.rpartition("/")
+        if color in allowed and opacity in OPACITY_STEPS:
+            return value
     if value not in _warned_colors:
         _warned_colors.add(value)
-        logger.warning("landing_pages: unknown color %r, falling back to %r", value, default)
+        logger.debug("landing_pages: unknown color %r, falling back to %r", value, default)
     return default
 
 
 def _color_mix(color, opacity_pct):
     """CSS value for a DaisyUI color at an opacity, via color-mix (Tailwind 4 / DaisyUI 5 variables)."""
-    return f"color-mix(in oklab, var(--color-{color}) {opacity_pct}%, transparent)"
+    css_color = color if color in CORE_COLORS else f"var(--color-{color})"
+    return f"color-mix(in oklab, {css_color} {opacity_pct}%, transparent)"
+
+
+def _register_class_filter(name, prefix, fallback, allowed, allow_opacity=False):
+    """
+    Register a filter that turns a validated config value into a full,
+    safelisted Tailwind class (e.g. bg_color: 'primary' -> 'bg-primary').
+
+    Empty values produce no class; hex colors produce no class (they take the
+    inline-style code paths); unknown values produce the filter's safe default.
+    """
+
+    def _class_filter(value):
+        if not value or not isinstance(value, str):
+            return ""
+        if value.startswith("#"):
+            return ""
+        return f"{prefix}-{_validated_color(value, fallback, allowed=allowed, allow_opacity=allow_opacity)}"
+
+    _class_filter.__name__ = name
+    return register.filter(name, _class_filter)
+
+
+# Color filters (F1): {{ config.background_color|default:'primary'|bg_color }} -> "bg-primary"
+_register_class_filter("bg_color", "bg", "base-100", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("text_color", "text", "base-content", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("border_color", "border", "base-300", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("ring_color", "ring", "primary", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("divide_color", "divide", "base-300", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("from_color", "from", "primary", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("via_color", "via", "base-100", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("to_color", "to", "secondary", UTILITY_COLORS, allow_opacity=True)
+_register_class_filter("btn_color", "btn", "primary", ALLOWED_COLORS | BTN_STYLES)
+_register_class_filter("badge_color", "badge", "primary", ALLOWED_COLORS | BADGE_STYLES)
+_register_class_filter("link_color", "link", "primary", ALLOWED_COLORS)
+_register_class_filter("checkbox_color", "checkbox", "primary", ALLOWED_COLORS)
+_register_class_filter("radio_color", "radio", "primary", ALLOWED_COLORS)
+_register_class_filter("toggle_color", "toggle", "primary", ALLOWED_COLORS)
+_register_class_filter("alert_color", "alert", "info", ALERT_TYPES)
+
+# Size/width companions so no btn-/badge-/border- interpolation stays raw.
+_register_class_filter("btn_size", "btn", "md", BTN_SIZES)
+_register_class_filter("badge_size", "badge", "md", BADGE_SIZES)
+_register_class_filter("border_width", "border", "2", BORDER_WIDTHS)
+
+
+@register.filter
+def text_content_color(value):
+    """
+    text-* class for the "-content" counterpart of a validated color.
+    'primary' -> 'text-primary-content'; base-100/200/300 -> 'text-base-content'.
+    """
+    if not value or not isinstance(value, str) or value.startswith("#"):
+        return ""
+    color = _validated_color(value, "primary")
+    if color.endswith("-content"):
+        return f"text-{color}"
+    if color.startswith("base-"):
+        return "text-base-content"
+    return f"text-{color}-content"
 
 
 @register.simple_tag
@@ -199,7 +291,7 @@ def color_class(color_value, prefix="text"):
         return ""
     if isinstance(color_value, str) and color_value.startswith("#"):
         return ""
-    color = _validated_color(color_value, "")
+    color = _validated_color(color_value, "", allowed=UTILITY_COLORS, allow_opacity=True)
     if not color:
         return ""
     return f"{prefix}-{color}"
@@ -224,7 +316,7 @@ def badge_styles(text_color, bg_color, default_text="primary", default_bg="prima
     if isinstance(text_color, str) and text_color.startswith("#"):
         styles.append(f"color: {text_color}")
     else:
-        classes.append(f"text-{_validated_color(text_color, default_text)}")
+        classes.append(f"text-{_validated_color(text_color, default_text, allowed=UTILITY_COLORS)}")
 
     try:
         opacity_pct = max(0, min(100, int(opacity)))
@@ -245,7 +337,7 @@ def badge_styles(text_color, bg_color, default_text="primary", default_bg="prima
         except ValueError:
             pass
     else:
-        color = _validated_color(bg_color, default_bg)
+        color = _validated_color(bg_color, default_bg, allowed=UTILITY_COLORS)
         styles.append(f"background-color: {_color_mix(color, opacity_pct)}")
 
     result = ""
@@ -272,7 +364,7 @@ def section_bg(color_value, default="base-200"):
 
     if isinstance(color, str) and color.startswith("#"):
         return mark_safe(f'style="background-color: {color}"')
-    return mark_safe(f'class="bg-{_validated_color(color, default)}"')
+    return mark_safe(f'class="bg-{_validated_color(color, default, allowed=UTILITY_COLORS, allow_opacity=True)}"')
 
 
 @register.simple_tag
@@ -289,7 +381,7 @@ def overlay_styles(overlay_color, default="neutral"):
 
     if isinstance(color, str) and color.startswith("#"):
         return mark_safe(f'style="background-color: {color}"')
-    return mark_safe(f'class="bg-{_validated_color(color, default)}"')
+    return mark_safe(f'class="bg-{_validated_color(color, default, allowed=UTILITY_COLORS)}"')
 
 
 @register.simple_tag
@@ -419,7 +511,7 @@ def gradient_style(direction="br", color_from="primary/10", color_to="secondary/
             color_name = color_str
             opacity_pct = 100
 
-        color_name = _validated_color(color_name, "primary")
+        color_name = _validated_color(color_name, "primary", allowed=UTILITY_COLORS)
         return _color_mix(color_name, opacity_pct)
 
     from_color = parse_color(color_from)
