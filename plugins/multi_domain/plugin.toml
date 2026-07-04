@@ -1,6 +1,6 @@
 id = "multi_domain"
 name = "Multi-Domain Sites"
-version = "1.4.0"
+version = "1.5.0"
 description = "Database-driven multi-domain support: per-site branding, templates, feature flags, per-site CORS/CSRF, and optional cross-domain SSO."
 target = "django-boilerplate"
 edition = "free"
@@ -42,6 +42,9 @@ else:
 TEMPLATES[0]["OPTIONS"]["context_processors"].append("apps.sites.context_processors.site_config")
 SITE_CACHE_TIMEOUT = 300
 AUTH_TOKEN_EXPIRY_MINUTES = 5
+# Number of trusted reverse proxies in front of the app. 0 (default) ignores
+# X-Forwarded-For and uses REMOTE_ADDR; set to the real proxy depth in production.
+SITES_TRUSTED_PROXY_COUNT = 0
 """
 
 post_install_notes = """

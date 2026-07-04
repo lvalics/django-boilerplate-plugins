@@ -5,6 +5,42 @@ All notable changes to the Multi-Domain plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - Security hardening
+
+### Security
+- **Member-add API no longer mints API keys** (F1): the site member-add endpoint no longer
+  creates or returns a plaintext API key for an arbitrary existing user, closing an
+  account-takeover path. API-key provisioning remains available only via the Django admin
+  (superuser) flow.
+- **Least-privilege site updates** (F2): site admins may now edit only branding/SEO/feature
+  fields; security-critical fields (scripts, custom CSS, extra_settings, auth_*, integrations,
+  email_settings, is_active, path_prefix, template_dir) are superuser-only. Creating and
+  deleting sites is now restricted to superusers.
+- **Trusted-proxy client IP** (F3): `get_client_ip` no longer trusts the leftmost
+  `X-Forwarded-For` value. It honors the new `SITES_TRUSTED_PROXY_COUNT` setting (default 0 =
+  use `REMOTE_ADDR`), taking the Nth-from-the-right entry when proxies are configured.
+- **Atomic single-use SSO tokens** (F4): JWT replay protection now marks-then-verifies the
+  token id atomically (`cache.add`), eliminating a race where concurrent replays could both
+  pass, and fails closed (rejects the token) when the cache backend is unavailable.
+- **Integration secrets kept out of cache/templates** (F5): `to_config_dict()` no longer
+  resolves `env:` secret placeholders, so resolved secrets never sit in Redis; the
+  `integrations` key is excluded from template context. Secrets resolve lazily server-side via
+  `SiteProfile.get_integration()` / the new `resolve_integration(config, name)` helper.
+- **template_dir traversal defenses** (F6): `template_dir` is validated against a strict
+  pattern, the template loader uses `safe_join` (skipping any path that would escape the
+  templates root), and directory creation re-checks the name before `mkdir`.
+- **Atomic, fail-closed rate limiting** (F7): the rate-limit counter is now an atomic
+  fixed-window counter (`cache.add` + `cache.incr`) instead of a read-modify-write, and
+  auth-sensitive decorators fail closed (deny) on cache outage.
+- **Correct audit attribution** (F8): the current request is stored in the async-safe
+  request-local the middleware populates (`get_current_request()`), so audit logs capture the
+  acting user and IP; per-request signal state moved off racy module-level dicts.
+- **Stricter production ALLOWED_HOSTS** (F9): the automatic localhost/127.0.0.1/[::1]
+  allowance is dropped when `DEBUG=False` (kept in DEBUG).
+- **Cache lock/health-check fixes** (F10): the lock helper returns False on cache outage so
+  callers fall back explicitly instead of stampeding the DB, and the cache health check now
+  correctly logs connection recovery.
+
 ## [1.4.0] - Ported to django-boilerplate-plugins
 
 ### Changed

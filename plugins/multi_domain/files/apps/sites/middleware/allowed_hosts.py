@@ -46,10 +46,10 @@ class DynamicAllowedHostsMiddleware:
         if host in dynamic_hosts:
             return self.get_response(request)
 
-        # Also allow localhost variants in development
-        localhost_variants = ["localhost", "127.0.0.1", "[::1]"]
-        if host in localhost_variants:
-            return self.get_response(request)
+        # Note: localhost/127.0.0.1/[::1] are intentionally NOT auto-allowed here. This code
+        # path only runs when DEBUG=False (DEBUG short-circuits above and allows all hosts),
+        # and silently trusting localhost in production would let a misrouted request bypass
+        # host validation. Add such hosts to ALLOWED_HOSTS or a Site domain if truly needed.
 
         logger.warning(f"Invalid host header: {host}")
         return HttpResponseBadRequest(f"Invalid HTTP_HOST header: '{host}'")

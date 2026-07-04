@@ -36,6 +36,16 @@ def get_current_site():
     return getattr(_thread_locals, "site", None)
 
 
+def get_current_request():
+    """
+    Get the current request from thread-local storage.
+
+    Set by ThreadLocalMiddleware. Returns None outside the request/response cycle
+    (e.g. management commands, Celery tasks). Used for audit attribution in signals.
+    """
+    return getattr(_thread_locals, "request", None)
+
+
 class ThreadLocalMiddleware:
     """
     Stores site configuration in thread-local storage.
@@ -49,6 +59,7 @@ class ThreadLocalMiddleware:
         # Store in thread-local
         _thread_locals.site_config = getattr(request, "site_config", None)
         _thread_locals.site = getattr(request, "site", None)
+        _thread_locals.request = request
 
         try:
             return self.get_response(request)
@@ -56,6 +67,7 @@ class ThreadLocalMiddleware:
             # Clean up
             _thread_locals.site_config = None
             _thread_locals.site = None
+            _thread_locals.request = None
 
 
 class MultiDomainMiddleware:

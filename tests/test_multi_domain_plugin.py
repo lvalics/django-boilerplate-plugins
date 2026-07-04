@@ -58,7 +58,7 @@ def test_manifest_basics():
     m = _manifest()
     assert m.id == "multi_domain"
     assert m.edition == "free"
-    assert m.version == "1.4.0"
+    assert m.version == "1.5.0"
     assert m.installed_apps == ["apps.sites"]
     assert m.url_mappings == {"": "apps.sites.urls"}
 

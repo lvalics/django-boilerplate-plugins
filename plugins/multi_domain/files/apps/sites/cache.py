@@ -64,10 +64,12 @@ def _is_cache_available() -> bool:
         # Simple ping - set and get a test key
         cache.set("_health_check", "1", timeout=5)
         result = cache.get("_health_check")
-        _cache_available = result == "1"
+        now_available = result == "1"
 
-        if _cache_available and not _cache_available:
+        # Log recovery when the cache was previously marked down and is now reachable.
+        if now_available and not _cache_available:
             logger.info("Cache connection restored")
+        _cache_available = now_available
     except Exception as e:
         if _cache_available:
             logger.warning(f"Cache unavailable, falling back to DB: {e}")
@@ -151,16 +153,19 @@ def _safe_cache_add(key: str, value: Any, timeout: int = None) -> bool:
         timeout: Cache timeout in seconds
 
     Returns:
-        True if added (key didn't exist), False otherwise
+        True only if the key was actually added (caller genuinely holds the lock). On a
+        cache outage returns False: the caller does NOT hold the lock and must decide its
+        own fallback (e.g. _load_with_lock loads directly from DB) rather than assuming a
+        held lock, which would let every process believe it won and stampede the DB.
     """
     if not _is_cache_available():
-        return True  # Return True to allow proceeding without lock
+        return False
 
     try:
         return cache.add(key, value, timeout=timeout)
     except Exception as e:
         logger.debug(f"Cache add failed for {key}: {e}")
-        return True  # Return True to allow proceeding without lock
+        return False
 
 
 def get_site_config_by_domain(domain: str) -> dict | None:

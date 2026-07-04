@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
@@ -5,6 +7,12 @@ from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from apps.utils.models import BaseModel
+
+# template_dir becomes a filesystem path segment under templates/, so it must be a single
+# safe path component: lowercase letters, digits, hyphen, underscore only (no separators,
+# dots, or traversal sequences). Enforced in SiteProfile.clean() and re-checked before mkdir.
+TEMPLATE_DIR_RE = re.compile(r"^[a-z0-9_-]+$")
+TEMPLATE_DIR_MAX_LEN = 50
 
 
 def _help(title: str, description: str, example: str = "", keys: list = None) -> str:
@@ -23,6 +31,40 @@ def _help(title: str, description: str, example: str = "", keys: list = None) ->
 
     html += "</div>"
     return mark_safe(html)
+
+
+def _resolve_env_values(integrations: dict) -> dict:
+    """
+    Resolve ``env:VAR_NAME`` placeholders in an integrations dict against the environment.
+
+    Kept as a standalone function so both the model (SiteProfile.get_integration) and
+    cached-config consumers (resolve_integration) share one implementation. Resolution
+    happens at call time only; resolved secrets are never persisted or cached.
+    """
+    import os
+
+    resolved = {}
+    for key, value in (integrations or {}).items():
+        if isinstance(value, dict):
+            resolved[key] = {
+                k: (os.environ.get(v[4:], "") if isinstance(v, str) and v.startswith("env:") else v)
+                for k, v in value.items()
+            }
+        else:
+            resolved[key] = value
+    return resolved
+
+
+def resolve_integration(config: dict, name: str) -> dict:
+    """
+    Lazily resolve a single integration's secrets from a cached site config dict.
+
+    The cached config (request.site_config) stores integrations UNRESOLVED. Server-side
+    callers that need a real secret pass the config and the integration name here to get
+    ``env:`` placeholders resolved at call time.
+    """
+    integrations = (config or {}).get("integrations", {})
+    return _resolve_env_values({name: integrations.get(name, {})}).get(name, {})
 
 
 class SiteProfile(BaseModel):
@@ -377,6 +419,20 @@ class SiteProfile(BaseModel):
             if not other_primary:
                 raise ValidationError({"is_primary": _("Cannot unset primary. At least one site must be primary.")})
 
+        # Validate template_dir: it is joined into a filesystem path, so it must be a single
+        # safe path segment to prevent path traversal (e.g. "../../etc").
+        if self.template_dir:
+            if len(self.template_dir) > TEMPLATE_DIR_MAX_LEN or not TEMPLATE_DIR_RE.match(self.template_dir):
+                raise ValidationError(
+                    {
+                        "template_dir": _(
+                            "template_dir may contain only lowercase letters, digits, hyphens, and "
+                            "underscores (no dots or slashes), max %(max)d characters."
+                        )
+                        % {"max": TEMPLATE_DIR_MAX_LEN}
+                    }
+                )
+
         # Validate CORS/CSRF origins in extra_settings
         extra = self.extra_settings or {}
         self._validate_origins(extra.get("cors_allowed_origins"), "cors_allowed_origins", urlparse, ValidationError)
@@ -467,6 +523,14 @@ class SiteProfile(BaseModel):
         logger = logging.getLogger(__name__)
 
         template_dir_name = self.get_template_dir()
+
+        # Defense in depth: re-validate the resolved directory name (which may derive from the
+        # domain prefix, not just the validated template_dir field) before creating any
+        # directories, so an unexpected value can never be joined into a traversal path.
+        if len(template_dir_name) > TEMPLATE_DIR_MAX_LEN or not TEMPLATE_DIR_RE.match(template_dir_name):
+            logger.warning("Skipping template directory creation for unsafe name: %r", template_dir_name)
+            return
+
         base_template_dir = Path(settings.BASE_DIR) / "templates" / template_dir_name
 
         # Only create directory structure - no template files
@@ -516,8 +580,11 @@ class SiteProfile(BaseModel):
             "timezone": self.timezone,
             # Features
             "features": self.features or {},
-            # Integrations (with env resolution)
-            "integrations": self._resolve_integrations(),
+            # Integrations: stored UNRESOLVED (env: placeholders kept intact) so that
+            # resolved secrets never sit in the Redis cache or leak into template context.
+            # Server-side consumers resolve lazily via get_integration() /
+            # resolve_integration(config, name).
+            "integrations": self.integrations or {},
             # Email
             "email_settings": self.email_settings or {},
             # Authentication
@@ -538,22 +605,8 @@ class SiteProfile(BaseModel):
         return config
 
     def _resolve_integrations(self):
-        """Resolve env: references in integrations."""
-        import os
-
-        resolved = {}
-        for key, value in (self.integrations or {}).items():
-            if isinstance(value, dict):
-                resolved[key] = {}
-                for k, v in value.items():
-                    if isinstance(v, str) and v.startswith("env:"):
-                        env_var = v[4:]
-                        resolved[key][k] = os.environ.get(env_var, "")
-                    else:
-                        resolved[key][k] = v
-            else:
-                resolved[key] = value
-        return resolved
+        """Resolve env: references in this profile's integrations."""
+        return _resolve_env_values(self.integrations)
 
     def get_feature(self, name, default=False):
         """Check if a feature is enabled."""

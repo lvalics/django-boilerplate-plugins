@@ -17,8 +17,13 @@ def site_config(request):
     """
     config = getattr(request, "site_config", None) or {}
 
+    # Exclude integrations from template context: it may carry third-party API config
+    # (and env: secret placeholders) that should never be exposed to templates. Server-side
+    # code resolves secrets via SiteProfile.get_integration() / resolve_integration().
+    template_config = {k: v for k, v in config.items() if k != "integrations"}
+
     return {
-        "site_config": config,
+        "site_config": template_config,
         "site_name": config.get("site_name", ""),
         "site_theme": config.get("theme", "default"),
         "site_features": config.get("features", {}),

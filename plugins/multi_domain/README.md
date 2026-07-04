@@ -112,9 +112,13 @@ Available in all templates via the `site_config` context processor:
 
 ### Optional settings
 
-The installer sets `SITE_CACHE_TIMEOUT = 300` and `AUTH_TOKEN_EXPIRY_MINUTES = 5`. You
-can also set `SITES_AUDIT_LOG_RETENTION_DAYS` (default 90) to control audit-log
-retention.
+The installer sets `SITE_CACHE_TIMEOUT = 300`, `AUTH_TOKEN_EXPIRY_MINUTES = 5`, and
+`SITES_TRUSTED_PROXY_COUNT = 0`. You can also set `SITES_AUDIT_LOG_RETENTION_DAYS`
+(default 90) to control audit-log retention.
+
+`SITES_TRUSTED_PROXY_COUNT` controls how the client IP is derived from
+`X-Forwarded-For` (see Security notes below). Leave it at `0` unless the app sits behind
+one or more reverse proxies that append to that header.
 
 ## Per-site CORS & CSRF
 
@@ -244,6 +248,38 @@ The site management REST API and the member admin can issue per-user API keys wh
 This is auto-detected: when that app is absent, the API uses session authentication, the
 admin "API Key" column shows `-`, and the key-creation admin action reports that the
 API-key app is not installed. No configuration is required either way.
+
+## Security notes
+
+- **Trusted proxies / client IP.** `X-Forwarded-For` is client-controlled and is not
+  trusted by default. Set `SITES_TRUSTED_PROXY_COUNT` to the number of reverse proxies
+  that append to the header (default `0` uses `REMOTE_ADDR`). With `N > 0`, the client IP
+  is taken as the Nth-from-the-right entry, so spoofed values prepended by a client are
+  ignored. Used by rate limiting and audit-log IP capture.
+- **Fail-closed rate limiting.** The rate limiter uses an atomic fixed-window counter
+  (`cache.add` + `cache.incr`). Auth endpoints fail **closed** on cache outage: if the
+  cache is unavailable the request is denied rather than allowed. This is a fixed-window
+  (not sliding-window) limiter, so up to the configured limit is allowed per window.
+- **SSO token delivery.** Cross-domain SSO tokens are delivered as a query-string
+  parameter, which can leak via browser history, `Referer` headers, and access logs. This
+  is mitigated by a short (5-minute) expiry, single-use `jti` replay protection (atomic,
+  fail-closed), and HTTPS-only delivery. A POST/handoff-code redesign that keeps the token
+  out of the URL is tracked as future work.
+- **ALLOWED_HOSTS.** When `DynamicAllowedHostsMiddleware` is active, do **not** set the
+  static `ALLOWED_HOSTS` to `["*"]`. List only your primary domain (site domains are
+  validated dynamically from the database). In production (`DEBUG=False`) localhost is not
+  auto-allowed; add it explicitly only if you truly need it.
+- **Integration secrets.** Store secrets in `integrations` as `env:VAR_NAME`. Placeholders
+  are kept unresolved in the cached config and are excluded from template context; secrets
+  are resolved lazily server-side via `SiteProfile.get_integration()` or
+  `resolve_integration(request.site_config, name)`. Do not echo `site_config.integrations`
+  into templates.
+- **Superuser-only Site Profile fields.** Site admins (non-superusers) can edit branding,
+  SEO, localization, and feature fields only. The following are **superuser-only**:
+  `head_scripts`, `body_scripts`, `custom_css`, `extra_settings` (CORS/CSRF origins),
+  `auth_mode`, `auth_domain`, `is_auth_domain`, `auth_settings`, `social_auth_providers`,
+  `integrations`, `email_settings`, `is_active`, `path_prefix`, and `template_dir`.
+  Creating and deleting sites is also superuser-only.
 
 ## Troubleshooting
 

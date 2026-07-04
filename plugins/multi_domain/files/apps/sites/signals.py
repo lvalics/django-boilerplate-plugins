@@ -12,6 +12,7 @@ Handles:
 
 import logging
 
+from asgiref.local import Local
 from django.contrib.auth.signals import user_logged_out
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_delete, post_save, pre_save
@@ -19,14 +20,37 @@ from django.dispatch import receiver
 
 from apps.sites.audit import SiteAuditLog, get_model_changes
 from apps.sites.cache import invalidate_site_cache
+from apps.sites.middleware.multi_domain import get_current_request
+from apps.sites.ratelimit import get_client_ip
 
 logger = logging.getLogger(__name__)
 
-# Thread-local storage for tracking old domain during save
-_old_domain_cache = {}
 
-# Storage for tracking changes during save for audit logging
-_pending_changes = {}
+def _request_ip(request):
+    """Client IP for audit attribution, honoring the trusted-proxy setting (F3 helper)."""
+    if not request:
+        return None
+    ip = get_client_ip(request)
+    return ip if ip and ip != "unknown" else None
+
+# Per-context (async-safe) storage for state passed between pre_save and post_save.
+# Replaces module-level dicts, which raced across concurrent threads/coroutines. Each
+# execution context (request/task) gets isolated storage, keyed by instance pk within it.
+_signal_locals = Local()
+
+
+def _old_domains() -> dict:
+    """Per-context map of Site pk -> previous domain, populated during pre_save."""
+    if not hasattr(_signal_locals, "old_domains"):
+        _signal_locals.old_domains = {}
+    return _signal_locals.old_domains
+
+
+def _pending_changes() -> dict:
+    """Per-context map of change-key -> (previous, new) field values for audit logging."""
+    if not hasattr(_signal_locals, "pending_changes"):
+        _signal_locals.pending_changes = {}
+    return _signal_locals.pending_changes
 
 
 @receiver(pre_save, sender=Site)
@@ -39,7 +63,7 @@ def capture_old_domain(sender, instance, **kwargs):
             old_instance = Site.objects.get(pk=instance.pk)
             if old_instance.domain != instance.domain:
                 # Domain is changing - store old domain for post_save
-                _old_domain_cache[instance.pk] = old_instance.domain
+                _old_domains()[instance.pk] = old_instance.domain
                 logger.debug(f"Domain changing: {old_instance.domain} -> {instance.domain}")
         except Site.DoesNotExist:
             pass
@@ -52,7 +76,7 @@ def invalidate_cache_on_site_save(sender, instance, **kwargs):
     Also invalidates old domain if domain changed.
     """
     # Check if there was an old domain to invalidate
-    old_domain = _old_domain_cache.pop(instance.pk, None)
+    old_domain = _old_domains().pop(instance.pk, None)
 
     if old_domain:
         logger.info(f"Domain changed from {old_domain} to {instance.domain}, invalidating both")
@@ -68,7 +92,7 @@ def invalidate_cache_on_site_delete(sender, instance, **kwargs):
     Invalidate cache when Django Site is deleted.
     """
     # Clean up any pending old domain
-    _old_domain_cache.pop(instance.pk, None)
+    _old_domains().pop(instance.pk, None)
 
     logger.debug(f"Site deleted: {instance.domain}")
     invalidate_site_cache(site_id=instance.id, domain=instance.domain)
@@ -144,7 +168,7 @@ def capture_profile_changes(sender, instance, **kwargs):
     if instance.pk:
         previous, new = get_model_changes(instance, SITE_PROFILE_AUDIT_FIELDS)
         if previous:
-            _pending_changes[f"profile:{instance.pk}"] = (previous, new)
+            _pending_changes()[f"profile:{instance.pk}"] = (previous, new)
 
 
 @receiver(post_save, sender="site_management.SiteProfile")
@@ -152,16 +176,9 @@ def audit_profile_save(sender, instance, created, **kwargs):
     """
     Log SiteProfile creation or updates.
     """
-    from threading import current_thread
-
-    # Get request context if available (set by middleware)
-    request = getattr(current_thread(), "request", None)
+    request = get_current_request()
     user = getattr(request, "user", None) if request else None
-    ip_address = None
-    if request:
-        ip_address = request.META.get("HTTP_X_FORWARDED_FOR", "").split(",")[0].strip()
-        if not ip_address:
-            ip_address = request.META.get("REMOTE_ADDR")
+    ip_address = _request_ip(request)
 
     if created:
         SiteAuditLog.log(
@@ -175,8 +192,9 @@ def audit_profile_save(sender, instance, created, **kwargs):
     else:
         # Check for pending changes
         change_key = f"profile:{instance.pk}"
-        if change_key in _pending_changes:
-            previous, new = _pending_changes.pop(change_key)
+        pending = _pending_changes()
+        if change_key in pending:
+            previous, new = pending.pop(change_key)
             SiteAuditLog.log(
                 site_id=instance.site_id,
                 site_domain=instance.site.domain,
@@ -194,9 +212,7 @@ def audit_profile_delete(sender, instance, **kwargs):
     """
     Log SiteProfile deletion.
     """
-    from threading import current_thread
-
-    request = getattr(current_thread(), "request", None)
+    request = get_current_request()
     user = getattr(request, "user", None) if request else None
 
     SiteAuditLog.log(
@@ -204,5 +220,6 @@ def audit_profile_delete(sender, instance, **kwargs):
         site_domain=instance.site.domain,
         action=SiteAuditLog.Action.DELETE,
         user=user if user and user.is_authenticated else None,
+        ip_address=_request_ip(request),
         notes="Site profile deleted",
     )
