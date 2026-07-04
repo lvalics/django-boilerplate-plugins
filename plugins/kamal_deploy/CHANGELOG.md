@@ -9,8 +9,10 @@
     copy) instead of modifying an existing `context_processors.py`.
   - Registration uses the manifest's `settings_append` to add the context processor to
     `TEMPLATES`, so no manual settings edit is required.
-  - `base_site.html` includes the optional Pegasus theme toggle with `ignore missing`,
-    so it degrades gracefully when that template is absent.
+  - The admin footer template is NOT auto-installed (overwriting a project's
+    `base_site.html` would clobber its customisations). The one-line footer snippet is a
+    documented post-install step; a ready-to-use example ships in `files/`. The example
+    includes the optional Pegasus theme toggle with `ignore missing`.
 - `kamal.sh` is the latest wrapper, shipped with its executable bit; no project-specific
   values (uses the official `ghcr.io/basecamp/kamal` image and `$HOME/.ssh`).
 - `edition = "pro"`, gated on the presence of a `.kamal/secrets` file in the target.

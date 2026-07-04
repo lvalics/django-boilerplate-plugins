@@ -43,7 +43,8 @@ def test_installs_when_kamal_secrets_present(tmp_path):
 
     assert (target / "apps" / "web" / "version.py").exists()
     assert (target / "kamal.sh").exists()
-    assert (target / "templates" / "admin" / "base_site.html").exists()
+    # base_site.html is a manual step, never auto-copied over the project's admin template
+    assert not (target / "templates" / "admin" / "base_site.html").exists()
 
     settings = (target / "project" / "settings.py").read_text()
     ast.parse(settings)  # settings.py still parses after the settings_append block
