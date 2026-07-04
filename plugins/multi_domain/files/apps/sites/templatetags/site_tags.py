@@ -45,7 +45,10 @@ def site_setting(context, setting_path, default=None):
 
     Usage:
         {% site_setting "email_settings.from_email" as from_email %}
-        {% site_setting "integrations.google_analytics.id" as ga_id %}
+        {% site_setting "features.beta_banner" as beta_banner %}
+
+    Note: the "integrations" key is not available in template context (it may
+    contain secrets); resolve integrations server-side via SiteProfile.get_integration().
     """
     site_config = context.get("site_config", {})
 
