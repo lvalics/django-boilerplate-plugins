@@ -1,0 +1,244 @@
+{% load i18n %}
+{# Curriculum/Outline Zone Template #}
+{# Course modules, chapters, or process steps with expandable sections #}
+{# Styles: accordion, cards, timeline, numbered-list #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"accordion" %}
+
+<section class="curriculum-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}"
+         {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
+  <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'4xl' }}">
+
+    {# Section Header #}
+    {% if content.title or content.subtitle %}
+    <div class="text-{{ config.header_align|default:'center' }} mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
+      {% if content.badge %}
+      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      {% endif %}
+
+      {% if content.title %}
+      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'base-content' }} mb-4">
+        {{ content.title }}
+      </h2>
+      {% endif %}
+
+      {% if content.subtitle %}
+      <p class="text-{{ config.subtitle_size|default:'lg' }} text-{{ config.subtitle_color|default:'base-content/70' }} max-w-{{ config.subtitle_max_width|default:'2xl' }} {% if config.header_align == 'center' %}mx-auto{% endif %}">
+        {{ content.subtitle }}
+      </p>
+      {% endif %}
+
+      {# Summary Stats #}
+      {% if content.stats %}
+      <div class="flex flex-wrap justify-{{ config.header_align|default:'center' }} gap-6 mt-6">
+        {% for stat in content.stats %}
+        <div class="flex items-center gap-2 text-{{ config.stat_color|default:'base-content/70' }}">
+          {% if stat.icon %}<span>{{ stat.icon }}</span>{% endif %}
+          <span class="font-semibold">{{ stat.value }}</span>
+          <span>{{ stat.label }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Style: Accordion #}
+    {% if style == "accordion" %}
+    <div class="space-y-{{ config.item_gap|default:'4' }}">
+      {% for module in content.modules %}
+      <div class="curriculum-item {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+        <div class="collapse collapse-{{ config.collapse_style|default:'plus' }} bg-{{ config.item_bg|default:'base-200' }} rounded-{{ config.rounded|default:'xl' }}
+                    {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
+                    {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}">
+          <input type="checkbox" {% if config.first_open and forloop.first %}checked{% endif %} />
+          <div class="collapse-title text-{{ config.module_title_size|default:'lg' }} font-{{ config.module_title_weight|default:'semibold' }} flex items-center gap-4 pr-12">
+            {% if config.numbered %}
+            <span class="badge badge-{{ config.number_color|default:'primary' }} badge-{{ config.number_size|default:'lg' }} flex-shrink-0">{{ forloop.counter }}</span>
+            {% elif module.icon %}
+            <span class="text-2xl flex-shrink-0">{{ module.icon }}</span>
+            {% endif %}
+            <span class="flex-1">{{ module.title }}</span>
+            {% if config.show_duration and module.duration %}
+            <span class="badge badge-{{ config.duration_style|default:'ghost' }} flex-shrink-0">{{ module.duration }}</span>
+            {% endif %}
+            {% if config.show_lesson_count and module.lessons %}
+            <span class="text-sm text-base-content/60 flex-shrink-0">{% blocktranslate with count=module.lessons|length %}{{ count }} lessons{% endblocktranslate %}</span>
+            {% endif %}
+          </div>
+          <div class="collapse-content">
+            {% if module.description %}
+            <p class="mb-4 text-{{ config.desc_color|default:'base-content/80' }}">{{ module.description }}</p>
+            {% endif %}
+
+            {% if module.lessons %}
+            <ul class="space-y-{{ config.lesson_gap|default:'2' }}">
+              {% for lesson in module.lessons %}
+              <li class="flex items-center gap-3 p-{{ config.lesson_padding|default:'2' }} rounded-{{ config.lesson_rounded|default:'lg' }}
+                         {% if config.lesson_bg %}bg-{{ config.lesson_bg }}{% endif %}
+                         {% if config.lesson_hover %}hover:bg-{{ config.lesson_hover }}{% endif %} transition-colors">
+                {% if config.lesson_icon == "check" %}
+                <svg class="w-5 h-5 text-{{ config.lesson_icon_color|default:'success' }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {% elif config.lesson_icon == "play" %}
+                <svg class="w-5 h-5 text-{{ config.lesson_icon_color|default:'primary' }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {% elif config.lesson_icon == "dot" %}
+                <span class="w-2 h-2 rounded-full bg-{{ config.lesson_icon_color|default:'primary' }} flex-shrink-0"></span>
+                {% elif config.lesson_icon == "number" %}
+                <span class="w-6 h-6 rounded-full bg-{{ config.lesson_icon_color|default:'primary/20' }} text-{{ config.lesson_icon_color|default:'primary' }} text-xs flex items-center justify-center flex-shrink-0">{{ forloop.counter }}</span>
+                {% else %}
+                <svg class="w-5 h-5 text-{{ config.lesson_icon_color|default:'primary' }} flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                {% endif %}
+                <span class="flex-1">{{ lesson.title }}</span>
+                {% if lesson.duration %}
+                <span class="text-sm text-base-content/60">{{ lesson.duration }}</span>
+                {% endif %}
+                {% if lesson.badge %}
+                <span class="badge badge-{{ lesson.badge_color|default:'secondary' }} badge-sm">{{ lesson.badge }}</span>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Cards #}
+    {% elif style == "cards" %}
+    <div class="grid grid-cols-1 {% if config.columns == '2' %}md:grid-cols-2{% elif config.columns == '3' %}md:grid-cols-2 lg:grid-cols-3{% endif %} gap-{{ config.item_gap|default:'6' }}">
+      {% for module in content.modules %}
+      <div class="curriculum-item card bg-{{ config.item_bg|default:'base-200' }} {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
+                  {% if config.hover_effect %}hover:shadow-lg hover:-translate-y-1 transition-all duration-300{% endif %}
+                  {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+        <div class="card-body">
+          <div class="flex items-start gap-4">
+            {% if config.numbered %}
+            <span class="badge badge-{{ config.number_color|default:'primary' }} badge-lg">{{ forloop.counter }}</span>
+            {% elif module.icon %}
+            <span class="text-3xl">{{ module.icon }}</span>
+            {% endif %}
+            <div class="flex-1">
+              <h3 class="card-title text-{{ config.module_title_size|default:'lg' }}">{{ module.title }}</h3>
+              {% if module.duration %}
+              <span class="text-sm text-base-content/60">{{ module.duration }}</span>
+              {% endif %}
+            </div>
+          </div>
+          {% if module.description %}
+          <p class="text-{{ config.desc_color|default:'base-content/70' }} mt-2">{{ module.description }}</p>
+          {% endif %}
+          {% if module.lessons %}
+          <div class="mt-4 text-sm text-base-content/60">
+            {% blocktranslate with count=module.lessons|length %}{{ count }} lessons{% endblocktranslate %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Timeline #}
+    {% elif style == "timeline" %}
+    <div class="relative">
+      {# Vertical line #}
+      <div class="absolute left-{{ config.timeline_offset|default:'6' }} top-0 bottom-0 w-0.5 bg-{{ config.timeline_color|default:'base-300' }}"></div>
+
+      <div class="space-y-{{ config.item_gap|default:'8' }}">
+        {% for module in content.modules %}
+        <div class="curriculum-item relative pl-{{ config.timeline_padding|default:'16' }} {% if config.animate != 'false' %}zone-item{% endif %}"
+             {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+          {# Timeline dot/number #}
+          <div class="absolute left-0 w-{{ config.dot_size|default:'12' }} h-{{ config.dot_size|default:'12' }} rounded-full bg-{{ config.dot_bg|default:'primary' }} text-{{ config.dot_text|default:'primary-content' }} flex items-center justify-center text-sm font-bold
+                      {% if config.dot_ring %}ring-4 ring-{{ config.dot_ring }}{% endif %}">
+            {% if config.numbered %}{{ forloop.counter }}{% elif module.icon %}{{ module.icon }}{% endif %}
+          </div>
+
+          <div class="bg-{{ config.item_bg|default:'base-200' }} rounded-{{ config.rounded|default:'xl' }} p-{{ config.item_padding|default:'6' }}
+                      {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}">
+            <div class="flex items-center gap-3 mb-2">
+              <h3 class="text-{{ config.module_title_size|default:'lg' }} font-{{ config.module_title_weight|default:'semibold' }}">{{ module.title }}</h3>
+              {% if module.duration %}
+              <span class="badge badge-ghost">{{ module.duration }}</span>
+              {% endif %}
+            </div>
+            {% if module.description %}
+            <p class="text-{{ config.desc_color|default:'base-content/70' }} mb-4">{{ module.description }}</p>
+            {% endif %}
+            {% if module.lessons %}
+            <ul class="space-y-1 text-sm">
+              {% for lesson in module.lessons %}
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-{{ config.lesson_icon_color|default:'primary' }}"></span>
+                {{ lesson.title }}
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {# Style: Numbered List (Simple) #}
+    {% elif style == "numbered-list" %}
+    <div class="space-y-{{ config.item_gap|default:'6' }}">
+      {% for module in content.modules %}
+      <div class="curriculum-item flex gap-{{ config.number_gap|default:'6' }} {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+        <div class="flex-shrink-0 w-{{ config.number_size|default:'12' }} h-{{ config.number_size|default:'12' }} rounded-{{ config.number_rounded|default:'full' }} bg-{{ config.number_bg|default:'primary' }} text-{{ config.number_text|default:'primary-content' }} flex items-center justify-center text-lg font-bold">
+          {{ forloop.counter }}
+        </div>
+        <div class="flex-1 pt-1">
+          <h3 class="text-{{ config.module_title_size|default:'xl' }} font-{{ config.module_title_weight|default:'semibold' }} mb-2">{{ module.title }}</h3>
+          {% if module.description %}
+          <p class="text-{{ config.desc_color|default:'base-content/70' }}">{{ module.description }}</p>
+          {% endif %}
+          {% if module.lessons %}
+          <ul class="mt-3 space-y-1 text-base-content/80">
+            {% for lesson in module.lessons %}
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-{{ config.lesson_icon_color|default:'success' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              {{ lesson.title }}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# Bottom CTA #}
+    {% if content.cta %}
+    <div class="text-center mt-{{ config.cta_margin|default:'12' }} {% if config.animate != 'false' %}zone-cta{% endif %}">
+      <a href="{{ content.cta.url }}"
+         class="btn btn-{{ config.cta_style|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %}">
+        {{ content.cta.text }}
+      </a>
+      {% if content.cta.subtext %}
+      <p class="mt-2 text-sm text-base-content/60">{{ content.cta.subtext }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}
+{% endwith %}

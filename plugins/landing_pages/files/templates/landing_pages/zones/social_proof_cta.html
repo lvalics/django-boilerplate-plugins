@@ -1,0 +1,153 @@
+{% load i18n %}
+{# Social Proof CTA Zone Template #}
+{# Stats, logos, testimonial quote, and CTA with scroll animations #}
+{# Styles: default, dark, gradient, minimal #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"default" %}
+
+<section class="social-proof-section py-{{ config.padding_y|default:'16' }}
+                {% if style == 'gradient' %}bg-gradient-to-{{ config.gradient_direction|default:'r' }} from-{{ config.gradient_from|default:'primary' }} to-{{ config.gradient_to|default:'secondary' }}
+                {% elif style == 'dark' %}bg-{{ config.background_color|default:'neutral' }}
+                {% else %}bg-{{ config.background_color|default:'primary' }}{% endif %}
+                {% if style != 'minimal' %}text-{{ config.text_color|default:'primary-content' }}{% endif %}"
+         {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
+
+  <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
+
+    {# Badge #}
+    {% if content.badge %}
+    <div class="text-center mb-6 {% if config.animate != 'false' %}zone-header{% endif %}">
+      <span class="badge badge-{{ config.badge_style|default:'secondary' }} badge-lg">{{ content.badge |safe }}</span>
+    </div>
+    {% endif %}
+
+    {# Headline #}
+    {% if content.headline %}
+    <div class="text-center mb-{{ config.headline_margin|default:'4' }} {% if config.animate != 'false' %}zone-header{% endif %}">
+      <h2 class="text-{{ config.headline_size|default:'3xl' }} md:text-{{ config.headline_size_md|default:'4xl' }} lg:text-{{ config.headline_size_lg|default:'5xl' }} font-{{ config.headline_weight|default:'bold' }} leading-tight">
+        {{ content.headline |safe }}
+      </h2>
+    </div>
+    {% endif %}
+
+    {# Subheadline #}
+    {% if content.subheadline %}
+    <div class="text-center mb-{{ config.subheadline_margin|default:'8' }} {% if config.animate != 'false' %}zone-header{% endif %}">
+      <p class="text-{{ config.subheadline_size|default:'xl' }} opacity-{{ config.subheadline_opacity|default:'90' }} max-w-{{ config.subheadline_max_width|default:'2xl' }} mx-auto">
+        {{ content.subheadline |safe }}
+      </p>
+    </div>
+    {% endif %}
+
+    {# Stats Row #}
+    {% if content.stats %}
+    <div class="flex flex-wrap justify-center gap-{{ config.stats_gap|default:'8' }} md:gap-{{ config.stats_gap_md|default:'16' }} mb-{{ config.stats_margin|default:'12' }} {% if config.animate != 'false' %}zone-stats{% endif %}">
+      {% for stat in content.stats %}
+      <div class="text-center px-{{ config.stat_padding|default:'4' }}">
+        <div class="text-{{ config.stat_value_size|default:'4xl' }} md:text-{{ config.stat_value_size_md|default:'5xl' }} font-{{ config.stat_value_weight|default:'bold' }}
+                    {% if config.stat_value_color %}text-{{ config.stat_value_color }}{% endif %}">
+          {{ stat.value }}
+        </div>
+        <div class="text-{{ config.stat_label_size|default:'sm' }} uppercase tracking-wider opacity-{{ config.stat_label_opacity|default:'80' }} mt-1">
+          {{ stat.label }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# Testimonial Quote #}
+    {% if content.quote.text %}
+    <div class="text-center mb-{{ config.quote_margin|default:'12' }} {% if config.animate != 'false' %}zone-quote{% endif %}">
+      <blockquote class="text-{{ config.quote_size|default:'xl' }} md:text-{{ config.quote_size_md|default:'2xl' }} italic opacity-90 max-w-{{ config.quote_max_width|default:'3xl' }} mx-auto mb-4">
+        "{{ content.quote.text }}"
+      </blockquote>
+      {% if content.quote.author %}
+      <div class="flex items-center justify-center gap-3">
+        {% if content.quote.avatar %}
+        <img src="{{ content.quote.avatar }}" alt="{{ content.quote.author }}" class="w-10 h-10 rounded-full object-cover" />
+        {% endif %}
+        <div class="{% if config.align == 'left' %}text-left{% else %}text-center{% endif %}">
+          <div class="font-semibold">{{ content.quote.author }}</div>
+          {% if content.quote.role %}
+          <div class="text-sm opacity-70">{{ content.quote.role }}</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Partner/Client Logos #}
+    {% if content.logos %}
+    <div class="mb-{{ config.logos_margin|default:'12' }} {% if config.animate != 'false' %}zone-logos{% endif %}">
+      {% if content.logos_title %}
+      <p class="text-center text-{{ config.logos_title_size|default:'sm' }} uppercase tracking-wider opacity-60 mb-6">{{ content.logos_title }}</p>
+      {% endif %}
+      <div class="flex flex-wrap justify-center items-center gap-{{ config.logos_gap|default:'8' }} md:gap-{{ config.logos_gap_md|default:'12' }}">
+        {% for logo in content.logos %}
+        <img src="{{ logo.url }}"
+             alt="{% if logo.alt %}{{ logo.alt }}{% else %}{% translate 'Partner logo' %}{% endif %}"
+             class="h-{{ config.logo_height|default:'8' }} md:h-{{ config.logo_height_md|default:'10' }} object-contain opacity-{{ config.logos_opacity|default:'70' }} hover:opacity-100 transition-opacity"
+             {% if config.logo_filter %}style="filter: {{ config.logo_filter }};"{% endif %} />
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# CTA Buttons #}
+    {% if content.cta_text or content.secondary_cta_text %}
+    <div class="text-center flex flex-wrap justify-center gap-4 {% if config.animate != 'false' %}zone-cta{% endif %}">
+      {% if content.cta_text and content.cta_url %}
+      <a href="{{ content.cta_url }}"
+         class="btn btn-{{ config.cta_style|default:'secondary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% else %}btn-lg{% endif %}"
+         data-event="cta_click"
+         data-zone-id="{{ zone.id }}">
+        {{ content.cta_text |safe }}
+      </a>
+      {% endif %}
+      {% if content.secondary_cta_text and content.secondary_cta_url %}
+      <a href="{{ content.secondary_cta_url }}"
+         class="btn btn-{{ config.secondary_cta_style|default:'ghost' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% else %}btn-lg{% endif %}"
+         data-event="secondary_cta_click"
+         data-zone-id="{{ zone.id }}">
+        {{ content.secondary_cta_text |safe }}
+      </a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Trust Indicators #}
+    {% if content.trust_badges %}
+    <div class="flex flex-wrap justify-center gap-6 mt-8 {% if config.animate != 'false' %}zone-trust{% endif %}">
+      {% for badge in content.trust_badges %}
+      <div class="flex items-center gap-2 text-sm opacity-80">
+        {% if badge.icon == 'check' or badge.icon == 'checkmark' %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        {% elif badge.icon == 'shield' or badge.icon == 'security' %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        {% elif badge.icon == 'star' %}
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {% elif badge.icon == 'heart' %}
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        {% elif badge.icon == 'clock' or badge.icon == 'time' %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        {% elif badge.icon == 'lock' %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        {% elif badge.icon == 'support' or badge.icon == 'headphones' %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        {% elif badge.icon %}
+        <span>{{ badge.icon |safe }}</span>
+        {% endif %}
+        <span>{{ badge.text |safe }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}
+{% endwith %}

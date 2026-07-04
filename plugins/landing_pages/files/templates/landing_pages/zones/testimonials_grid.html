@@ -1,0 +1,321 @@
+{% load i18n %}
+{# Testimonials Grid Zone Template #}
+{# Grid of testimonials with multiple style options and scroll animations #}
+{# Styles: card, minimal, masonry, quote-large, avatar-focus #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"card" %}
+
+<section class="testimonials-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}"
+         {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
+  <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'7xl' }}">
+
+    {# Section Header #}
+    {% if content.title or content.subtitle %}
+    <div class="text-{{ config.header_align|default:'center' }} mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
+      {% if content.badge %}
+      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      {% endif %}
+
+      {% if content.title %}
+      <h2 class="text-{{ config.title_size|default:'3xl' }} md:text-{{ config.title_size_md|default:'4xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'base-content' }} mb-4">
+        {{ content.title }}
+      </h2>
+      {% endif %}
+
+      {% if content.subtitle %}
+      <p class="text-{{ config.subtitle_size|default:'lg' }} text-{{ config.subtitle_color|default:'base-content/70' }} max-w-{{ config.subtitle_max_width|default:'2xl' }} {% if config.header_align == 'center' %}mx-auto{% endif %}">
+        {{ content.subtitle }}
+      </p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Style: Card (Default) #}
+    {% if style == "card" %}
+    <div class="grid grid-cols-1 {% if config.columns == '2' %}md:grid-cols-2{% elif config.columns == '4' %}md:grid-cols-2 lg:grid-cols-4{% else %}md:grid-cols-2 lg:grid-cols-3{% endif %} gap-{{ config.gap|default:'6' }}">
+      {% for testimonial in content.testimonials %}
+      <div class="testimonial-item card bg-{{ config.card_bg|default:'base-200' }} {% if config.shadow %}shadow-{{ config.shadow }}{% else %}shadow-lg{% endif %}
+                  {% if config.hover_effect %}hover:shadow-xl hover:-translate-y-1 transition-all duration-300{% endif %}
+                  {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}
+                  {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+        <div class="card-body">
+          {# Rating Stars #}
+          {% if config.show_ratings and testimonial.rating %}
+          <div class="rating rating-{{ config.rating_size|default:'sm' }} mb-3">
+            {% for i in "12345" %}
+            <input type="radio" class="mask mask-star-2 bg-{{ config.star_color|default:'warning' }}" disabled
+              {% if forloop.counter <= testimonial.rating %}checked{% endif %} />
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {# Quote Text #}
+          <blockquote class="text-{{ config.quote_size|default:'base' }} text-{{ config.quote_color|default:'base-content/80' }} {% if config.quote_italic != 'false' %}italic{% endif %} mb-4 flex-grow">
+            {% if config.show_quote_marks %}<span class="text-{{ config.quote_mark_color|default:'primary/30' }} text-2xl">"</span>{% endif %}
+            {{ testimonial.text }}
+            {% if config.show_quote_marks %}<span class="text-{{ config.quote_mark_color|default:'primary/30' }} text-2xl">"</span>{% endif %}
+          </blockquote>
+
+          {# Author Info #}
+          <div class="flex items-center gap-{{ config.author_gap|default:'4' }} mt-auto pt-4 {% if config.author_border %}border-t border-{{ config.author_border_color|default:'base-300' }}{% endif %}">
+            {% if testimonial.avatar %}
+            <div class="avatar">
+              <div class="w-{{ config.avatar_size|default:'12' }} rounded-{{ config.avatar_shape|default:'full' }}">
+                <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" loading="lazy" />
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="flex-1">
+              <p class="font-{{ config.name_weight|default:'bold' }} text-{{ config.name_color|default:'base-content' }}">{{ testimonial.name }}</p>
+              {% if testimonial.title or testimonial.company %}
+              <p class="text-{{ config.title_text_size|default:'sm' }} text-{{ config.title_text_color|default:'base-content/70' }}">
+                {% if testimonial.title %}{{ testimonial.title }}{% endif %}
+                {% if testimonial.title and testimonial.company %}, {% endif %}
+                {% if testimonial.company %}{{ testimonial.company }}{% endif %}
+              </p>
+              {% endif %}
+            </div>
+
+            {% if testimonial.verified and config.show_verified %}
+            <div class="badge badge-{{ config.verified_color|default:'success' }} badge-sm gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-3 h-3 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              {% translate "Verified" %}
+            </div>
+            {% endif %}
+          </div>
+
+          {# Company Logo #}
+          {% if testimonial.logo and config.show_logos %}
+          <div class="mt-4">
+            <img src="{{ testimonial.logo }}" alt="{{ testimonial.company }}" class="h-{{ config.logo_height|default:'6' }} opacity-60" loading="lazy" />
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Minimal #}
+    {% elif style == "minimal" %}
+    <div class="grid grid-cols-1 {% if config.columns == '2' %}md:grid-cols-2{% elif config.columns == '4' %}md:grid-cols-2 lg:grid-cols-4{% else %}md:grid-cols-2 lg:grid-cols-3{% endif %} gap-{{ config.gap|default:'8' }}">
+      {% for testimonial in content.testimonials %}
+      <div class="testimonial-item text-{{ config.text_align|default:'left' }} {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+
+        {# Rating Stars #}
+        {% if config.show_ratings and testimonial.rating %}
+        <div class="rating rating-{{ config.rating_size|default:'sm' }} mb-3">
+          {% for i in "12345" %}
+          <input type="radio" class="mask mask-star-2 bg-{{ config.star_color|default:'warning' }}" disabled
+            {% if forloop.counter <= testimonial.rating %}checked{% endif %} />
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {# Quote Text #}
+        <blockquote class="text-{{ config.quote_size|default:'lg' }} text-{{ config.quote_color|default:'base-content' }} mb-6 leading-relaxed">
+          "{{ testimonial.text }}"
+        </blockquote>
+
+        {# Author Info #}
+        <div class="flex items-center gap-3">
+          {% if testimonial.avatar %}
+          <div class="avatar">
+            <div class="w-10 rounded-full">
+              <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" loading="lazy" />
+            </div>
+          </div>
+          {% endif %}
+          <div>
+            <p class="font-semibold text-{{ config.name_color|default:'base-content' }}">{{ testimonial.name }}</p>
+            {% if testimonial.title %}
+            <p class="text-sm text-{{ config.title_text_color|default:'base-content/60' }}">{{ testimonial.title }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Masonry #}
+    {% elif style == "masonry" %}
+    <div class="columns-1 md:columns-2 lg:columns-{{ config.columns|default:'3' }} gap-{{ config.gap|default:'6' }} space-y-{{ config.gap|default:'6' }}">
+      {% for testimonial in content.testimonials %}
+      <div class="testimonial-item break-inside-avoid bg-{{ config.card_bg|default:'base-200' }} rounded-{{ config.rounded|default:'2xl' }} p-{{ config.padding|default:'6' }}
+                  {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
+                  {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}
+                  {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+
+        {# Rating Stars #}
+        {% if config.show_ratings and testimonial.rating %}
+        <div class="rating rating-{{ config.rating_size|default:'sm' }} mb-3">
+          {% for i in "12345" %}
+          <input type="radio" class="mask mask-star-2 bg-{{ config.star_color|default:'warning' }}" disabled
+            {% if forloop.counter <= testimonial.rating %}checked{% endif %} />
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {# Quote Text #}
+        <blockquote class="text-{{ config.quote_size|default:'base' }} text-{{ config.quote_color|default:'base-content/80' }} mb-4">
+          "{{ testimonial.text }}"
+        </blockquote>
+
+        {# Featured Image #}
+        {% if testimonial.image %}
+        <img src="{{ testimonial.image }}" alt="" class="w-full rounded-lg mb-4" loading="lazy" />
+        {% endif %}
+
+        {# Author Info #}
+        <div class="flex items-center gap-3">
+          {% if testimonial.avatar %}
+          <div class="avatar">
+            <div class="w-10 rounded-full">
+              <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" loading="lazy" />
+            </div>
+          </div>
+          {% endif %}
+          <div class="flex-1">
+            <p class="font-semibold">{{ testimonial.name }}</p>
+            {% if testimonial.title or testimonial.company %}
+            <p class="text-sm text-base-content/60">
+              {% if testimonial.title %}{{ testimonial.title }}{% endif %}
+              {% if testimonial.title and testimonial.company %} {% translate "at" %} {% endif %}
+              {% if testimonial.company %}{{ testimonial.company }}{% endif %}
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Quote Large (Featured) #}
+    {% elif style == "quote-large" %}
+    <div class="grid grid-cols-1 {% if config.columns == '2' %}lg:grid-cols-2{% else %}md:grid-cols-2 lg:grid-cols-3{% endif %} gap-{{ config.gap|default:'8' }}">
+      {% for testimonial in content.testimonials %}
+      <div class="testimonial-item relative bg-{{ config.card_bg|default:'base-200' }} rounded-{{ config.rounded|default:'2xl' }} p-{{ config.padding|default:'8' }}
+                  {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
+                  {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}
+                  {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+
+        {# Large Quote Mark #}
+        <div class="absolute top-{{ config.quote_mark_top|default:'4' }} left-{{ config.quote_mark_left|default:'6' }} text-{{ config.quote_mark_size|default:'6xl' }} text-{{ config.quote_mark_color|default:'primary/20' }} font-serif leading-none">"</div>
+
+        {# Quote Text #}
+        <blockquote class="relative z-10 text-{{ config.quote_size|default:'xl' }} text-{{ config.quote_color|default:'base-content' }} font-{{ config.quote_weight|default:'medium' }} mb-6 pt-8 leading-relaxed">
+          {{ testimonial.text }}
+        </blockquote>
+
+        {# Rating Stars #}
+        {% if config.show_ratings and testimonial.rating %}
+        <div class="rating rating-{{ config.rating_size|default:'md' }} mb-4">
+          {% for i in "12345" %}
+          <input type="radio" class="mask mask-star-2 bg-{{ config.star_color|default:'warning' }}" disabled
+            {% if forloop.counter <= testimonial.rating %}checked{% endif %} />
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {# Author Info #}
+        <div class="flex items-center gap-4 pt-4 border-t border-{{ config.divider_color|default:'base-300' }}">
+          {% if testimonial.avatar %}
+          <div class="avatar">
+            <div class="w-14 rounded-full ring ring-{{ config.avatar_ring|default:'primary' }} ring-offset-base-100 ring-offset-2">
+              <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" loading="lazy" />
+            </div>
+          </div>
+          {% endif %}
+          <div>
+            <p class="font-bold text-lg text-{{ config.name_color|default:'base-content' }}">{{ testimonial.name }}</p>
+            {% if testimonial.title or testimonial.company %}
+            <p class="text-{{ config.title_text_color|default:'base-content/70' }}">
+              {% if testimonial.title %}{{ testimonial.title }}{% endif %}
+              {% if testimonial.title and testimonial.company %}, {% endif %}
+              {% if testimonial.company %}{{ testimonial.company }}{% endif %}
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Avatar Focus #}
+    {% elif style == "avatar-focus" %}
+    <div class="grid grid-cols-1 {% if config.columns == '2' %}md:grid-cols-2{% elif config.columns == '4' %}md:grid-cols-2 lg:grid-cols-4{% else %}md:grid-cols-2 lg:grid-cols-3{% endif %} gap-{{ config.gap|default:'8' }}">
+      {% for testimonial in content.testimonials %}
+      <div class="testimonial-item text-center {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+
+        {# Large Centered Avatar #}
+        {% if testimonial.avatar %}
+        <div class="avatar mb-6">
+          <div class="w-{{ config.avatar_size|default:'24' }} rounded-full ring ring-{{ config.avatar_ring|default:'primary/20' }} ring-offset-base-100 ring-offset-4 mx-auto
+                      {% if config.hover_effect %}hover:ring-{{ config.avatar_ring_hover|default:'primary' }} transition-all duration-300{% endif %}">
+            <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" loading="lazy" />
+          </div>
+        </div>
+        {% endif %}
+
+        {# Rating Stars #}
+        {% if config.show_ratings and testimonial.rating %}
+        <div class="rating rating-{{ config.rating_size|default:'sm' }} mb-3 justify-center">
+          {% for i in "12345" %}
+          <input type="radio" class="mask mask-star-2 bg-{{ config.star_color|default:'warning' }}" disabled
+            {% if forloop.counter <= testimonial.rating %}checked{% endif %} />
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {# Quote Text #}
+        <blockquote class="text-{{ config.quote_size|default:'base' }} text-{{ config.quote_color|default:'base-content/80' }} mb-4 italic">
+          "{{ testimonial.text }}"
+        </blockquote>
+
+        {# Author Name and Title #}
+        <div>
+          <p class="font-bold text-{{ config.name_size|default:'lg' }} text-{{ config.name_color|default:'base-content' }}">{{ testimonial.name }}</p>
+          {% if testimonial.title or testimonial.company %}
+          <p class="text-sm text-{{ config.title_text_color|default:'base-content/60' }}">
+            {% if testimonial.title %}{{ testimonial.title }}{% endif %}
+            {% if testimonial.title and testimonial.company %}, {% endif %}
+            {% if testimonial.company %}{{ testimonial.company }}{% endif %}
+          </p>
+          {% endif %}
+        </div>
+
+        {# Company Logo #}
+        {% if testimonial.logo and config.show_logos %}
+        <div class="mt-4">
+          <img src="{{ testimonial.logo }}" alt="{{ testimonial.company }}" class="h-{{ config.logo_height|default:'6' }} opacity-60 mx-auto" loading="lazy" />
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# Bottom CTA #}
+    {% if content.cta %}
+    <div class="text-center mt-{{ config.cta_margin|default:'12' }} {% if config.animate != 'false' %}zone-cta{% endif %}">
+      <a href="{{ content.cta.url }}"
+         class="btn btn-{{ config.cta_style|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %}">
+        {{ content.cta.text }}
+      </a>
+      {% if content.cta.subtext %}
+      <p class="mt-2 text-sm text-base-content/60">{{ content.cta.subtext }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}
+{% endwith %}

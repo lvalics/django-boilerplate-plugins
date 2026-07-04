@@ -1,0 +1,96 @@
+{% load i18n %}
+{# Redirect Zone Template #}
+{# Immediate redirect (delay=0) or countdown page (delay>0) #}
+
+{% with content=zone.content config=zone.config %}
+{% with delay=config.delay|default:0 redirect_url=content.redirect_url %}
+
+{% if delay == 0 or delay == "0" %}
+{# Immediate redirect - minimal page with instant JS redirect #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0;url={{ redirect_url }}">
+  <title>{% translate "Redirecting..." %}</title>
+  <script>window.location.replace('{{ redirect_url|escapejs }}');</script>
+</head>
+<body></body>
+</html>
+
+{% else %}
+{# Delayed redirect with countdown #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="{{ delay }};url={{ redirect_url }}">
+  <title>{% translate "Redirecting..." %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes countdown {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: 283; }
+    }
+    .countdown-circle {
+      animation: countdown {{ delay }}s linear forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="text-center px-4">
+    {% if content.message %}
+    <p class="text-xl md:text-2xl text-gray-800 mb-8 max-w-lg mx-auto">
+      {{ content.message }}
+    </p>
+    {% endif %}
+
+    <!-- Countdown circle -->
+    <div class="relative inline-flex items-center justify-center mb-6">
+      <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="8" fill="none" class="text-gray-200"/>
+        <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="8" fill="none"
+                class="text-blue-500 countdown-circle"
+                stroke-dasharray="283" stroke-dashoffset="0" stroke-linecap="round"/>
+      </svg>
+      <span id="countdown" class="absolute text-3xl font-bold text-gray-800">{{ delay }}</span>
+    </div>
+
+    <p class="text-gray-600 mb-4">
+      {% translate "Redirecting in" %} <span id="seconds">{{ delay }}</span> {% translate "seconds..." %}
+    </p>
+
+    <a href="{{ redirect_url }}"
+       class="inline-flex items-center gap-2 text-blue-600 hover:underline font-medium">
+      {% translate "Click here if not redirected automatically" %}
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    (function() {
+      let seconds = {{ delay }};
+      const countdownEl = document.getElementById('countdown');
+      const secondsEl = document.getElementById('seconds');
+
+      const timer = setInterval(function() {
+        seconds--;
+        if (countdownEl) countdownEl.textContent = seconds;
+        if (secondsEl) secondsEl.textContent = seconds;
+
+        if (seconds <= 0) {
+          clearInterval(timer);
+          window.location.href = '{{ redirect_url|escapejs }}';
+        }
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>
+{% endif %}
+
+{% endwith %}
+{% endwith %}

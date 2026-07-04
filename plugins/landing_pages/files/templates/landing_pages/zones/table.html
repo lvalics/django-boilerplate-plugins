@@ -1,0 +1,158 @@
+{% load i18n %}
+{# Table Zone Template #}
+{# Styles: default, comparison #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"default" %}
+
+<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+  <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'6xl' }}">
+
+    {% if content.title %}
+    <h2 class="text-3xl font-bold text-center mb-4">{{ content.title }}</h2>
+    {% endif %}
+
+    {% if content.subtitle %}
+    <p class="text-lg text-center text-base-content/70 mb-8 max-w-3xl mx-auto">{{ content.subtitle }}</p>
+    {% endif %}
+
+    {% if style == "comparison" %}
+    {# Feature Comparison Table #}
+    <div class="overflow-x-auto">
+      <table class="table w-full {% if config.striped %}table-zebra{% endif %}">
+        <thead>
+          <tr class="bg-{{ config.header_bg|default:'base-200' }}">
+            <th class="text-left text-{{ config.header_text|default:'base-content' }}">{{ content.feature_column|default:"Features" }}</th>
+            {% for plan in content.plans %}
+            <th class="text-center">
+              <div class="flex flex-col items-center gap-1">
+                {% if plan.badge %}
+                <span class="badge badge-{{ plan.badge_color|default:'primary' }} badge-sm">{{ plan.badge }}</span>
+                {% endif %}
+                <span class="text-lg font-bold text-{{ config.header_text|default:'base-content' }}">{{ plan.name }}</span>
+                {% if plan.price %}
+                <span class="text-2xl font-bold text-{{ config.price_color|default:'primary' }}">{{ plan.price }}</span>
+                {% if plan.period %}
+                <span class="text-sm text-base-content/60">{{ plan.period }}</span>
+                {% endif %}
+                {% endif %}
+              </div>
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for feature in content.features %}
+          <tr class="{% if config.hover %}hover{% endif %}">
+            <td class="font-medium">
+              {{ feature.name }}
+              {% if feature.tooltip %}
+              <div class="tooltip tooltip-right" data-tip="{{ feature.tooltip }}">
+                <svg class="w-4 h-4 inline-block text-base-content/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              {% endif %}
+            </td>
+            {% for value in feature.values %}
+            <td class="text-center">
+              {% if value == True or value == "true" or value == "yes" %}
+              <svg class="w-6 h-6 mx-auto text-{{ config.check_color|default:'success' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              {% elif value == False or value == "false" or value == "no" %}
+              <svg class="w-6 h-6 mx-auto text-{{ config.x_color|default:'base-content/30' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              {% else %}
+              <span class="text-base-content">{{ value }}</span>
+              {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% if content.show_cta %}
+        <tfoot>
+          <tr>
+            <td></td>
+            {% for plan in content.plans %}
+            <td class="text-center py-4">
+              {% if plan.cta %}
+              <a href="{{ plan.cta.url }}" class="btn btn-{{ plan.cta.color|default:'primary' }} {% if plan.highlighted %}btn-lg{% endif %}">
+                {{ plan.cta.text }}
+              </a>
+              {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+        </tfoot>
+        {% endif %}
+      </table>
+    </div>
+
+    {% else %}
+    {# Default Data Table #}
+    <div class="overflow-x-auto {% if config.shadow %}shadow-lg rounded-lg{% endif %}">
+      <table class="table w-full {% if config.striped %}table-zebra{% endif %}">
+        {% if content.caption %}
+        <caption class="text-left text-base-content/70 mb-2">{{ content.caption }}</caption>
+        {% endif %}
+        <thead>
+          <tr class="bg-{{ config.header_bg|default:'base-200' }}">
+            {% for header in content.headers %}
+            <th class="{% if header.align %}text-{{ header.align }}{% else %}text-left{% endif %} text-{{ config.header_text|default:'base-content' }}">
+              {{ header.label|default:header }}
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in content.rows %}
+          <tr class="{% if config.hover %}hover{% endif %} {% if config.bordered %}border-b border-base-200{% endif %}">
+            {% for cell in row %}
+            <td class="{% if cell.align %}text-{{ cell.align }}{% endif %} {% if cell.bold %}font-bold{% endif %}">
+              {% if cell.image %}
+              <div class="flex items-center gap-3">
+                <div class="avatar">
+                  <div class="w-10 h-10 rounded-full">
+                    <img src="{{ cell.image }}" alt="{{ cell.value }}" />
+                  </div>
+                </div>
+                <div>
+                  <div class="font-bold">{{ cell.value }}</div>
+                  {% if cell.subtitle %}
+                  <div class="text-sm text-base-content/60">{{ cell.subtitle }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              {% elif cell.badge %}
+              <span class="badge badge-{{ cell.badge_color|default:'ghost' }}">{{ cell.value }}</span>
+              {% elif cell.link %}
+              <a href="{{ cell.link }}" class="link link-{{ config.link_color|default:'primary' }}">{{ cell.value }}</a>
+              {% else %}
+              {{ cell.value|default:cell }}
+              {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% if content.footer_row %}
+        <tfoot>
+          <tr class="bg-{{ config.footer_bg|default:'base-200' }} font-bold">
+            {% for cell in content.footer_row %}
+            <td class="{% if cell.align %}text-{{ cell.align }}{% endif %}">{{ cell.value|default:cell }}</td>
+            {% endfor %}
+          </tr>
+        </tfoot>
+        {% endif %}
+      </table>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}
+{% endwith %}

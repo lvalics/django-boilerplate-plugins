@@ -1,0 +1,80 @@
+{% load i18n %}
+{# Showcase Zone Template #}
+{# Product/Feature showcase with background image, title, and specs #}
+{# Includes scroll-based animations for image scale and text fade-in #}
+
+{% with content=zone.content config=zone.config %}
+
+<section class="showcase-section relative overflow-hidden bg-{{ config.background_color|default:'black' }}"
+         {% if config.min_height %}style="min-height: {{ config.min_height }};"{% endif %}
+         {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
+
+  {# Background Image #}
+  <div class="absolute inset-0">
+    <img src="{{ content.image }}"
+         alt="{{ content.image_alt|default:content.title }}"
+         class="zone-image w-full h-full object-{{ config.object_fit|default:'cover' }} object-{{ config.object_position|default:'center' }}"
+         data-initial-scale="{{ config.initial_scale|default:'0.9' }}" />
+
+    {# Vignette/Gradient Overlay #}
+    {% if config.vignette %}
+    <div class="showcase-mask absolute inset-0 transition-opacity duration-700"
+         style="background: radial-gradient(circle, transparent {{ config.vignette_size|default:'70' }}%, {{ config.vignette_color|default:'rgb(0, 0, 0)' }} 100%);"></div>
+    {% endif %}
+
+    {# Additional overlay for text readability #}
+    {% if config.overlay %}
+    <div class="absolute inset-0 bg-{{ config.overlay_color|default:'black' }}/{{ config.overlay_opacity|default:'30' }}"></div>
+    {% endif %}
+  </div>
+
+  {# Content Container #}
+  <div class="relative z-10 container mx-auto px-4 py-{{ config.padding_y|default:'20' }} flex flex-col justify-{{ config.content_position|default:'center' }} {% if config.min_height %}h-full{% endif %}"
+       {% if config.min_height %}style="min-height: {{ config.min_height }};"{% endif %}>
+
+    {# Title Section #}
+    {% if content.title %}
+    <div class="zone-title text-center {% if config.title_position == 'top' %}mb-auto pt-12{% elif config.title_position == 'bottom' %}mt-auto pb-32{% else %}my-auto{% endif %}">
+      <h2 class="text-{{ config.title_size|default:'4xl' }} md:text-{{ config.title_size_md|default:'5xl' }} lg:text-{{ config.title_size_lg|default:'6xl' }} font-{{ config.title_weight|default:'bold' }} text-{{ config.title_color|default:'white' }} leading-tight">
+        {{ content.title|safe }}
+      </h2>
+      {% if content.subtitle %}
+      <p class="mt-4 text-{{ config.subtitle_size|default:'xl' }} text-{{ config.subtitle_color|default:'white/80' }} max-w-2xl mx-auto">
+        {{ content.subtitle }}
+      </p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Specs/Stats Row #}
+    {% if content.specs %}
+    <div class="zone-specs {% if config.specs_position == 'bottom' %}mt-auto{% endif %} pt-8">
+      <div class="flex flex-wrap justify-center gap-{{ config.specs_gap|default:'8' }} md:gap-{{ config.specs_gap_md|default:'16' }}">
+        {% for spec in content.specs %}
+        <div class="text-center px-4">
+          <div class="text-{{ config.value_size|default:'3xl' }} md:text-{{ config.value_size_md|default:'5xl' }} font-{{ config.value_weight|default:'bold' }} text-{{ config.value_color|default:'white' }}">
+            {{ spec.value }}
+          </div>
+          <div class="text-{{ config.label_size|default:'sm' }} text-{{ config.label_color|default:'white/70' }} mt-1 uppercase tracking-wider">
+            {{ spec.label }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# CTA Button #}
+    {% if content.cta %}
+    <div class="zone-cta text-center mt-8">
+      <a href="{{ content.cta.url }}"
+         class="btn btn-{{ config.cta_style|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %} {% if config.cta_outline %}btn-outline{% endif %}">
+        {{ content.cta.text }}
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}

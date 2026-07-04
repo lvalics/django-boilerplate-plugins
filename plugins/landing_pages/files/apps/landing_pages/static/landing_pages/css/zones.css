@@ -1,0 +1,243 @@
+/**
+ * Shared Zone Styles for Landing Pages
+ *
+ * This file contains shared CSS for landing page zones including:
+ * - Animation utilities
+ * - Zone animation states
+ * - Scrollbar utilities
+ * - Common zone patterns
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATION KEYFRAMES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+/* Animation delays */
+.animation-delay-100 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.animation-delay-600 {
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ZONE ANIMATION STATES (used by zone-animations.js)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.zone-animate-hidden {
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLLBAR UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Thin scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CAROUSEL/SLIDER UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.carousel-container {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-slide {
+  scroll-snap-align: start;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GALLERY UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.gallery-item {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-item.hidden {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHTBOX STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-lightbox-modal] {
+  backdrop-filter: blur(4px);
+}
+
+[data-lightbox-modal] img,
+[data-lightbox-modal] video {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LANDING PAGE BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.landing-page {
+  min-height: 100vh;
+}
+
+/* Smooth scroll for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORM FIELD ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.form-control:focus {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* File upload drop zone */
+.file-drop-zone {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.file-drop-zone.drag-over {
+  border-color: hsl(var(--p));
+  background-color: hsl(var(--p) / 0.05);
+}

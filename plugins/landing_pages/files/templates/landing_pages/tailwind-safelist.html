@@ -1,0 +1,105 @@
+{% comment %}
+Tailwind 4 JIT safelist for the landing_pages plugin - DO NOT DELETE.
+
+Tailwind 4 only emits utility classes it sees as string literals somewhere in
+the scanned source. Landing page zones build their color classes from editor-
+configured values (constrained to the DaisyUI semantic enum by the plugin's
+template tags), so those classes never appear literally in any template. This
+file lists every class the enum can produce; because it lives in templates/,
+the project's Tailwind scan picks it up and keeps the classes in the build.
+The file renders nothing (everything is inside this comment block).
+{% endcomment %}
+<!--
+bg-primary
+bg-secondary
+bg-accent
+bg-neutral
+bg-info
+bg-success
+bg-warning
+bg-error
+bg-base-100
+bg-base-200
+bg-base-300
+bg-primary-content
+bg-secondary-content
+bg-accent-content
+bg-neutral-content
+bg-info-content
+bg-success-content
+bg-warning-content
+bg-error-content
+bg-base-content
+text-primary
+text-secondary
+text-accent
+text-neutral
+text-info
+text-success
+text-warning
+text-error
+text-base-100
+text-base-200
+text-base-300
+text-primary-content
+text-secondary-content
+text-accent-content
+text-neutral-content
+text-info-content
+text-success-content
+text-warning-content
+text-error-content
+text-base-content
+border-primary
+border-secondary
+border-accent
+border-neutral
+border-info
+border-success
+border-warning
+border-error
+border-base-100
+border-base-200
+border-base-300
+border-primary-content
+border-secondary-content
+border-accent-content
+border-neutral-content
+border-info-content
+border-success-content
+border-warning-content
+border-error-content
+border-base-content
+btn-primary
+btn-secondary
+btn-accent
+btn-neutral
+btn-info
+btn-success
+btn-warning
+btn-error
+btn-base-100
+btn-base-200
+btn-base-300
+badge-primary
+badge-secondary
+badge-accent
+badge-neutral
+badge-info
+badge-success
+badge-warning
+badge-error
+badge-base-100
+badge-base-200
+badge-base-300
+
+Extra literals produced by the plugin's template tags and zone defaults:
+btn
+btn-outline
+btn-ghost
+btn-lg
+btn-sm
+badge
+badge-lg
+bg-blend-multiply
+-->

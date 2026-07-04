@@ -1,0 +1,10 @@
+{% load landing_page_tags %}
+{# Zone Wrapper Component #}
+{# Wraps each zone with common attributes for tracking and styling #}
+
+<div class="{% zone_css_class zone %}"
+     id="zone-{{ zone.id }}"
+     data-zone-id="{{ zone.id }}"
+     data-zone-type="{{ zone.zone_type }}">
+  {% include zone.get_template_name with zone=zone %}
+</div>

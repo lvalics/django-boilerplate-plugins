@@ -1,0 +1,245 @@
+{% load i18n %}
+{# Banner Zone Template #}
+{# Sticky banners for announcements, CTAs, navigation help #}
+{# Styles: default, marketing, informational #}
+{# Positions: top, bottom #}
+{# Display: immediate, after_seconds, after_scroll #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"default" position=config.position|default:"top" %}
+
+{# Generate unique ID for this banner #}
+{% with banner_id="banner-"|add:zone.id|stringformat:"s" %}
+
+<div id="{{ banner_id }}"
+     class="{% if config.display_mode == 'after_seconds' or config.display_mode == 'after_scroll' %}hidden{% endif %}"
+     data-banner-id="{{ banner_id }}"
+     data-display-mode="{{ config.display_mode|default:'immediate' }}"
+     data-show-after-seconds="{{ config.show_after_seconds|default:'3' }}"
+     data-show-after-scroll="{{ config.show_after_scroll_px|default:'300' }}"
+     {% if config.dismissible|default:True %}data-dismissible="true"{% endif %}>
+
+{% if style == "marketing" %}
+{# Marketing CTA Banner - Floating centered with shadow #}
+<div class="fixed z-50 flex justify-center w-full px-4 {{ position }}-0 {% if position == 'top' %}pt-4{% else %}pb-4{% endif %}">
+  <div class="w-full max-w-screen-xl p-4 bg-{{ config.background_color|default:'base-100' }} border border-{{ config.border_color|default:'base-300' }} rounded-lg shadow-lg">
+    <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+      {# Logo/Icon #}
+      {% if content.icon or content.logo %}
+      <div class="flex items-center gap-3">
+        {% if content.logo %}
+        <a href="{{ content.logo_link|default:'/' }}" class="flex items-center">
+          <img src="{{ content.logo }}" alt="{{ content.logo_alt|default:'Logo' }}" class="h-8">
+        </a>
+        {% elif content.icon %}
+        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-{{ config.icon_bg|default:'primary' }}/10">
+          <span class="text-2xl">{{ content.icon }}</span>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {# Message #}
+      <p class="text-sm font-medium text-{{ config.text_color|default:'base-content' }} md:text-base flex-1 text-center md:text-left">
+        {{ content.message }}
+      </p>
+
+      {# CTA Buttons #}
+      <div class="flex items-center gap-3 flex-shrink-0">
+        {% if content.primary_cta %}
+        <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-sm">
+          {{ content.primary_cta.text }}
+        </a>
+        {% endif %}
+        {% if content.secondary_cta %}
+        <a href="{{ content.secondary_cta.url }}" class="btn btn-ghost btn-sm">
+          {{ content.secondary_cta.text }}
+        </a>
+        {% endif %}
+
+        {# Dismiss Button #}
+        {% if config.dismissible|default:True %}
+        <button type="button" data-dismiss-banner="{{ banner_id }}"
+                class="btn btn-ghost btn-sm btn-square text-{{ config.dismiss_color|default:'base-content/60' }} hover:text-{{ config.dismiss_hover_color|default:'base-content' }}">
+          <span class="sr-only">{% trans "Dismiss" %}</span>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% elif style == "informational" %}
+{# Informational Banner - Full width with more content #}
+<div class="fixed {{ position }}-0 start-0 z-50 w-full p-4 border-{{ position == 'top' and 'b' or 't' }} border-{{ config.border_color|default:'base-300' }} bg-{{ config.background_color|default:'info/10' }}">
+  <div class="flex flex-col items-center justify-between gap-4 mx-auto max-w-screen-xl md:flex-row">
+    <div class="flex-1">
+      {% if content.title %}
+      <h3 class="font-semibold text-{{ config.title_color|default:'base-content' }}">
+        {{ content.title }}
+      </h3>
+      {% endif %}
+      {% if content.message %}
+      <p class="text-sm text-{{ config.text_color|default:'base-content/70' }}">
+        {{ content.message }}
+      </p>
+      {% endif %}
+    </div>
+
+    <div class="flex items-center gap-3 flex-shrink-0">
+      {% if content.primary_cta %}
+      <a href="{{ content.primary_cta.url }}" class="btn btn-{{ config.primary_btn_color|default:'primary' }} btn-sm">
+        {{ content.primary_cta.text }}
+      </a>
+      {% endif %}
+      {% if content.secondary_cta %}
+      <a href="{{ content.secondary_cta.url }}" class="btn btn-outline btn-sm">
+        {{ content.secondary_cta.text }}
+      </a>
+      {% endif %}
+
+      {% if config.dismissible|default:True %}
+      <button type="button" data-dismiss-banner="{{ banner_id }}"
+              class="btn btn-ghost btn-sm btn-square">
+        <span class="sr-only">{% trans "Dismiss" %}</span>
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% else %}
+{# Default Banner - Simple sticky bar #}
+<div class="fixed {{ position }}-0 start-0 z-50 flex justify-between w-full p-4 border-{{ position == 'top' and 'b' or 't' }} border-{{ config.border_color|default:'base-300' }} bg-{{ config.background_color|default:'base-100' }}">
+  <div class="flex items-center mx-auto gap-4">
+    {# Icon #}
+    {% if content.icon %}
+    <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-{{ config.icon_bg|default:'primary' }}/10 text-{{ config.icon_color|default:'primary' }}">
+      {% if content.icon == "info" %}
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+      </svg>
+      {% elif content.icon == "megaphone" %}
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"></path>
+      </svg>
+      {% elif content.icon == "warning" %}
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+      </svg>
+      {% elif content.icon == "home" %}
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+      </svg>
+      {% else %}
+      <span class="text-lg">{{ content.icon }}</span>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Message with optional link #}
+    <span class="text-sm font-medium text-{{ config.text_color|default:'base-content' }}">
+      {{ content.message }}
+      {% if content.link %}
+      <a href="{{ content.link.url }}" class="link link-{{ config.link_color|default:'primary' }} ms-1">
+        {{ content.link.text }}
+        <svg class="w-3 h-3 inline-block ms-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </a>
+      {% endif %}
+    </span>
+  </div>
+
+  {# Dismiss Button #}
+  {% if config.dismissible|default:True %}
+  <div class="flex items-center">
+    <button type="button" data-dismiss-banner="{{ banner_id }}"
+            class="btn btn-ghost btn-sm btn-square text-{{ config.dismiss_color|default:'base-content/60' }}">
+      <span class="sr-only">{% trans "Dismiss" %}</span>
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+      </svg>
+    </button>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+</div>
+
+{# Banner JavaScript for display timing and dismissal #}
+<script>
+(function() {
+  const banner = document.getElementById('{{ banner_id }}');
+  if (!banner) return;
+
+  const displayMode = banner.dataset.displayMode;
+  const showAfterSeconds = parseInt(banner.dataset.showAfterSeconds) || 3;
+  const showAfterScroll = parseInt(banner.dataset.showAfterScroll) || 300;
+  const isDismissible = banner.dataset.dismissible === 'true';
+  const storageKey = 'banner_dismissed_{{ banner_id }}';
+
+  // Check if already dismissed (session storage)
+  if (isDismissible && sessionStorage.getItem(storageKey)) {
+    banner.remove();
+    return;
+  }
+
+  // Show banner function
+  function showBanner() {
+    banner.classList.remove('hidden');
+    banner.classList.add('animate-fade-in');
+  }
+
+  // Handle display mode
+  if (displayMode === 'after_seconds') {
+    setTimeout(showBanner, showAfterSeconds * 1000);
+  } else if (displayMode === 'after_scroll') {
+    let shown = false;
+    window.addEventListener('scroll', function() {
+      if (!shown && window.scrollY >= showAfterScroll) {
+        shown = true;
+        showBanner();
+      }
+    }, { passive: true });
+  }
+  // 'immediate' mode - banner is already visible (no hidden class)
+
+  // Handle dismiss buttons
+  if (isDismissible) {
+    banner.querySelectorAll('[data-dismiss-banner]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        banner.classList.add('animate-fade-out');
+        setTimeout(function() {
+          banner.remove();
+        }, 200);
+        sessionStorage.setItem(storageKey, 'true');
+      });
+    });
+  }
+})();
+</script>
+
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY({{ position == 'top' and '-10px' or '10px' }}); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY({{ position == 'top' and '-10px' or '10px' }}); }
+}
+.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+.animate-fade-out { animation: fadeOut 0.2s ease-in forwards; }
+</style>
+
+{% endwith %}
+{% endwith %}
+{% endwith %}

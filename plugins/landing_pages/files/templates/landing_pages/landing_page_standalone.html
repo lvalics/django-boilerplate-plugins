@@ -1,0 +1,45 @@
+{% load i18n static landing_page_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ meta_title }}</title>
+  <meta name="description" content="{{ meta_description }}">
+  {% if canonical_url %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {% endif %}
+
+  <!-- Tailwind CSS (CDN build for standalone pages that skip the site template) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- DaisyUI -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- Zone Styles -->
+  <link rel="stylesheet" href="{% static 'landing_pages/css/zones.css' %}">
+
+  {% comment %}data-cookieyes="ignore" ensures the security CAPTCHA works even when cookies are rejected{% endcomment %}
+  {% if turnstile_key %}
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer data-cookieyes="ignore"></script>
+  {% endif %}
+</head>
+<body class="bg-base-100">
+  <div class="landing-page" data-page-id="{{ page.id }}">
+    {% for zone in zones %}
+      {% include zone.get_template_name with zone=zone turnstile_key=turnstile_key %}
+    {% empty %}
+      <div class="container mx-auto py-8">
+        <div class="alert alert-info">
+          {% translate "No content available for this page." %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script src="{% static 'landing_pages/js/zone-animations.js' %}"></script>
+  <script src="{% static 'landing_pages/js/carousel.js' %}"></script>
+  <script src="{% static 'landing_pages/js/lightbox.js' %}"></script>
+  <script src="{% static 'landing_pages/js/comparison.js' %}"></script>
+</body>
+</html>

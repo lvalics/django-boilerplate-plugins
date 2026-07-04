@@ -1,0 +1,74 @@
+id = "landing_pages"
+name = "Landing Pages CMS"
+version = "2.0.0"
+description = "Zone-based landing page builder scoped per site: 20+ zone types, DaisyUI templates, testimonials, order/contact submissions with Turnstile, Redis caching. Requires the multi_domain plugin."
+target = "django-boilerplate"
+edition = "free"
+
+python_dependencies = ["requests>=2.31"]
+
+installed_apps = ["apps.landing_pages"]
+
+files = [
+  "apps/landing_pages/**",
+  "templates/landing_pages/**",
+]
+
+# Turnstile keys are read via django-environ's `env` (already defined in the target
+# settings.py where this block is appended). Empty TURNSTILE_SECRET disables captcha
+# verification. Rate-limit defaults mirror the legacy plugin.
+settings_append = """
+TURNSTILE_KEY = env("TURNSTILE_KEY", default="")
+TURNSTILE_SECRET = env("TURNSTILE_SECRET", default="")
+LANDING_PAGES_RATE_LIMIT_IP_REQUESTS = 2
+LANDING_PAGES_RATE_LIMIT_IP_WINDOW = 3600
+LANDING_PAGES_RATE_LIMIT_EMAIL_REQUESTS = 3
+LANDING_PAGES_RATE_LIMIT_EMAIL_WINDOW = 86400
+LANDING_PAGES_EXEMPT_IPS = []
+LANDING_PAGES_CACHE_TIMEOUT = 300
+"""
+
+post_install_notes = """
+Landing Pages CMS installed. This plugin requires the multi_domain plugin (apps.sites)
+to be installed FIRST - it provides the SiteProfile model that pages are scoped to.
+
+1. Run migrations:  make migrations ARGS='landing_pages' && make migrate
+
+2. Install the zone template presets (90+ ready-made zone presets):
+     make manage ARGS='install_zone_templates'
+
+3. Create your first page in Admin > Landing Pages > Landing Pages: set a title/slug,
+   pick a site (or leave empty for all sites), then add zones. Zone content/config are
+   JSON; copy defaults from Admin > Zone Templates. Pages are served at /p/<slug>/.
+
+4. Optional bare URLs (/<slug>/ instead of /p/<slug>/): add a catch-all as the LAST
+   entry of your project urls.py:
+     from apps.landing_pages import views as lp_views
+     urlpatterns += [path("<slug:slug>/", lp_views.landing_page_view)]
+   See the plugin README ("Optional root catch-all") for the caveats.
+
+5. Optional Turnstile bot protection for order forms: set TURNSTILE_KEY and
+   TURNSTILE_SECRET in .env (free at https://dash.cloudflare.com/ > Turnstile).
+   With an empty TURNSTILE_SECRET, captcha verification is skipped.
+
+templates/landing_pages/tailwind-safelist.html is required for styling - do not
+delete it (see the README for why Tailwind's JIT needs it).
+"""
+
+[url_mappings]
+"p/" = "apps.landing_pages.urls"
+
+[requires]
+any_of = [ { app = "apps.sites" } ]
+
+[[env_vars]]
+name = "TURNSTILE_KEY"
+description = "Cloudflare Turnstile site key (public) for order-form captcha widgets"
+required = false
+default = ""
+
+[[env_vars]]
+name = "TURNSTILE_SECRET"
+description = "Cloudflare Turnstile secret key; empty disables captcha verification"
+required = false
+default = ""

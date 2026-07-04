@@ -1,0 +1,71 @@
+{% load i18n %}
+{# Comparison Slider Zone Template #}
+{# Before/After image comparison with draggable slider #}
+
+{% with content=zone.content config=zone.config %}
+
+<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+  <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'4xl' }}">
+
+    {% if content.title %}
+    <h2 class="text-3xl font-bold text-center mb-4">{{ content.title }}</h2>
+    {% endif %}
+
+    {% if content.subtitle %}
+    <p class="text-lg text-center text-base-content/70 mb-8 max-w-2xl mx-auto">{{ content.subtitle }}</p>
+    {% endif %}
+
+    {# Comparison Slider Container #}
+    <div class="comparison-slider relative overflow-hidden rounded-{{ config.rounded|default:'lg' }} shadow-{{ config.shadow|default:'xl' }} mx-auto"
+         style="max-width: {{ config.slider_max_width|default:'800px' }};"
+         data-initial="{{ config.initial_position|default:'50' }}">
+
+      {# After Image (right side - revealed) #}
+      <img src="{{ content.after_image }}"
+           alt="{{ content.after_label|default:'After' }}"
+           class="w-full h-auto block" />
+
+      {# Before Image (left side - hidden by clip) #}
+      <div class="comparison-before absolute inset-0 overflow-hidden"
+           style="clip-path: inset(0 50% 0 0);">
+        <img src="{{ content.before_image }}"
+             alt="{{ content.before_label|default:'Before' }}"
+             class="w-full h-auto block" />
+      </div>
+
+      {# Slider Handle #}
+      <div class="comparison-handle absolute top-0 bottom-0 w-1 bg-{{ config.handle_color|default:'white' }} cursor-ew-resize"
+           style="left: 50%; transform: translateX(-50%);">
+        {# Handle Circle #}
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-{{ config.handle_color|default:'white' }} shadow-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-{{ config.handle_icon_color|default:'base-content' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/>
+          </svg>
+        </div>
+      </div>
+
+      {# Hidden Range Input for Accessibility #}
+      <input type="range"
+             class="comparison-range sr-only"
+             min="0"
+             max="100"
+             value="{{ config.initial_position|default:'50' }}"
+             aria-label="{% translate 'Comparison slider' %}" />
+    </div>
+
+    {# Labels #}
+    {% if content.before_label or content.after_label %}
+    <div class="flex justify-between max-w-{{ config.slider_max_width|default:'800px' }} mx-auto mt-4 px-4">
+      <span class="text-sm font-medium text-base-content/70">{% if content.before_label %}{{ content.before_label }}{% else %}{% translate "Before" %}{% endif %}</span>
+      <span class="text-sm font-medium text-base-content/70">{% if content.after_label %}{{ content.after_label }}{% else %}{% translate "After" %}{% endif %}</span>
+    </div>
+    {% endif %}
+
+    {% if content.caption %}
+    <p class="text-center text-base-content/60 mt-4 text-sm">{{ content.caption }}</p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}

@@ -1,0 +1,312 @@
+{% load i18n %}
+{# About Us / About Instructor Zone Template #}
+{# Flexible about section with multiple layout options and scroll animations #}
+{# Styles: single-column, two-column, image-left, image-right, three-column, team-grid #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"image-left" %}
+
+<section class="about-section py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}"
+         {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
+  <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'6xl' }}">
+
+    {# Style: Single Column (Centered) #}
+    {% if style == "single-column" %}
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="about-content {% if config.animate != 'false' %}zone-item{% endif %}">
+        {% if content.badge %}
+        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        {% endif %}
+
+        {% if content.photo %}
+        <div class="avatar mb-6">
+          <div class="w-{{ config.avatar_size|default:'32' }} rounded-{{ config.avatar_shape|default:'full' }} ring ring-{{ config.ring_color|default:'primary' }} ring-offset-base-100 ring-offset-4 mx-auto">
+            <img src="{{ content.photo }}" alt="{{ content.name }}" loading="lazy" />
+          </div>
+        </div>
+        {% endif %}
+
+        {% if content.name %}
+        <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-{{ config.name_weight|default:'bold' }} text-{{ config.name_color|default:'base-content' }} mb-2">
+          {{ content.name }}
+        </h2>
+        {% endif %}
+
+        {% if content.title %}
+        <p class="text-{{ config.title_size|default:'xl' }} text-{{ config.title_color|default:'primary' }} mb-6">{{ content.title }}</p>
+        {% endif %}
+
+        {% if content.bio %}
+        <div class="prose prose-lg max-w-none text-{{ config.bio_color|default:'base-content/80' }} mb-8">
+          {{ content.bio|safe }}
+        </div>
+        {% endif %}
+
+        {% if content.credentials %}
+        <div class="flex flex-wrap gap-2 justify-center mb-6">
+          {% for credential in content.credentials %}
+          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% include "landing_pages/zones/_about_social_links.html" %}
+
+        {% if content.cta %}
+        <div class="mt-6">
+          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Two Column (Text | Text) #}
+    {% elif style == "two-column" %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-{{ config.gap|default:'12' }}">
+      {# Left Column #}
+      <div class="about-content {% if config.animate != 'false' %}zone-item{% endif %}">
+        {% if content.badge %}
+        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        {% endif %}
+
+        {% if content.name %}
+        <h2 class="text-{{ config.name_size|default:'3xl' }} font-bold mb-4">{{ content.name }}</h2>
+        {% endif %}
+
+        {% if content.title %}
+        <p class="text-xl text-{{ config.title_color|default:'primary' }} mb-4">{{ content.title }}</p>
+        {% endif %}
+
+        {% if content.intro %}
+        <div class="prose prose-lg max-w-none">
+          {{ content.intro|safe }}
+        </div>
+        {% endif %}
+      </div>
+
+      {# Right Column #}
+      <div class="about-content-secondary {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
+        {% if content.bio %}
+        <div class="prose prose-lg max-w-none mb-6">
+          {{ content.bio|safe }}
+        </div>
+        {% endif %}
+
+        {% if content.credentials %}
+        <div class="flex flex-wrap gap-2 mb-6">
+          {% for credential in content.credentials %}
+          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% include "landing_pages/zones/_about_social_links.html" %}
+
+        {% if content.cta %}
+        <div class="mt-6">
+          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Image Left #}
+    {% elif style == "image-left" %}
+    <div class="flex flex-col md:flex-row gap-{{ config.gap|default:'12' }} items-center">
+      {# Image Column #}
+      {% if content.photo %}
+      <div class="about-image md:w-{{ config.image_width|default:'2/5' }} flex-shrink-0 {% if config.animate != 'false' %}zone-item{% endif %}">
+        <div class="{% if config.image_style == 'rounded' %}rounded-{{ config.rounded|default:'2xl' }}{% elif config.image_style == 'circle' %}rounded-full aspect-square{% else %}rounded-{{ config.rounded|default:'2xl' }}{% endif %} overflow-hidden shadow-{{ config.shadow|default:'xl' }}">
+          <img src="{{ content.photo }}" alt="{{ content.name }}" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+      {% endif %}
+
+      {# Content Column #}
+      <div class="about-content flex-1 {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
+        {% if content.badge %}
+        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        {% endif %}
+
+        {% if content.name %}
+        <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-bold mb-2">{{ content.name }}</h2>
+        {% endif %}
+
+        {% if content.title %}
+        <p class="text-xl text-{{ config.title_color|default:'primary' }} mb-6">{{ content.title }}</p>
+        {% endif %}
+
+        {% if content.bio %}
+        <div class="prose prose-lg max-w-none mb-6">
+          {{ content.bio|safe }}
+        </div>
+        {% endif %}
+
+        {% if content.credentials %}
+        <div class="flex flex-wrap gap-2 mb-6">
+          {% for credential in content.credentials %}
+          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% include "landing_pages/zones/_about_social_links.html" %}
+
+        {% if content.cta %}
+        <div class="mt-6">
+          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Image Right #}
+    {% elif style == "image-right" %}
+    <div class="flex flex-col md:flex-row-reverse gap-{{ config.gap|default:'12' }} items-center">
+      {# Image Column #}
+      {% if content.photo %}
+      <div class="about-image md:w-{{ config.image_width|default:'2/5' }} flex-shrink-0 {% if config.animate != 'false' %}zone-item{% endif %}">
+        <div class="{% if config.image_style == 'rounded' %}rounded-{{ config.rounded|default:'2xl' }}{% elif config.image_style == 'circle' %}rounded-full aspect-square{% else %}rounded-{{ config.rounded|default:'2xl' }}{% endif %} overflow-hidden shadow-{{ config.shadow|default:'xl' }}">
+          <img src="{{ content.photo }}" alt="{{ content.name }}" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+      {% endif %}
+
+      {# Content Column #}
+      <div class="about-content flex-1 {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
+        {% if content.badge %}
+        <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+        {% endif %}
+
+        {% if content.name %}
+        <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-bold mb-2">{{ content.name }}</h2>
+        {% endif %}
+
+        {% if content.title %}
+        <p class="text-xl text-{{ config.title_color|default:'primary' }} mb-6">{{ content.title }}</p>
+        {% endif %}
+
+        {% if content.bio %}
+        <div class="prose prose-lg max-w-none mb-6">
+          {{ content.bio|safe }}
+        </div>
+        {% endif %}
+
+        {% if content.credentials %}
+        <div class="flex flex-wrap gap-2 mb-6">
+          {% for credential in content.credentials %}
+          <span class="badge badge-{{ config.credential_style|default:'outline' }} badge-lg">{{ credential }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% include "landing_pages/zones/_about_social_links.html" %}
+
+        {% if content.cta %}
+        <div class="mt-6">
+          <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_style|default:'primary' }}">{{ content.cta.text }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Three Column #}
+    {% elif style == "three-column" %}
+    <div class="text-center mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
+      {% if content.badge %}
+      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      {% endif %}
+
+      {% if content.title %}
+      <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-bold mb-4">{{ content.title }}</h2>
+      {% endif %}
+
+      {% if content.subtitle %}
+      <p class="text-lg text-base-content/70 max-w-2xl mx-auto">{{ content.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-{{ config.gap|default:'8' }}">
+      {% for column in content.columns %}
+      <div class="about-item text-center {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+        {% if column.icon %}
+        <div class="text-5xl mb-4">{{ column.icon }}</div>
+        {% endif %}
+
+        {% if column.image %}
+        <div class="mb-4">
+          <img src="{{ column.image }}" alt="{{ column.heading }}" class="w-full h-48 object-cover rounded-{{ config.rounded|default:'xl' }}" loading="lazy" />
+        </div>
+        {% endif %}
+
+        {% if column.heading %}
+        <h3 class="text-xl font-semibold mb-3">{{ column.heading }}</h3>
+        {% endif %}
+
+        {% if column.text %}
+        <p class="text-base-content/70">{{ column.text }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Style: Team Grid #}
+    {% elif style == "team-grid" %}
+    <div class="text-center mb-{{ config.header_margin|default:'12' }} {% if config.animate != 'false' %}zone-header{% endif %}">
+      {% if content.badge %}
+      <span class="badge badge-{{ config.badge_color|default:'primary' }} mb-4">{{ content.badge }}</span>
+      {% endif %}
+
+      {% if content.title %}
+      <h2 class="text-{{ config.name_size|default:'3xl' }} md:text-{{ config.name_size_md|default:'4xl' }} font-bold mb-4">{{ content.title }}</h2>
+      {% endif %}
+
+      {% if content.subtitle %}
+      <p class="text-lg text-base-content/70 max-w-2xl mx-auto">{{ content.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-{{ config.columns|default:'3' }} gap-{{ config.gap|default:'8' }}">
+      {% for member in content.team %}
+      <div class="about-item text-center {% if config.animate != 'false' %}zone-item{% endif %}"
+           {% if config.animate != 'false' %}style="--delay: {{ forloop.counter0 }}00ms;"{% endif %}>
+        {% if member.photo %}
+        <div class="avatar mb-4">
+          <div class="w-{{ config.avatar_size|default:'32' }} rounded-{{ config.avatar_shape|default:'full' }} mx-auto ring ring-{{ config.ring_color|default:'base-300' }} ring-offset-2">
+            <img src="{{ member.photo }}" alt="{{ member.name }}" loading="lazy" />
+          </div>
+        </div>
+        {% endif %}
+
+        {% if member.name %}
+        <h3 class="text-xl font-semibold">{{ member.name }}</h3>
+        {% endif %}
+
+        {% if member.role %}
+        <p class="text-{{ config.title_color|default:'primary' }} mb-2">{{ member.role }}</p>
+        {% endif %}
+
+        {% if member.bio %}
+        <p class="text-base-content/70 text-sm">{{ member.bio }}</p>
+        {% endif %}
+
+        {% if member.social_links %}
+        <div class="flex gap-2 justify-center mt-4">
+          {% for link in member.social_links %}
+          <a href="{{ link.url }}" target="_blank" rel="noopener" class="btn btn-ghost btn-circle btn-sm">
+            {% include "landing_pages/zones/_social_icon.html" with platform=link.platform %}
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}
+{% endwith %}

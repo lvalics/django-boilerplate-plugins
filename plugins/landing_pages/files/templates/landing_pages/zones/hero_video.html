@@ -1,0 +1,173 @@
+{% load i18n landing_page_tags %}
+{# Hero Video Zone Template #}
+{# Styles: Visual Split (default), Fullscreen #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"Visual Split" %}
+
+{% if style == "Fullscreen" %}
+{# ═══════════════════════════════════════════════════════════════ #}
+{# FULLSCREEN HERO - Full viewport with background video/image    #}
+{# ═══════════════════════════════════════════════════════════════ #}
+{# Support both naming conventions: background_image/background_video OR image_url/video_url #}
+{% firstof content.background_image content.image_url as bg_image %}
+{% firstof content.background_video content.video_url as bg_video %}
+{% with bg_media=bg_image %}
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background Media (auto-detects video vs image) -->
+  {% if bg_video or bg_media|is_video_url %}
+  <video class="absolute inset-0 w-full h-full object-cover"
+         autoplay muted loop playsinline
+         {% if content.video_poster %}poster="{{ content.video_poster }}"{% endif %}>
+    <source src="{% firstof bg_video bg_media %}" type="video/mp4">
+  </video>
+  {% elif bg_media %}
+  <img src="{{ bg_media }}"
+       alt="{% firstof content.background_alt content.image_alt %}{% if not content.background_alt and not content.image_alt %}{% translate 'Hero background' %}{% endif %}"
+       class="absolute inset-0 w-full h-full object-cover object-{{ config.background_position|default:'center' }}" />
+  {% endif %}
+
+  <!-- Dark Overlay -->
+  <div class="absolute inset-0 bg-{{ config.overlay_color|default:'black' }}/{{ config.overlay_opacity|default:'50' }}"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 container mx-auto px-4 text-center">
+    {% if content.badge_text %}
+    <span class="inline-block px-4 py-1 mb-6 text-sm font-medium rounded-full bg-{{ config.badge_bg|default:'primary' }}/20 text-{{ config.badge_text_color|default:'primary-content' }} border border-{{ config.badge_border|default:'primary' }}/30">
+      {{ content.badge_text }}
+    </span>
+    {% endif %}
+
+    {% if content.headline %}
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight text-{{ config.text_color|default:'white' }} md:text-5xl lg:text-6xl xl:text-7xl animate-fade-in-up">
+      {{ content.headline |safe }}
+    </h1>
+    {% endif %}
+
+    {% if content.subheadline %}
+    <p class="mx-auto mb-8 max-w-3xl text-lg text-{{ config.subtext_color|default:'white/80' }} lg:text-xl xl:text-2xl animate-fade-in-up animation-delay-200">
+      {{ content.subheadline |safe }}
+    </p>
+    {% endif %}
+
+    <div class="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up animation-delay-400">
+      {% if content.primary_cta_text and content.primary_cta_url %}
+      <a href="{{ content.primary_cta_url }}"
+         class="btn btn-{{ config.primary_cta_style|default:'primary' }} btn-lg gap-2"
+         data-event="cta_click"
+         data-zone-id="{{ zone.id }}"
+         data-cta-type="primary">
+        {{ content.primary_cta_text |safe }}
+        {% if config.primary_cta_icon %}
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+        {% endif %}
+      </a>
+      {% endif %}
+
+      {% if content.secondary_cta_text and content.secondary_cta_url %}
+      <a href="{{ content.secondary_cta_url }}"
+         class="btn btn-{{ config.secondary_cta_style|default:'ghost' }} btn-lg text-{{ config.text_color|default:'white' }} border-{{ config.text_color|default:'white' }}/30 hover:bg-{{ config.text_color|default:'white' }}/10"
+         data-event="cta_click"
+         data-zone-id="{{ zone.id }}"
+         data-cta-type="secondary">
+        {{ content.secondary_cta_text |safe }}
+      </a>
+      {% endif %}
+    </div>
+
+    {% if content.scroll_indicator %}
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-{{ config.text_color|default:'white' }}/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+{% else %}
+{# ═══════════════════════════════════════════════════════════════ #}
+{# VISUAL SPLIT HERO (default) - Two column: content + image/video #}
+{# ═══════════════════════════════════════════════════════════════ #}
+<section class="{% if not config.background_color or config.background_color|slice:':1' != '#' %}bg-{{ config.background_color|default:'base-100' }}{% endif %}"{% if config.background_color and config.background_color|slice:":1" == "#" %} style="background-color: {{ config.background_color }}"{% endif %}>
+  <div class="container mx-auto px-4 py-8 lg:py-16">
+    <div class="grid lg:grid-cols-12 lg:gap-8 xl:gap-12 items-center">
+      <!-- Left Content -->
+      <div class="lg:col-span-7 mb-8 lg:mb-0">
+        {% if content.headline %}
+        <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">
+          {{ content.headline |safe }}
+        </h1>
+        {% endif %}
+
+        {% if content.subheadline %}
+        <p class="max-w-2xl mb-6 font-light text-base-content/70 lg:mb-8 md:text-lg lg:text-xl">
+          {{ content.subheadline |safe }}
+        </p>
+        {% endif %}
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          {% if content.primary_cta_text and content.primary_cta_url %}
+          <a href="{{ content.primary_cta_url }}"
+             class="btn btn-{{ config.primary_cta_style|default:'primary' }} btn-lg inline-flex items-center justify-center gap-2"
+             data-event="cta_click"
+             data-zone-id="{{ zone.id }}"
+             data-cta-type="primary">
+            {{ content.primary_cta_text |safe }}
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </a>
+          {% endif %}
+
+          {% if content.secondary_cta_text and content.secondary_cta_url %}
+          <a href="{{ content.secondary_cta_url }}"
+             class="btn btn-{{ config.secondary_cta_style|default:'ghost' }} btn-lg inline-flex items-center justify-center"
+             data-event="cta_click"
+             data-zone-id="{{ zone.id }}"
+             data-cta-type="secondary">
+            {{ content.secondary_cta_text |safe }}
+          </a>
+          {% endif %}
+        </div>
+
+        {% if content.trust_badges %}
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          {% for badge in content.trust_badges %}
+          <div class="flex items-center gap-2 text-sm text-base-content/60">
+            {% if badge.icon %}
+            <span>{{ badge.icon |safe }}</span>
+            {% endif %}
+            <span>{{ badge.text |safe }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Right Visual -->
+      <div class="hidden lg:col-span-5 lg:flex lg:justify-end{% if config.image_container_bg and config.image_container_bg|slice:':1' != '#' %} bg-{{ config.image_container_bg }}{% endif %} rounded-lg p-4"{% if config.image_container_bg and config.image_container_bg|slice:":1" == "#" %} style="background-color: {{ config.image_container_bg }}"{% endif %}>
+        {% if content.image_url %}
+        <img src="{{ content.image_url }}"
+             alt="{% if content.image_alt %}{{ content.image_alt }}{% else %}{% translate 'Hero image' %}{% endif %}"
+             class="max-w-full h-auto {{ config.image_class|default:'rounded-lg shadow-2xl' }}" />
+        {% elif content.video_url %}
+        <div class="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
+          <iframe src="{{ content.video_url }}"
+                  class="w-full h-full"
+                  frameborder="0"
+
+                  allowfullscreen></iframe>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endwith %}
+{% endwith %}

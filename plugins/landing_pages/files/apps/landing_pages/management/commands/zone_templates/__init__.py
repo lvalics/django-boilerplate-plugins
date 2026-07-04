@@ -1,0 +1,87 @@
+"""
+Zone Templates Package.
+
+This package contains all zone template definitions, organized by zone type.
+Import ZONE_TEMPLATES from here to get the complete list of all templates.
+"""
+
+from .about_instructor import ABOUT_INSTRUCTOR_TEMPLATES
+from .banner import BANNER_TEMPLATES
+from .benefits_grid import BENEFITS_GRID_TEMPLATES
+from .carousel import CAROUSEL_TEMPLATES
+from .comparison import COMPARISON_TEMPLATES
+from .curriculum import CURRICULUM_TEMPLATES
+from .faq import FAQ_TEMPLATES
+from .final_cta import FINAL_CTA_TEMPLATES
+from .footer import FOOTER_TEMPLATES
+from .gallery import GALLERY_TEMPLATES
+from .guarantee import GUARANTEE_TEMPLATES
+from .hero import HERO_TEMPLATES
+from .jumbotron import JUMBOTRON_TEMPLATES
+from .order_form import ORDER_FORM_TEMPLATES
+from .pricing import PRICING_TEMPLATES
+from .qr_code import QR_CODE_TEMPLATES
+from .redirect import REDIRECT_TEMPLATES
+from .showcase import SHOWCASE_TEMPLATES
+from .social_proof_cta import SOCIAL_PROOF_CTA_TEMPLATES
+from .table import TABLE_TEMPLATES
+from .testimonial import TESTIMONIAL_TEMPLATES
+from .testimonials_grid import TESTIMONIALS_GRID_TEMPLATES
+from .timeline import TIMELINE_TEMPLATES
+from .video import VIDEO_TEMPLATES
+
+# Combined list of all zone templates
+ZONE_TEMPLATES = (
+    HERO_TEMPLATES
+    + CAROUSEL_TEMPLATES
+    + GALLERY_TEMPLATES
+    + TESTIMONIAL_TEMPLATES
+    + REDIRECT_TEMPLATES
+    + JUMBOTRON_TEMPLATES
+    + TABLE_TEMPLATES
+    + QR_CODE_TEMPLATES
+    + TIMELINE_TEMPLATES
+    + VIDEO_TEMPLATES
+    + COMPARISON_TEMPLATES
+    + SHOWCASE_TEMPLATES
+    + BENEFITS_GRID_TEMPLATES
+    + SOCIAL_PROOF_CTA_TEMPLATES
+    + CURRICULUM_TEMPLATES
+    + TESTIMONIALS_GRID_TEMPLATES
+    + PRICING_TEMPLATES
+    + ABOUT_INSTRUCTOR_TEMPLATES
+    + GUARANTEE_TEMPLATES
+    + FAQ_TEMPLATES
+    + FINAL_CTA_TEMPLATES
+    + BANNER_TEMPLATES
+    + FOOTER_TEMPLATES
+    + ORDER_FORM_TEMPLATES
+)
+
+__all__ = [
+    "ZONE_TEMPLATES",
+    "HERO_TEMPLATES",
+    "CAROUSEL_TEMPLATES",
+    "GALLERY_TEMPLATES",
+    "TESTIMONIAL_TEMPLATES",
+    "REDIRECT_TEMPLATES",
+    "JUMBOTRON_TEMPLATES",
+    "TABLE_TEMPLATES",
+    "QR_CODE_TEMPLATES",
+    "TIMELINE_TEMPLATES",
+    "VIDEO_TEMPLATES",
+    "COMPARISON_TEMPLATES",
+    "SHOWCASE_TEMPLATES",
+    "BENEFITS_GRID_TEMPLATES",
+    "SOCIAL_PROOF_CTA_TEMPLATES",
+    "CURRICULUM_TEMPLATES",
+    "TESTIMONIALS_GRID_TEMPLATES",
+    "PRICING_TEMPLATES",
+    "ABOUT_INSTRUCTOR_TEMPLATES",
+    "GUARANTEE_TEMPLATES",
+    "FAQ_TEMPLATES",
+    "FINAL_CTA_TEMPLATES",
+    "BANNER_TEMPLATES",
+    "FOOTER_TEMPLATES",
+    "ORDER_FORM_TEMPLATES",
+]

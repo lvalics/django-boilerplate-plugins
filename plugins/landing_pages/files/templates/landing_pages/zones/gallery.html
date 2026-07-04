@@ -1,0 +1,381 @@
+{% load i18n %}
+{# Gallery Zone Template - Multiple Flowbite-style layouts #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"grid" %}
+<section class="py-{{ config.padding_y|default:'16' }} bg-{{ config.background_color|default:'base-100' }}">
+  <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
+
+    {% if content.title %}
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">{{ content.title }}</h2>
+    {% endif %}
+
+    {% if content.subtitle %}
+    <p class="text-lg text-center text-base-content/70 mb-8 max-w-2xl mx-auto">{{ content.subtitle }}</p>
+    {% endif %}
+
+    {% if style == "masonry" %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# MASONRY GRID - 4-column Pinterest-style layout #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for column in content.columns %}
+      <div class="grid gap-4">
+        {% for image in column.images %}
+        <div>
+          <img class="h-auto max-w-full rounded-{{ config.border_radius|default:'lg' }}{% if config.hover_effect %} transition-transform duration-300 hover:scale-105{% endif %}"
+               src="{{ image.url }}" alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}"
+               {% if config.enable_lightbox %}data-lightbox="{{ zone.id }}" data-index="{{ forloop.parentloop.counter0 }}-{{ forloop.counter0 }}"{% endif %}>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    {% elif style == "featured" %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# FEATURED IMAGE - Large hero + grid below #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div class="grid gap-4">
+      {% if content.featured %}
+      <div>
+        <img class="h-auto max-w-full rounded-{{ config.border_radius|default:'lg' }} w-full object-cover"
+             style="{% if config.featured_height %}height: {{ config.featured_height }}px; object-fit: cover;{% endif %}"
+             src="{{ content.featured.url }}" alt="{% if content.featured.alt %}{{ content.featured.alt }}{% else %}{% translate 'Featured image' %}{% endif %}">
+      </div>
+      {% endif %}
+      <div class="grid grid-cols-{{ config.columns|default:5 }} gap-4">
+        {% for image in content.images %}
+        <div>
+          <img class="h-auto max-w-full rounded-{{ config.border_radius|default:'lg' }}{% if config.hover_effect %} transition-transform duration-300 hover:scale-105{% endif %}"
+               src="{{ image.url }}" alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% elif style == "quad" %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# QUAD GALLERY - 2x2 grid layout #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div class="grid grid-cols-2 gap-{{ config.gap|default:'2' }} max-w-2xl mx-auto">
+      {% for image in content.images|slice:":4" %}
+      <div>
+        <img class="h-auto max-w-full rounded-{{ config.border_radius|default:'lg' }} aspect-square object-cover{% if config.hover_effect %} transition-transform duration-300 hover:scale-105{% endif %}"
+             src="{{ image.url }}" alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}">
+      </div>
+      {% endfor %}
+    </div>
+
+    {% elif style == "slider" %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# GALLERY WITH SLIDER - Carousel style #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div id="gallery-{{ zone.id }}" class="relative w-full" data-carousel="slide">
+      <div class="relative overflow-hidden rounded-{{ config.border_radius|default:'lg' }}"
+           style="height: {{ config.height|default:'400' }}px;">
+        {% for image in content.images %}
+        <div class="{% if not forloop.first %}hidden{% endif %} duration-700 ease-in-out" data-carousel-item{% if forloop.first %}="active"{% endif %}>
+          <img src="{{ image.url }}"
+               class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+               alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}">
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Slider controls -->
+      <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+        </span>
+      </button>
+      <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- Slider JavaScript -->
+    <script>
+    (function() {
+      const gallery = document.getElementById('gallery-{{ zone.id }}');
+      if (!gallery) return;
+
+      const items = gallery.querySelectorAll('[data-carousel-item]');
+      const prevBtn = gallery.querySelector('[data-carousel-prev]');
+      const nextBtn = gallery.querySelector('[data-carousel-next]');
+
+      let currentIndex = 0;
+      const interval = {{ config.auto_slide_interval|default:5000 }};
+      let autoSlide;
+
+      function showSlide(index) {
+        items.forEach((item, i) => {
+          item.classList.toggle('hidden', i !== index);
+          item.setAttribute('data-carousel-item', i === index ? 'active' : '');
+        });
+        currentIndex = index;
+      }
+
+      function next() { showSlide((currentIndex + 1) % items.length); }
+      function prev() { showSlide((currentIndex - 1 + items.length) % items.length); }
+
+      prevBtn?.addEventListener('click', () => { prev(); resetAutoSlide(); });
+      nextBtn?.addEventListener('click', () => { next(); resetAutoSlide(); });
+
+      function resetAutoSlide() {
+        clearInterval(autoSlide);
+        {% if config.auto_slide|default:True %}autoSlide = setInterval(next, interval);{% endif %}
+      }
+
+      {% if config.auto_slide|default:True %}autoSlide = setInterval(next, interval);{% endif %}
+      gallery.addEventListener('mouseenter', () => clearInterval(autoSlide));
+      gallery.addEventListener('mouseleave', resetAutoSlide);
+    })();
+    </script>
+
+    {% elif style == "slider-bottom-controls" %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# SLIDER WITH BOTTOM CONTROLS #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div id="gallery-{{ zone.id }}" class="relative w-full">
+      <div class="relative overflow-hidden rounded-{{ config.border_radius|default:'lg' }}"
+           style="height: {{ config.height|default:'400' }}px;">
+        {% for image in content.images %}
+        <div class="{% if not forloop.first %}hidden{% endif %} duration-700 ease-in-out" data-carousel-item{% if forloop.first %}="active"{% endif %}>
+          <img src="{{ image.url }}"
+               class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+               alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}">
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Bottom controls -->
+      <div class="flex justify-center items-center pt-4 gap-4">
+        <button type="button" class="flex items-center justify-center w-10 h-10 rounded-full bg-base-200 hover:bg-base-300" data-carousel-prev>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+        </button>
+        <span class="text-sm text-base-content/70"><span data-current-slide>1</span> / {{ content.images|length }}</span>
+        <button type="button" class="flex items-center justify-center w-10 h-10 rounded-full bg-base-200 hover:bg-base-300" data-carousel-next>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Slider JavaScript -->
+    <script>
+    (function() {
+      const gallery = document.getElementById('gallery-{{ zone.id }}');
+      if (!gallery) return;
+
+      const items = gallery.querySelectorAll('[data-carousel-item]');
+      const prevBtn = gallery.querySelector('[data-carousel-prev]');
+      const nextBtn = gallery.querySelector('[data-carousel-next]');
+      const currentSlideEl = gallery.querySelector('[data-current-slide]');
+
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        items.forEach((item, i) => {
+          item.classList.toggle('hidden', i !== index);
+          item.setAttribute('data-carousel-item', i === index ? 'active' : '');
+        });
+        currentIndex = index;
+        if (currentSlideEl) currentSlideEl.textContent = index + 1;
+      }
+
+      function next() { showSlide((currentIndex + 1) % items.length); }
+      function prev() { showSlide((currentIndex - 1 + items.length) % items.length); }
+
+      prevBtn?.addEventListener('click', prev);
+      nextBtn?.addEventListener('click', next);
+    })();
+    </script>
+
+    {% elif style == "filterable" %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# GALLERY WITH TAG FILTERS #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div id="gallery-{{ zone.id }}">
+      <!-- Filter buttons -->
+      <div class="flex items-center justify-center py-4 flex-wrap gap-2 mb-6">
+        <button type="button" data-filter="all"
+                class="filter-btn px-5 py-2.5 text-sm font-medium rounded-full border border-{{ config.active_color|default:'primary' }} bg-{{ config.active_color|default:'primary' }} text-{{ config.active_text|default:'primary-content' }}">
+          {% translate "All" %}
+        </button>
+        {% for category in content.categories %}
+        <button type="button" data-filter="{{ category.slug }}"
+                class="filter-btn px-5 py-2.5 text-sm font-medium rounded-full border border-base-300 bg-base-100 text-base-content hover:bg-base-200">
+          {{ category.name }}
+        </button>
+        {% endfor %}
+      </div>
+
+      <!-- Gallery grid -->
+      <div class="grid grid-cols-2 md:grid-cols-{{ config.columns|default:3 }} gap-4">
+        {% for image in content.images %}
+        <div class="gallery-item" data-category="{{ image.category|default:'all' }}">
+          <img class="h-auto max-w-full rounded-{{ config.border_radius|default:'lg' }}{% if config.hover_effect %} transition-transform duration-300 hover:scale-105{% endif %}"
+               src="{{ image.url }}" alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}">
+          {% if image.caption %}
+          <p class="text-sm text-base-content/70 mt-2 text-center">{{ image.caption }}</p>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Filter JavaScript -->
+    <script>
+    (function() {
+      const gallery = document.getElementById('gallery-{{ zone.id }}');
+      if (!gallery) return;
+
+      const filterBtns = gallery.querySelectorAll('.filter-btn');
+      const items = gallery.querySelectorAll('.gallery-item');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const filter = this.dataset.filter;
+
+          // Update button styles
+          filterBtns.forEach(b => {
+            b.classList.remove('bg-{{ config.active_color|default:"primary" }}', 'text-{{ config.active_text|default:"primary-content" }}', 'border-{{ config.active_color|default:"primary" }}');
+            b.classList.add('bg-base-100', 'text-base-content', 'border-base-300');
+          });
+          this.classList.remove('bg-base-100', 'text-base-content', 'border-base-300');
+          this.classList.add('bg-{{ config.active_color|default:"primary" }}', 'text-{{ config.active_text|default:"primary-content" }}', 'border-{{ config.active_color|default:"primary" }}');
+
+          // Filter items
+          items.forEach(item => {
+            const category = item.dataset.category;
+            if (filter === 'all' || category === filter || category.includes(filter)) {
+              item.style.display = '';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+    </script>
+
+    {% else %}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    {# DEFAULT GRID - Simple responsive grid #}
+    {# ═══════════════════════════════════════════════════════════════ #}
+    <div class="grid grid-cols-2 md:grid-cols-{{ config.columns|default:3 }} gap-{{ config.gap|default:'4' }}">
+      {% for image in content.images %}
+      <div class="{% if config.hover_effect %}group{% endif %}">
+        <img class="h-auto max-w-full rounded-{{ config.border_radius|default:'lg' }} w-full{% if config.aspect_ratio %} aspect-{{ config.aspect_ratio }} object-cover{% endif %}{% if config.hover_effect %} transition-transform duration-300 group-hover:scale-105{% endif %}"
+             src="{{ image.url }}" alt="{% if image.alt %}{{ image.alt }}{% else %}{% translate 'Gallery image' %}{% endif %}"
+             {% if config.enable_lightbox %}data-lightbox="{{ zone.id }}" data-index="{{ forloop.counter0 }}"{% endif %}>
+        {% if image.caption %}
+        <p class="text-sm text-base-content/70 mt-2 {% if config.caption_align %}text-{{ config.caption_align }}{% else %}text-center{% endif %}">{{ image.caption }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% if config.enable_lightbox %}
+<!-- Lightbox Modal -->
+<div id="lightbox-{{ zone.id }}" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4">
+  <button type="button" data-lightbox-close
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+
+  <button type="button" data-lightbox-prev
+          class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 6 10">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+    </svg>
+  </button>
+  <button type="button" data-lightbox-next
+          class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 6 10">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+    </svg>
+  </button>
+
+  <div class="lightbox-content max-w-5xl max-h-[90vh] flex items-center justify-center">
+    <img src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg">
+  </div>
+</div>
+
+<script>
+(function() {
+  const images = {{ content.images|safe }};
+  const lightbox = document.getElementById('lightbox-{{ zone.id }}');
+  if (!lightbox || !images.length) return;
+
+  const lightboxImg = lightbox.querySelector('.lightbox-content img');
+  const closeBtn = lightbox.querySelector('[data-lightbox-close]');
+  const prevBtn = lightbox.querySelector('[data-lightbox-prev]');
+  const nextBtn = lightbox.querySelector('[data-lightbox-next]');
+
+  let currentIndex = 0;
+
+  function showImage(index) {
+    currentIndex = index;
+    const image = images[index];
+    if (image) {
+      lightboxImg.src = image.url;
+      lightboxImg.alt = image.alt || '{% translate "Gallery image" %}';
+    }
+  }
+
+  function openLightbox(index) {
+    showImage(index);
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  // Click handlers for images
+  document.querySelectorAll('[data-lightbox="{{ zone.id }}"]').forEach(img => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', function() {
+      const index = parseInt(this.dataset.index, 10);
+      openLightbox(index);
+    });
+  });
+
+  closeBtn?.addEventListener('click', closeLightbox);
+  prevBtn?.addEventListener('click', () => showImage((currentIndex - 1 + images.length) % images.length));
+  nextBtn?.addEventListener('click', () => showImage((currentIndex + 1) % images.length));
+
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showImage((currentIndex - 1 + images.length) % images.length);
+    if (e.key === 'ArrowRight') showImage((currentIndex + 1) % images.length);
+  });
+})();
+</script>
+{% endif %}
+
+{% endwith %}
+{% endwith %}

@@ -1,0 +1,23 @@
+{# Schema.org Review Markup for Testimonials #}
+{% if testimonial and testimonial.schema_markup %}
+<script type="application/ld+json">
+{{ testimonial.schema_markup|safe }}
+</script>
+{% elif testimonial %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "reviewBody": "{{ testimonial.text|escapejs }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ testimonial.author_name|escapejs }}"
+  }{% if testimonial.rating %},
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "{{ testimonial.rating }}",
+    "bestRating": "5"
+  }{% endif %}
+}
+</script>
+{% endif %}

@@ -1,0 +1,87 @@
+{% load i18n %}
+{# Video Zone Template #}
+{# Supports: self-hosted, YouTube, Vimeo #}
+{# Config options: autoplay, muted, controls, loop, aspect ratio, sizing #}
+
+{% with content=zone.content config=zone.config %}
+
+<section class="py-{{ config.padding_y|default:'12' }} bg-{{ config.background_color|default:'base-100' }}">
+  <div class="container mx-auto px-4 {% if config.max_width %}max-w-{{ config.max_width }}{% endif %}">
+
+    {% if content.title %}
+    <h2 class="text-3xl font-bold text-center mb-4">{{ content.title }}</h2>
+    {% endif %}
+
+    {% if content.subtitle %}
+    <p class="text-lg text-center text-base-content/70 mb-8 max-w-2xl mx-auto">{{ content.subtitle }}</p>
+    {% endif %}
+
+    {# Video Container #}
+    <div class="{% if config.centered %}mx-auto{% endif %} {% if config.video_max_width %}max-w-{{ config.video_max_width }}{% endif %}">
+
+      {# Aspect Ratio Wrapper #}
+      <div class="{% if config.aspect_ratio == '4:3' %}aspect-[4/3]{% elif config.aspect_ratio == '1:1' %}aspect-square{% elif config.aspect_ratio == '21:9' %}aspect-[21/9]{% else %}aspect-video{% endif %}
+                  {% if config.rounded %}rounded-{{ config.rounded }}{% endif %}
+                  {% if config.border %}border border-{{ config.border_color|default:'base-300' }}{% endif %}
+                  {% if config.shadow %}shadow-{{ config.shadow }}{% endif %}
+                  overflow-hidden
+                  {% if config.ring %}ring-{{ config.ring }} ring-{{ config.ring_color|default:'primary' }} ring-offset-{{ config.ring_offset|default:'2' }}{% endif %}">
+
+        {% if content.source == "youtube" %}
+        {# YouTube Embed #}
+        <iframe class="w-full h-full"
+                src="https://www.youtube.com/embed/{{ content.video_id }}?{% if config.autoplay %}autoplay=1&mute=1{% endif %}{% if config.loop %}&loop=1&playlist={{ content.video_id }}{% endif %}{% if not config.controls %}&controls=0{% endif %}{% if config.start %}&start={{ config.start }}{% endif %}"
+                title="{{ content.title|default:'Video' }}"
+                frameborder="0"
+                allowfullscreen>
+        </iframe>
+
+        {% elif content.source == "vimeo" %}
+        {# Vimeo Embed #}
+        <iframe class="w-full h-full"
+                src="https://player.vimeo.com/video/{{ content.video_id }}?{% if config.autoplay %}autoplay=1&muted=1{% endif %}{% if config.loop %}&loop=1{% endif %}{% if not config.controls %}&controls=0{% endif %}"
+                title="{{ content.title|default:'Video' }}"
+                frameborder="0"
+                allowfullscreen>
+        </iframe>
+
+        {% else %}
+        {# Self-hosted Video (default) #}
+        <video class="w-full h-full object-{{ config.object_fit|default:'cover' }}"
+               {% if config.autoplay %}autoplay{% endif %}
+               {% if config.muted %}muted{% endif %}
+               {% if config.loop %}loop{% endif %}
+               {% if config.controls|default:True %}controls{% endif %}
+               {% if config.playsinline %}playsinline{% endif %}
+               {% if content.poster %}poster="{{ content.poster }}"{% endif %}
+               preload="{{ config.preload|default:'metadata' }}">
+          <source src="{{ content.video_url }}" type="{{ content.video_type|default:'video/mp4' }}">
+          {% if content.video_url_webm %}
+          <source src="{{ content.video_url_webm }}" type="video/webm">
+          {% endif %}
+          {% translate "Your browser does not support the video tag." %}
+        </video>
+        {% endif %}
+
+      </div>
+
+      {# Caption #}
+      {% if content.caption %}
+      <p class="text-sm text-base-content/60 text-center mt-3">{{ content.caption }}</p>
+      {% endif %}
+
+    </div>
+
+    {# CTA below video #}
+    {% if content.cta %}
+    <div class="text-center mt-8">
+      <a href="{{ content.cta.url }}" class="btn btn-{{ config.cta_color|default:'primary' }} {% if config.cta_size %}btn-{{ config.cta_size }}{% endif %}">
+        {{ content.cta.text }}
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}

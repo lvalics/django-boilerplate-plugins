@@ -1,0 +1,307 @@
+{% load i18n %}
+{# Final CTA Zone Template #}
+{# Last chance call-to-action with urgency and multiple style options #}
+{# Styles: centered, split, gradient, minimal, boxed #}
+
+{% with content=zone.content config=zone.config %}
+{% with style=config.style|default:"centered" %}
+
+<section class="final-cta-section py-{{ config.padding_y|default:'20' }}
+                {% if style == 'gradient' %}text-white
+                {% elif style == 'boxed' %}{% if config.background_color|slice:':1' == '#' %}{% else %}bg-{{ config.background_color|default:'base-200' }}{% endif %}
+                {% elif style == 'minimal' %}{% if config.background_color|slice:':1' == '#' %}{% else %}bg-{{ config.background_color|default:'base-200' }}{% endif %}
+                {% else %}{% if config.background_color|slice:':1' == '#' %}{% else %}bg-{{ config.background_color|default:'primary' }}{% endif %} text-{{ config.text_color|default:'primary-content' }}{% endif %}"
+         {% if style == 'gradient' %}style="background: linear-gradient(to bottom right, {{ config.gradient_from_color|default:'#0f172a' }}, {{ config.gradient_to_color|default:'#334155' }});"
+         {% elif config.background_color|slice:':1' == '#' %}style="background-color: {{ config.background_color }};"{% endif %}
+         {% if config.animate != 'false' %}data-zone-animate="true"{% endif %}>
+  <div class="container mx-auto px-4 max-w-{{ config.max_width|default:'5xl' }}">
+
+    {# Style: Centered (Default) #}
+    {% if style == "centered" %}
+    <div class="text-center">
+      <div class="final-cta-content {% if config.animate != 'false' %}zone-item{% endif %}">
+        {% if content.urgency_text %}
+        <div class="badge badge-{{ config.urgency_color|default:'warning' }} badge-lg mb-6 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
+          {{ content.urgency_text |safe }}
+        </div>
+        {% endif %}
+
+        {% if content.headline %}
+        <h2 class="text-{{ config.title_size|default:'4xl' }} md:text-{{ config.title_size_md|default:'5xl' }} font-{{ config.title_weight|default:'bold' }} mb-6">
+          {{ content.headline |safe }}
+        </h2>
+        {% endif %}
+
+        {% if content.subheadline %}
+        <p class="text-{{ config.subtitle_size|default:'xl' }} md:text-{{ config.subtitle_size_md|default:'2xl' }} mb-8 opacity-90 max-w-3xl mx-auto">
+          {{ content.subheadline |safe }}
+        </p>
+        {% endif %}
+
+        {% if content.features %}
+        <div class="flex flex-wrap justify-center gap-6 mb-8">
+          {% for feature in content.features %}
+          <div class="flex items-center gap-2 opacity-90">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>{{ feature |safe }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          {% if content.cta_text and content.cta_url %}
+          <a href="{{ content.cta_url }}"
+             class="btn btn-{{ config.cta_style|default:'secondary' }} btn-{{ config.cta_size|default:'lg' }}"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
+            {{ content.cta_text |safe }}
+          </a>
+          {% endif %}
+
+          {% if content.secondary_cta_text and content.secondary_cta_url %}
+          <a href="{{ content.secondary_cta_url }}"
+             class="btn btn-outline btn-{{ config.cta_size|default:'lg' }} {% if style != 'boxed' and style != 'minimal' %}border-current text-current hover:bg-white/10{% endif %}"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="secondary">
+            {{ content.secondary_cta_text |safe }}
+          </a>
+          {% endif %}
+        </div>
+
+        {% if content.reassurance %}
+        <p class="mt-8 text-sm opacity-80">{{ content.reassurance |safe }}</p>
+        {% endif %}
+
+        {% if content.social_proof %}
+        <div class="mt-8 flex items-center justify-center gap-4">
+          {% if content.social_proof.avatars %}
+          <div class="avatar-group -space-x-4">
+            {% for avatar in content.social_proof.avatars %}
+            <div class="avatar border-2 border-current">
+              <div class="w-10">
+                <img src="{{ avatar }}" alt="Customer" loading="lazy" />
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <span class="opacity-90">{{ content.social_proof.text }}</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Split (Text left, Image right) #}
+    {% elif style == "split" %}
+    <div class="flex flex-col lg:flex-row items-center gap-12">
+      <div class="flex-1 text-center lg:text-left final-cta-content {% if config.animate != 'false' %}zone-item{% endif %}">
+        {% if content.urgency_text %}
+        <div class="badge badge-{{ config.urgency_color|default:'warning' }} badge-lg mb-6 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
+          {{ content.urgency_text |safe }}
+        </div>
+        {% endif %}
+
+        {% if content.headline %}
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">{{ content.headline |safe }}</h2>
+        {% endif %}
+
+        {% if content.subheadline %}
+        <p class="text-xl mb-8 opacity-90">{{ content.subheadline |safe }}</p>
+        {% endif %}
+
+        {% if content.features %}
+        <ul class="space-y-3 mb-8">
+          {% for feature in content.features %}
+          <li class="flex items-center gap-3 {% if config.header_align != 'left' %}justify-center lg:justify-start{% endif %}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>{{ feature |safe }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          {% if content.cta_text and content.cta_url %}
+          <a href="{{ content.cta_url }}"
+             class="btn btn-{{ config.cta_style|default:'secondary' }} btn-lg"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
+            {{ content.cta_text |safe }}
+          </a>
+          {% endif %}
+
+          {% if content.secondary_cta_text and content.secondary_cta_url %}
+          <a href="{{ content.secondary_cta_url }}"
+             class="btn btn-outline btn-lg border-current text-current hover:bg-white/10"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="secondary">
+            {{ content.secondary_cta_text |safe }}
+          </a>
+          {% endif %}
+        </div>
+
+        {% if content.reassurance %}
+        <p class="mt-6 text-sm opacity-80">{{ content.reassurance |safe }}</p>
+        {% endif %}
+      </div>
+
+      {% if content.image %}
+      <div class="final-cta-image flex-shrink-0 w-full lg:w-2/5 rounded-2xl {% if config.image_bg %}bg-{{ config.image_bg }} p-8{% endif %} {% if config.animate != 'false' %}zone-item{% endif %}" {% if config.animate != 'false' %}style="--delay: 200ms;"{% endif %}>
+        <img src="{{ content.image }}" alt="{{ content.headline |safe }}" class="{% if not config.image_bg %}rounded-2xl shadow-2xl{% endif %} w-full" loading="lazy" />
+      </div>
+      {% endif %}
+    </div>
+
+    {# Style: Gradient (Full width gradient with centered content) #}
+    {% elif style == "gradient" %}
+    <div class="text-center py-8">
+      <div class="final-cta-content {% if config.animate != 'false' %}zone-item{% endif %}">
+        {% if content.icon %}
+        <div class="text-6xl mb-6">{{ content.icon }}</div>
+        {% endif %}
+
+        {% if content.urgency_text %}
+        <div class="inline-block bg-white/20 backdrop-blur rounded-full px-6 py-2 mb-6">
+          <span class="font-semibold">{{ content.urgency_text |safe }}</span>
+        </div>
+        {% endif %}
+
+        {% if content.headline %}
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">{{ content.headline |safe }}</h2>
+        {% endif %}
+
+        {% if content.subheadline %}
+        <p class="text-xl md:text-2xl mb-10 opacity-90 max-w-3xl mx-auto">{{ content.subheadline |safe }}</p>
+        {% endif %}
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          {% if content.cta_text and content.cta_url %}
+          <a href="{{ content.cta_url }}"
+             class="btn bg-white hover:bg-gray-100 border-0 btn-lg" style="color: {{ config.button_text_color|default:'#0f172a' }};"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
+            {{ content.cta_text |safe }}
+          </a>
+          {% endif %}
+
+          {% if content.secondary_cta_text and content.secondary_cta_url %}
+          <a href="{{ content.secondary_cta_url }}"
+             class="btn btn-outline btn-lg border-white text-white hover:bg-white/10"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="secondary">
+            {{ content.secondary_cta_text |safe }}
+          </a>
+          {% endif %}
+        </div>
+
+        {% if content.trust_badges %}
+        <div class="flex flex-wrap justify-center gap-8 mt-12 opacity-80">
+          {% for badge in content.trust_badges %}
+          <div class="flex items-center gap-2">
+            {% if badge.icon %}
+            <span class="text-2xl">{{ badge.icon |safe }}</span>
+            {% endif %}
+            <span>{{ badge.text |safe }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Minimal (Clean, simple design) #}
+    {% elif style == "minimal" %}
+    <div class="text-center max-w-2xl mx-auto">
+      <div class="final-cta-content {% if config.animate != 'false' %}zone-item{% endif %}">
+        {% if content.headline %}
+        <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-4">{{ content.headline |safe }}</h2>
+        {% endif %}
+
+        {% if content.subheadline %}
+        <p class="text-lg text-base-content/70 mb-8">{{ content.subheadline |safe }}</p>
+        {% endif %}
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          {% if content.cta_text and content.cta_url %}
+          <a href="{{ content.cta_url }}"
+             class="btn btn-{{ config.cta_style|default:'primary' }} btn-lg"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
+            {{ content.cta_text |safe }}
+          </a>
+          {% endif %}
+
+          {% if content.secondary_cta_text and content.secondary_cta_url %}
+          <a href="{{ content.secondary_cta_url }}"
+             class="btn btn-ghost btn-lg"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="secondary">
+            {{ content.secondary_cta_text |safe }}
+          </a>
+          {% endif %}
+        </div>
+
+        {% if content.reassurance %}
+        <p class="mt-6 text-sm text-base-content/60">{{ content.reassurance |safe }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Style: Boxed (Card-style CTA) #}
+    {% elif style == "boxed" %}
+    <div class="final-cta-content card bg-{{ config.card_bg|default:'primary' }} text-{{ config.card_text|default:'primary-content' }} shadow-{{ config.shadow|default:'2xl' }} max-w-4xl mx-auto {% if config.animate != 'false' %}zone-item{% endif %}">
+      <div class="card-body items-center text-center p-{{ config.padding|default:'12' }}">
+        {% if content.urgency_text %}
+        <div class="badge badge-{{ config.urgency_color|default:'warning' }} badge-lg mb-4 {% if config.urgency_pulse != 'false' %}animate-pulse{% endif %}">
+          {{ content.urgency_text |safe }}
+        </div>
+        {% endif %}
+
+        {% if content.headline %}
+        <h2 class="card-title text-3xl md:text-4xl mb-4">{{ content.headline |safe }}</h2>
+        {% endif %}
+
+        {% if content.subheadline %}
+        <p class="text-lg opacity-90 mb-6 max-w-xl">{{ content.subheadline |safe }}</p>
+        {% endif %}
+
+        {% if content.features %}
+        <div class="flex flex-wrap justify-center gap-4 mb-6">
+          {% for feature in content.features %}
+          <div class="badge badge-ghost badge-lg gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ feature |safe }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="card-actions">
+          {% if content.cta_text and content.cta_url %}
+          <a href="{{ content.cta_url }}"
+             class="btn btn-{{ config.cta_style|default:'secondary' }} btn-lg"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="primary">
+            {{ content.cta_text |safe }}
+          </a>
+          {% endif %}
+
+          {% if content.secondary_cta_text and content.secondary_cta_url %}
+          <a href="{{ content.secondary_cta_url }}"
+             class="btn btn-outline btn-lg border-current"
+             data-event="cta_click" data-zone-id="{{ zone.id }}" data-cta-type="secondary">
+            {{ content.secondary_cta_text |safe }}
+          </a>
+          {% endif %}
+        </div>
+
+        {% if content.reassurance %}
+        <p class="mt-4 text-sm opacity-80">{{ content.reassurance |safe }}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endwith %}
+{% endwith %}
