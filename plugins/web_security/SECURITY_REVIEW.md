@@ -66,9 +66,10 @@ Findings from a multi-agent review (2026-07). Status tracked per item.
   original repo), so `tasks.py` could not import standalone. Vendored `web_security/locks.py`
   (`task_lock`) and `web_security/email_utils.py` (`safe_send_email`); the plugin is now
   self-contained. (pass 4)
-- Note: `tasks_security_report.py` is user-specific (Mandrill, a hardcoded domain) and imports
-  `httpx` lazily; it degrades gracefully where httpx is absent. Consider extracting it from the
-  general plugin in a future pass.
+- ✅ `tasks_security_report.py` was user-specific (Mandrill API monitoring, `apps.government_forms`,
+  a hardcoded domain, lazy `httpx`). Rewritten generic: IP-blocking / suspicious-requests /
+  rate-limit summary, emailed via the project's configured `EMAIL_BACKEND` (no provider lock-in).
+  `httpx` dependency dropped. (v1.6.1)
 
 ## Refactor (oversized files, pass 3)
 - ✅ `admin.py` (1110) → `admin/` package (10 focused modules); `services/firewall.py` (842)

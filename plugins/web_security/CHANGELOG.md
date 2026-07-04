@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.6.1 - make the security report project-agnostic
+
+`tasks_security_report.py` was user-specific. Made it generic:
+- Removed the Mandrill API monitoring section (provider-specific) and its lazy `httpx`
+  dependency, the `apps.government_forms` section (an app that does not exist here), and the
+  hardcoded `ghidulprimariilor.ro` domain / from-address.
+- Added a general "Suspicious Requests" section; report now covers IP blocking, suspicious
+  requests, and active rate-limit rules.
+- The report email is sent with Django's `EmailMessage`, so it uses whatever `EMAIL_BACKEND`
+  the project configures (SMTP, Amazon SES, an ESP via django-anymail, console, etc.) - no
+  provider lock-in. `from_email` defaults to `DEFAULT_FROM_EMAIL`.
+- Tests updated: the report is exercised through Django's locmem backend; Mandrill/httpx tests
+  removed.
+
 ## 1.6.0 - request-path offload + self-contained tasks (pass 4)
 
 Behaviour-changing performance refactors + a compatibility fix. Full suite 62 (2 skipped
