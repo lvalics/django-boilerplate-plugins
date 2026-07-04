@@ -86,7 +86,7 @@ The app registers under the Django app label `site_management` to avoid clashing
 | `site_name` | Display name shown to users |
 | `tagline` | Short description/slogan |
 | `theme` | DaisyUI theme name |
-| `template_dir` | Template subdirectory (per-site overrides live here) |
+| `template_dir` | Template subdirectory (per-site overrides live here; create `templates/<template_dir>/` yourself, or set `SITES_AUTO_CREATE_TEMPLATE_DIRS = True` to auto-create it on save) |
 | `logo` / `favicon` | Site branding images |
 | `primary_color` / `secondary_color` | Brand colors (hex) |
 | `meta_defaults` | SEO meta tags (JSON) |

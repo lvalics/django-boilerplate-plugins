@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.0] - Security hardening
 
+### Changed
+- Automatic creation of per-site template directories at `SiteProfile` save time is now
+  opt-in via `SITES_AUTO_CREATE_TEMPLATE_DIRS = True` (default `False`): save-time
+  filesystem writes only land on the server that handled the save, and they polluted the
+  project's `templates/` folder when running the test suite. Create
+  `templates/<template_dir>/` by hand (or enable the setting) when adding overrides.
+- Verified against a live boilerplate install: 125 Django tests (112 passed, 13 skipped
+  as designed without the optional API-key app), clean install/uninstall round-trip.
+
 ### Security
 - **Member-add API no longer mints API keys** (F1): the site member-add endpoint no longer
   creates or returns a plaintext API key for an arbitrary existing user, closing an

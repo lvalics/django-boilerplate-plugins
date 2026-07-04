@@ -30,6 +30,21 @@ def test_plan_and_apply(tmp_path):
     assert (target.root / "apps" / "demo" / "models.py").read_text() == "m\n"
 
 
+def test_build_artifacts_never_copied(tmp_path):
+    plugin, target = _plugin(tmp_path), _target(tmp_path)
+    files = plugin / "files"
+    pycache = files / "apps" / "demo" / "__pycache__"
+    pycache.mkdir()
+    (pycache / "models.cpython-314.pyc").write_bytes(b"\x00")
+    (files / "apps" / "demo" / "stray.pyc").write_bytes(b"\x00")
+    (files / "apps" / "demo" / ".DS_Store").write_bytes(b"\x00")
+    ops = plan_copies(plugin, target, ["apps/demo/**"])
+    assert {o.dest.relative_to(target.root).as_posix() for o in ops} == {
+        "apps/demo/models.py",
+        "apps/demo/views.py",
+    }
+
+
 def test_overwrite_requires_force(tmp_path):
     plugin, target = _plugin(tmp_path), _target(tmp_path)
     dest = target.root / "apps" / "demo" / "models.py"

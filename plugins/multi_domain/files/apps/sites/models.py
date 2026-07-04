@@ -511,6 +511,10 @@ class SiteProfile(BaseModel):
         """
         Create template directory structure for this site.
 
+        Opt-in via SITES_AUTO_CREATE_TEMPLATE_DIRS = True (default False): filesystem
+        writes at model-save time only land on the server that handled the save and
+        pollute the project when the test suite runs, so this is disabled by default.
+
         Note: Only creates empty directories. Templates are NOT auto-generated
         because sites work fine with default framework templates via SiteTemplateLoader.
         Developers can add custom templates when needed.
@@ -521,6 +525,9 @@ class SiteProfile(BaseModel):
         from django.conf import settings
 
         logger = logging.getLogger(__name__)
+
+        if not getattr(settings, "SITES_AUTO_CREATE_TEMPLATE_DIRS", False):
+            return
 
         template_dir_name = self.get_template_dir()
 

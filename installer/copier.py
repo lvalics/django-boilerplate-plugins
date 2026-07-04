@@ -6,6 +6,20 @@ from pathlib import Path
 
 from installer.target import TargetProject
 
+# Build/OS artifacts that must never be copied into a target project, even when a
+# plugin's file globs (e.g. "apps/foo/**") match them on disk.
+_SKIP_DIRS = {"__pycache__"}
+_SKIP_SUFFIXES = {".pyc", ".pyo"}
+_SKIP_NAMES = {".DS_Store"}
+
+
+def _is_artifact(path: Path) -> bool:
+    return (
+        bool(_SKIP_DIRS.intersection(path.parts))
+        or path.suffix in _SKIP_SUFFIXES
+        or path.name in _SKIP_NAMES
+    )
+
 
 @dataclass
 class CopyOp:
@@ -22,6 +36,8 @@ def plan_copies(
     for pattern in globs:
         for src in sorted(files_root.glob(pattern)):
             if not src.is_file():
+                continue
+            if _is_artifact(src.relative_to(files_root)):
                 continue
             rel = src.relative_to(files_root)
             dest = target.root / rel
