@@ -76,23 +76,25 @@ def _eval_marker(target: TargetProject, marker: dict) -> bool | None:
 
 
 def evaluate(manifest: Manifest, target: TargetProject) -> EditionDecision:
-    if manifest.edition == "free":
-        return EditionDecision(allowed=True)
+    """Evaluate a plugin's requires markers against the target.
+
+    PRO plugins must declare markers (they double as the edition probe). FREE plugins
+    may declare them as plain prerequisites (e.g. another plugin's app must be present).
+    """
     req = manifest.requires or {}
     mode = "all_of" if "all_of" in req else "any_of"
     markers = req.get(mode, [])
     if not markers:
-        return EditionDecision(
-            allowed=False,
-            reasons=["plugin is edition=pro but declares no requires markers"],
-        )
+        if manifest.edition == "pro":
+            return EditionDecision(
+                allowed=False,
+                reasons=["plugin is edition=pro but declares no requires markers"],
+            )
+        return EditionDecision(allowed=True)
     results = [(m, _eval_marker(target, m)) for m in markers]
     unknown = any(r is None for _, r in results)
     truthy = [r is True for _, r in results]
     allowed = all(truthy) if mode == "all_of" else any(truthy)
-    reasons = (
-        []
-        if allowed
-        else [f"unmet PRO marker: {m}" for m, r in results if r is not True]
-    )
+    label = "unmet PRO marker" if manifest.edition == "pro" else "unmet requirement"
+    reasons = [] if allowed else [f"{label}: {m}" for m, r in results if r is not True]
     return EditionDecision(allowed=allowed, reasons=reasons, unknown=unknown)

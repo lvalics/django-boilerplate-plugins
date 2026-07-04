@@ -50,6 +50,22 @@ def test_all_of_requires_every_marker(tmp_path):
     assert evaluate(m, t).allowed is False   # teams file missing
 
 
+def test_free_with_requires_blocked_when_unmet(tmp_path):
+    m = Manifest(id="x", name="X", version="1", edition="free",
+                 requires={"any_of": [{"app": "apps.sites"}]})
+    d = evaluate(m, _target(tmp_path))
+    assert d.allowed is False
+    assert any("unmet requirement" in r and "apps.sites" in r for r in d.reasons)
+
+
+def test_free_with_requires_allowed_when_met(tmp_path):
+    t = _target(tmp_path)
+    (t.root / "apps" / "sites").mkdir(parents=True)
+    m = Manifest(id="x", name="X", version="1", edition="free",
+                 requires={"any_of": [{"app": "apps.sites"}]})
+    assert evaluate(m, t).allowed is True
+
+
 def test_db_probe_is_injection_safe():
     malicious = "x' in [] or __import__('os').system('id') or 'x"
     code = _build_db_probe(malicious)

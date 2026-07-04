@@ -44,8 +44,9 @@ def install(plugins_root, plugin_id, target_path, apply: bool, force: bool) -> N
     plan, decision, m, tgt = build_plan(plugins_root, plugin_id, target_path)
     _print_plan(m, plan, decision)
     if not decision.allowed and not force:
+        what = "requires the PRO edition" if m.edition == "pro" else "has unmet requirements"
         raise EditionBlocked(
-            f"{plugin_id} requires the PRO edition. Unmet: {decision.reasons}. Use --force to override."
+            f"{plugin_id} {what}. Unmet: {decision.reasons}. Use --force to override."
         )
     if not apply:
         print("\nDry run: nothing written. Re-run with --apply.")
@@ -114,8 +115,9 @@ def _unpatch_file(path: Path, plugin_id: str) -> None:
 
 def _print_plan(m, plan, decision) -> None:
     print(f"Plugin: {m.name} ({m.id}) v{m.version}  edition={m.edition}")
-    if m.edition == "pro":
-        print(f"  PRO gate: {'PASS' if decision.allowed else 'BLOCKED'}"
+    if m.edition == "pro" or m.requires:
+        gate = "PRO gate" if m.edition == "pro" else "Requirements"
+        print(f"  {gate}: {'PASS' if decision.allowed else 'BLOCKED'}"
               + (" (DB check unknown)" if decision.unknown else ""))
     print(f"  Files to copy: {len(plan.copies)}")
     for op in plan.copies:
