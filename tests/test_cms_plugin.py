@@ -208,7 +208,11 @@ def test_no_dropped_modules_shipped():
         assert not (APP_ROOT / name).exists(), f"{name} should not ship in the lean cms plugin"
     for js in ("analytics.js", "inline-editor.js"):
         assert not (APP_ROOT / "static/cms/js" / js).exists(), js
-    assert not (APP_ROOT / "static/cms/admin").exists(), "admin JS/CSS was dropped"
+    # The heavy legacy admin JS was dropped; only the small self-contained JSON
+    # editor is shipped under static/cms/admin/.
+    for legacy in ("ai-content.js", "template-loader.js", "zone-history.js",
+                   "zone-preview.js", "zone-highlight.js"):
+        assert not (APP_ROOT / "static/cms/admin" / legacy).exists(), legacy
 
 
 def test_no_binary_locale_or_migration_files():
@@ -450,3 +454,23 @@ def test_zone_templates_use_color_filters():
     tags = (APP_ROOT / "templatetags/landing_page_tags.py").read_text(encoding="utf-8")
     for filter_name in ("bg_color", "text_color", "btn_color", "border_color", "badge_color", "text_content_color"):
         assert f'"{filter_name}"' in tags or f"def {filter_name}" in tags, filter_name
+
+
+def test_json_editor_widget_wired():
+    """Admin JSONFields use the self-contained JSON editor widget + shipped assets."""
+    widgets = (APP_ROOT / "widgets.py").read_text(encoding="utf-8")
+    assert "class JSONEditorWidget" in widgets
+    assert "cms-json-editor" in widgets
+    assert "cms/admin/json-editor.js" in widgets
+    assert "cms/admin/json-editor.css" in widgets
+
+    admin_src = (APP_ROOT / "admin.py").read_text(encoding="utf-8")
+    assert "from .widgets import JSONEditorWidget" in admin_src
+    assert '"widget": JSONEditorWidget' in admin_src
+
+    js = APP_ROOT / "static/cms/admin/json-editor.js"
+    css = APP_ROOT / "static/cms/admin/json-editor.css"
+    assert js.exists() and css.exists()
+    # Self-contained: no external/CDN references in the admin asset.
+    assert "http://" not in js.read_text(encoding="utf-8")
+    assert "https://" not in js.read_text(encoding="utf-8")

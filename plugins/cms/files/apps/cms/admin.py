@@ -2,7 +2,6 @@
 
 import json
 
-from django import forms
 from django.contrib import admin, messages
 from django.db import models
 from django.urls import reverse
@@ -20,10 +19,11 @@ from .models import (
     ZoneTemplate,
     ZoneType,
 )
+from .widgets import JSONEditorWidget
 
-# Stock JSONField editing via a plain (larger) textarea - no custom JS editors.
+# JSONField editing with a self-contained editor (format/minify + live validation).
 JSON_WIDGET_OVERRIDES = {
-    models.JSONField: {"widget": forms.Textarea(attrs={"rows": 20, "cols": 100, "class": "vLargeTextField"})},
+    models.JSONField: {"widget": JSONEditorWidget},
 }
 
 
