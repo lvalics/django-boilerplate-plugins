@@ -1,0 +1,16 @@
+{# Head scripts from site configuration #}
+{% for script in scripts %}
+{% if script.type == "script" %}
+<script src="{{ script.src }}"{% if script.async %} async{% endif %}{% if script.defer %} defer{% endif %}></script>
+{% elif script.type == "inline" %}
+<script>{{ script.content|safe }}</script>
+{% elif script.type == "link" %}
+<link rel="{{ script.rel|default:'stylesheet' }}" href="{{ script.href }}"{% if script.media %} media="{{ script.media }}"{% endif %}>
+{% endif %}
+{% endfor %}
+
+{% if custom_css %}
+<style>
+{{ custom_css|safe }}
+</style>
+{% endif %}

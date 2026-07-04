@@ -1,0 +1,73 @@
+id = "multi_domain"
+name = "Multi-Domain Sites"
+version = "1.4.0"
+description = "Database-driven multi-domain support: per-site branding, templates, feature flags, per-site CORS/CSRF, and optional cross-domain SSO."
+target = "django-boilerplate"
+edition = "free"
+
+python_dependencies = ["PyJWT>=2.8", "pillow>=10"]
+
+installed_apps = ["apps.sites"]
+
+files = [
+  "apps/sites/**",
+  "templates/sites/**",
+]
+
+# This plugin needs its middleware inserted at specific positions (before SecurityMiddleware,
+# replacing CsrfViewMiddleware, after AuthenticationMiddleware / AccountMiddleware), and it must
+# rewire the template loaders. The manifest `middleware` field only appends at the end, so all
+# ordered wiring lives in settings_append instead. Every name referenced below is already defined
+# in settings.py when the installer appends this block at the end of the file.
+settings_append = """
+MIDDLEWARE.insert(MIDDLEWARE.index("django.middleware.security.SecurityMiddleware"), "apps.sites.middleware.DynamicAllowedHostsMiddleware")
+MIDDLEWARE[MIDDLEWARE.index("django.middleware.csrf.CsrfViewMiddleware")] = "apps.sites.middleware.DynamicCsrfMiddleware"
+_md_i = MIDDLEWARE.index("django.contrib.auth.middleware.AuthenticationMiddleware") + 1
+MIDDLEWARE[_md_i:_md_i] = [
+    "apps.sites.middleware.MultiDomainMiddleware",
+    "apps.sites.middleware.ThreadLocalMiddleware",
+    "apps.sites.middleware.DynamicCorsMiddleware",
+    "apps.sites.middleware.AuthCallbackMiddleware",
+]
+MIDDLEWARE.insert(MIDDLEWARE.index("allauth.account.middleware.AccountMiddleware") + 1, "apps.sites.middleware.AuthDomainMiddleware")
+_md_loaders = TEMPLATES[0]["OPTIONS"]["loaders"]
+if _md_loaders and isinstance(_md_loaders[0], (list, tuple)):
+    # production shape: [(cached.Loader, [inner...])] — use the site-aware cached loader
+    TEMPLATES[0]["OPTIONS"]["loaders"] = [(
+        "apps.sites.template_loader.SiteAwareCachedLoader",
+        ["apps.sites.template_loader.SiteTemplateLoader"] + list(_md_loaders[0][1]),
+    )]
+else:
+    TEMPLATES[0]["OPTIONS"]["loaders"] = ["apps.sites.template_loader.SiteTemplateLoader"] + list(_md_loaders)
+TEMPLATES[0]["OPTIONS"]["context_processors"].append("apps.sites.context_processors.site_config")
+SITE_CACHE_TIMEOUT = 300
+AUTH_TOKEN_EXPIRY_MINUTES = 5
+"""
+
+post_install_notes = """
+Multi-Domain Sites installed. The middleware, template loaders, and site_config context
+processor are wired for you. Next steps:
+
+1. Run migrations:  make migrate
+   (creates SiteProfile, SiteMember, and SiteAuditLog tables for the apps.sites app;
+   its Django app label is "site_management" to avoid clashing with django.contrib.sites)
+
+2. In the Django admin, open Sites > Sites and edit the default Site (or add one), then fill in
+   its Site Profile: site_name, branding, feature flags, allowed CORS origins, and the optional
+   template_dir. django.contrib.sites is already enabled (SITE_ID=1).
+
+3. Per-site template overrides: create a directory under templates/<template_dir>/ (matching the
+   Site Profile's template_dir). Any template placed there (e.g. templates/mysite/web/base.html)
+   overrides the default of the same name for that site only. The site-aware loader falls back to
+   the default template when no per-site version exists.
+
+4. Cross-domain SSO (optional): set the Site Profile's auth_mode to "shared" and designate an auth
+   domain. SSO tokens are short-lived JWTs (AUTH_TOKEN_EXPIRY_MINUTES, default 5). PyJWT is
+   installed as a dependency.
+
+API-key integration is optional and auto-detected: if the apps.api key app is present the site
+management API and admin use it; otherwise the API falls back to session authentication.
+"""
+
+[url_mappings]
+"" = "apps.sites.urls"

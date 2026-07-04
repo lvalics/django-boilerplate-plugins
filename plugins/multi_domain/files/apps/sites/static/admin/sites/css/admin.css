@@ -1,0 +1,129 @@
+/* Custom admin styles for SiteProfile */
+
+/* JSON field help text styling */
+.field-meta_defaults .help,
+.field-head_scripts .help,
+.field-body_scripts .help,
+.field-features .help,
+.field-integrations .help,
+.field-email_settings .help,
+.field-auth_settings .help,
+.field-social_auth_providers .help,
+.field-available_languages .help,
+.field-extra_settings .help {
+    display: block;
+    margin-top: 8px;
+    padding: 0;
+}
+
+/* Help box container */
+.site-help-box {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.site-help-box strong {
+    color: #495057;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.site-help-box p {
+    margin: 0 0 8px 0;
+    color: #6c757d;
+}
+
+.site-help-box p:last-child {
+    margin-bottom: 0;
+}
+
+/* JSON example code block */
+.site-help-box pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 8px 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* JSON syntax highlighting */
+.site-help-box pre .json-key {
+    color: #90cdf4;
+}
+
+.site-help-box pre .json-string {
+    color: #9ae6b4;
+}
+
+.site-help-box pre .json-number {
+    color: #fbd38d;
+}
+
+.site-help-box pre .json-boolean {
+    color: #f687b3;
+}
+
+/* Field purpose description */
+.site-help-box .purpose {
+    background: #e7f3ff;
+    border-left: 3px solid #0066cc;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    color: #004085;
+}
+
+/* Available keys list */
+.site-help-box .keys-list {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.site-help-box .keys-list li {
+    margin: 4px 0;
+    color: #495057;
+}
+
+.site-help-box .keys-list code {
+    background: #e9ecef;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 11px;
+    color: #d63384;
+}
+
+/* Collapsible sections styling */
+.collapse.collapsed .site-help-box {
+    display: none;
+}
+
+/* Inline fieldset improvements */
+.inline-group .site-help-box {
+    max-width: 600px;
+}
+
+/* Make textarea fields wider for JSON */
+.field-meta_defaults textarea,
+.field-head_scripts textarea,
+.field-body_scripts textarea,
+.field-features textarea,
+.field-integrations textarea,
+.field-email_settings textarea,
+.field-auth_settings textarea,
+.field-extra_settings textarea {
+    min-height: 120px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+}
