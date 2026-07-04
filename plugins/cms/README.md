@@ -208,7 +208,13 @@ safelist manually.
   storage, and re-escaped in the admin.
 - **template_name whitelist** prevents zones from `{% include %}`-ing arbitrary
   templates: only `cms/zones/*.html` paths are accepted.
-- **Reserved slugs** stop a landing page from shadowing a project route.
+- **Reserved slugs** stop a landing page from shadowing a project route
+  (case-insensitive, enforced on save so `create()` can't bypass it).
+- **Publish gating is uniform**: the root `/<slug>/` catch-all only serves
+  landing pages; blog posts and content pages are reachable solely through their
+  own gated routes, so a draft or scheduled post is never exposed at the root.
+- **Per-site isolation fails closed**: if no site resolves for a request, blog
+  and taxonomy listings show only all-sites content, never every site's pages.
 - **Rate limits** protect the submission endpoint per-IP and per-email; both use
   atomic cache counters.
 - **Trusted proxies**: client IPs honor `SITES_TRUSTED_PROXY_COUNT` (shared with

@@ -36,7 +36,7 @@ generated in the target project (`make migrations ARGS='cms' && make migrate`).
   `tags` M2M; site-scoped `Category` and `Tag` models
 - `PageQuerySet`/`PageManager` (`.posts()`, `.content_pages()`, `.published()`)
 - Blog + content views/urls (`blog_list`, `blog_detail`, `blog_category`,
-  `blog_tag`, `content_page`) under the `cms_blog` namespace, and DaisyUI
+  `blog_tag`, `content_page`) under the flat `cms` namespace (e.g. `cms:blog_list`), and DaisyUI
   templates that extend `CMS_BASE_TEMPLATE` (default `web/base.html`)
 - Admin: page-type/category list filters, tag autocomplete and
   `published_at` date hierarchy on `PageAdmin`; `Category`/`Tag` admins
@@ -52,6 +52,25 @@ generated in the target project (`make migrations ARGS='cms' && make migrate`).
   in `Page.clean()` so a landing-page slug can't shadow a top-level project route.
 - The old optional project-level catch-all recipe is obsolete and removed from
   the README.
+
+### Security (blog/content review)
+
+- **Embargo bypass fixed (High):** the root catch-all resolved *any* active page,
+  so a draft or scheduled blog post that correctly 404'd at `/blog/<slug>/` was
+  served in full at `/<slug>/`. The catch-all now resolves only
+  `page_type=landing`, with a defense-in-depth re-check in the view.
+- Author bylines render only `get_full_name` (never `username`/email, which are
+  the same value in this boilerplate), preventing author-email disclosure.
+- Blog list and taxonomy views fail **closed** to all-sites content when no site
+  resolves (previously exposed every site's site-scoped content).
+- `Category`/`Tag` gain all-sites (`site IS NULL`) unique-slug constraints
+  (`unique_together` doesn't constrain NULL rows), so taxonomy lookups are
+  deterministic; the cross-site archive lookups no longer 500 on duplicate slugs.
+- Reserved-slug enforcement is case-insensitive and also runs in `Page.save()`
+  (blocks `create()`/admin-duplicate bypass); `conf` strips prefix slashes so a
+  configured `blog/` still reserves `blog`.
+- `get_absolute_url` fixed to reverse the flat `cms:` namespace, and its fallback
+  now uses the blog/content prefix instead of the ungated landing catch-all.
 
 ## 2.0.0
 
