@@ -17,7 +17,7 @@
     <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ post.title }}</h1>
     <p class="text-sm text-base-content/70 mb-6">
       {% if post.published_at %}<span>{{ post.published_at|date:"F d, Y" }}</span>{% endif %}
-      {% if post.author %}<span class="ml-1">· {% translate "by" %} {{ post.author.get_full_name|default:post.author.username }}</span>{% endif %}
+      {% if post.author %}{% with byline=post.author.get_full_name %}{% if byline %}<span class="ml-1">· {% translate "by" %} {{ byline }}</span>{% endif %}{% endwith %}{% endif %}
     </p>
 
     {% if post.excerpt %}<p class="text-lg text-base-content/80 mb-6">{{ post.excerpt }}</p>{% endif %}

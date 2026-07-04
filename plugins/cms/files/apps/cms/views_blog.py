@@ -6,12 +6,12 @@ posts 404 until their publication time.
 """
 
 from django.core.paginator import Paginator
-from django.db.models import F, Q
+from django.db.models import F, Prefetch, Q
 from django.http import Http404
 from django.shortcuts import render
 
 from . import conf
-from .models import Category, Page, PageType, Tag
+from .models import Category, Page, PageType, Tag, Zone
 
 
 def _current_site_id(request):
@@ -23,11 +23,16 @@ def _current_site_id(request):
 
 
 def _site_filtered(qs, request):
-    """Limit a queryset to pages visible on the current request's site."""
+    """Limit a queryset to pages visible on the current request's site.
+
+    With no resolved site (site_config missing/misordered — shouldn't happen while
+    the required multi_domain middleware is active), fail CLOSED to all-sites
+    content only, never expose every site's site-scoped pages.
+    """
     site_id = _current_site_id(request)
     if site_id:
         return qs.filter(Q(site__isnull=True) | Q(site__site_id=site_id))
-    return qs
+    return qs.filter(site__isnull=True)
 
 
 def _visible_posts(request):
@@ -61,8 +66,10 @@ def blog_list(request):
 
 def blog_detail(request, slug):
     site_id = _current_site_id(request)
+    active_zones = Prefetch("zones", queryset=Zone.objects.filter(is_active=True).order_by("order"))
     post = (
         _visible_posts(request)
+        .prefetch_related(active_zones)
         .filter(slug=slug)
         .order_by(F("site_id").asc(nulls_last=True), "-published_at")
         .first()
@@ -96,6 +103,8 @@ def _site_scoped_taxonomy(model, request, slug):
     qs = model.objects.filter(slug=slug)
     if site_id:
         qs = qs.filter(Q(site__isnull=True) | Q(site__site_id=site_id))
+    else:
+        qs = qs.filter(site__isnull=True)
     obj = qs.order_by(F("site_id").asc(nulls_last=True)).first()
     if obj is None:
         raise Http404(f"{model.__name__} not found")

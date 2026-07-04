@@ -243,8 +243,11 @@ def test_category_and_tag_models_exist():
     src = (APP_ROOT / "models/taxonomy.py").read_text(encoding="utf-8")
     assert "class Category" in src
     assert "class Tag" in src
-    # Site-scoped (unique per site).
-    assert 'unique_together = [("site", "slug")]' in src
+    # Site-scoped: per-site UniqueConstraint plus an all-sites (NULL site) guard,
+    # since unique_together does not constrain NULL rows in Postgres.
+    assert "cms_category_unique_slug_per_site" in src
+    assert "cms_category_unique_slug_all_sites" in src
+    assert "cms_tag_unique_slug_all_sites" in src
     exported = (APP_ROOT / "models/__init__.py").read_text(encoding="utf-8")
     assert "Category" in exported and "Tag" in exported
 

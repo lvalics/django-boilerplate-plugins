@@ -130,3 +130,23 @@ class ContentPageTest(TestCase):
             self.client.get(reverse("cms:content_page", kwargs={"slug": "promo"})).status_code,
             404,
         )
+
+
+class GetAbsoluteUrlTest(TestCase):
+    def setUp(self):
+        ensure_primary_site()
+
+    def test_absolute_url_matches_route_per_page_type(self):
+        # get_absolute_url must resolve to the SAME path the URLconf serves,
+        # for every page type (regression: stale cms_blog: namespace swallowed
+        # NoReverseMatch and returned the wrong /slug/ fallback for posts/pages).
+        post = _post("hello-post")
+        content = Page.objects.create(title="About", slug="about", page_type=PageType.CONTENT)
+        landing = Page.objects.create(title="Promo", slug="promo", page_type=PageType.LANDING)
+
+        self.assertEqual(post.get_absolute_url(), reverse("cms:blog_detail", kwargs={"slug": "hello-post"}))
+        self.assertEqual(content.get_absolute_url(), reverse("cms:content_page", kwargs={"slug": "about"}))
+        self.assertEqual(landing.get_absolute_url(), reverse("cms:page", kwargs={"slug": "promo"}))
+        # None must fall through to the raw-slug fallback (all resolve cleanly).
+        self.assertTrue(post.get_absolute_url().startswith("/"))
+        self.assertNotEqual(post.get_absolute_url(), f"/{post.slug}/")

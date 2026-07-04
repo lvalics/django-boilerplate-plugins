@@ -255,12 +255,15 @@ class Page(BaseModel):
     def __str__(self):
         return f"{self.title} ({self.slug})"
 
+    def _slug_is_reserved(self) -> bool:
+        from .. import conf
+
+        return bool(self.slug) and self.slug.strip().lower() in conf.RESERVED_SLUGS
+
     def clean(self):
         """Reject slugs that would be shadowed by reserved top-level URL prefixes."""
         super().clean()
-        from .. import conf
-
-        if self.slug and self.slug in conf.RESERVED_SLUGS:
+        if self._slug_is_reserved():
             raise ValidationError(
                 {
                     "slug": _(
@@ -271,16 +274,33 @@ class Page(BaseModel):
                 }
             )
 
+    def save(self, *args, **kwargs):
+        # Enforce the reserved-slug invariant even on paths that skip full_clean()
+        # (Page.objects.create(), the admin duplicate action, data migrations).
+        if self._slug_is_reserved():
+            raise ValidationError(
+                _('"%(slug)s" is a reserved URL path (see CMS_RESERVED_SLUGS).') % {"slug": self.slug}
+            )
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         from django.urls import NoReverseMatch, reverse
 
+        from .. import conf
+
         try:
             if self.page_type == PageType.POST:
-                return reverse("cms_blog:blog_detail", kwargs={"slug": self.slug})
+                return reverse("cms:blog_detail", kwargs={"slug": self.slug})
             if self.page_type == PageType.CONTENT:
-                return reverse("cms_blog:content_page", kwargs={"slug": self.slug})
+                return reverse("cms:content_page", kwargs={"slug": self.slug})
             return reverse("cms:page", kwargs={"slug": self.slug})
         except NoReverseMatch:
+            # Fallback must respect the page-type prefix so a post URL never points
+            # at the ungated landing catch-all.
+            if self.page_type == PageType.POST:
+                return f"/{conf.POST_URL_PREFIX}/{self.slug}/"
+            if self.page_type == PageType.CONTENT:
+                return f"/{conf.CONTENT_URL_PREFIX}/{self.slug}/"
             return f"/{self.slug}/"
 
     def get_meta_title(self):

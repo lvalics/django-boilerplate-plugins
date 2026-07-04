@@ -10,8 +10,10 @@ layer settings (URL prefixes, templating, pagination, reserved slugs).
 from django.conf import settings
 
 # URL prefixes for the blog + content routes mounted inside apps.cms.urls.
-POST_URL_PREFIX = getattr(settings, "CMS_POST_URL_PREFIX", "blog")
-CONTENT_URL_PREFIX = getattr(settings, "CMS_CONTENT_URL_PREFIX", "c")
+# Normalised (slashes stripped) so the value matches what urls_blog.py mounts and
+# what the reserved-slug set below reserves — e.g. "blog/" and "blog" are the same.
+POST_URL_PREFIX = getattr(settings, "CMS_POST_URL_PREFIX", "blog").strip("/")
+CONTENT_URL_PREFIX = getattr(settings, "CMS_CONTENT_URL_PREFIX", "c").strip("/")
 
 # Blog listing pagination.
 POSTS_PER_PAGE = getattr(settings, "CMS_POSTS_PER_PAGE", 12)
@@ -39,7 +41,9 @@ DEFAULT_RESERVED_SLUGS = {
     "__reload__",
 }
 
-RESERVED_SLUGS = set(getattr(settings, "CMS_RESERVED_SLUGS", DEFAULT_RESERVED_SLUGS)) | {
-    POST_URL_PREFIX,
-    CONTENT_URL_PREFIX,
+# Compared case-insensitively against a page's lowercased slug (see Page.clean/save).
+RESERVED_SLUGS = {
+    s.lower()
+    for s in set(getattr(settings, "CMS_RESERVED_SLUGS", DEFAULT_RESERVED_SLUGS))
+    | {POST_URL_PREFIX, CONTENT_URL_PREFIX}
 }

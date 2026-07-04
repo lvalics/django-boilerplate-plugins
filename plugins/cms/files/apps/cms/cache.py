@@ -72,9 +72,12 @@ def get_page_id(slug: str, site_id=None):
         logger.debug("Cache hit for landing page %s (site %s)", slug, site_id)
         return page_id or None
 
-    from .models import Page
+    from .models import Page, PageType
 
-    page = Page.for_site(site_id).filter(slug=slug).only("id").first()
+    # The root catch-all only serves landing pages. Blog posts and content pages
+    # have their own gated views (published_at / page_type filters); resolving them
+    # here would serve drafts/scheduled posts ungated at /<slug>/.
+    page = Page.for_site(site_id).filter(slug=slug, page_type=PageType.LANDING).only("id").first()
     page_id = page.id if page else _MISS
     cache.set(key, {"id": page_id}, timeout=CACHE_TIMEOUT)
     logger.debug("Cached landing page resolution %s (site %s) -> %s", slug, site_id, page_id or None)

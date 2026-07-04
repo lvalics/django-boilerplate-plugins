@@ -2,6 +2,7 @@
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from apps.utils.models import BaseModel
@@ -30,10 +31,17 @@ class Category(BaseModel):
     description = models.TextField(blank=True, default="")
 
     class Meta:
-        unique_together = [("site", "slug")]
         ordering = ["name"]
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
+        constraints = [
+            # unique_together does not constrain NULL site rows (NULLs compare
+            # unequal in Postgres), so add an explicit all-sites uniqueness guard.
+            models.UniqueConstraint(fields=["site", "slug"], name="cms_category_unique_slug_per_site"),
+            models.UniqueConstraint(
+                fields=["slug"], condition=Q(site__isnull=True), name="cms_category_unique_slug_all_sites"
+            ),
+        ]
 
     def __str__(self):
         return self.name
@@ -64,10 +72,15 @@ class Tag(BaseModel):
     name = models.CharField(max_length=200)
 
     class Meta:
-        unique_together = [("site", "slug")]
         ordering = ["name"]
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
+        constraints = [
+            models.UniqueConstraint(fields=["site", "slug"], name="cms_tag_unique_slug_per_site"),
+            models.UniqueConstraint(
+                fields=["slug"], condition=Q(site__isnull=True), name="cms_tag_unique_slug_all_sites"
+            ),
+        ]
 
     def __str__(self):
         return self.name

@@ -23,7 +23,7 @@ from django.views.decorators.http import require_POST
 from .cache import get_page_id
 from .email_utils import validate_and_normalize_email
 from .emails import send_submission_notification
-from .models import Page, Submission, Zone, SubmissionStatus, ZoneType
+from .models import Page, PageType, Submission, Zone, SubmissionStatus, ZoneType
 from .rate_limiter import RateLimiter, get_client_ip
 
 logger = logging.getLogger(__name__)
@@ -99,8 +99,12 @@ def landing_page_view(request, slug):
         is_active=True,
     )
 
-    # Defense in depth: a site-scoped page must only be served on its site
-    # (covers the cache-staleness window after a page is moved between sites).
+    # Defense in depth (covers the cache-staleness window):
+    # - the root catch-all only serves landing pages, never posts/content pages
+    #   (those are gated by published_at / page_type in their own views);
+    # - a site-scoped page must only be served on its own site.
+    if page.page_type != PageType.LANDING:
+        raise Http404("Landing page not found")
     if page.site and site_id and page.site.site_id != site_id:
         raise Http404("Landing page not found")
 
