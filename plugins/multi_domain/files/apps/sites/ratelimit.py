@@ -7,7 +7,6 @@ Provides rate limiting for views and API endpoints to prevent brute-force attack
 import functools
 import hashlib
 import logging
-import time
 from collections.abc import Callable
 
 from django.conf import settings
@@ -55,44 +54,70 @@ def parse_rate(rate: str) -> tuple[int, int]:
 
 
 def get_client_ip(request: HttpRequest) -> str:
-    """Get client IP address from request."""
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        return x_forwarded_for.split(",")[0].strip()
-    return request.META.get("REMOTE_ADDR", "unknown")
-
-
-def is_rate_limited(key: str, limit: int, period: int) -> tuple[bool, int]:
     """
-    Check if key is rate limited.
+    Get the client IP address from the request.
+
+    X-Forwarded-For is client-controlled and must not be trusted blindly. The number
+    of trusted reverse proxies in front of the app is configured via the
+    ``SITES_TRUSTED_PROXY_COUNT`` setting (default 0):
+
+    - 0 (default): ignore XFF entirely and use REMOTE_ADDR.
+    - N > 0: take the Nth-from-the-right XFF entry (the address the outermost trusted
+      proxy observed), since attackers can only prepend spoofed values on the left.
+
+    Falls back to REMOTE_ADDR when the header is missing or malformed.
+    """
+    remote_addr = request.META.get("REMOTE_ADDR", "unknown")
+
+    trusted_proxies = getattr(settings, "SITES_TRUSTED_PROXY_COUNT", 0)
+    if trusted_proxies and trusted_proxies > 0:
+        x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+        if x_forwarded_for:
+            parts = [p.strip() for p in x_forwarded_for.split(",") if p.strip()]
+            if len(parts) >= trusted_proxies:
+                return parts[-trusted_proxies]
+
+    return remote_addr
+
+
+def is_rate_limited(key: str, limit: int, period: int, fail_closed: bool = False) -> tuple[bool, int]:
+    """
+    Check if key is rate limited using an atomic fixed-window counter.
+
+    The counter is stored in the cache and incremented atomically via ``cache.add``
+    (seed the window) + ``cache.incr`` so concurrent requests cannot bypass the limit
+    through a read-modify-write race (the previous list-based implementation could).
+
+    Note: this is a fixed-window counter (resets every ``period`` seconds), not a
+    sliding window, so up to ``limit`` requests are allowed per discrete window.
 
     Args:
         key: Unique key for rate limiting (e.g., IP + endpoint)
         limit: Maximum requests allowed
         period: Time period in seconds
+        fail_closed: On cache outage, deny (True) or allow (False). Auth-sensitive
+            callers should fail closed.
 
     Returns:
         Tuple of (is_limited, remaining_requests)
     """
     cache_key = RATE_LIMIT_KEY.format(key=key)
-    current_time = time.time()
 
-    # Get existing request times
-    request_times = cache.get(cache_key, [])
+    try:
+        # Seed the window counter only if absent, then increment atomically.
+        cache.add(cache_key, 0, timeout=period)
+        current = cache.incr(cache_key)
+    except Exception as e:
+        # Cache outage: fail closed for auth-sensitive callers, open otherwise.
+        logger.warning(f"Rate-limit cache unavailable for {key}: {e} (fail_closed={fail_closed})")
+        if fail_closed:
+            return True, 0
+        return False, limit
 
-    # Filter to only requests within the period
-    cutoff_time = current_time - period
-    request_times = [t for t in request_times if t > cutoff_time]
-
-    # Check if over limit
-    if len(request_times) >= limit:
+    if current > limit:
         return True, 0
 
-    # Add current request
-    request_times.append(current_time)
-    cache.set(cache_key, request_times, timeout=period)
-
-    return False, limit - len(request_times)
+    return False, max(0, limit - current)
 
 
 def ratelimit(
@@ -100,6 +125,7 @@ def ratelimit(
     key: str = "ip",
     block_time: int = None,
     message: str = "Too many requests. Please try again later.",
+    fail_closed: bool = False,
 ):
     """
     Rate limiting decorator for views.
@@ -109,6 +135,8 @@ def ratelimit(
         key: What to rate limit by ("ip", "user", or callable)
         block_time: How long to block after limit exceeded (seconds)
         message: Error message to return
+        fail_closed: On cache outage, deny the request (True) instead of allowing it.
+            Set True for auth-sensitive endpoints.
 
     Usage:
         @ratelimit(rate="5/m", key="ip")
@@ -139,7 +167,7 @@ def ratelimit(
             rate_key = hashlib.md5(rate_key.encode()).hexdigest()
 
             # Check rate limit
-            is_limited, remaining = is_rate_limited(rate_key, limit, period)
+            is_limited, remaining = is_rate_limited(rate_key, limit, period, fail_closed=fail_closed)
 
             if is_limited:
                 logger.warning(f"Rate limit exceeded for {rate_key} on {request.path}")
@@ -166,7 +194,9 @@ def ratelimit(
     return decorator
 
 
-def ratelimit_method(rate: str = None, key: str = "ip", block_time: int = None, message: str = None):
+def ratelimit_method(
+    rate: str = None, key: str = "ip", block_time: int = None, message: str = None, fail_closed: bool = False
+):
     """
     Rate limiting decorator for class-based view methods.
 
@@ -176,4 +206,6 @@ def ratelimit_method(rate: str = None, key: str = "ip", block_time: int = None, 
             def post(self, request):
                 ...
     """
-    return ratelimit(rate=rate, key=key, block_time=block_time, message=message or "Too many requests.")
+    return ratelimit(
+        rate=rate, key=key, block_time=block_time, message=message or "Too many requests.", fail_closed=fail_closed
+    )

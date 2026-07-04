@@ -26,9 +26,11 @@ wires this automatically); a plain ``cached.Loader`` must NOT be substituted.
 import logging
 
 from asgiref.local import Local
+from django.core.exceptions import SuspiciousFileOperation
 from django.template import Origin, TemplateDoesNotExist
 from django.template.loaders.cached import Loader as CachedLoader
 from django.template.loaders.filesystem import Loader as FilesystemLoader
+from django.utils._os import safe_join
 
 from apps.sites.middleware.multi_domain import get_current_site_config
 
@@ -77,16 +79,17 @@ class SiteTemplateLoader(FilesystemLoader):
                 # Skip if this template is already being loaded (prevents recursion)
                 if site_template not in loading_stack:
                     for template_dir_path in self.get_dirs():
+                        # Use safe_join so a malicious template_dir/template_name cannot
+                        # escape the templates root via traversal; skip any path that would.
                         try:
-                            # Check if site-specific template exists
-                            name = str(template_dir_path / site_template)
-                            yield Origin(
-                                name=name,
-                                template_name=site_template,
-                                loader=self,
-                            )
-                        except Exception:
-                            pass
+                            name = safe_join(template_dir_path, site_template)
+                        except SuspiciousFileOperation:
+                            continue
+                        yield Origin(
+                            name=name,
+                            template_name=site_template,
+                            loader=self,
+                        )
 
         # Fall back to default template resolution
         yield from super().get_template_sources(template_name)

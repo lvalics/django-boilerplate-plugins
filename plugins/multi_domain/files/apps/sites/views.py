@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-@ratelimit(rate="30/m", key="user")  # 30 per minute per user
+@ratelimit(rate="30/m", key="user", fail_closed=True)  # 30/min per user; deny on cache outage
 def auth_callback(request):
     """
     Auth domain callback after successful login.
@@ -71,7 +71,10 @@ def auth_callback(request):
     # Create JWT token
     token = create_auth_token(request.user, target_domain)
 
-    # Build redirect URL with token
+    # Security tradeoff: the SSO token is delivered as a query-string parameter, so it can
+    # leak via browser history, Referer headers, and access logs. It is mitigated by a short
+    # (5-min) expiry, single-use jti replay protection, and HTTPS-only delivery. A
+    # POST/handoff-code redesign that keeps the token out of the URL is tracked as future work.
     separator = "&" if "?" in next_url else "?"
     redirect_url = f"{next_url}{separator}auth_token={token}"
 
@@ -80,7 +83,7 @@ def auth_callback(request):
 
 
 @login_required
-@ratelimit(rate="20/m", key="user")  # 20 per minute per user
+@ratelimit(rate="20/m", key="user", fail_closed=True)  # 20/min per user; deny on cache outage
 def auth_token_endpoint(request):
     """
     API endpoint to get auth token for cross-domain navigation.

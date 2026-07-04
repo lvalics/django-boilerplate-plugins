@@ -71,20 +71,6 @@ def verify_auth_token(token: str) -> dict | None:
     """
     try:
         payload = jwt.decode(token, AUTH_TOKEN_SECRET, algorithms=[AUTH_TOKEN_ALGORITHM])
-
-        # Check for jti claim (required for replay protection)
-        jti = payload.get("jti")
-        if not jti:
-            logger.warning("Auth token missing jti claim")
-            return None
-
-        # Check if token was already used (replay attack protection)
-        if _is_token_used(jti):
-            logger.warning(f"Auth token replay attempt detected: jti={jti}")
-            return None
-
-        return payload
-
     except jwt.ExpiredSignatureError:
         logger.warning("Auth token expired")
         return None
@@ -92,19 +78,42 @@ def verify_auth_token(token: str) -> dict | None:
         logger.warning(f"Invalid auth token: {e}")
         return None
 
+    # Check for jti claim (required for replay protection)
+    jti = payload.get("jti")
+    if not jti:
+        logger.warning("Auth token missing jti claim")
+        return None
 
-def _is_token_used(jti: str) -> bool:
-    """Check if token with given jti was already used."""
-    cache_key = f"{USED_TOKEN_CACHE_PREFIX}{jti}"
-    return cache.get(cache_key) is not None
+    # Atomically consume the token: mark-then-verify closes the TOCTOU window between a
+    # separate "is it used?" check and marking it used, so concurrent replays cannot both
+    # pass. _mark_token_used returns False if the jti was already consumed OR the cache is
+    # unavailable (fail closed).
+    if not _mark_token_used(jti):
+        return None
+
+    return payload
 
 
-def _mark_token_used(jti: str) -> None:
-    """Mark token as used by storing jti in cache until expiry."""
+def _mark_token_used(jti: str) -> bool:
+    """
+    Atomically mark a token's jti as used.
+
+    Returns True if this call is the first to mark the jti (token may be used). Returns
+    False if the jti was already marked (replay) OR the cache backend is unavailable
+    (fail closed — never accept a token whose single-use guarantee cannot be enforced).
+    """
     cache_key = f"{USED_TOKEN_CACHE_PREFIX}{jti}"
     # Store for slightly longer than token expiry to handle clock skew
     timeout = (AUTH_TOKEN_EXPIRY_MINUTES + 1) * 60
-    cache.set(cache_key, True, timeout=timeout)
+    try:
+        added = cache.add(cache_key, True, timeout=timeout)
+    except Exception as e:
+        logger.warning(f"Auth token replay-protection cache unavailable, rejecting token (jti={jti}): {e}")
+        return False
+
+    if not added:
+        logger.warning(f"Auth token replay attempt detected: jti={jti}")
+    return added
 
 
 def invalidate_user_sessions(user_id: int) -> None:
@@ -310,10 +319,9 @@ class AuthCallbackMiddleware:
             )
             return self.get_response(request)
 
-        # Mark token as used BEFORE login to prevent race conditions
+        # The token's jti was already atomically consumed inside verify_auth_token()
+        # (mark-then-verify), so no separate mark step is needed here.
         jti = payload.get("jti")
-        if jti:
-            _mark_token_used(jti)
 
         # Log user in
         login(request, user, backend="django.contrib.auth.backends.ModelBackend")
