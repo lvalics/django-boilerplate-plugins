@@ -13,9 +13,17 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.utils import timezone
 
-from apps.utils.email_utils import safe_send_email
+from apps.web_security.email_utils import safe_send_email
 
 logger = logging.getLogger(__name__)
+
+
+def _mask_email(addr):
+    """Mask the local part of an email address for display, e.g. 'john.doe@example.com' -> '***@example.com'."""
+    if not addr or "@" not in addr:
+        return addr or "?"
+    _, domain = addr.split("@", 1)
+    return f"***@{domain}"
 
 
 @shared_task(bind=True, max_retries=0)
@@ -63,7 +71,8 @@ def send_security_report(self):
                 )
             report_lines.append("</table>")
     except Exception as e:
-        report_lines.append(f"<p>Error checking blocked IPs: {e}</p>")
+        logger.error("Error checking blocked IPs: %s", e)
+        report_lines.append("<p>Error checking blocked IPs (see server logs).</p>")
 
     # 2. Mandrill email stats
     try:
@@ -109,7 +118,7 @@ def send_security_report(self):
                 report_lines.append("<ul>")
                 for se in spam_emails[:5]:
                     report_lines.append(
-                        f"<li>{se.get('state')} → {se.get('email', '?')[:30]} — {(se.get('subject') or '?')[:60]}</li>"
+                        f"<li>{se.get('state')} → {_mask_email(se.get('email'))} — {(se.get('subject') or '?')[:60]}</li>"
                     )
                 report_lines.append("</ul>")
             else:
@@ -117,7 +126,8 @@ def send_security_report(self):
         else:
             report_lines.append("<p>Mandrill API key not configured.</p>")
     except Exception as e:
-        report_lines.append(f"<p>Error checking Mandrill: {e}</p>")
+        logger.error("Error checking Mandrill: %s", e)
+        report_lines.append("<p>Error checking Mandrill (see server logs).</p>")
 
     # 3. Government forms submissions
     try:
@@ -133,7 +143,8 @@ def send_security_report(self):
         report_lines.append(f"<p>New submissions: {recent_submissions}</p>")
         report_lines.append(f"<p>Failed retrieval attempts: {failed_retrievals}</p>")
     except Exception as e:
-        report_lines.append(f"<p>Error checking forms: {e}</p>")
+        logger.error("Error checking forms: %s", e)
+        report_lines.append("<p>Error checking forms (see server logs).</p>")
 
     # 4. Rate limit summary
     try:
@@ -143,7 +154,8 @@ def send_security_report(self):
         report_lines.append("<h3>⏱️ Rate Limiting</h3>")
         report_lines.append(f"<p>Active rules: {rules.count()}</p>")
     except Exception as e:
-        report_lines.append(f"<p>Error checking rate limits: {e}</p>")
+        logger.error("Error checking rate limits: %s", e)
+        report_lines.append("<p>Error checking rate limits (see server logs).</p>")
 
     # Build and send email
     html_body = "\n".join(report_lines)

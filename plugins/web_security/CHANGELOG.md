@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.6.0 - request-path offload + self-contained tasks (pass 4)
+
+Behaviour-changing performance refactors + a compatibility fix. Full suite 62 (2 skipped
+where httpx is absent).
+
+- **Async threat recording:** on a pattern match the ThreatMonitor middleware no longer does
+  synchronous DB writes / row locks inline; it dispatches `record_threat_matches` (Celery) with
+  plain serializable args. New `SuspiciousRequest.record()` creates the row from those fields.
+  (`middleware/threat_monitor.py`, `models/suspicious_request.py`, `tasks.py`)
+- **SMTP out of the lock:** `auto_block_high_threats` dispatches `send_auto_block_notification`
+  per IP, so the (blocking) email send and the recent-requests query run outside the task's
+  distributed lock. (`tasks.py`)
+- **Shared per-request lookup:** `utils.get_cached_settings` / `get_cached_client_ip` resolve
+  the settings and client IP once per request; all five middleware reuse them instead of each
+  re-querying / re-parsing. (`utils.py`, `middleware/*`)
+- **Report email hardening:** raw exception text is logged server-side with a generic marker in
+  the email; correspondent addresses are masked. (`tasks_security_report.py`)
+- **Threat-score bands scale with `min_confidence_score`** instead of hardcoded 75/50.
+  (`models/ip_reputation.py`)
+- **Self-contained tasks (compat fix):** the tasks depended on `apps.utils.locks` /
+  `apps.utils.email_utils` — helpers absent from both the free boilerplate and the paid project,
+  so the tasks could not import standalone. Vendored `locks.py` (`task_lock`, a cache-based
+  distributed lock) and `email_utils.py` (`safe_send_email`). The plugin is now self-contained.
+
 ## 1.5.1 - refactor: split oversized modules (pass 3)
 
 Pure structural refactor, no behaviour change (full suite 50/50):

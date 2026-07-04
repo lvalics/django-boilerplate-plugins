@@ -1,4 +1,4 @@
-from apps.web_security.models import SecuritySettings
+from apps.web_security.utils import get_cached_settings
 
 
 class SecurityHeadersMiddleware:
@@ -15,8 +15,8 @@ class SecurityHeadersMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        # Get security settings
-        settings = SecuritySettings.get_settings()
+        # Get security settings (shared per-request lookup)
+        settings = get_cached_settings(request)
 
         # Check if security headers are enabled
         if not settings.security_enabled or not settings.security_headers_enabled:

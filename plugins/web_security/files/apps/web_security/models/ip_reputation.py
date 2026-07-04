@@ -220,17 +220,33 @@ class IPReputationCache(BaseModel):
         min_score = config.min_confidence_score if config else 75
         return self.abuse_confidence_score >= min_score
 
-    def calculate_threat_score(self):
+    def calculate_threat_score(self, config=None):
         """
         Calculate threat score contribution from reputation data.
+
+        The score bands scale with the reputation config's min_confidence_score
+        (the same threshold `is_suspicious` honors), so lowering/raising it
+        consistently affects scoring: the high band is >= min_confidence_score,
+        and the medium band is >= min_confidence_score * 2 // 3. With the
+        default min_confidence_score of 75, this reproduces the previous
+        hardcoded 75/50 bands.
+
+        Args:
+            config: Optional IPReputationConfig to source min_confidence_score
+                from. Defaults to the default active config (falls back to 75
+                if none is configured).
 
         Returns:
             int: Threat score to add
         """
+        if config is None:
+            config = IPReputationConfig.get_default()
+        min_score = config.min_confidence_score if config else 75
+
         score = 0
-        if self.abuse_confidence_score >= 75:
+        if self.abuse_confidence_score >= min_score:
             score += 20
-        elif self.abuse_confidence_score >= 50:
+        elif self.abuse_confidence_score >= (min_score * 2) // 3:
             score += 10
         if self.is_tor_node:
             score += 15

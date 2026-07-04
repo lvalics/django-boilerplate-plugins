@@ -1,8 +1,7 @@
 import logging
 import re
 
-from apps.web_security.models import SecuritySettings
-from apps.web_security.utils import get_client_ip
+from apps.web_security.utils import get_cached_client_ip, get_cached_settings
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +40,14 @@ class RequestIPLoggingMiddleware:
 
     def __call__(self, request):
         # Get security settings
-        settings = SecuritySettings.get_settings()
+        settings = get_cached_settings(request)
 
         # Check if security and logging are enabled
         if not settings.security_enabled or not settings.logging_enabled:
             return self.get_response(request)
 
         # Get client IP
-        ip_address = get_client_ip(request)
+        ip_address = get_cached_client_ip(request)
 
         # Store IP on request for other middleware/views
         request.client_ip = ip_address

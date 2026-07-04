@@ -1,6 +1,6 @@
 id = "web_security"
 name = "Web Security"
-version = "1.5.1"
+version = "1.6.0"
 description = "Threat detection, rate limiting, IP reputation checking, and firewall integration (Cloudflare, AWS WAF, Nginx, iptables)."
 target = "django-boilerplate"
 edition = "free"

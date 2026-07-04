@@ -2,8 +2,8 @@ import logging
 
 from django.http import HttpResponseForbidden
 
-from apps.web_security.models import IPThreatSummary, SecuritySettings
-from apps.web_security.utils import get_client_ip, get_exempt_ips, is_private_ip
+from apps.web_security.models import IPThreatSummary
+from apps.web_security.utils import get_cached_client_ip, get_cached_settings, get_exempt_ips, is_private_ip
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class IPBlockMiddleware:
 
     def __call__(self, request):
         # Get security settings
-        settings = SecuritySettings.get_settings()
+        settings = get_cached_settings(request)
 
         # Check if security and IP blocking are enabled
         if not settings.security_enabled or not settings.ip_blocking_enabled:
@@ -32,7 +32,7 @@ class IPBlockMiddleware:
             return self.get_response(request)
 
         # Get client IP
-        ip_address = get_client_ip(request)
+        ip_address = get_cached_client_ip(request)
 
         # Skip private/internal IPs (Docker, localhost, etc.)
         if is_private_ip(ip_address):

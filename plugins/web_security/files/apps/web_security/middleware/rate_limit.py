@@ -2,8 +2,8 @@ import logging
 
 from django.http import HttpResponse
 
-from apps.web_security.models import IPThreatSummary, RateLimitRule, SecuritySettings
-from apps.web_security.utils import get_client_ip, get_exempt_ips, is_private_ip
+from apps.web_security.models import IPThreatSummary, RateLimitRule
+from apps.web_security.utils import get_cached_client_ip, get_cached_settings, get_exempt_ips, is_private_ip
 
 logger = logging.getLogger(__name__)
 
@@ -21,14 +21,14 @@ class RateLimitMiddleware:
 
     def __call__(self, request):
         # Get security settings
-        settings = SecuritySettings.get_settings()
+        settings = get_cached_settings(request)
 
         # Check if security and rate limiting are enabled
         if not settings.security_enabled or not settings.rate_limiting_enabled:
             return self.get_response(request)
 
         # Get client IP
-        ip_address = get_client_ip(request)
+        ip_address = get_cached_client_ip(request)
 
         # Skip private/internal IPs (Docker, localhost, etc.)
         if is_private_ip(ip_address):

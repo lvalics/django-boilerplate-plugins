@@ -30,7 +30,7 @@ class SecurityHeadersXSSProtectionTests(SimpleTestCase):
         settings_obj = MagicMock(security_enabled=True, security_headers_enabled=True)
 
         with patch(
-            "apps.web_security.middleware.security_headers.SecuritySettings.get_settings",
+            "apps.web_security.middleware.security_headers.get_cached_settings",
             return_value=settings_obj,
         ):
             request = RequestFactory().get("/")

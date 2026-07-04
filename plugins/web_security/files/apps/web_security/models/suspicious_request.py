@@ -130,31 +130,64 @@ class SuspiciousRequest(BaseModel):
         Returns:
             SuspiciousRequest: Created log entry
         """
-        # Extract headers (filter sensitive ones)
+        # Extract raw headers; record() filters sensitive ones + truncates.
         headers = {}
-        sensitive_headers = {"Authorization", "Cookie", "X-CSRFToken"}
         for key, value in request.META.items():
             if key.startswith("HTTP_"):
                 header_name = key[5:].replace("_", "-").title()
-                if header_name not in sensitive_headers:
-                    headers[header_name] = value[:500]  # Truncate long values
+                headers[header_name] = value
 
         # Get body preview (if applicable)
         body_preview = ""
         if request.method in ("POST", "PUT", "PATCH"):
             try:
-                body = request.body.decode("utf-8", errors="replace")
-                body_preview = body[:1000]
+                body_preview = request.body.decode("utf-8", errors="replace")[:1000]
             except Exception:
                 pass
 
-        return cls.objects.create(
+        return cls.record(
             ip_address=ip_address,
-            path=request.path[:2000],
+            path=request.path,
             method=request.method,
-            user_agent=request.META.get("HTTP_USER_AGENT", "")[:500],
+            user_agent=request.META.get("HTTP_USER_AGENT", ""),
             headers=headers,
             body_preview=body_preview,
+            match_info=match_info,
+            response_code=response_code,
+            action_taken=action_taken,
+        )
+
+    @classmethod
+    def record(
+        cls,
+        *,
+        ip_address,
+        path,
+        method,
+        user_agent,
+        headers,
+        body_preview,
+        match_info,
+        response_code=None,
+        action_taken="logged",
+    ):
+        """
+        Create a SuspiciousRequest from plain, serializable fields (no request object).
+
+        Used by the async threat-recording Celery task so the request path performs no DB
+        writes. Sensitive headers are filtered and long values truncated here.
+        """
+        sensitive_headers = {"Authorization", "Cookie", "X-CSRFToken"}
+        filtered = {
+            k: (v[:500] if isinstance(v, str) else v) for k, v in (headers or {}).items() if k not in sensitive_headers
+        }
+        return cls.objects.create(
+            ip_address=ip_address,
+            path=(path or "")[:2000],
+            method=method,
+            user_agent=(user_agent or "")[:500],
+            headers=filtered,
+            body_preview=(body_preview or "")[:1000],
             pattern_id=match_info.get("pattern_id"),
             pattern_name=match_info.get("pattern_name", "")[:100],
             category=match_info.get("category", "")[:20],

@@ -193,6 +193,35 @@ def get_client_ip(request):
     return validated_remote or ""
 
 
+def get_cached_settings(request):
+    """
+    Resolve SecuritySettings once per request and cache it on the request object.
+
+    The five security middleware each need the settings; without this each would hit the
+    settings cache separately. The first middleware to call this computes it; the rest reuse
+    it regardless of middleware order.
+    """
+    cached = getattr(request, "_web_security_settings", None)
+    if cached is None:
+        from apps.web_security.models import SecuritySettings
+
+        cached = SecuritySettings.get_settings()
+        request._web_security_settings = cached
+    return cached
+
+
+def get_cached_client_ip(request):
+    """
+    Resolve the client IP once per request and cache it on the request object.
+
+    Avoids re-parsing forwarded headers in every middleware. Empty string is a valid
+    (computed) result and is cached.
+    """
+    if not hasattr(request, "_web_security_client_ip"):
+        request._web_security_client_ip = get_client_ip(request)
+    return request._web_security_client_ip
+
+
 def get_exempt_ips():
     """
     Get list of exempt IPs from settings.

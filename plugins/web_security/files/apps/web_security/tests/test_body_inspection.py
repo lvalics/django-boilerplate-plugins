@@ -41,11 +41,11 @@ class BodyInspectionTests(SimpleTestCase):
 
         patchers = [
             patch(
-                "apps.web_security.middleware.threat_monitor.SecuritySettings.get_settings",
+                "apps.web_security.middleware.threat_monitor.get_cached_settings",
                 return_value=_mock_security_settings(),
             ),
             patch(
-                "apps.web_security.middleware.threat_monitor.get_client_ip",
+                "apps.web_security.middleware.threat_monitor.get_cached_client_ip",
                 return_value="203.0.113.5",
             ),
             patch(

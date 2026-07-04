@@ -3,7 +3,7 @@ import logging
 from celery import shared_task
 from django.utils import timezone
 
-from apps.utils.locks import task_lock
+from apps.web_security.locks import task_lock
 
 logger = logging.getLogger(__name__)
 
@@ -18,12 +18,7 @@ def auto_block_high_threats(self):
     Uses distributed lock to prevent concurrent execution.
     """
     try:
-        from apps.web_security.models import (
-            IPThreatSummary,
-            SecuritySettings,
-            SuspiciousRequest,
-        )
-        from apps.web_security.services.notifications import notify_auto_block
+        from apps.web_security.models import IPThreatSummary, SecuritySettings
 
         settings = SecuritySettings.get_settings()
 
@@ -53,20 +48,9 @@ def auto_block_high_threats(self):
                 duration_minutes=duration,
             )
 
-            # Get recent suspicious requests for notification
-            recent_requests = list(
-                SuspiciousRequest.get_recent_by_ip(summary.ip_address, hours=24).values(
-                    "created_at", "method", "path", "pattern_name"
-                )[:10]
-            )
-
-            # Send notification
-            notify_auto_block(
-                settings_obj=settings,
-                ip_address=summary.ip_address,
-                threat_score=summary.total_threat_score,
-                suspicious_requests=recent_requests,
-            )
+            # Notify out of band: dispatching a task is non-blocking, so SMTP no longer
+            # runs inside this locked loop (it also moves the recent-requests query off the lock).
+            send_auto_block_notification.delay(summary.ip_address, summary.total_threat_score)
 
             blocked_count += 1
             logger.info(f"Auto-blocked IP {summary.ip_address} (score: {summary.total_threat_score})")
@@ -83,6 +67,67 @@ def auto_block_high_threats(self):
     except Exception as e:
         logger.error(f"Error in auto_block_high_threats: {e}")
         raise self.retry(exc=e, countdown=60) from e
+
+
+@shared_task
+def send_auto_block_notification(ip_address, threat_score):
+    """
+    Send an auto-block notification out of band.
+
+    Dispatched by auto_block_high_threats so the (blocking) SMTP send and the
+    recent-requests query happen outside that task's distributed lock.
+    """
+    try:
+        from apps.web_security.models import SecuritySettings, SuspiciousRequest
+        from apps.web_security.services.notifications import notify_auto_block
+
+        settings = SecuritySettings.get_settings()
+        recent_requests = list(
+            SuspiciousRequest.get_recent_by_ip(ip_address, hours=24).values(
+                "created_at", "method", "path", "pattern_name"
+            )[:10]
+        )
+        notify_auto_block(
+            settings_obj=settings,
+            ip_address=ip_address,
+            threat_score=threat_score,
+            suspicious_requests=recent_requests,
+        )
+    except Exception as e:
+        logger.error(f"Error sending auto-block notification for {ip_address}: {e}")
+
+
+@shared_task
+def record_threat_matches(ip_address, matches, request_data, reputation_enabled=False):
+    """
+    Persist threat-pattern matches off the request path.
+
+    The ThreatMonitor middleware dispatches this so the request does no synchronous DB
+    writes or row locks; args are plain/serializable (no request object).
+    """
+    try:
+        from apps.web_security.models import IPReputationCache, IPThreatSummary, SuspiciousRequest
+
+        for match in matches:
+            SuspiciousRequest.record(
+                ip_address=ip_address,
+                path=request_data.get("path", ""),
+                method=request_data.get("method", ""),
+                user_agent=request_data.get("user_agent", ""),
+                headers=request_data.get("headers", {}),
+                body_preview=request_data.get("body_preview", ""),
+                match_info=match,
+                action_taken="logged",
+            )
+            IPThreatSummary.add_threat(
+                ip_address=ip_address,
+                threat_score=match.get("threat_score", 0),
+                category=match.get("category", ""),
+            )
+        if reputation_enabled:
+            IPReputationCache.get_or_queue(ip_address)
+    except Exception as e:
+        logger.error(f"Error recording threat matches for {ip_address}: {e}")
 
 
 # Lock TTL must exceed the worst-case runtime (up to 50 IPs x the per-request timeout,

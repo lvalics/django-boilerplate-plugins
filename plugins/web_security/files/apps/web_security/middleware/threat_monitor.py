@@ -1,14 +1,8 @@
 import logging
 
-from apps.web_security.models import (
-    IPReputationCache,
-    IPThreatSummary,
-    SecuritySettings,
-    SuspiciousRequest,
-    ThreatPattern,
-)
+from apps.web_security.models import ThreatPattern
 from apps.web_security.models.threat_pattern import MAX_BODY_INSPECTION_SIZE
-from apps.web_security.utils import get_client_ip, get_exempt_ips, is_private_ip
+from apps.web_security.utils import get_cached_client_ip, get_cached_settings, get_exempt_ips, is_private_ip
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +19,8 @@ class ThreatMonitorMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Get security settings
-        settings = SecuritySettings.get_settings()
+        # Get security settings (resolved once per request, shared across middleware)
+        settings = get_cached_settings(request)
 
         # Check if security and threat detection are enabled
         if not settings.security_enabled or not settings.threat_detection_enabled:
@@ -36,8 +30,8 @@ class ThreatMonitorMiddleware:
         if settings.is_path_whitelisted(request.path):
             return self.get_response(request)
 
-        # Get client IP
-        ip_address = get_client_ip(request)
+        # Get client IP (resolved once per request, shared across middleware)
+        ip_address = get_cached_client_ip(request)
 
         # Skip private/internal IPs (Docker, localhost, etc.)
         if is_private_ip(ip_address):
@@ -94,7 +88,6 @@ class ThreatMonitorMiddleware:
         )
 
         if matches:
-            # Log each match
             for match in matches:
                 logger.warning(
                     f"Threat detected from {ip_address}: "
@@ -102,24 +95,21 @@ class ThreatMonitorMiddleware:
                     f"on {request.method} {path}"
                 )
 
-                # Log suspicious request
-                SuspiciousRequest.log_suspicious_request(
-                    request=request,
-                    ip_address=ip_address,
-                    match_info=match,
-                    action_taken="logged",
-                )
+            # Persist off the request path (DB writes + row locks run in a Celery task, not
+            # inline in the response). Args are plain/serializable — no request object.
+            request_data = {
+                "path": path,
+                "method": request.method,
+                "user_agent": user_agent,
+                "headers": headers,
+                "body_preview": body[:1000],
+            }
+            try:
+                from apps.web_security.tasks import record_threat_matches
 
-                # Update IP threat summary
-                IPThreatSummary.add_threat(
-                    ip_address=ip_address,
-                    threat_score=match["threat_score"],
-                    category=match["category"],
-                )
-
-            # Queue IP for reputation check if enabled
-            if settings.ip_reputation_enabled:
-                IPReputationCache.get_or_queue(ip_address)
+                record_threat_matches.delay(ip_address, matches, request_data, settings.ip_reputation_enabled)
+            except Exception as e:
+                logger.error(f"Failed to enqueue threat recording for {ip_address}: {e}")
 
         response = self.get_response(request)
 
