@@ -28,10 +28,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Frontend TypeScript client** (`frontend/`) dropped from the port; the REST API remains
   and can be consumed by any client.
 
-### Notes
-- `template_loader.SiteAwareCachedLoader` is currently a thin placeholder over Django's
-  cached loader so the production loader stack is valid. Making its cache key site-aware is
-  pending Task 2.
+### Fixed
+- **Site-aware template cache keys**: `template_loader.SiteAwareCachedLoader` now overrides
+  `cache_key` to namespace the compiled-template cache by the current site's `template_dir`.
+  Django's stock `cached.Loader` keys only on the template name, so under multi-domain the
+  first site to render a shared name (e.g. `web/base.html`) would poison the cache for every
+  other site. The production loader stack must use this loader, not a plain `cached.Loader`.
+- **Quieter loader hot path**: the per-request "loaded site-specific template" hit log dropped
+  from `INFO` to `DEBUG`; the template-not-found `WARNING` is unchanged.
 
 ## [1.3.5] - 2025-12-26
 

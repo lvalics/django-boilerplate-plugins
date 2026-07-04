@@ -8,6 +8,19 @@ Template resolution order:
 1. templates/{template_dir}/{template_name}
 2. templates/{domain_prefix}/{template_name}
 3. templates/{template_name} (default)
+
+Template caching (production)
+-----------------------------
+``SiteTemplateLoader`` resolves the SAME template name (e.g. ``web/base.html``)
+to DIFFERENT files depending on the current site's ``template_dir``. Django's
+stock ``django.template.loaders.cached.Loader`` caches compiled templates keyed
+by the template NAME only, so under a plain cached loader whichever site renders
+first poisons the cache for every other site.
+
+``SiteAwareCachedLoader`` fixes this by prefixing the cache key with the current
+site's ``template_dir``, giving each site its own cache entry. Production loader
+stacks MUST use ``SiteAwareCachedLoader`` as the cached wrapper (the installer
+wires this automatically); a plain ``cached.Loader`` must NOT be substituted.
 """
 
 import logging
@@ -112,7 +125,7 @@ class SiteTemplateLoader(FilesystemLoader):
                         )
                         result = super().get_template(site_template, skip=skip)
                         loading_stack.discard(site_template)
-                        logger.info(
+                        logger.debug(
                             "SiteTemplateLoader: loaded site-specific template: %s",
                             site_template,
                         )
@@ -150,10 +163,27 @@ class SiteTemplateLoader(FilesystemLoader):
 
 
 class SiteAwareCachedLoader(CachedLoader):
-    """Cached template loader for the production loader stack.
+    """Cached template loader that keys the compiled-template cache per site.
 
-    Placeholder for now: it behaves exactly like Django's cached loader. Task 2 makes
-    its cache key site-aware so per-site template overrides are cached independently.
+    Django's ``cached.Loader`` keys its cache on the template NAME only. Because
+    ``SiteTemplateLoader`` resolves the same name to different files per site, a
+    plain cached loader would let the first site to render a given template
+    poison the cache for all other sites.
+
+    This loader prefixes the cache key with the current site's ``template_dir``
+    (falling back to an empty string when no site is resolved), so each site's
+    overrides are compiled and cached independently.
     """
 
-    pass
+    def cache_key(self, template_name, skip=None):
+        """Return a site-namespaced cache key.
+
+        The current site's ``template_dir`` is used as the site key; when no
+        site config is resolved (or it has no ``template_dir``) the key is the
+        empty string. The ``"{site_key}::"`` prefix keeps default-site renders
+        cached under a distinct, stable key while preserving the parent's
+        ``skip`` semantics.
+        """
+        site_config = get_current_site_config()
+        site_key = site_config.get("template_dir") or "" if site_config else ""
+        return f"{site_key}::{super().cache_key(template_name, skip)}"

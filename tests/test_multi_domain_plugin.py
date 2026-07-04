@@ -173,7 +173,36 @@ def test_settings_loader_prod_shape():
     assert inner[1:] == _DEBUG_LOADERS
 
 
-# --- 4. Dependencies ---------------------------------------------------------
+# --- 4. Site-aware cached template loader ------------------------------------
+
+
+def test_site_aware_cached_loader_implements_cache_key():
+    """SiteAwareCachedLoader has a real, site-aware cache_key (placeholder is gone)."""
+    src = (FILES_ROOT / "apps/sites/template_loader.py").read_text(encoding="utf-8")
+    assert "class SiteAwareCachedLoader" in src
+    # Real implementation: a cache_key override that keys on template_dir.
+    key_i = src.index("class SiteAwareCachedLoader")
+    body = src[key_i:]
+    assert "def cache_key" in body, "cache_key override missing"
+    assert "template_dir" in body, "cache_key does not reference template_dir"
+    # Placeholder comment must be gone.
+    assert "Task 2" not in src
+    assert "Placeholder for now" not in src
+
+
+def test_site_specific_hit_logged_at_debug_level():
+    """The site-specific template hit log is debug, not info (hot-path noise removed)."""
+    src = (FILES_ROOT / "apps/sites/template_loader.py").read_text(encoding="utf-8")
+    hit_i = src.index("loaded site-specific template")
+    # Walk back to the logger call opening this statement.
+    call_start = src.rindex("logger.", 0, hit_i)
+    assert src[call_start:hit_i].startswith("logger.debug("), (
+        "site-specific template hit must be logged at debug level"
+    )
+    assert "logger.info(" not in src
+
+
+# --- 5. Dependencies ---------------------------------------------------------
 
 
 def test_python_dependencies_include_pyjwt():

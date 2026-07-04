@@ -173,6 +173,15 @@ templates/mysite/
 
 Use `{{ site_name }}` in per-site templates for the site's display name.
 
+### Template caching
+
+In production the loader stack is wrapped in `SiteAwareCachedLoader` (installed
+automatically). Because the same template name resolves to different files per site,
+this loader namespaces the compiled-template cache by the site's `template_dir` so each
+site's overrides are cached independently. **Do not** swap in a plain
+`django.template.loaders.cached.Loader` — it caches by template name only, so the first
+site to render a template would poison the cache for every other site.
+
 ## Cross-domain SSO
 
 1. Create an auth domain with `is_auth_domain=True`.
