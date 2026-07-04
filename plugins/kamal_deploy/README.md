@@ -10,10 +10,10 @@ interactive [Kamal](https://kamal-deploy.org/) wrapper for versioned deploys.
   the git tag / short commit hash. Also detects the environment (local / staging /
   production). Exposes an `app_version` template context processor.
 - **Admin footer version** - the installer registers an `app_version` template context
-  processor automatically. To display it, you add a small `{{ app_version }}` snippet to
-  your `templates/admin/base_site.html` footer (printed as a post-install step). This is
-  intentionally a manual, one-line step so the installer never overwrites your admin
-  template; a ready-to-use example ships at `files/templates/admin/base_site.html`.
+  processor automatically. To display it, add a small `{{ app_version }}` snippet to your
+  `templates/admin/base_site.html` footer (the exact snippet is printed as a post-install
+  step). This is intentionally a manual, one-line step so the installer never overwrites
+  your admin template.
 - **`kamal.sh`** - an interactive wrapper around Kamal: pick or auto-generate a version,
   guards against deploying uncommitted / unpushed changes, and passes everything else
   through to `kamal`. Runs the official `ghcr.io/basecamp/kamal` image.
@@ -36,8 +36,8 @@ After applying:
 1. Ensure the wrapper is executable: `chmod +x kamal.sh`.
 2. The installer registers the `apps.web.version.app_version` context processor in
    `TEMPLATES`; no manual settings edit is needed.
-3. Add the printed footer snippet to your `templates/admin/base_site.html` (or copy the
-   bundled example) to show the version in the admin. Optional.
+3. Optional: add the printed footer snippet to your `templates/admin/base_site.html`
+   (create it extending `admin/base.html` if you have none) to show the version in the admin.
 4. Deploy with `./kamal.sh deploy` (interactive), `./kamal.sh deploy --auto`
    (auto-generate a version), or `./kamal.sh <any kamal command>`.
 

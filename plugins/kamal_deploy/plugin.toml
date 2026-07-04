@@ -5,9 +5,9 @@ description = "Show the deployed app version in the Django admin footer, and shi
 target = "django-boilerplate"
 edition = "pro"
 
-# base_site.html is intentionally NOT auto-installed: overwriting a project's admin
-# template would clobber its customisations. The footer line is a documented manual step
-# (see post_install_notes); a ready-to-use example ships in this plugin's files/.
+# The admin footer template is intentionally NOT auto-installed: overwriting a project's
+# admin/base_site.html would clobber its customisations. The footer line is a documented
+# manual step (see post_install_notes).
 files = [
   "apps/web/version.py",
   "kamal.sh",
@@ -21,8 +21,7 @@ post_install_notes = """
 1. Ensure the wrapper is executable: chmod +x kamal.sh
 2. Deploy with: ./kamal.sh deploy   (interactive version selection; passes through to Kamal)
 3. To show the version in the Django admin, add this to the {% block footer %} of your
-   templates/admin/base_site.html (create it extending "admin/base.html" if you have none;
-   a ready-to-use example ships at files/templates/admin/base_site.html in this plugin):
+   templates/admin/base_site.html (create it extending "admin/base.html" if you have none):
 
      {% if app_version %}
      <div style="text-align:center; color:var(--body-quiet-color); font-size:11px; padding:8px;">

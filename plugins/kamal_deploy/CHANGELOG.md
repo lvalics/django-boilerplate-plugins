@@ -11,8 +11,7 @@
     `TEMPLATES`, so no manual settings edit is required.
   - The admin footer template is NOT auto-installed (overwriting a project's
     `base_site.html` would clobber its customisations). The one-line footer snippet is a
-    documented post-install step; a ready-to-use example ships in `files/`. The example
-    includes the optional Pegasus theme toggle with `ignore missing`.
+    documented post-install step, printed by the installer.
 - `kamal.sh` is the latest wrapper, shipped with its executable bit; no project-specific
   values (uses the official `ghcr.io/basecamp/kamal` image and `$HOME/.ssh`).
 - `edition = "pro"`, gated on the presence of a `.kamal/secrets` file in the target.
