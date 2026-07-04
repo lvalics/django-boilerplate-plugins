@@ -183,10 +183,13 @@ def test_no_dropped_modules_shipped():
 
 
 def test_no_binary_locale_or_migration_files():
-    """No .mo binaries, no generated migrations, no __pycache__."""
+    """No .mo binaries, no __pycache__; exactly the real-project-generated 0001_initial."""
     assert not [p for p in _payload_files() if p.suffix == ".mo"]
     migrations = sorted(p.name for p in (APP_ROOT / "migrations").glob("*.py"))
-    assert migrations == ["__init__.py"], migrations
+    assert migrations == ["0001_initial.py", "__init__.py"], migrations
+    initial = (APP_ROOT / "migrations" / "0001_initial.py").read_text()
+    assert "site_management" in initial          # depends on the multi_domain plugin's app
+    assert "ecommerce" not in initial
     assert not [p for p in FILES_ROOT.rglob("__pycache__") if p.exists()]
     # Only the en catalog ships.
     locales = sorted(p.name for p in (APP_ROOT / "locale").iterdir())
