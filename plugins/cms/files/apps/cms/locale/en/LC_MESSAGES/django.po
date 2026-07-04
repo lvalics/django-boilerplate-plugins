@@ -1,0 +1,2180 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-25 17:45+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/cms/admin.py:48
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:60
+msgid "Edit"
+msgstr ""
+
+#: apps/cms/admin.py:62
+msgid "Duplicate"
+msgstr ""
+
+#: apps/cms/admin.py:89
+msgid "SEO"
+msgstr ""
+
+#: apps/cms/admin.py:96
+msgid "Settings"
+msgstr ""
+
+#: apps/cms/admin.py:100
+msgid "Tracking"
+msgstr ""
+
+#: apps/cms/admin.py:118
+msgid "Send form submissions to an external service."
+msgstr ""
+
+#: apps/cms/admin.py:131
+msgid "Receive callbacks from external services."
+msgstr ""
+
+#: apps/cms/admin.py:146
+msgid "Zones"
+msgstr ""
+
+#: apps/cms/admin.py:156
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:23
+msgid "Actions"
+msgstr ""
+
+#: apps/cms/admin.py:172
+msgid "Save the page first to generate callback URL"
+msgstr ""
+
+#: apps/cms/admin.py:174
+msgid "Callback URL"
+msgstr ""
+
+#: apps/cms/admin.py:185
+msgid "Generate New Token"
+msgstr ""
+
+#: apps/cms/admin.py:187
+msgid "Save the page first"
+msgstr ""
+
+#: apps/cms/admin.py:189
+msgid "Generate Token"
+msgstr ""
+
+#: apps/cms/admin.py:223
+msgid "Callback token generated successfully."
+msgstr ""
+
+#: apps/cms/admin.py:244
+msgid "No demo pages selected."
+msgstr ""
+
+#: apps/cms/admin.py:251
+msgid "Created"
+msgstr ""
+
+#: apps/cms/admin.py:251
+msgid "Updated"
+msgstr ""
+
+#: apps/cms/admin.py:254
+#, python-format
+msgid "%(action)s '%(title)s' (%(slug)s) with %(count)d zones"
+msgstr ""
+
+#: apps/cms/admin.py:283
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:4
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:11
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:16
+msgid "Import Demo Pages"
+msgstr ""
+
+#: apps/cms/admin.py:295 apps/cms/admin.py:325
+msgid "Landing page or zone not found"
+msgstr ""
+
+#: apps/cms/admin.py:314
+#, python-format
+msgid ""
+"Zone '%(zone_type)s' duplicated successfully at position %(position)d "
+"(inactive)."
+msgstr ""
+
+#: apps/cms/admin.py:330
+msgid "Cannot delete active zone. Please deactivate it first."
+msgstr ""
+
+#: apps/cms/admin.py:342
+#, python-format
+msgid "Zone '%(zone_type)s' at position %(position)d deleted successfully."
+msgstr ""
+
+#: apps/cms/admin.py:352
+msgid "Duplicate selected pages"
+msgstr ""
+
+#: apps/cms/admin.py:368
+#, python-format
+msgid "%(count)d page(s) duplicated successfully."
+msgstr ""
+
+#: apps/cms/admin.py:376
+msgid "Load from Template"
+msgstr ""
+
+#: apps/cms/admin.py:377
+msgid ""
+"Select a template to load its content and config. This will overwrite "
+"current values."
+msgstr ""
+
+#: apps/cms/admin.py:576
+msgid "Zone Description"
+msgstr ""
+
+#: apps/cms/admin.py:579
+msgid "Help text describing this zone. Pre-filled from template but editable."
+msgstr ""
+
+#: apps/cms/admin.py:583
+msgid "Load Template"
+msgstr ""
+
+#: apps/cms/admin.py:586
+msgid "Load content and config from a pre-defined template."
+msgstr ""
+
+#: apps/cms/admin.py:590
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:71
+msgid "Content"
+msgstr ""
+
+#: apps/cms/admin.py:600 apps/cms/admin.py:620
+#: apps/cms/models.py:534
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:36
+msgid "Testimonial"
+msgstr ""
+
+#: apps/cms/admin.py:604
+msgid "Advanced"
+msgstr ""
+
+#: apps/cms/admin.py:622
+msgid "Duplicate selected zones (inactive)"
+msgstr ""
+
+#: apps/cms/admin.py:641
+#, python-format
+msgid "%(count)d zone(s) duplicated successfully (inactive)."
+msgstr ""
+
+#: apps/cms/admin.py:644
+msgid "Delete inactive zones only"
+msgstr ""
+
+#: apps/cms/admin.py:656
+#, python-format
+msgid "%(count)d inactive zone(s) deleted."
+msgstr ""
+
+#: apps/cms/admin.py:660
+#, python-format
+msgid "%(count)d active zone(s) were skipped. Deactivate first."
+msgstr ""
+
+#: apps/cms/admin.py:692
+#, python-format
+msgid "Zone restored to version from %(date)s."
+msgstr ""
+
+#: apps/cms/admin.py:740
+msgid "Rating & Verification"
+msgstr ""
+
+#: apps/cms/admin.py:742
+msgid "Media"
+msgstr ""
+
+#: apps/cms/admin.py:749
+msgid "Product"
+msgstr ""
+
+#: apps/cms/admin.py:756
+msgid "Approval"
+msgstr ""
+
+#: apps/cms/admin.py:763
+msgid "Schema"
+msgstr ""
+
+#: apps/cms/admin.py:775 apps/cms/forms.py:52
+msgid "Rating"
+msgstr ""
+
+#: apps/cms/admin.py:777
+msgid "Approve selected testimonials"
+msgstr ""
+
+#: apps/cms/admin.py:782
+#, python-format
+msgid "Approved %d testimonials."
+msgstr ""
+
+#: apps/cms/admin.py:784
+msgid "Reject selected testimonials"
+msgstr ""
+
+#: apps/cms/admin.py:787
+#, python-format
+msgid "Rejected %d testimonials."
+msgstr ""
+
+#: apps/cms/admin.py:802
+msgid "Default Content & Config"
+msgstr ""
+
+#: apps/cms/admin.py:839
+msgid "Default zone templates imported successfully!"
+msgstr ""
+
+#: apps/cms/admin.py:841
+msgid "Zone templates already exist. Use --force to update."
+msgstr ""
+
+#: apps/cms/admin.py:889 apps/cms/admin.py:914
+msgid "Conversion Rate"
+msgstr ""
+
+#: apps/cms/admin.py:928
+msgid "Rate Limiting - IP"
+msgstr ""
+
+#: apps/cms/admin.py:935
+msgid "Rate Limiting - Email"
+msgstr ""
+
+#: apps/cms/admin.py:942
+msgid "Rate Limiting - Exemptions"
+msgstr ""
+
+#: apps/cms/admin.py:949
+msgid "Cache"
+msgstr ""
+
+#: apps/cms/admin.py:1047
+msgid "Source"
+msgstr ""
+
+#: apps/cms/admin.py:1057 apps/cms/admin.py:1137
+msgid "Form Data"
+msgstr ""
+
+#: apps/cms/admin.py:1060 apps/cms/admin.py:1075
+msgid "Readable view above, editable JSON below."
+msgstr ""
+
+#: apps/cms/admin.py:1064 apps/cms/admin.py:1194
+msgid "Uploaded Files"
+msgstr ""
+
+#: apps/cms/admin.py:1067
+msgid "Preview above, editable JSON below."
+msgstr ""
+
+#: apps/cms/admin.py:1079
+msgid "Timestamps"
+msgstr ""
+
+#: apps/cms/admin.py:1208
+msgid "Session ID"
+msgstr ""
+
+#: apps/cms/admin.py:1219 apps/cms/forms.py:11
+msgid "Email"
+msgstr ""
+
+#: apps/cms/admin.py:1241
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:37
+msgid "Status"
+msgstr ""
+
+#: apps/cms/admin.py:1249
+msgid "Payment"
+msgstr ""
+
+#: apps/cms/admin.py:1251
+msgid "Mark selected orders as processing"
+msgstr ""
+
+#: apps/cms/admin.py:1254
+#, python-format
+msgid "Marked %d orders as processing."
+msgstr ""
+
+#: apps/cms/admin.py:1256
+msgid "Mark selected orders as completed"
+msgstr ""
+
+#: apps/cms/admin.py:1259
+#, python-format
+msgid "Marked %d orders as completed."
+msgstr ""
+
+#: apps/cms/admin.py:1261
+msgid "Reset selected orders to pending"
+msgstr ""
+
+#: apps/cms/admin.py:1264
+#, python-format
+msgid "Reset %d orders to pending."
+msgstr ""
+
+#: apps/cms/admin.py:1317
+msgid "Request"
+msgstr ""
+
+#: apps/cms/admin.py:1324
+msgid "Response"
+msgstr ""
+
+#: apps/cms/admin.py:1336
+msgid "Error"
+msgstr ""
+
+#: apps/cms/admin.py:1358
+msgid "OK"
+msgstr ""
+
+#: apps/cms/admin.py:1366
+msgid "Duration"
+msgstr ""
+
+#: apps/cms/forms.py:12
+msgid "Your email"
+msgstr ""
+
+#: apps/cms/forms.py:16
+msgid "Name"
+msgstr ""
+
+#: apps/cms/forms.py:18 apps/cms/forms.py:37
+#: apps/cms/forms.py:39
+msgid "Your name"
+msgstr ""
+
+#: apps/cms/forms.py:26
+msgid "Your testimonial"
+msgstr ""
+
+#: apps/cms/forms.py:31
+msgid "Share your experience..."
+msgstr ""
+
+#: apps/cms/forms.py:43
+msgid "Your title (optional)"
+msgstr ""
+
+#: apps/cms/forms.py:47
+msgid "e.g., CEO at Company"
+msgstr ""
+
+#: apps/cms/forms.py:59
+msgid "Email (for verification)"
+msgstr ""
+
+#: apps/cms/forms.py:61
+msgid "Your email (not displayed)"
+msgstr ""
+
+#: apps/cms/forms.py:69
+msgid "Please provide a more detailed testimonial (at least 20 characters)."
+msgstr ""
+
+#: apps/cms/forms.py:71
+msgid "Testimonial is too long (maximum 2000 characters)."
+msgstr ""
+
+#: apps/cms/forms.py:79
+msgid "Upload file"
+msgstr ""
+
+#: apps/cms/forms.py:98
+#, python-format
+msgid "File size exceeds maximum allowed (%(max)s MB)."
+msgstr ""
+
+#: apps/cms/forms.py:104
+#, python-format
+msgid "File type not allowed. Allowed types: %(types)s"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:43
+msgid "About Us Page"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:43
+msgid "Company about page with team, values, timeline, testimonials, and FAQ"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:51
+#: apps/cms/management/commands/install_demo_pages.py:91
+msgid "About Us"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:52
+msgid "Learn more about our company, team, and mission."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:69
+msgid "Building the Future of Digital Experiences"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:71
+msgid ""
+"We're a passionate team of designers, developers, and strategists dedicated "
+"to creating exceptional products that make a difference."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:74
+msgid "Meet the Team"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:75
+#: apps/cms/management/commands/install_demo_pages.py:92
+msgid "Our Story"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:93
+msgid "Building Digital Excellence Since 2019"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:96
+msgid ""
+"What started as a small team with a big vision has grown into a trusted "
+"partner for businesses worldwide. We believe that great technology should be "
+"accessible, intuitive, and transformative.\n"
+"\n"
+"Our approach is simple: we listen first, then build. Every solution we "
+"create is tailored to solve real problems and deliver measurable results. We "
+"don't just write code—we craft experiences that help businesses thrive.\n"
+"\n"
+"Today, we're proud to serve clients across 30+ countries, from ambitious "
+"startups to Fortune 500 companies. Our commitment to quality, innovation, "
+"and customer success remains at the heart of everything we do."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:106
+msgid "Learn More About Us"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:123
+msgid "Our Core Values"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:124
+msgid "The principles that guide everything we do"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:132
+msgid "Innovation First"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:134
+msgid ""
+"We embrace new technologies and creative solutions to solve complex problems."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:142
+msgid "User-Centered Design"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:143
+msgid "Every decision starts with understanding our users' needs."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:154
+msgid "Quality Obsession"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:155
+msgid "We never compromise on quality, from code to customer experience."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:162
+msgid "Transparent Communication"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:163
+msgid "We believe in honest, open communication with clients and team."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:181
+msgid "Meet Our Leadership Team"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:182
+msgid "The talented people behind our success"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:186
+msgid "CEO & Co-Founder"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:188
+msgid "Former VP of Product at TechCorp with 15 years of experience."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:192
+msgid "CTO & Co-Founder"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:194
+msgid "An engineer who has architected systems serving millions."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:198
+msgid "Head of Design"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:200
+msgid "Award-winning designer passionate about user experiences."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:204
+msgid "VP of Engineering"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:206
+msgid "20+ years leading teams that ship reliable solutions."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:222
+msgid "Our Journey"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:223
+msgid "From a small startup to a global team"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:227
+msgid "The Beginning"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:228
+msgid "Founded in a small garage with a big dream."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:232
+msgid "First Major Client"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:233
+msgid "Landed our first enterprise client, grew to 10 people."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:237
+msgid "Series A Funding"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:238
+msgid "Raised $5M to expand our product offerings."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:242
+msgid "Global Expansion"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:243
+msgid "Opened offices in London and Singapore."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:247
+msgid "Industry Leader"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:248
+msgid "200+ team members worldwide."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:264
+msgid "What Our Partners Say"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:265
+msgid "Trusted by industry leaders"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:269
+msgid "CEO, TechStart Inc."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:271
+msgid ""
+"Working with this team has been transformative. Their attention to detail is "
+"unmatched."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:278
+msgid "Founder, GrowthLab"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:279
+#, python-format
+msgid ""
+"They don't just build products; they build partnerships. 300% growth in two "
+"years."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:285
+msgid "VP Product, DataFlow"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:286
+msgid "Professional, innovative, and always delivering beyond expectations."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:305
+#: apps/cms/management/commands/install_demo_pages.py:680
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:306
+msgid "Got questions? We've got answers."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:309
+msgid "What services do you offer?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:311
+msgid ""
+"Web development, mobile apps, UI/UX design, cloud infrastructure, and "
+"consulting."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:315
+msgid "How do you approach new projects?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:316
+msgid ""
+"Discovery phase, then tailored roadmap, with agile sprints to deliver value."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:319
+msgid "What industries do you work with?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:320
+msgid "Fintech, healthcare, e-commerce, education, and enterprise SaaS."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:323
+msgid "Do you offer ongoing support?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:324
+msgid "Yes! Flexible support and maintenance packages available."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:327
+msgid "Where are you located?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:328
+msgid "Headquarters in San Francisco, with offices in London and Singapore."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:344
+msgid "Ready to Build Something Amazing?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:345
+msgid "Let's discuss how we can help bring your vision to life."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:346
+msgid "Get in Touch"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:348
+msgid "View Our Work"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:371
+msgid "Designer Portfolio"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:372
+msgid ""
+"Creative portfolio showcasing work, services, process, and client "
+"testimonials"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:381
+msgid "Portfolio"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:382
+msgid "Web designer portfolio showcasing creative work and design services."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:399
+msgid "I Design Digital Experiences That Matter"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:401
+msgid ""
+"Hi, I'm Alex. A freelance web designer specializing in creating beautiful, "
+"functional websites that help businesses grow and connect with their "
+"audience."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:404
+msgid "View My Work"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:405
+msgid "Let's Talk"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:421
+msgid "About Me"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:422
+msgid "Alex Rivera"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:423
+msgid "Freelance Web Designer & UI/UX Specialist"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:426
+msgid ""
+"With over 8 years of experience in web design, I've had the privilege of "
+"working with startups, agencies, and established brands across the globe. My "
+"passion lies in transforming complex ideas into elegant, user-friendly "
+"digital experiences.\n"
+"\n"
+"I believe great design isn't just about aesthetics—it's about solving "
+"problems and creating meaningful connections between brands and their "
+"audiences. Every project I take on is an opportunity to push creative "
+"boundaries while delivering results.\n"
+"\n"
+"When I'm not designing, you'll find me exploring new coffee shops, hiking "
+"local trails, or experimenting with new design tools and techniques."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:435
+msgid "Awwwards Nominee"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:435
+msgid "Dribbble Top 100"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:435
+msgid "8+ Years Experience"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:441
+msgid "Download Resume"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:458
+msgid "Services"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:459
+msgid "How I can help bring your vision to life"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:463
+msgid "Web Design"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:465
+msgid ""
+"Custom website designs that capture your brand essence and engage your "
+"audience."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:470
+msgid "UI/UX Design"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:472
+msgid ""
+"User-centered interfaces that are intuitive, accessible, and delightful to "
+"use."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:477
+msgid "E-commerce"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:478
+msgid ""
+"Online stores optimized for conversions with seamless shopping experiences."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:482
+#: apps/cms/management/commands/install_demo_pages.py:551
+msgid "Brand Identity"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:484
+msgid ""
+"Cohesive visual identities including logos, color palettes, and style guides."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:489
+msgid "Webflow Development"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:490
+msgid "Pixel-perfect Webflow builds with animations and CMS integration."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:494
+msgid "Conversion Optimization"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:495
+msgid "Data-driven design improvements that boost engagement and conversions."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:515
+msgid "Selected Work"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:516
+msgid "Recent Projects"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:517
+msgid "A glimpse into my latest design work"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:521
+msgid "Fintech Dashboard"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:522
+msgid "Modern dashboard design for a financial technology startup."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:523
+#: apps/cms/management/commands/install_demo_pages.py:529
+#: apps/cms/management/commands/install_demo_pages.py:535
+#: apps/cms/management/commands/install_demo_pages.py:541
+#: apps/cms/management/commands/install_demo_pages.py:547
+#: apps/cms/management/commands/install_demo_pages.py:553
+msgid "View Case Study"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:527
+msgid "E-commerce Redesign"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:528
+msgid "Complete redesign increasing conversions by 45%."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:533
+msgid "SaaS Landing Page"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:534
+msgid "High-converting landing page for B2B software company."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:539
+msgid "Agency Website"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:540
+msgid "Award-winning website for a creative agency."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:545
+msgid "Mobile App Design"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:546
+msgid "iOS app design for a health & wellness startup."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:552
+msgid "Complete rebrand for an established consulting firm."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:573
+msgid "My Design Process"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:574
+msgid "A proven approach that delivers results"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:578
+msgid "Discovery"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:580
+msgid ""
+"We start with a deep dive into your business, goals, target audience, and "
+"competitors to establish a solid foundation."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:586
+msgid "Strategy"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:588
+msgid ""
+"Based on research insights, we define the project scope, user journeys, and "
+"key features that will drive success."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:594
+msgid "Design"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:596
+msgid ""
+"I create wireframes and high-fidelity mockups, iterating based on your "
+"feedback until the design is perfect."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:602
+msgid "Development"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:604
+msgid ""
+"The approved design is built with clean code, ensuring responsiveness, "
+"performance, and accessibility."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:610
+msgid "Launch & Support"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:612
+msgid ""
+"After thorough testing, we launch your project and provide ongoing support "
+"to ensure continued success."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:631
+msgid "Client Love"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:632
+msgid "What people say about working with me"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:636
+msgid "Founder, TechStart"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:638
+msgid ""
+"Alex transformed our outdated website into a modern, conversion-focused "
+"machine. Our leads increased by 200% within the first month!"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:646
+msgid "Marketing Director, GrowthCo"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:648
+msgid ""
+"Incredible attention to detail and a true understanding of user experience. "
+"Alex delivered beyond our expectations, on time and within budget."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:656
+msgid "CEO, Boutique Agency"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:658
+msgid ""
+"Working with Alex was a dream. They took our vague ideas and turned them "
+"into a stunning website that perfectly represents our brand."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:681
+msgid "Answers to common questions about working together"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:684
+msgid "What's your typical project timeline?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:686
+msgid ""
+"Most projects take 4-8 weeks from kickoff to launch, depending on scope and "
+"complexity. I'll provide a detailed timeline during our initial consultation."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:691
+msgid "How much do you charge?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:693
+msgid ""
+"Project pricing varies based on scope and requirements. Simple landing pages "
+"start around $3,000, while comprehensive websites range from $8,000-$25,000+."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:698
+msgid "Do you offer payment plans?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:700
+#, python-format
+msgid ""
+"Yes! I typically split projects into milestones with 50% upfront and "
+"50% upon completion. Custom arrangements are available for larger projects."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:705
+msgid "Will I be able to update the website myself?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:707
+msgid ""
+"Absolutely. I build on platforms like Webflow or WordPress that make content "
+"updates easy. I also provide training and documentation."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:712
+msgid "Do you work with clients remotely?"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:714
+msgid ""
+"Yes, I work with clients worldwide. We'll communicate via video calls, "
+"email, and project management tools to ensure smooth collaboration."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:733
+msgid "Let's Create Something Amazing Together"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:735
+msgid ""
+"Ready to elevate your online presence? I'd love to hear about your project "
+"and discuss how we can bring your vision to life."
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:738
+msgid "Start a Project"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:740
+msgid "Schedule a Call"
+msgstr ""
+
+#: apps/cms/management/commands/install_demo_pages.py:742
+msgid "Free consultation • No commitment required"
+msgstr ""
+
+#: apps/cms/models.py:11
+msgid "Hero with Video"
+msgstr ""
+
+#: apps/cms/models.py:12
+msgid "Single Testimonial"
+msgstr ""
+
+#: apps/cms/models.py:13
+msgid "Benefits Grid"
+msgstr ""
+
+#: apps/cms/models.py:14
+msgid "Social Proof CTA"
+msgstr ""
+
+#: apps/cms/models.py:15
+msgid "Curriculum/Outline"
+msgstr ""
+
+#: apps/cms/models.py:16
+msgid "Testimonials Grid"
+msgstr ""
+
+#: apps/cms/models.py:17
+msgid "Pricing Section"
+msgstr ""
+
+#: apps/cms/models.py:18
+msgid "About Instructor"
+msgstr ""
+
+#: apps/cms/models.py:19
+msgid "Guarantee Section"
+msgstr ""
+
+#: apps/cms/models.py:20
+msgid "FAQ Section"
+msgstr ""
+
+#: apps/cms/models.py:21
+msgid "Final CTA"
+msgstr ""
+
+#: apps/cms/models.py:22
+msgid "Order Form"
+msgstr ""
+
+#: apps/cms/models.py:23
+msgid "Carousel"
+msgstr ""
+
+#: apps/cms/models.py:24
+msgid "Comparison Slider"
+msgstr ""
+
+#: apps/cms/models.py:25
+msgid "Gallery"
+msgstr ""
+
+#: apps/cms/models.py:26
+msgid "Jumbotron"
+msgstr ""
+
+#: apps/cms/models.py:27
+#: apps/cms/templates/cms/zones/qr_code.html:37
+#: apps/cms/templates/cms/zones/qr_code.html:62
+#: apps/cms/templates/cms/zones/qr_code.html:96
+msgid "QR Code"
+msgstr ""
+
+#: apps/cms/models.py:28
+msgid "Table"
+msgstr ""
+
+#: apps/cms/models.py:29
+msgid "Timeline"
+msgstr ""
+
+#: apps/cms/models.py:30
+msgid "Video"
+msgstr ""
+
+#: apps/cms/models.py:31
+msgid "Redirect"
+msgstr ""
+
+#: apps/cms/models.py:32
+msgid "Showcase"
+msgstr ""
+
+#: apps/cms/models.py:33
+msgid "Banner"
+msgstr ""
+
+#: apps/cms/models.py:34
+msgid "Footer"
+msgstr ""
+
+#: apps/cms/models.py:45
+msgid "Pending"
+msgstr ""
+
+#: apps/cms/models.py:46
+msgid "Payment Pending"
+msgstr ""
+
+#: apps/cms/models.py:47
+msgid "Processing"
+msgstr ""
+
+#: apps/cms/models.py:48
+msgid "On Hold"
+msgstr ""
+
+#: apps/cms/models.py:49
+msgid "In Production"
+msgstr ""
+
+#: apps/cms/models.py:50
+msgid "Completed"
+msgstr ""
+
+#: apps/cms/models.py:51
+msgid "Failed"
+msgstr ""
+
+#: apps/cms/models.py:52
+msgid "Cancelled"
+msgstr ""
+
+#: apps/cms/models.py:65
+msgid "Internal title for this landing page."
+msgstr ""
+
+#: apps/cms/models.py:70
+msgid "URL-friendly identifier. Must be unique across all sites."
+msgstr ""
+
+#: apps/cms/models.py:81
+msgid ""
+"The site this landing page belongs to. Leave empty to show on all sites."
+msgstr ""
+
+#: apps/cms/models.py:91
+msgid "Associated product for e-commerce functionality."
+msgstr ""
+
+#: apps/cms/models.py:98
+msgid "SEO title (max 70 chars). Defaults to title if empty."
+msgstr ""
+
+#: apps/cms/models.py:103
+msgid "SEO description (max 160 chars)."
+msgstr ""
+
+#: apps/cms/models.py:107
+msgid "Canonical URL if different from page URL."
+msgstr ""
+
+#: apps/cms/models.py:113
+msgid "Use the site's base template. Uncheck for standalone pages."
+msgstr ""
+
+#: apps/cms/models.py:119
+msgid "Inactive pages return 404."
+msgstr ""
+
+#: apps/cms/models.py:123
+msgid "Disable form submissions on this page."
+msgstr ""
+
+#: apps/cms/models.py:126
+msgid "Auto-create User"
+msgstr ""
+
+#: apps/cms/models.py:128
+msgid "Automatically create a user account when form with email is submitted."
+msgstr ""
+
+#: apps/cms/models.py:138
+msgid "User who created this landing page."
+msgstr ""
+
+#: apps/cms/models.py:145
+msgid "No Authentication"
+msgstr ""
+
+#: apps/cms/models.py:146
+msgid "Bearer Token"
+msgstr ""
+
+#: apps/cms/models.py:147
+msgid "API Key Header"
+msgstr ""
+
+#: apps/cms/models.py:148
+msgid "Basic Auth"
+msgstr ""
+
+#: apps/cms/models.py:159
+msgid "External URL to receive form submissions."
+msgstr ""
+
+#: apps/cms/models.py:162
+msgid "Auth Method"
+msgstr ""
+
+#: apps/cms/models.py:169
+msgid "Auth Key/Token"
+msgstr ""
+
+#: apps/cms/models.py:172
+msgid "API key, bearer token, or username:password for Basic auth."
+msgstr ""
+
+#: apps/cms/models.py:175
+msgid "Auth Header Name"
+msgstr ""
+
+#: apps/cms/models.py:179
+msgid "Custom header name for API Key auth method (e.g., X-Api-Key)."
+msgstr ""
+
+#: apps/cms/models.py:186
+msgid "Callback Active"
+msgstr ""
+
+#: apps/cms/models.py:188
+msgid "Enable receiving callbacks from external service."
+msgstr ""
+
+#: apps/cms/models.py:191
+msgid "Callback Token"
+msgstr ""
+
+#: apps/cms/models.py:194
+msgid "Secure token for URL-based callback authentication."
+msgstr ""
+
+#: apps/cms/models.py:198
+msgid "Landing Page"
+msgstr ""
+
+#: apps/cms/models.py:199
+msgid "Landing Pages"
+msgstr ""
+
+#: apps/cms/models.py:275
+msgid "The landing page this zone belongs to."
+msgstr ""
+
+#: apps/cms/models.py:282
+msgid "Type of zone determines the template used."
+msgstr ""
+
+#: apps/cms/models.py:287
+msgid "Description/notes for this zone. Pre-filled from template but editable."
+msgstr ""
+
+#: apps/cms/models.py:292
+msgid "Display order (lower numbers first)."
+msgstr ""
+
+#: apps/cms/models.py:299
+msgid "Zone content (text, images, etc.) as JSON."
+msgstr ""
+
+#: apps/cms/models.py:304
+msgid "Zone configuration (styling, behavior) as JSON."
+msgstr ""
+
+#: apps/cms/models.py:311
+msgid "Custom template path. Leave empty for default zone template."
+msgstr ""
+
+#: apps/cms/models.py:328
+msgid "Linked testimonial for testimonial zone types."
+msgstr ""
+
+#: apps/cms/models.py:333
+msgid "Inactive zones are not rendered."
+msgstr ""
+
+#: apps/cms/models.py:337
+msgid "Landing Page Zone"
+msgstr ""
+
+#: apps/cms/models.py:338
+msgid "Landing Page Zones"
+msgstr ""
+
+#: apps/cms/models.py:359
+msgid ""
+"Only one Order Form zone is allowed per landing page. This page already has "
+"an Order Form zone."
+msgstr ""
+
+#: apps/cms/models.py:414
+msgid "Zone content at this point in time."
+msgstr ""
+
+#: apps/cms/models.py:419
+msgid "Zone configuration at this point in time."
+msgstr ""
+
+#: apps/cms/models.py:427
+msgid "User who made the change."
+msgstr ""
+
+#: apps/cms/models.py:448
+msgid "The testimonial content."
+msgstr ""
+
+#: apps/cms/models.py:452
+msgid "Name of the person giving the testimonial."
+msgstr ""
+
+#: apps/cms/models.py:457
+msgid "Title or role (e.g., 'CEO at Company')."
+msgstr ""
+
+#: apps/cms/models.py:463
+msgid "Photo of the testimonial author."
+msgstr ""
+
+#: apps/cms/models.py:469
+msgid "Rating from 1-5 stars."
+msgstr ""
+
+#: apps/cms/models.py:475
+msgid "Verified customer testimonial."
+msgstr ""
+
+#: apps/cms/models.py:481
+msgid "URL to video testimonial (YouTube, Vimeo, etc.)."
+msgstr ""
+
+#: apps/cms/models.py:487
+msgid "Screenshot or proof image."
+msgstr ""
+
+#: apps/cms/models.py:497 apps/cms/models.py:967
+msgid "Associated product."
+msgstr ""
+
+#: apps/cms/models.py:504
+msgid "Was this submitted publicly (vs admin-created)?"
+msgstr ""
+
+#: apps/cms/models.py:509
+msgid "When this testimonial was approved."
+msgstr ""
+
+#: apps/cms/models.py:517
+msgid "User who approved this testimonial."
+msgstr ""
+
+#: apps/cms/models.py:524
+msgid "Auto-generated Schema.org Review markup."
+msgstr ""
+
+#: apps/cms/models.py:530
+msgid "Number of times this testimonial has been shown."
+msgstr ""
+
+#: apps/cms/models.py:535
+msgid "Testimonials"
+msgstr ""
+
+#: apps/cms/models.py:573
+msgid "Template name for easy identification."
+msgstr ""
+
+#: apps/cms/models.py:579
+msgid "Zone type this template applies to."
+msgstr ""
+
+#: apps/cms/models.py:583
+msgid "Description of what this template provides."
+msgstr ""
+
+#: apps/cms/models.py:590
+msgid "Default content JSON for this template."
+msgstr ""
+
+#: apps/cms/models.py:595
+msgid "Default configuration JSON for this template."
+msgstr ""
+
+#: apps/cms/models.py:602
+msgid "Custom template file path."
+msgstr ""
+
+#: apps/cms/models.py:607
+msgid "Inactive templates are not available for selection."
+msgstr ""
+
+#: apps/cms/models.py:619
+msgid "Zone Template"
+msgstr ""
+
+#: apps/cms/models.py:620
+msgid "Zone Templates"
+msgstr ""
+
+#: apps/cms/models.py:661
+msgid "Total page views."
+msgstr ""
+
+#: apps/cms/models.py:665
+msgid "Unique visitors (by session)."
+msgstr ""
+
+#: apps/cms/models.py:669
+msgid "CTA button clicks."
+msgstr ""
+
+#: apps/cms/models.py:673
+msgid "Form submissions."
+msgstr ""
+
+#: apps/cms/models.py:738
+msgid "The site these settings apply to."
+msgstr ""
+
+#: apps/cms/models.py:744
+msgid "Enable landing pages for this site."
+msgstr ""
+
+#: apps/cms/models.py:754
+msgid "Maximum requests per IP within the time window."
+msgstr ""
+
+#: apps/cms/models.py:758
+msgid "Time window in seconds for IP rate limiting (default: 1 hour)."
+msgstr ""
+
+#: apps/cms/models.py:764
+msgid "Maximum requests per email within the time window."
+msgstr ""
+
+#: apps/cms/models.py:768
+msgid "Time window in seconds for email rate limiting (default: 24 hours)."
+msgstr ""
+
+#: apps/cms/models.py:775
+msgid "List of IP addresses exempt from rate limiting."
+msgstr ""
+
+#: apps/cms/models.py:781
+msgid "Cache timeout in seconds (default: 5 minutes)."
+msgstr ""
+
+#: apps/cms/models.py:804 apps/cms/models.py:805
+msgid "Landing Pages Settings"
+msgstr ""
+
+#: apps/cms/models.py:855
+msgid "Zone content/config overrides as JSON. Keys are zone IDs."
+msgstr ""
+
+#: apps/cms/models.py:895
+msgid "Traffic percentage must be between 0 and 100."
+msgstr ""
+
+#: apps/cms/models.py:949
+msgid "User who submitted the order (if logged in)."
+msgstr ""
+
+#: apps/cms/models.py:977
+msgid "Landing page that generated this order."
+msgstr ""
+
+#: apps/cms/models.py:985
+msgid "The ORDER_FORM zone that created this order."
+msgstr ""
+
+#: apps/cms/models.py:991
+msgid "Submitted form data as JSON."
+msgstr ""
+
+#: apps/cms/models.py:996
+msgid "List of uploaded file URLs/paths."
+msgstr ""
+
+#: apps/cms/models.py:1012
+msgid "Current order status."
+msgstr ""
+
+#: apps/cms/models.py:1023
+msgid "Landing Page Order"
+msgstr ""
+
+#: apps/cms/models.py:1024
+msgid "Landing Page Orders"
+msgstr ""
+
+#: apps/cms/models.py:1047
+msgid "Outbound"
+msgstr ""
+
+#: apps/cms/models.py:1048
+msgid "Inbound"
+msgstr ""
+
+#: apps/cms/models.py:1069
+msgid "Direction"
+msgstr ""
+
+#: apps/cms/models.py:1075
+msgid "URL"
+msgstr ""
+
+#: apps/cms/models.py:1080
+msgid "Event"
+msgstr ""
+
+#: apps/cms/models.py:1083
+msgid "Event type (e.g., form_submitted, status_update)."
+msgstr ""
+
+#: apps/cms/models.py:1088
+msgid "Request Headers"
+msgstr ""
+
+#: apps/cms/models.py:1091
+msgid "Headers sent with the request."
+msgstr ""
+
+#: apps/cms/models.py:1094
+msgid "Request Body"
+msgstr ""
+
+#: apps/cms/models.py:1097
+msgid "Body/payload of the request."
+msgstr ""
+
+#: apps/cms/models.py:1102
+msgid "Response Status"
+msgstr ""
+
+#: apps/cms/models.py:1105
+msgid "HTTP response status code."
+msgstr ""
+
+#: apps/cms/models.py:1108
+msgid "Response Headers"
+msgstr ""
+
+#: apps/cms/models.py:1111
+msgid "Headers from the response."
+msgstr ""
+
+#: apps/cms/models.py:1114
+msgid "Response Body"
+msgstr ""
+
+#: apps/cms/models.py:1117
+msgid "Body of the response."
+msgstr ""
+
+#: apps/cms/models.py:1122
+msgid "Duration (ms)"
+msgstr ""
+
+#: apps/cms/models.py:1125
+msgid "Request duration in milliseconds."
+msgstr ""
+
+#: apps/cms/models.py:1128
+msgid "Success"
+msgstr ""
+
+#: apps/cms/models.py:1133
+msgid "Error Message"
+msgstr ""
+
+#: apps/cms/services/email.py:68
+#, python-format
+msgid "Order Confirmation - %s"
+msgstr ""
+
+#: apps/cms/services/email.py:80
+#, python-format
+msgid "Thank you for your order. Your order ID is: %s"
+msgstr ""
+
+#: apps/cms/services/email.py:117
+#, python-format
+msgid "Order Status Update - %s"
+msgstr ""
+
+#: apps/cms/services/email.py:128
+#, python-format
+msgid "Your order status has been updated from %(old)s to %(new)s."
+msgstr ""
+
+#: apps/cms/services/email.py:167
+msgid "Your account has been created"
+msgstr ""
+
+#: apps/cms/services/email.py:180
+#, python-format
+msgid ""
+"Welcome! Your account has been created.\n"
+"\n"
+"Email: %(email)s\n"
+"Password: %(password)s\n"
+"\n"
+"Please log in and change your password."
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/change_list.html:9
+msgid "Import Demo Page"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:8
+msgid "Home"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:19
+msgid ""
+"Select demo pages to import. These are pre-built landing pages with sample "
+"content that you can customize."
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:26
+msgid "Available Demo Pages"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:35
+msgid "Page"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:36
+msgid "Description"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:59
+msgid "Exists"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:63
+#: apps/cms/templates/cms/zones/hero_announcement.html:12
+msgid "New"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:71
+msgid "No demo pages available."
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:76
+msgid "Options"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:80
+msgid "Overwrite existing pages"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:83
+msgid ""
+"If checked, existing pages with the same slug will be replaced. All zones "
+"will be recreated."
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:89
+msgid "Import Selected"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpage/import_demo.html:91
+#: apps/cms/templates/cms/zones/order_form.html:377
+#: apps/cms/templates/cms/zones/order_form_floating.html:503
+msgid "Cancel"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:14
+msgid "versions"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:21
+msgid "Date"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:22
+msgid "Changed By"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:36
+msgid "Unknown"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:42
+msgid "Preview"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:47
+msgid "Restore"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:65
+msgid "Version Preview"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_form.html:75
+msgid "Config"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:9
+msgid "Expand All"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:10
+msgid "Collapse All"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:23
+msgid "Filter"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:33
+msgid "Zone type"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:34
+msgid "Order"
+msgstr ""
+
+#: apps/cms/templates/admin/cms/landingpagezone/change_list.html:35
+msgid "Active"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:7
+#, python-format
+msgid "Welcome to %(site_name)s"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:12
+#: apps/cms/templates/cms/emails/welcome.txt:1
+#, python-format
+msgid "Welcome to %(site_name)s!"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:18
+#: apps/cms/templates/cms/emails/welcome.txt:3
+msgid "Your account has been created automatically."
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:23
+#: apps/cms/templates/cms/emails/welcome.txt:5
+msgid "Your login credentials:"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:27
+#: apps/cms/templates/cms/emails/welcome.txt:6
+msgid "Email:"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:31
+#: apps/cms/templates/cms/emails/welcome.txt:7
+msgid "Password:"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:38
+#: apps/cms/templates/cms/emails/welcome.txt:9
+msgid "Please log in and change your password as soon as possible."
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:43
+#: apps/cms/templates/cms/emails/welcome.txt:12
+#, python-format
+msgid "This account was created from: %(page_title)s"
+msgstr ""
+
+#: apps/cms/templates/cms/emails/welcome.html:48
+#: apps/cms/templates/cms/emails/welcome.txt:15
+msgid "Thank you!"
+msgstr ""
+
+#: apps/cms/templates/cms/landing_page.html:27
+#: apps/cms/templates/cms/landing_page_standalone.html:34
+msgid "No content available for this page."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/banner.html:64
+#: apps/cms/templates/cms/zones/banner.html:107
+#: apps/cms/templates/cms/zones/banner.html:165
+msgid "Dismiss"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/benefits_grid.html:126
+#: apps/cms/templates/cms/zones/timeline.html:91
+msgid "Learn more"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/carousel.html:50
+msgid "Slide image"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/carousel.html:235
+msgid "Previous"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/carousel.html:245
+msgid "Next"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/carousel.html:388
+msgid "Enlarged image"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/comparison.html:53
+msgid "Comparison slider"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/comparison.html:59
+msgid "Before"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/comparison.html:60
+msgid "After"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/curriculum.html:68
+#: apps/cms/templates/cms/zones/curriculum.html:144
+#, python-format
+msgid "%(count)s lessons"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/footer.html:19
+#: apps/cms/templates/cms/zones/footer.html:44
+#: apps/cms/templates/cms/zones/footer.html:99
+#: apps/cms/templates/cms/zones/footer.html:163
+msgid "All Rights Reserved."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/gallery.html:27
+#: apps/cms/templates/cms/zones/gallery.html:51
+#: apps/cms/templates/cms/zones/gallery.html:65
+#: apps/cms/templates/cms/zones/gallery.html:81
+#: apps/cms/templates/cms/zones/gallery.html:153
+#: apps/cms/templates/cms/zones/gallery.html:228
+#: apps/cms/templates/cms/zones/gallery.html:280
+#: apps/cms/templates/cms/zones/gallery.html:339
+msgid "Gallery image"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/gallery.html:44
+msgid "Featured image"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/gallery.html:213
+msgid "All"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/guarantee.html:121
+msgid "Day"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/guarantee.html:122
+msgid "Guarantee"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/hero_announcement.html:56
+msgid "FEATURED IN"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/hero_fullscreen.html:7
+msgid "Hero background"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/hero_visual.html:63
+msgid "Hero image"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/jumbotron.html:199
+#: apps/cms/templates/cms/zones/order_form.html:297
+#: apps/cms/templates/cms/zones/order_form_floating.html:340
+msgid "Submit"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/jumbotron.html:247
+msgid "Search..."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/jumbotron.html:254
+msgid "Search"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/jumbotron.html:264
+msgid "Enter your email"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/jumbotron.html:267
+msgid "Subscribe"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/jumbotron.html:355
+msgid "Read more"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:34
+#: apps/cms/templates/cms/zones/order_form_floating.html:32
+msgid "Leave this field empty"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:187
+#: apps/cms/templates/cms/zones/order_form.html:233
+#: apps/cms/templates/cms/zones/order_form_floating.html:214
+#: apps/cms/templates/cms/zones/order_form_floating.html:263
+msgid "Click to upload"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:187
+#: apps/cms/templates/cms/zones/order_form.html:233
+#: apps/cms/templates/cms/zones/order_form_floating.html:214
+#: apps/cms/templates/cms/zones/order_form_floating.html:263
+msgid "or drag and drop"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:190
+#: apps/cms/templates/cms/zones/order_form_floating.html:217
+msgid "Any file"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:190
+#: apps/cms/templates/cms/zones/order_form_floating.html:217
+#, python-format
+msgid "max %(max_size)sMB"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:198
+#: apps/cms/templates/cms/zones/order_form.html:244
+#: apps/cms/templates/cms/zones/order_form_floating.html:225
+#: apps/cms/templates/cms/zones/order_form_floating.html:274
+msgid "Image cropping opens automatically • Hover to re-crop"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:236
+#: apps/cms/templates/cms/zones/order_form_floating.html:266
+msgid "Any files"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:236
+#: apps/cms/templates/cms/zones/order_form_floating.html:266
+#, python-format
+msgid "max %(max_files)s files, %(max_size)sMB each"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:317
+#: apps/cms/templates/cms/zones/order_form_floating.html:359
+msgid "Sending..."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:318
+#: apps/cms/templates/cms/zones/order_form_floating.html:360
+msgid "Thank you! Your submission has been received."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:319
+#: apps/cms/templates/cms/zones/order_form_floating.html:361
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:373
+#: apps/cms/templates/cms/zones/order_form_floating.html:499
+#, python-brace-format
+msgid "Maximum {count} files allowed"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:374
+#: apps/cms/templates/cms/zones/order_form_floating.html:500
+#, python-brace-format
+msgid "File type not allowed: {name}"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:375
+#: apps/cms/templates/cms/zones/order_form_floating.html:501
+#, python-brace-format
+msgid "File too large: {name}. Maximum size is {size}MB"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:376
+#: apps/cms/templates/cms/zones/order_form_floating.html:502
+msgid "Crop Image"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:378
+#: apps/cms/templates/cms/zones/order_form_floating.html:504
+msgid "Apply Crop"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:379
+#: apps/cms/templates/cms/zones/order_form_floating.html:505
+msgid "Crop"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form.html:380
+#: apps/cms/templates/cms/zones/order_form_floating.html:506
+msgid "Remove"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:362
+msgid "This field is required"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:363
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:364
+msgid "Please enter a valid URL"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:365
+msgid "Please enter a valid number"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:366
+msgid "Please match the requested format"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:367
+#, python-brace-format
+msgid "Please enter at least {min} characters"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/order_form_floating.html:368
+#, python-brace-format
+msgid "Please enter no more than {max} characters"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/pricing.html:35
+msgid "Monthly"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/pricing.html:37
+msgid "Annual"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/pricing.html:57
+msgid "Most Popular"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/redirect.html:8
+msgid "Redirecting..."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/redirect.html:40
+msgid "Redirecting in"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/redirect.html:40
+msgid "seconds..."
+msgstr ""
+
+#: apps/cms/templates/cms/zones/redirect.html:45
+msgid "Click here if not redirected automatically"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/social_proof_cta.html:91
+msgid "Partner logo"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/testimonial_single.html:109
+#: apps/cms/templates/cms/zones/testimonials_grid.html:85
+msgid "Verified"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/testimonial_single.html:152
+msgid "Verified Customer"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/testimonials_grid.html:187
+msgid "at"
+msgstr ""
+
+#: apps/cms/templates/cms/zones/video.html:62
+msgid "Your browser does not support the video tag."
+msgstr ""

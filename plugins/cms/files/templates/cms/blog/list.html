@@ -1,0 +1,51 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block page_title %}{{ archive_title }}{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-10">
+  <div class="max-w-3xl mx-auto text-center mb-10">
+    <h1 class="text-3xl md:text-4xl font-bold">{{ archive_title }}</h1>
+    <div class="text-sm breadcrumbs justify-center mt-2">
+      <ul>
+        <li><a href="{% url 'cms_blog:blog_list' %}">{% translate "Blog" %}</a></li>
+        {% if archive_kind != "all" %}<li>{{ archive_title }}</li>{% endif %}
+      </ul>
+    </div>
+  </div>
+
+  {% if posts %}
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {% for post in posts %}
+        <a href="{% url 'cms_blog:blog_detail' post.slug %}" class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow">
+          <div class="card-body">
+            <h2 class="card-title">{{ post.title }}</h2>
+            <p class="text-sm text-base-content/70">
+              {% if post.published_at %}<span>{{ post.published_at|date:"M d, Y" }}</span>{% endif %}
+              {% if post.category %}<span class="badge badge-outline badge-sm ml-1">{{ post.category.name }}</span>{% endif %}
+            </p>
+            {% if post.excerpt %}<p class="mt-2 text-base-content/80">{{ post.excerpt|truncatewords:28 }}</p>{% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+      <div class="flex items-center justify-center gap-2 mt-10">
+        {% if page_obj.has_previous %}
+          <a class="btn btn-sm btn-outline" href="?page={{ page_obj.previous_page_number }}">«</a>
+        {% endif %}
+        <span class="text-sm">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a class="btn btn-sm btn-outline" href="?page={{ page_obj.next_page_number }}">»</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="max-w-3xl mx-auto">
+      <div class="alert alert-info">{% translate "No posts yet." %}</div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

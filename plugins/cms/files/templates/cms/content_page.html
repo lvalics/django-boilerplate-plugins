@@ -1,0 +1,23 @@
+{% extends base_template %}
+{% load i18n landing_page_tags %}
+
+{% block page_title %}{{ page.meta_title|default:page.title }}{% endblock %}
+
+{% block body %}
+<article class="container mx-auto px-4 py-10">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ page.title }}</h1>
+    {% if page.excerpt %}<p class="text-lg text-base-content/80 mb-6">{{ page.excerpt }}</p>{% endif %}
+
+    <div class="prose max-w-none">
+      {% for zone in page.zones.all %}
+        {% if zone.is_active %}
+          {% include zone.get_template_name with zone=zone %}
+        {% endif %}
+      {% empty %}
+        <p>{% translate "No content yet." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</article>
+{% endblock %}
