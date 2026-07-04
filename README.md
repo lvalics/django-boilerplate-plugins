@@ -13,6 +13,7 @@ lives inside clearly marked blocks, so installing is reversible.
 | Plugin | Edition | Description |
 | --- | --- | --- |
 | `web_security` | free | Threat detection, rate limiting, IP reputation, and firewall integration (Cloudflare / AWS WAF / Nginx / iptables), with a Django-admin control panel and Celery background tasks. See `plugins/web_security/README.md`. |
+| `kamal_deploy` | pro | Shows the deployed app version in the Django admin footer and ships an interactive [Kamal](https://kamal-deploy.org/) deploy wrapper (`kamal.sh`). Installs only where the project is set up for Kamal (a `.kamal/secrets` file exists). See `plugins/kamal_deploy/README.md`. |
 
 More plugins are being ported in; run `python install.py --list` to see what a given
 checkout ships.

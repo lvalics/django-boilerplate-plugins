@@ -1,0 +1,34 @@
+id = "kamal_deploy"
+name = "Kamal Deploy"
+version = "1.1.0"
+description = "Show the deployed app version in the Django admin footer, and ship an interactive Kamal deploy wrapper (kamal.sh)."
+target = "django-boilerplate"
+edition = "pro"
+
+files = [
+  "apps/web/version.py",
+  "templates/admin/base_site.html",
+  "kamal.sh",
+]
+
+# Register the version context processor used by the admin base_site.html footer.
+settings_append = 'TEMPLATES[0]["OPTIONS"]["context_processors"].append("apps.web.version.app_version")'
+
+post_install_notes = """
+1. Ensure the wrapper is executable: chmod +x kamal.sh
+2. Deploy with: ./kamal.sh deploy   (interactive version selection; passes through to Kamal)
+3. The admin footer shows the version from KAMAL_VERSION (set by Kamal at deploy time)
+   or the git tag / commit for local development.
+"""
+
+# Eligible only where the project is actually set up for Kamal deployment
+# (a .kamal/secrets file exists). Otherwise the installer refuses.
+[requires]
+any_of = [
+  { file = ".kamal/secrets" },
+]
+
+[[env_vars]]
+name = "KAMAL_VERSION"
+required = false
+default = ""

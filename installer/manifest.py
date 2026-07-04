@@ -24,6 +24,7 @@ class Manifest:
     files: list[str] = field(default_factory=list)
     env_vars: list[dict] = field(default_factory=list)
     post_install_notes: str = ""
+    settings_append: str = ""
     requires: dict | None = None
 
 

@@ -36,6 +36,10 @@ def build_settings_block(m: Manifest) -> str:
             "CELERY_BEAT_SCHEDULE = {**globals().get('CELERY_BEAT_SCHEDULE', {}), "
             f"**{_py_literal(m.celery_beat_schedule)}}}"
         )
+    if m.settings_append:
+        # Raw Python appended verbatim inside the marker block (e.g. registering a
+        # template context processor). The plugin author is responsible for its validity.
+        lines.append(m.settings_append.strip("\n"))
     lines.append(_end(m.id))
     return "\n".join(lines)
 
