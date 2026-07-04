@@ -215,7 +215,10 @@ def test_no_binary_locale_or_migration_files():
     """No .mo binaries, no __pycache__; ships only migrations/__init__.py (fresh 0001 regenerated in-project)."""
     assert not [p for p in _payload_files() if p.suffix == ".mo"]
     migrations = sorted(p.name for p in (APP_ROOT / "migrations").glob("*.py"))
-    assert migrations == ["__init__.py"], migrations
+    assert migrations == ["0001_initial.py", "__init__.py"], migrations
+    initial = (APP_ROOT / "migrations" / "0001_initial.py").read_text()
+    assert "site_management" in initial          # depends on the multi_domain plugin's app
+    assert "ecommerce" not in initial
     assert not [p for p in FILES_ROOT.rglob("__pycache__") if p.exists()]
     # Only the en catalog ships.
     locales = sorted(p.name for p in (APP_ROOT / "locale").iterdir())
@@ -248,7 +251,8 @@ def test_category_and_tag_models_exist():
 
 def test_blog_urls_and_views_present():
     urls_blog = (APP_ROOT / "urls_blog.py").read_text(encoding="utf-8")
-    assert 'app_name = "cms_blog"' in urls_blog
+    # Blog URL names join the single "cms" namespace (no nested app_name).
+    assert "app_name" not in urls_blog
     for name in ("blog_list", "blog_detail", "blog_category", "blog_tag", "content_page"):
         assert name in urls_blog, name
     views_blog = (APP_ROOT / "views_blog.py").read_text(encoding="utf-8")

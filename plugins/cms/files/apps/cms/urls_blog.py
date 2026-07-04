@@ -1,7 +1,7 @@
 """Public URLs for CMS blog posts + content pages.
 
-Included from ``apps.cms.urls`` under the same root mount, with its own
-``cms_blog`` namespace. Prefixes are configurable via conf.py:
+Included from ``apps.cms.urls`` under the same root mount; the URL names
+live in the single ``cms`` namespace (e.g. ``cms:blog_list``). Prefixes are configurable via conf.py:
 
     CMS_POST_URL_PREFIX     (default: "blog") — blog list/detail/category/tag
     CMS_CONTENT_URL_PREFIX  (default: "c")    — content pages
@@ -10,8 +10,6 @@ Included from ``apps.cms.urls`` under the same root mount, with its own
 from django.urls import path
 
 from . import conf, views_blog
-
-app_name = "cms_blog"
 
 BLOG = (conf.POST_URL_PREFIX or "blog").strip("/")
 CONTENT = (conf.CONTENT_URL_PREFIX or "c").strip("/")

@@ -20,7 +20,7 @@ app_name = "cms"
 urlpatterns = [
     # Order form submission (explicit prefix, before the catch-all).
     path("api/zone/<int:zone_id>/submit-form/", views.submit_order_form, name="submit_form"),
-    # Blog posts + content pages (prefixed internally via conf; own "cms_blog" namespace).
+    # Blog posts + content pages (prefixed internally via conf; names join the "cms" namespace).
     path("", include("apps.cms.urls_blog")),
     # Landing page display — ROOT CATCH-ALL, must remain LAST.
     path("<slug:slug>/", views.landing_page_view, name="page"),

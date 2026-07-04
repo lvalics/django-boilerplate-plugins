@@ -7,6 +7,7 @@ from django.core.cache import cache
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from apps.cms.tests.base import ensure_primary_site
 from apps.cms.models import (
     Page,
     Submission,
@@ -25,6 +26,7 @@ def _make_site(domain):
 
 class PageViewTest(TestCase):
     def setUp(self):
+        ensure_primary_site()
         cache.clear()
         self.page = Page.objects.create(title="Promo", slug="promo", use_site_template=False)
         Zone.objects.create(
@@ -69,8 +71,14 @@ class PageViewTest(TestCase):
         self.assertEqual(self.client.get(self._url("promo")).status_code, 404)
 
 
+@override_settings(
+    # Rate limiting needs a real (in-memory) cache: the boilerplate's default
+    # dev cache can be DummyCache, which no-ops add/incr and disables limiting.
+    CACHES={"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
+)
 class SubmitOrderFormTest(TestCase):
     def setUp(self):
+        ensure_primary_site()
         cache.clear()
         self.page = Page.objects.create(title="Order", slug="order", use_site_template=False)
         self.zone = Zone.objects.create(
@@ -134,6 +142,7 @@ class PerSiteResolutionTest(TestCase):
     """Site-scoped pages are only served on their site; all-sites pages everywhere."""
 
     def setUp(self):
+        ensure_primary_site()
         cache.clear()
         self.profile_a = _make_site("a.example.com")
         self.profile_b = _make_site("b.example.com")

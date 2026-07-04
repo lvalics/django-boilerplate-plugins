@@ -8,8 +8,8 @@
   <div class="max-w-3xl mx-auto">
     <div class="text-sm breadcrumbs mb-4">
       <ul>
-        <li><a href="{% url 'cms_blog:blog_list' %}">{% translate "Blog" %}</a></li>
-        {% if post.category %}<li><a href="{% url 'cms_blog:blog_category' post.category.slug %}">{{ post.category.name }}</a></li>{% endif %}
+        <li><a href="{% url 'cms:blog_list' %}">{% translate "Blog" %}</a></li>
+        {% if post.category %}<li><a href="{% url 'cms:blog_category' post.category.slug %}">{{ post.category.name }}</a></li>{% endif %}
         <li>{{ post.title }}</li>
       </ul>
     </div>
@@ -35,7 +35,7 @@
     {% if post.tags.all %}
       <div class="flex flex-wrap gap-2 mt-8">
         {% for tag in post.tags.all %}
-          <a class="badge badge-outline" href="{% url 'cms_blog:blog_tag' tag.slug %}">#{{ tag.name }}</a>
+          <a class="badge badge-outline" href="{% url 'cms:blog_tag' tag.slug %}">#{{ tag.name }}</a>
         {% endfor %}
       </div>
     {% endif %}
@@ -46,7 +46,7 @@
       <h2 class="text-2xl font-bold mb-6">{% translate "Related posts" %}</h2>
       <div class="grid gap-6 md:grid-cols-3">
         {% for r in related %}
-          <a href="{% url 'cms_blog:blog_detail' r.slug %}" class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow">
+          <a href="{% url 'cms:blog_detail' r.slug %}" class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow">
             <div class="card-body">
               <h3 class="card-title text-base">{{ r.title }}</h3>
               {% if r.excerpt %}<p class="text-sm text-base-content/80">{{ r.excerpt|truncatewords:24 }}</p>{% endif %}

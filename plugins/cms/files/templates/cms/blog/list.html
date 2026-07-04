@@ -9,7 +9,7 @@
     <h1 class="text-3xl md:text-4xl font-bold">{{ archive_title }}</h1>
     <div class="text-sm breadcrumbs justify-center mt-2">
       <ul>
-        <li><a href="{% url 'cms_blog:blog_list' %}">{% translate "Blog" %}</a></li>
+        <li><a href="{% url 'cms:blog_list' %}">{% translate "Blog" %}</a></li>
         {% if archive_kind != "all" %}<li>{{ archive_title }}</li>{% endif %}
       </ul>
     </div>
@@ -18,7 +18,7 @@
   {% if posts %}
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {% for post in posts %}
-        <a href="{% url 'cms_blog:blog_detail' post.slug %}" class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow">
+        <a href="{% url 'cms:blog_detail' post.slug %}" class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow">
           <div class="card-body">
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="text-sm text-base-content/70">
