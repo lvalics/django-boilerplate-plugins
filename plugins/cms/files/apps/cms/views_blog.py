@@ -8,7 +8,7 @@ posts 404 until their publication time.
 from django.core.paginator import Paginator
 from django.db.models import F, Q
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 
 from . import conf
 from .models import Category, Page, PageType, Tag
@@ -85,14 +85,31 @@ def blog_detail(request, slug):
     )
 
 
+def _site_scoped_taxonomy(model, request, slug):
+    """Resolve a Category/Tag by slug for the current site.
+
+    Category/Tag slugs are unique per site, not globally, so two sites may share
+    a slug — a bare get_object_or_404 would raise MultipleObjectsReturned (500).
+    Prefer the current site's entry over an all-sites one.
+    """
+    site_id = _current_site_id(request)
+    qs = model.objects.filter(slug=slug)
+    if site_id:
+        qs = qs.filter(Q(site__isnull=True) | Q(site__site_id=site_id))
+    obj = qs.order_by(F("site_id").asc(nulls_last=True)).first()
+    if obj is None:
+        raise Http404(f"{model.__name__} not found")
+    return obj
+
+
 def blog_category(request, slug):
-    category = get_object_or_404(Category, slug=slug)
+    category = _site_scoped_taxonomy(Category, request, slug)
     qs = _visible_posts(request).filter(category=category)
     return _render_list(request, qs, f"Category: {category.name}", "category", category=category)
 
 
 def blog_tag(request, slug):
-    tag = get_object_or_404(Tag, slug=slug)
+    tag = _site_scoped_taxonomy(Tag, request, slug)
     qs = _visible_posts(request).filter(tags=tag)
     return _render_list(request, qs, f"Tag: {tag.name}", "tag", tag=tag)
 

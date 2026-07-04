@@ -316,7 +316,7 @@ class Zone(BaseModel):
     and configuration as JSON.
     """
 
-    landing_page = models.ForeignKey(
+    page = models.ForeignKey(
         Page,
         on_delete=models.CASCADE,
         related_name="zones",
@@ -383,10 +383,10 @@ class Zone(BaseModel):
     class Meta:
         verbose_name = _("Landing Page Zone")
         verbose_name_plural = _("Landing Page Zones")
-        ordering = ["landing_page", "order"]
+        ordering = ["page", "order"]
 
     def __str__(self):
-        return f"{self.landing_page.title} - {self.get_zone_type_display()} (#{self.order})"
+        return f"{self.page.title} - {self.get_zone_type_display()} (#{self.order})"
 
     def clean(self):
         """Validate zone constraints, template whitelist, and required content keys."""
@@ -395,9 +395,9 @@ class Zone(BaseModel):
         super().clean()
 
         # Only one ORDER_FORM zone allowed per landing page
-        if self.zone_type == ZoneType.ORDER_FORM and self.landing_page_id:
+        if self.zone_type == ZoneType.ORDER_FORM and self.page_id:
             existing = Zone.objects.filter(
-                landing_page=self.landing_page,
+                page=self.page,
                 zone_type=ZoneType.ORDER_FORM,
             ).exclude(pk=self.pk)
 

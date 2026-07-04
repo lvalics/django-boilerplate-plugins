@@ -212,7 +212,7 @@ def _store_uploads(request, zone) -> list[dict]:
     user-facing message when a file fails validation.
     """
     uploaded_files = []
-    folder = f"cms/submissions/{zone.landing_page.slug}/{zone.pk}"
+    folder = f"cms/submissions/{zone.page.slug}/{zone.pk}"
 
     for key, uploaded_file in request.FILES.items():
         is_valid, error = _validate_upload(uploaded_file)
@@ -235,12 +235,12 @@ def submit_order_form(request, zone_id):
     sanitization, file uploads (default storage), and notification email.
     """
     zone = get_object_or_404(
-        Zone.objects.select_related("landing_page"),
+        Zone.objects.select_related("page"),
         id=zone_id,
         zone_type=ZoneType.ORDER_FORM,
     )
 
-    if zone.landing_page.form_disabled:
+    if zone.page.form_disabled:
         return JsonResponse({"error": "Form submissions are disabled"}, status=403)
 
     # Rate limiting (trusted-proxy-aware client IP)
@@ -284,7 +284,7 @@ def submit_order_form(request, zone_id):
             return JsonResponse({"error": str(e)}, status=400)
 
         submission = Submission.objects.create(
-            landing_page=zone.landing_page,
+            page=zone.page,
             zone=zone,
             email=email,
             name=form_data.get("name", "")[:255],

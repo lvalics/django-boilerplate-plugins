@@ -42,12 +42,12 @@ def invalidate_page_cache_on_delete(sender, instance, **kwargs):
 @receiver(post_save, sender=Zone)
 def invalidate_zone_cache_on_save(sender, instance, **kwargs):
     """Invalidate the parent page's cache when a zone is saved."""
-    if instance.landing_page_id:
-        _invalidate_for_page(instance.landing_page)
+    if instance.page_id:
+        _invalidate_for_page(instance.page)
 
 
 @receiver(post_delete, sender=Zone)
 def invalidate_zone_cache_on_delete(sender, instance, **kwargs):
     """Invalidate the parent page's cache when a zone is deleted."""
-    if instance.landing_page_id:
-        _invalidate_for_page(instance.landing_page)
+    if instance.page_id:
+        _invalidate_for_page(instance.page)

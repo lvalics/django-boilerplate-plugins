@@ -25,7 +25,7 @@ class Submission(BaseModel):
     payment/checkout integration: this is a plain order/contact inbox.
     """
 
-    landing_page = models.ForeignKey(
+    page = models.ForeignKey(
         Page,
         on_delete=models.CASCADE,
         related_name="submissions",

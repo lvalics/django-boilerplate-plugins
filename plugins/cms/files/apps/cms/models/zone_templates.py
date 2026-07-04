@@ -51,12 +51,12 @@ class ZoneTemplate(BaseModel):
         help_text=_("Custom template file path."),
     )
 
-    # Preview image (static file path, e.g., "images/landingpages/about-image-left.png")
+    # Preview image (static file path, e.g., "images/cms/about-image-left.png")
     preview_image = models.CharField(
         max_length=200,
         blank=True,
         default="",
-        help_text=_("Static file path to preview image (e.g., images/landingpages/template-name.png)."),
+        help_text=_("Static file path to preview image (e.g., images/cms/template-name.png)."),
     )
 
     is_active = models.BooleanField(

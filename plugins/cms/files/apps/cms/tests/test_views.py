@@ -28,7 +28,7 @@ class PageViewTest(TestCase):
         cache.clear()
         self.page = Page.objects.create(title="Promo", slug="promo", use_site_template=False)
         Zone.objects.create(
-            landing_page=self.page,
+            page=self.page,
             zone_type=ZoneType.HERO_VIDEO,
             content={"headline": "Hello"},
             order=1,
@@ -53,7 +53,7 @@ class PageViewTest(TestCase):
     def test_redirect_zone_redirects(self):
         page = Page.objects.create(title="R", slug="go", use_site_template=False)
         Zone.objects.create(
-            landing_page=page,
+            page=page,
             zone_type=ZoneType.REDIRECT,
             content={"redirect_url": "https://example.com/"},
         )
@@ -74,7 +74,7 @@ class SubmitOrderFormTest(TestCase):
         cache.clear()
         self.page = Page.objects.create(title="Order", slug="order", use_site_template=False)
         self.zone = Zone.objects.create(
-            landing_page=self.page,
+            page=self.page,
             zone_type=ZoneType.ORDER_FORM,
             content={"form_fields": [{"name": "email", "type": "email"}]},
         )
@@ -141,7 +141,7 @@ class PerSiteResolutionTest(TestCase):
             title="A", slug="promo", site=self.profile_a, use_site_template=False
         )
         Zone.objects.create(
-            landing_page=self.page_a, zone_type=ZoneType.HERO_VIDEO, content={"headline": "Site A page"}
+            page=self.page_a, zone_type=ZoneType.HERO_VIDEO, content={"headline": "Site A page"}
         )
 
     def _get(self, slug, site_profile):
@@ -163,7 +163,7 @@ class PerSiteResolutionTest(TestCase):
     def test_all_sites_page_served_everywhere(self):
         page = Page.objects.create(title="G", slug="global", use_site_template=False)
         Zone.objects.create(
-            landing_page=page, zone_type=ZoneType.HERO_VIDEO, content={"headline": "Global page"}
+            page=page, zone_type=ZoneType.HERO_VIDEO, content={"headline": "Global page"}
         )
         for profile in (self.profile_a, self.profile_b):
             response = self._get("global", profile)

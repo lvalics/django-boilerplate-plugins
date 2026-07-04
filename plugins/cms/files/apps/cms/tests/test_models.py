@@ -67,7 +67,7 @@ class ZoneValidationTest(TestCase):
         self.page = Page.objects.create(title="Page", slug="page")
 
     def _zone(self, **kwargs):
-        kwargs.setdefault("landing_page", self.page)
+        kwargs.setdefault("page", self.page)
         kwargs.setdefault("zone_type", ZoneType.HERO_VIDEO)
         return Zone(**kwargs)
 
@@ -102,7 +102,7 @@ class ZoneValidationTest(TestCase):
 
     def test_single_order_form_per_page(self):
         Zone.objects.create(
-            landing_page=self.page, zone_type=ZoneType.ORDER_FORM, content={"form_fields": []}
+            page=self.page, zone_type=ZoneType.ORDER_FORM, content={"form_fields": []}
         )
         duplicate = self._zone(zone_type=ZoneType.ORDER_FORM, content={"form_fields": []})
         with self.assertRaises(ValidationError):

@@ -8,7 +8,7 @@ recipients are configured per ORDER_FORM zone in ``zone.config``:
 - ``notification_email_to``: primary recipient (falls back to DEFAULT_FROM_EMAIL)
 - ``notification_email_cc``: comma-separated CC recipients
 - ``notification_email_subject``: subject, supports ``{field}`` placeholders from
-  the submitted form data plus ``{landing_page}`` and ``{date}``
+  the submitted form data plus ``{page}`` and ``{date}``
 """
 
 import logging
@@ -51,12 +51,12 @@ def send_submission_notification(zone, submission) -> bool:
         placeholder = "{" + key + "}"
         if placeholder in subject:
             subject = subject.replace(placeholder, str(value) if value else "")
-    subject = subject.replace("{landing_page}", zone.landing_page.title)
+    subject = subject.replace("{page}", zone.page.title)
     subject = subject.replace("{date}", datetime.now().strftime("%Y-%m-%d %H:%M"))
 
     # Plain text body
     lines = [
-        f"New form submission from: {zone.landing_page.title}",
+        f"New form submission from: {zone.page.title}",
         f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
         f"Submission ID: {submission.pk}",
         "",

@@ -119,7 +119,7 @@ class PageAdmin(admin.ModelAdmin):
 
             for zone in zones:
                 zone.pk = None
-                zone.landing_page = page
+                zone.page = page
                 zone.save()
 
         self.message_user(
@@ -132,18 +132,18 @@ class ZoneAdmin(admin.ModelAdmin):
     """Admin for individual zones (stock JSON editing)."""
 
     formfield_overrides = JSON_WIDGET_OVERRIDES
-    list_display = ["landing_page", "zone_type", "title", "order", "is_active", "has_testimonial"]
-    list_filter = ["zone_type", "is_active", "landing_page__site", "landing_page"]
-    list_select_related = ["landing_page"]
-    search_fields = ["landing_page__title", "landing_page__slug", "title", "description"]
-    ordering = ["landing_page", "order"]
-    raw_id_fields = ["landing_page", "testimonial"]
+    list_display = ["page", "zone_type", "title", "order", "is_active", "has_testimonial"]
+    list_filter = ["zone_type", "is_active", "page__site", "page"]
+    list_select_related = ["page"]
+    search_fields = ["page__title", "page__slug", "title", "description"]
+    ordering = ["page", "order"]
+    raw_id_fields = ["page", "testimonial"]
     actions = ["duplicate_zone", "delete_inactive_zones"]
 
     def get_fieldsets(self, request, obj=None):
         """Show the testimonial field only for TESTIMONIAL_SINGLE zones."""
         fieldsets = [
-            (None, {"fields": ("landing_page", "zone_type", "title", "order", "is_active")}),
+            (None, {"fields": ("page", "zone_type", "title", "order", "is_active")}),
             (
                 _("Zone Description"),
                 {
@@ -186,7 +186,7 @@ class ZoneAdmin(admin.ModelAdmin):
         """Clone selected zones to the end of their landing page's zone list."""
         for zone in queryset:
             max_order = (
-                Zone.objects.filter(landing_page=zone.landing_page).aggregate(models.Max("order"))[
+                Zone.objects.filter(page=zone.page).aggregate(models.Max("order"))[
                     "order__max"
                 ]
                 or 0
@@ -278,14 +278,14 @@ class ZoneTemplateAdmin(admin.ModelAdmin):
 class SubmissionAdmin(admin.ModelAdmin):
     """Admin for form submissions (read-mostly inbox; only status is editable)."""
 
-    list_display = ["id", "email", "name", "landing_page", "status", "created_at"]
+    list_display = ["id", "email", "name", "page", "status", "created_at"]
     list_editable = ["status"]
-    list_filter = ["status", "landing_page", "created_at"]
-    search_fields = ["email", "name", "phone", "landing_page__title", "landing_page__slug"]
+    list_filter = ["status", "page", "created_at"]
+    search_fields = ["email", "name", "phone", "page__title", "page__slug"]
     date_hierarchy = "created_at"
-    raw_id_fields = ["landing_page", "zone"]
+    raw_id_fields = ["page", "zone"]
     readonly_fields = [
-        "landing_page",
+        "page",
         "zone",
         "email",
         "name",
@@ -300,7 +300,7 @@ class SubmissionAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {"fields": ("status", "email", "name", "phone")}),
-        (_("Source"), {"fields": ("landing_page", "zone", "ip_address")}),
+        (_("Source"), {"fields": ("page", "zone", "ip_address")}),
         (_("Form Data"), {"fields": ("form_data_pretty",)}),
         (_("Uploaded Files"), {"fields": ("uploaded_files_pretty",)}),
         (_("Timestamps"), {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),

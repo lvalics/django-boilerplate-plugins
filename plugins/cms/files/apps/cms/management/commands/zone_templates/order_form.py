@@ -159,7 +159,7 @@ EMAIL NOTIFICATIONS (config JSON)
 
   Subject placeholders:
     - {field_name}    Replaced with submitted form field value
-    - {landing_page}  Replaced with landing page title
+    - {page}  Replaced with landing page title
     - {date}          Replaced with submission date
 
   Example config:
