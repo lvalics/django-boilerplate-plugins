@@ -85,9 +85,16 @@ class SiteTemplateLoader(FilesystemLoader):
                             name = safe_join(template_dir_path, site_template)
                         except SuspiciousFileOperation:
                             continue
+                        # template_name must be the *requested* name, not the site path:
+                        # Django's cached loader only counts a ``skip`` origin toward the
+                        # cache key when origin.template_name == template_name. With the
+                        # site path here, "web/base.html" skipping the site override got
+                        # the same key as the plain lookup, the cache returned the site
+                        # template to its own ``{% extends "web/base.html" %}`` and the
+                        # render recursed forever (RecursionError in production).
                         yield Origin(
                             name=name,
-                            template_name=site_template,
+                            template_name=template_name,
                             loader=self,
                         )
 

@@ -98,3 +98,18 @@ class SiteAwareCacheKeyTest(SimpleTestCase):
 
         self.assertTrue(key.endswith(parent_key))
         self.assertEqual(key, f"site_a::{parent_key}")
+
+
+class SiteOriginSkipCacheKeyTests(SimpleTestCase):
+    """Regression: the site override must not shadow its own parent under the cached loader."""
+
+    def test_site_origin_counts_toward_skip_cache_key(self):
+        from django.template import Origin
+        from apps.sites.template_loader import SiteAwareCachedLoader, SiteTemplateLoader
+        from django.template import engines
+
+        engine = engines["django"].engine
+        site_loader = SiteTemplateLoader(engine)
+        cached = SiteAwareCachedLoader(engine, [site_loader])
+        site_origin = Origin(name="/templates/mysite/web/base.html", template_name="web/base.html", loader=site_loader)
+        self.assertNotEqual(cached.cache_key("web/base.html"), cached.cache_key("web/base.html", [site_origin]))

@@ -5,6 +5,18 @@ All notable changes to the Multi-Domain plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.3] - Cached loader recursion fix
+
+### Fixed
+- `SiteTemplateLoader.get_template_sources()` now yields site-override origins with
+  `template_name` set to the *requested* name instead of the site-prefixed path.
+  Django's cached loader only counts a `skip` origin toward the cache key when
+  `origin.template_name == template_name`, so with `DEBUG = False` a site template
+  doing `{% extends "web/base.html" %}` hit the same cache key as the plain lookup,
+  got itself back as its parent and rendered into a `RecursionError` on every page.
+  Development (`DEBUG = True`, uncached loaders) was unaffected, which is why the bug
+  only showed up in production. Regression test added.
+
 ## [1.5.2] - Test runner
 
 ### Added
