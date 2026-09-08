@@ -58,7 +58,7 @@ def test_manifest_basics():
     m = _manifest()
     assert m.id == "multi_domain"
     assert m.edition == "free"
-    assert m.version == "1.5.1"
+    assert m.version == "1.5.2"
     assert m.installed_apps == ["apps.sites"]
     assert m.url_mappings == {"": "apps.sites.urls"}
 
@@ -208,3 +208,15 @@ def test_site_specific_hit_logged_at_debug_level():
 def test_python_dependencies_include_pyjwt():
     deps = _manifest().python_dependencies
     assert any(d.lower().startswith("pyjwt") for d in deps), deps
+
+
+# --- 6. Test runner -----------------------------------------------------------
+
+
+def test_settings_declares_test_runner():
+    m = _manifest()
+    assert 'TEST_RUNNER = "apps.sites.test_runner.SiteAwareTestRunner"' in m.settings_append
+
+
+def test_test_runner_file_exists():
+    assert (FILES_ROOT / "apps/sites/test_runner.py").is_file()

@@ -77,6 +77,15 @@ in a cached loader so per-site lookups are still cached.
 The app registers under the Django app label `site_management` to avoid clashing with
 `django.contrib.sites`.
 
+## Testing
+
+`MultiDomainMiddleware` needs a primary `SiteProfile` to resolve requests; without one,
+every view 404s under Django's test client, which requests the host `testserver`. The
+plugin sets `TEST_RUNNER = "apps.sites.test_runner.SiteAwareTestRunner"`, which creates
+that primary `SiteProfile` right after the test databases are set up. If your project
+already has its own custom test runner, call `apps.sites.test_runner.ensure_primary_site()`
+from its `setup_databases` instead of relying on the plugin's `TEST_RUNNER`.
+
 ## Configuration
 
 ### Site Profile fields

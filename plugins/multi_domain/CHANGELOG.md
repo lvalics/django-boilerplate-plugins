@@ -5,6 +5,19 @@ All notable changes to the Multi-Domain plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - Test runner
+
+### Added
+- `apps/sites/test_runner.py`: `SiteAwareTestRunner` (a `DiscoverRunner` subclass) and
+  `ensure_primary_site()`. Django's test client requests the host `testserver`, which
+  `MultiDomainMiddleware` can't resolve to a `SiteProfile`, so every view would 404 in
+  tests without one. The runner creates that primary `SiteProfile` right after the test
+  databases are set up.
+- `settings_append` now sets `TEST_RUNNER = "apps.sites.test_runner.SiteAwareTestRunner"`
+  so projects installing this plugin get working tests out of the box. Projects with
+  their own test runner should call `ensure_primary_site()` from `setup_databases`
+  instead.
+
 ## [1.5.1] - Typing
 
 ### Changed
