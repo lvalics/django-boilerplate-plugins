@@ -27,7 +27,7 @@ def test_manifest_basics():
     m = _manifest()
     assert m.id == "cms"
     assert m.edition == "free"
-    assert m.version == "2.1.0"
+    assert m.version == "2.1.1"
     assert m.installed_apps == ["apps.cms"]
     # Root mount (empty prefix): appended LAST, so project routes win.
     assert m.url_mappings == {"": "apps.cms.urls"}
