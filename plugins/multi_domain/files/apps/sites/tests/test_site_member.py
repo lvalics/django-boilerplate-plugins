@@ -22,7 +22,8 @@ try:
 
     HAS_API_KEYS = True
 except ImportError:
-    UserAPIKey = None
+    # Module-level fallback; mock.patch is not usable here (this is not inside a test).
+    UserAPIKey = None  # type: ignore[assignment,misc]
     HAS_API_KEYS = False
 from apps.sites.models import SiteMember, SiteProfile
 

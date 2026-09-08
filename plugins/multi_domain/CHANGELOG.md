@@ -5,6 +5,19 @@ All notable changes to the Multi-Domain plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - Typing
+
+### Changed
+- Typing: mypy clean, no runtime behaviour change.
+  - `models.py`: `mark_safe` imported from `django.utils.safestring` (the
+    `django.utils.html` re-export is untyped).
+  - `cache.py`: `Callable[[], dict | None]` instead of the bare builtin `callable` for
+    `_load_with_lock(load_func=...)`; `float` annotations for `_last_cache_check` and `waited`.
+  - `middleware/multi_domain.py`: `_get_site_object` returns `Site | None`.
+  - `middleware/csrf.py`, `api.py`, `admin.py`, `tests/test_site_member.py`: targeted
+    `# type: ignore[...]` for Django's private `_origin_verified`, the DRF permission
+    fallback import and the optional `UserAPIKey` fallback.
+
 ## [1.5.0] - Security hardening
 
 ### Changed

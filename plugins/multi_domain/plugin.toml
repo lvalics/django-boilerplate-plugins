@@ -1,6 +1,6 @@
 id = "multi_domain"
 name = "Multi-Domain Sites"
-version = "1.5.0"
+version = "1.5.1"
 description = "Database-driven multi-domain support: per-site branding, templates, feature flags, per-site CORS/CSRF, and optional cross-domain SSO."
 target = "django-boilerplate"
 edition = "free"

@@ -130,4 +130,5 @@ class DynamicCsrfMiddleware(CsrfViewMiddleware):
                     return True
 
         # Fall back to Django's global CSRF_TRUSTED_ORIGINS
-        return super()._origin_verified(request)
+        # _origin_verified is a private Django method, absent from the stubs.
+        return super()._origin_verified(request)  # type: ignore[misc]

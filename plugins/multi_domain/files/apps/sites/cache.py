@@ -14,6 +14,7 @@ Features:
 
 import logging
 import time
+from collections.abc import Callable
 from typing import Any, TypeVar
 
 from django.conf import settings
@@ -24,7 +25,7 @@ logger = logging.getLogger(__name__)
 # Track cache availability
 _cache_available = True
 _cache_check_interval = 30  # seconds between availability checks
-_last_cache_check = 0
+_last_cache_check: float = 0
 
 T = TypeVar("T")
 
@@ -228,7 +229,7 @@ def get_site_config_by_id(site_id: int) -> dict | None:
     )
 
 
-def _load_with_lock(cache_key: str, load_func: callable) -> dict | None:
+def _load_with_lock(cache_key: str, load_func: Callable[[], dict | None]) -> dict | None:
     """
     Load data with lock to prevent cache stampede.
 
@@ -267,7 +268,7 @@ def _load_with_lock(cache_key: str, load_func: callable) -> dict | None:
                 pass  # Ignore lock release failures
     else:
         # Another process is loading - wait for cache to be populated
-        waited = 0
+        waited: float = 0
         while waited < CACHE_LOCK_MAX_WAIT:
             time.sleep(CACHE_LOCK_WAIT)
             waited += CACHE_LOCK_WAIT

@@ -175,7 +175,7 @@ class MultiDomainMiddleware:
             except SiteProfile.DoesNotExist:
                 return None
 
-    def _get_site_object(self, site_id: int) -> Site:
+    def _get_site_object(self, site_id: int) -> Site | None:
         """
         Get Django Site object by ID.
         """

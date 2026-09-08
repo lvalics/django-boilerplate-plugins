@@ -12,7 +12,8 @@ try:
     # Optional integration: the API-key app is not part of the free boilerplate.
     from apps.api.models import UserAPIKey
 except ImportError:
-    UserAPIKey = None
+    # Fallback when the API-key app is missing; mypy does not accept None in place of a type.
+    UserAPIKey = None  # type: ignore[misc,assignment]
 from apps.sites.audit import SiteAuditLog
 from apps.sites.cache import warm_site_cache
 from apps.sites.models import SiteMember, SiteProfile

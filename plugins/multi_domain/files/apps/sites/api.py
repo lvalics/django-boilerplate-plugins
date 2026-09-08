@@ -45,7 +45,8 @@ try:
     from apps.api.permissions import IsAuthenticatedOrHasUserAPIKey
 except ImportError:
     # Session-auth fallback when the API-key app is absent.
-    from rest_framework.permissions import IsAuthenticated as IsAuthenticatedOrHasUserAPIKey
+    # DRF composes permissions into an OperandHolder, type-incompatible with the imported class.
+    from rest_framework.permissions import IsAuthenticated as IsAuthenticatedOrHasUserAPIKey  # type: ignore[assignment]
 from apps.sites.models import SiteMember, SiteProfile
 from apps.sites.permissions import HasSiteAccess, HasSiteAdminAccess, IsSuperUser
 from apps.sites.serializers import (
