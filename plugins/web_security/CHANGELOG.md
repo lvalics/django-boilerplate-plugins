@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.6.2 - typing
+
+Typing: mypy clean, no runtime behaviour change.
+
+- `admin/mixins.py`: `page_help_title` / `page_help_text` typed `str | Promise`, since
+  subclasses assign `gettext_lazy` values. Uses `django.utils.functional.Promise` so the
+  plugin gains no `django-stubs-ext` dependency.
+- `services/ip_reputation.py`, `tasks.py`: `datetime.timedelta` instead of the untyped
+  `timezone.timedelta` alias; `params: dict[str, str | int]` on the AbuseIPDB and
+  IPQualityScore request parameters.
+- `services/firewall/factory.py`, `services/ip_reputation.py`: explicit
+  `dict[str, type[...]]` annotations on the `_services` registries (keys are `TextChoices`
+  members while `config.provider` is a plain `str`).
+
 ## 1.6.1 - make the security report project-agnostic
 
 `tasks_security_report.py` was user-specific. Made it generic:

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.functional import Promise
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -7,8 +8,9 @@ class WebSecurityAdminMixin:
     """Mixin to add help section to Web Security admin pages."""
 
     # Override these in subclasses
-    page_help_title = ""
-    page_help_text = ""
+    # str | Promise because subclasses use gettext_lazy
+    page_help_title: str | Promise = ""
+    page_help_text: str | Promise = ""
 
     @admin.display(description="")
     def page_help(self, obj=None):

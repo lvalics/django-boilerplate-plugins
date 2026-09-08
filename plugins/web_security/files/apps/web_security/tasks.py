@@ -1,4 +1,5 @@
 import logging
+from datetime import timedelta
 
 from celery import shared_task
 from django.utils import timezone
@@ -291,7 +292,7 @@ def cleanup_old_suspicious_requests(days: int = 30):
     try:
         from apps.web_security.models import SuspiciousRequest
 
-        cutoff = timezone.now() - timezone.timedelta(days=days)
+        cutoff = timezone.now() - timedelta(days=days)
         deleted, _ = SuspiciousRequest.objects.filter(created_at__lt=cutoff).delete()
 
         logger.info(f"Cleaned up {deleted} suspicious requests older than {days} days")
@@ -316,7 +317,7 @@ def cleanup_old_ip_threat_summaries(days: int = 90):
     try:
         from apps.web_security.models import IPThreatSummary
 
-        cutoff = timezone.now() - timezone.timedelta(days=days)
+        cutoff = timezone.now() - timedelta(days=days)
         deleted, _ = IPThreatSummary.objects.filter(is_blocked=False, last_seen__lt=cutoff).delete()
 
         logger.info(f"Cleaned up {deleted} stale IP threat summaries older than {days} days")
@@ -344,7 +345,7 @@ def generate_threat_report(hours: int = 24):
 
         from apps.web_security.models import IPThreatSummary, SuspiciousRequest
 
-        cutoff = timezone.now() - timezone.timedelta(hours=hours)
+        cutoff = timezone.now() - timedelta(hours=hours)
 
         # Suspicious request stats
         requests = SuspiciousRequest.objects.filter(created_at__gte=cutoff)

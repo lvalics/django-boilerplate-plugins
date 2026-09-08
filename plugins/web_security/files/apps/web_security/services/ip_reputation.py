@@ -1,6 +1,7 @@
 import abc
 import logging
 import socket
+from datetime import timedelta
 from urllib.parse import urlparse
 
 import requests
@@ -88,7 +89,7 @@ class BaseIPReputationService(abc.ABC):
         Returns:
             IPReputationCache instance
         """
-        expires_at = timezone.now() + timezone.timedelta(hours=self.cache_duration_hours)
+        expires_at = timezone.now() + timedelta(hours=self.cache_duration_hours)
 
         cache_entry, created = IPReputationCache.objects.update_or_create(
             ip_address=ip_address,
@@ -131,7 +132,7 @@ class AbuseIPDBService(BaseIPReputationService):
                 "Key": self.api_key,
                 "Accept": "application/json",
             }
-            params = {
+            params: dict[str, str | int] = {
                 "ipAddress": ip_address,
                 "maxAgeInDays": 90,
                 "verbose": True,
@@ -200,7 +201,7 @@ class IPQualityScoreService(BaseIPReputationService):
         """
         try:
             url = f"{self.BASE_URL}/{self.api_key}/{ip_address}"
-            params = {
+            params: dict[str, str | int] = {
                 "strictness": 1,
                 "allow_public_access_points": "true",
             }
@@ -302,7 +303,8 @@ class CustomAPIService(BaseIPReputationService):
 class IPReputationServiceFactory:
     """Factory for creating IP reputation service instances."""
 
-    _services = {
+    # keys are TextChoices members (a str subclass), while config.provider is a plain str
+    _services: dict[str, type[BaseIPReputationService]] = {
         IPReputationConfig.Provider.ABUSEIPDB: AbuseIPDBService,
         IPReputationConfig.Provider.IPQUALITYSCORE: IPQualityScoreService,
         IPReputationConfig.Provider.CUSTOM: CustomAPIService,

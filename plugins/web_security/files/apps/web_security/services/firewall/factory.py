@@ -10,7 +10,8 @@ from .nginx import NginxFirewallService
 class FirewallServiceFactory:
     """Factory for creating firewall service instances."""
 
-    _services = {
+    # keys are TextChoices members (a str subclass), while config.provider is a plain str
+    _services: dict[str, type[BaseFirewallService]] = {
         FirewallConfig.Provider.CLOUDFLARE: CloudflareFirewallService,
         FirewallConfig.Provider.AWS_WAF: AWSWAFFirewallService,
         FirewallConfig.Provider.NGINX: NginxFirewallService,
