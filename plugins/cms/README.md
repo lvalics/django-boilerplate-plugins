@@ -220,6 +220,13 @@ safelist manually.
 - **Trusted proxies**: client IPs honor `SITES_TRUSTED_PROXY_COUNT` (shared with
   multi_domain) - set it to your real reverse-proxy depth in production,
   otherwise `X-Forwarded-For` is ignored.
+- **Client IP behind proxies**: works standalone via `SITES_TRUSTED_PROXY_COUNT`
+  above. If the `web_security` plugin is also installed and
+  `WEB_SECURITY_TRUSTED_PROXIES` is configured, `get_client_ip` defers to its
+  resolver instead (validated `CF-Connecting-IP` / XFF against the trusted
+  proxies) - fixes rate limiting collapsing onto a single shared bucket behind
+  Cloudflare + kamal-proxy, where XFF only has one hop. The delegation is a
+  soft dependency: without `web_security` installed, behavior is unchanged.
 - **Turnstile** fails closed: if verification errors out, the submission is
   rejected.
 

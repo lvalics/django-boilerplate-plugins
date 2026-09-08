@@ -30,6 +30,24 @@ def get_client_ip(request) -> str:
     """
     remote_addr = request.META.get("REMOTE_ADDR", "unknown")
 
+    # Behind Cloudflare + kamal-proxy (or similar single-hop reverse proxies), the
+    # X-Forwarded-For header reaching Django often has a single element, so the
+    # trusted-proxy-count logic below falls back to REMOTE_ADDR (the proxy's internal
+    # IP) and every visitor ends up sharing one rate limit. When the optional
+    # web_security plugin is installed and configured with trusted proxies, defer to
+    # its resolver instead (it validates CF-Connecting-IP / XFF against those
+    # proxies). This is a soft dependency: web_security may not be installed at all,
+    # in which case we silently fall through to the logic below.
+    if getattr(settings, "WEB_SECURITY_TRUSTED_PROXIES", None):
+        try:
+            from apps.web_security.utils import get_client_ip as ws_client_ip
+
+            resolved = ws_client_ip(request)
+            if resolved:
+                return resolved
+        except ImportError:
+            pass
+
     trusted_proxies = getattr(settings, "SITES_TRUSTED_PROXY_COUNT", 0)
     if trusted_proxies and trusted_proxies > 0:
         x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")

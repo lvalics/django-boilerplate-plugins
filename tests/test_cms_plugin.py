@@ -27,7 +27,7 @@ def test_manifest_basics():
     m = _manifest()
     assert m.id == "cms"
     assert m.edition == "free"
-    assert m.version == "2.1.1"
+    assert m.version == "2.1.2"
     assert m.installed_apps == ["apps.cms"]
     # Root mount (empty prefix): appended LAST, so project routes win.
     assert m.url_mappings == {"": "apps.cms.urls"}
@@ -101,7 +101,7 @@ def test_settings_append_exec():
 
 
 def test_payload_is_self_contained():
-    """Only apps.cms.*, apps.utils.models, and (function-level) apps.sites imports."""
+    """Only apps.cms.*, apps.utils.models, and (function-level) apps.sites/apps.web_security imports."""
     bad = []
     for py in APP_ROOT.rglob("*.py"):
         for i, line in enumerate(py.read_text(encoding="utf-8").splitlines(), 1):
@@ -113,6 +113,7 @@ def test_payload_is_self_contained():
                 or stripped.startswith("import apps.cms")
                 or "apps.utils.models import BaseModel" in stripped
                 or "apps.sites" in stripped  # must be function-level; checked below
+                or "apps.web_security" in stripped  # must be function-level; checked below
             )
             if not ok:
                 bad.append(f"{py.relative_to(FILES_ROOT)}:{i}: {stripped}")
@@ -120,21 +121,25 @@ def test_payload_is_self_contained():
 
 
 def test_no_module_level_apps_sites_import():
-    """apps.sites may only be imported inside a function body (plugin stays importable without it)."""
+    """apps.sites/apps.web_security may only be imported inside a function body (plugin stays
+    importable without either optional plugin)."""
     offenders = []
     for py in APP_ROOT.rglob("*.py"):
         for i, line in enumerate(py.read_text(encoding="utf-8").splitlines(), 1):
-            if "apps.sites" not in line:
+            if "apps.sites" not in line and "apps.web_security" not in line:
                 continue
             stripped = line.strip()
             if stripped.startswith("#") or not (
-                stripped.startswith("from apps.sites") or stripped.startswith("import apps.sites")
+                stripped.startswith("from apps.sites")
+                or stripped.startswith("import apps.sites")
+                or stripped.startswith("from apps.web_security")
+                or stripped.startswith("import apps.web_security")
             ):
                 continue
             # Module-level imports start at column 0; function-level ones are indented.
             if not line[0].isspace():
                 offenders.append(f"{py.relative_to(FILES_ROOT)}:{i}: {stripped}")
-    assert offenders == [], f"module-level apps.sites imports: {offenders}"
+    assert offenders == [], f"module-level apps.sites/apps.web_security imports: {offenders}"
 
 
 # --- 4. Rename completeness ---------------------------------------------------

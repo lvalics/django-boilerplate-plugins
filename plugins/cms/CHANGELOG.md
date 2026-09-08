@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.2
+
+`rate_limiter.py::get_client_ip` now defers to the `web_security` plugin's IP
+resolver, when installed and configured with `WEB_SECURITY_TRUSTED_PROXIES`,
+before falling back to the existing `SITES_TRUSTED_PROXY_COUNT` / XFF logic.
+Fixes rate limiting (and any other IP-based check) collapsing onto a single
+shared bucket behind Cloudflare + kamal-proxy, where X-Forwarded-For only has
+one hop and the old logic fell back to REMOTE_ADDR (the proxy's internal IP).
+The delegation is a soft dependency (lazy import, `ImportError` tolerated) and
+a no-op unless `web_security` is installed and configured.
+
+- `apps/cms/tests/test_client_ip.py`: covers the web_security delegation, the
+  untrusted-peer case, the unconfigured fallback, and the ImportError path when
+  `web_security` isn't installed.
+
 ## 2.1.1
 
 Typing: mypy clean, no runtime behaviour change.

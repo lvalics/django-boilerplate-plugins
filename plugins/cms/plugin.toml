@@ -1,6 +1,6 @@
 id = "cms"
 name = "CMS (Landing Pages + Blog)"
-version = "2.1.1"
+version = "2.1.2"
 description = "Zone-based CMS scoped per site: landing pages, static content pages and a blog (posts, categories, tags), 20+ zone types, DaisyUI templates, testimonials, order/contact submissions with Turnstile, Redis caching. Requires the multi_domain plugin."
 target = "django-boilerplate"
 edition = "free"
