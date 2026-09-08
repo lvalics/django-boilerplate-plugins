@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.1
+
+Typing: mypy clean, no runtime behaviour change.
+
+- `models/pages.py`: `from __future__ import annotations`, `# type: ignore[misc]` on
+  `PageManager(models.Manager.from_queryset(PageQuerySet))` (django-stubs does not model
+  `from_queryset` as a dynamic base) and an explicit
+  `models.ManyToManyField[Tag, models.Model]` annotation for `Page.tags`.
+- `email_utils.py`: `validate_and_normalize_email` now returns
+  `tuple[str | None, str | Promise | None]` - the error message can be a lazy translation.
+  Uses `django.utils.functional.Promise` so the plugin gains no `django-stubs-ext` dependency.
+
 ## 2.1.0
 
 Renamed the plugin from `landing_pages` to **`cms`** and adopted the user's later

@@ -1,6 +1,9 @@
 """Page (landing / content / blog post) and zone models."""
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -10,6 +13,9 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.utils.models import BaseModel
+
+if TYPE_CHECKING:
+    from apps.cms.models.taxonomy import Tag
 
 
 class PageType(models.TextChoices):
@@ -38,7 +44,8 @@ class PageQuerySet(models.QuerySet):
         )
 
 
-class PageManager(models.Manager.from_queryset(PageQuerySet)):
+# django-stubs does not model from_queryset as a dynamic base class
+class PageManager(models.Manager.from_queryset(PageQuerySet)):  # type: ignore[misc]
     pass
 
 
@@ -174,7 +181,7 @@ class Page(BaseModel):
         related_name="pages",
         help_text=_("Primary category for this page."),
     )
-    tags = models.ManyToManyField(
+    tags: models.ManyToManyField[Tag, models.Model] = models.ManyToManyField(
         "Tag",
         blank=True,
         related_name="pages",

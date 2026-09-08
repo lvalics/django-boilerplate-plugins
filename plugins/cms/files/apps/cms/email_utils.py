@@ -20,6 +20,7 @@ import logging
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.utils.functional import Promise
 from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger(__name__)
@@ -312,7 +313,7 @@ def is_valid_email(email: str) -> bool:
         return False
 
 
-def validate_and_normalize_email(email: str) -> tuple[str | None, str | None]:
+def validate_and_normalize_email(email: str) -> tuple[str | None, str | Promise | None]:
     """
     Validate and normalize email address.
 
