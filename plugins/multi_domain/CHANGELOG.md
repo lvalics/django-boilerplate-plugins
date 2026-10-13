@@ -5,6 +5,14 @@ All notable changes to the Multi-Domain plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.4] - Django 6 test fix
+
+### Fixed
+- `SiteOriginSkipCacheKeyTests` passed a `SiteTemplateLoader` instance to
+  `SiteAwareCachedLoader`; Django 6 only accepts dotted names there and raised
+  `ImproperlyConfigured`. The test now passes the dotted name. Test-only change; the
+  loader code is unchanged.
+
 ## [1.5.3] - Cached loader recursion fix
 
 ### Fixed

@@ -109,7 +109,9 @@ class SiteOriginSkipCacheKeyTests(SimpleTestCase):
         from django.template import engines
 
         engine = engines["django"].engine
-        site_loader = SiteTemplateLoader(engine)
-        cached = SiteAwareCachedLoader(engine, [site_loader])
+        # Django 6 only accepts dotted names (or tuples) in a cached loader's list, not instances.
+        cached = SiteAwareCachedLoader(engine, ["apps.sites.template_loader.SiteTemplateLoader"])
+        site_loader = cached.loaders[0]
+        self.assertIsInstance(site_loader, SiteTemplateLoader)
         site_origin = Origin(name="/templates/mysite/web/base.html", template_name="web/base.html", loader=site_loader)
         self.assertNotEqual(cached.cache_key("web/base.html"), cached.cache_key("web/base.html", [site_origin]))
