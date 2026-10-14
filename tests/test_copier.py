@@ -57,3 +57,29 @@ def test_overwrite_requires_force(tmp_path):
     apply_copies(ops, force=True)
     assert dest.read_text() == "m\n"
     assert (dest.parent / "models.py.bak").read_text() == "OLD\n"
+
+
+def test_identical_existing_file_is_skipped_without_force(tmp_path):
+    plugin, target = _plugin(tmp_path), _target(tmp_path)
+    dest = target.root / "apps" / "demo" / "models.py"
+    dest.parent.mkdir(parents=True)
+    dest.write_text("m\n", encoding="utf-8")       # byte-identical to the payload
+    ops = {o.dest.name: o for o in plan_copies(plugin, target, ["apps/demo/**"])}
+    assert ops["models.py"].exists and ops["models.py"].identical
+    assert not ops["views.py"].identical
+    apply_copies(list(ops.values()), force=False)   # no refusal
+    assert not (dest.parent / "models.py.bak").exists()
+    assert (dest.parent / "views.py").read_text() == "v\n"
+
+
+def test_divergent_file_refused_before_anything_is_written(tmp_path):
+    plugin, target = _plugin(tmp_path), _target(tmp_path)
+    dest = target.root / "apps" / "demo" / "views.py"
+    dest.parent.mkdir(parents=True)
+    dest.write_text("LOCAL\n", encoding="utf-8")
+    ops = plan_copies(plugin, target, ["apps/demo/**"])
+    assert not any(o.identical for o in ops)
+    with pytest.raises(FileExistsError):
+        apply_copies(ops, force=False)
+    assert dest.read_text() == "LOCAL\n"
+    assert not (dest.parent / "models.py").exists()  # the new file was not copied either

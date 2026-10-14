@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import filecmp
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -26,6 +27,8 @@ class CopyOp:
     src: Path
     dest: Path
     exists: bool
+    # The destination already holds exactly the payload bytes: nothing to write.
+    identical: bool = False
 
 
 def plan_copies(
@@ -41,14 +44,20 @@ def plan_copies(
                 continue
             rel = src.relative_to(files_root)
             dest = target.root / rel
-            ops[dest] = CopyOp(src=src, dest=dest, exists=dest.exists())
+            exists = dest.exists()
+            identical = exists and dest.is_file() and filecmp.cmp(src, dest, shallow=False)
+            ops[dest] = CopyOp(src=src, dest=dest, exists=exists, identical=identical)
     return list(ops.values())
 
 
 def apply_copies(ops: list[CopyOp], force: bool) -> None:
-    for op in ops:
-        if op.dest.exists() and not force:
-            raise FileExistsError(f"refusing to overwrite {op.dest} (use --force)")
+    pending = [op for op in ops if not op.identical]
+    if not force:
+        # Refuse before writing anything, so a divergent file never leaves a half-applied install.
+        for op in pending:
+            if op.dest.exists():
+                raise FileExistsError(f"refusing to overwrite {op.dest} (use --force)")
+    for op in pending:
         op.dest.parent.mkdir(parents=True, exist_ok=True)
         if op.dest.exists():
             shutil.copy2(op.dest, op.dest.with_suffix(op.dest.suffix + ".bak"))

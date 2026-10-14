@@ -23,3 +23,10 @@ def test_missing_args_exits_two():
         assert exc.code == 2
     else:  # pragma: no cover
         raise AssertionError("expected SystemExit(2) for missing args")
+
+
+def test_files_only_flag_is_accepted(capsys, tmp_path):
+    # unknown target -> clean error exit, but the flag itself must parse
+    rc = install.main(["web_security", str(tmp_path), "--files-only"])
+    assert rc == 1
+    assert "unrecognized arguments" not in capsys.readouterr().err

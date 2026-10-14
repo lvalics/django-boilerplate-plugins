@@ -14,6 +14,8 @@ def main(argv=None) -> int:
     parser.add_argument("target", nargs="?", help="path to the target project")
     parser.add_argument("--apply", action="store_true", help="apply changes (default: dry run)")
     parser.add_argument("--force", action="store_true", help="override edition gate + overwrite files")
+    parser.add_argument("--files-only", action="store_true",
+                        help="copy payload files only; leave settings.py / urls.py untouched")
     parser.add_argument("--uninstall", action="store_true", help="remove the plugin")
     parser.add_argument("--list", action="store_true", help="list available plugins")
     args = parser.parse_args(argv)
@@ -32,7 +34,7 @@ def main(argv=None) -> int:
             runner.uninstall(PLUGINS_ROOT, args.plugin, Path(args.target), apply=args.apply)
         else:
             runner.install(PLUGINS_ROOT, args.plugin, Path(args.target),
-                           apply=args.apply, force=args.force)
+                           apply=args.apply, force=args.force, files_only=args.files_only)
     except (ValueError, FileExistsError, FileNotFoundError, runner.EditionBlocked) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1

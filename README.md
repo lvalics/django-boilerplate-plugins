@@ -29,7 +29,13 @@ python install.py --list                                        # list available
 python install.py <plugin> /path/to/your/project                # dry-run (shows the plan)
 python install.py <plugin> /path/to/your/project --apply        # apply
 python install.py <plugin> /path/to/your/project --uninstall --apply  # remove
+python install.py <plugin> /path/to/your/project --files-only   # dry-run, payload files only
+python install.py <plugin> /path/to/your/project --files-only --apply
 ```
+
+`--files-only` copies the plugin's payload files and leaves `settings.py` / `urls.py`
+(and all other wiring) untouched. Use it to update an already wired plugin, for example to
+bring in new translation catalogs, without re-rendering its marker blocks over local edits.
 
 The installer needs only Python 3.11+ (standard library only). After an install it
 prints the manual follow-up steps a plugin needs (env vars, `uv add` for any Python
@@ -42,8 +48,10 @@ dependencies, and `make migrate`).
 - **Idempotent, reversible edits.** All `settings.py` / `urls.py` changes go inside a
   guarded block (`# >>> plugin: <id> >>>` ... `# <<< plugin: <id> <<<`). Re-running
   replaces the block; `--uninstall` removes it and the copied files.
-- **Safe file handling.** It refuses to overwrite an existing file unless you pass
-  `--force`, and backs up anything it replaces.
+- **Safe file handling.** A target file that is byte-identical to the plugin's copy is
+  reported as `unchanged` and skipped. It refuses to overwrite an existing file that differs
+  unless you pass `--force` (checked before anything is written), and backs up anything it
+  replaces.
 - **It never touches your `.env`** and never runs migrations for you; those are printed
   as manual steps.
 - **Edition gating.** A plugin marked `edition = "pro"` only installs into a project

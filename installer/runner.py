@@ -40,9 +40,9 @@ def build_plan(plugins_root: Path, plugin_id: str, target_path: Path):
     )
     return plan, decision, m, tgt
 
-def install(plugins_root, plugin_id, target_path, apply: bool, force: bool) -> None:
+def install(plugins_root, plugin_id, target_path, apply: bool, force: bool, files_only: bool = False) -> None:
     plan, decision, m, tgt = build_plan(plugins_root, plugin_id, target_path)
-    _print_plan(m, plan, decision)
+    _print_plan(m, plan, decision, files_only)
     if not decision.allowed and not force:
         what = "requires the PRO edition" if m.edition == "pro" else "has unmet requirements"
         raise EditionBlocked(
@@ -52,6 +52,9 @@ def install(plugins_root, plugin_id, target_path, apply: bool, force: bool) -> N
         print("\nDry run: nothing written. Re-run with --apply.")
         return
     copier.apply_copies(plan.copies, force=force)
+    if files_only:
+        print("\nFiles copied. settings.py / urls.py left untouched (--files-only).")
+        return
     _patch_file(tgt.settings_path, m.id, plan.settings_block)
     if plan.urls_block:
         _patch_file(tgt.urls_path, m.id, plan.urls_block)
@@ -113,7 +116,7 @@ def _unpatch_file(path: Path, plugin_id: str) -> None:
         text = path.read_text(encoding="utf-8")
         path.write_text(patcher.remove_block(text, plugin_id), encoding="utf-8")
 
-def _print_plan(m, plan, decision) -> None:
+def _print_plan(m, plan, decision, files_only: bool = False) -> None:
     print(f"Plugin: {m.name} ({m.id}) v{m.version}  edition={m.edition}")
     if m.edition == "pro" or m.requires:
         gate = "PRO gate" if m.edition == "pro" else "Requirements"
@@ -121,7 +124,11 @@ def _print_plan(m, plan, decision) -> None:
               + (" (DB check unknown)" if decision.unknown else ""))
     print(f"  Files to copy: {len(plan.copies)}")
     for op in plan.copies:
-        print(f"    {'overwrite' if op.exists else 'new'}: {op.dest}")
+        status = "unchanged" if op.identical else "overwrite" if op.exists else "new"
+        print(f"    {status}: {op.dest}")
+    if files_only:
+        print("  Settings/URLs: not touched (--files-only)")
+        return
     print("  Settings patch:\n" + "\n".join("    " + line for line in plan.settings_block.splitlines()))
     if plan.urls_block:
         print("  URLs patch:\n" + "\n".join("    " + line for line in plan.urls_block.splitlines()))
