@@ -7,6 +7,7 @@ from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext, pgettext_lazy
 
 try:
     # Optional integration: the API-key app is not part of the free boilerplate.
@@ -175,7 +176,7 @@ class ExtendedSiteAdmin(SiteAdmin):
             return obj.profile.is_primary
         return None
 
-    get_is_primary.short_description = _("Primary")
+    get_is_primary.short_description = pgettext_lazy("site", "Primary")
     get_is_primary.boolean = True
 
     def get_auth_mode(self, obj):
@@ -193,12 +194,30 @@ class ExtendedSiteAdmin(SiteAdmin):
         for site in queryset:
             invalidate_site_cache(site_id=site.id, domain=site.domain)
             count += 1
-        self.message_user(request, _("Refreshed cache for %d sites") % count, messages.SUCCESS)
+        self.message_user(
+            request,
+            ngettext(
+                "Refreshed cache for %d site",
+                "Refreshed cache for %d sites",
+                count,
+            )
+            % count,
+            messages.SUCCESS,
+        )
 
     @admin.action(description=_("Warm all site caches"))
     def warm_all_caches(self, request, queryset):
         count = warm_site_cache()
-        self.message_user(request, _("Warmed cache for %d sites") % count, messages.SUCCESS)
+        self.message_user(
+            request,
+            ngettext(
+                "Warmed cache for %d site",
+                "Warmed cache for %d sites",
+                count,
+            )
+            % count,
+            messages.SUCCESS,
+        )
 
 
 # Re-register Site with extended admin

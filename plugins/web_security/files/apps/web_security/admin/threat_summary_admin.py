@@ -2,6 +2,7 @@ from django.contrib import admin, messages
 from django.core.cache import cache
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext
 
 from apps.web_security.models import IPThreatSummary
 
@@ -93,7 +94,7 @@ class IPThreatSummaryAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
         )
         if blocked:
             cache.delete(IPThreatSummary.BLOCKED_IPS_CACHE_KEY)
-        messages.success(request, _("{} IPs blocked.").format(blocked))
+        messages.success(request, ngettext("{} IP blocked.", "{} IPs blocked.", blocked).format(blocked))
 
     @admin.action(description=_("Unblock selected IPs"))
     def unblock_ips(self, request, queryset):
@@ -103,7 +104,7 @@ class IPThreatSummaryAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
         )
         if unblocked:
             cache.delete(IPThreatSummary.BLOCKED_IPS_CACHE_KEY)
-        messages.success(request, _("{} IPs unblocked.").format(unblocked))
+        messages.success(request, ngettext("{} IP unblocked.", "{} IPs unblocked.", unblocked).format(unblocked))
 
     @admin.action(description=_("Sync to firewall"))
     def sync_to_firewall(self, request, queryset):
@@ -122,10 +123,15 @@ class IPThreatSummaryAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
         result = service.sync_blocks(blocked_ips)
         queryset.filter(is_blocked=True).update(firewall_synced=True)
 
+        added = result.get("added", 0)
         messages.success(
             request,
-            _("Synced {added} IPs to firewall ({already} already blocked, {failed} failed).").format(
-                added=result.get("added", 0),
+            ngettext(
+                "Synced {added} IP to firewall ({already} already blocked, {failed} failed).",
+                "Synced {added} IPs to firewall ({already} already blocked, {failed} failed).",
+                added,
+            ).format(
+                added=added,
                 already=result.get("already_blocked", 0),
                 failed=result.get("failed", 0),
             ),

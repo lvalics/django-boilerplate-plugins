@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from apps.web_security.models import SuspiciousRequest
 
@@ -100,7 +101,7 @@ class SuspiciousRequestAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
     class Media:
         js = ("admin/js/ip_lookup.js",)
 
-    @admin.display(description=_("IP Address"), ordering="ip_address")
+    @admin.display(description=pgettext_lazy("ip address", "IP Address"), ordering="ip_address")
     def ip_address_with_lookup(self, obj):
         """IP address with hover tooltip for geolocation (list view)."""
         return format_html(
@@ -109,7 +110,7 @@ class SuspiciousRequestAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
             escape(obj.ip_address),
         )
 
-    @admin.display(description=_("IP Address"))
+    @admin.display(description=pgettext_lazy("ip address", "IP Address"))
     def ip_address_detail(self, obj):
         """IP address with hover tooltip for geolocation (detail/change view)."""
         return format_html(

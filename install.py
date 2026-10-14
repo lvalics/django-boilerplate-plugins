@@ -26,6 +26,8 @@ def main(argv=None) -> int:
         return 0
     if not args.plugin or not args.target:
         parser.error("plugin and target are required (or use --list)")
+    if args.uninstall and args.files_only:
+        parser.error("--files-only cannot be combined with --uninstall")
     if not (PLUGINS_ROOT / args.plugin / "plugin.toml").is_file():
         print(f"error: unknown plugin '{args.plugin}' (see --list)", file=sys.stderr)
         return 1

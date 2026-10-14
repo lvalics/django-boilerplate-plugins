@@ -5,6 +5,7 @@ from django.db import models, transaction
 from django.db.models import F
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from apps.utils.models import BaseModel
 
@@ -21,7 +22,7 @@ class IPThreatSummary(BaseModel):
 
     ip_address = models.GenericIPAddressField(
         unique=True,
-        verbose_name=_("IP Address"),
+        verbose_name=pgettext_lazy("ip address", "IP Address"),
         help_text=_("Client IP address"),
     )
     total_threat_score = models.PositiveIntegerField(

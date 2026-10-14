@@ -2,6 +2,7 @@ from django.contrib import admin, messages
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext
 
 from apps.web_security.models import IPReputationCache, IPReputationConfig
 
@@ -281,11 +282,25 @@ class IPReputationCacheAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
     @admin.action(description=_("Queue for re-check"))
     def queue_for_recheck(self, request, queryset):
         updated = queryset.update(check_pending=True)
-        messages.success(request, _("{} IPs queued for reputation re-check.").format(updated))
+        messages.success(
+            request,
+            ngettext(
+                "{} IP queued for reputation re-check.",
+                "{} IPs queued for reputation re-check.",
+                updated,
+            ).format(updated),
+        )
 
     @admin.action(description=_("Delete expired entries"))
     def delete_expired(self, request, queryset):
         from apps.web_security.models import IPReputationCache
 
         deleted = IPReputationCache.cleanup_expired()
-        messages.success(request, _("{} expired entries deleted.").format(deleted))
+        messages.success(
+            request,
+            ngettext(
+                "{} expired entry deleted.",
+                "{} expired entries deleted.",
+                deleted,
+            ).format(deleted),
+        )

@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from apps.utils.models import BaseModel
 
@@ -126,7 +127,7 @@ class IPReputationCache(BaseModel):
 
     ip_address = models.GenericIPAddressField(
         unique=True,
-        verbose_name=_("IP Address"),
+        verbose_name=pgettext_lazy("ip address", "IP Address"),
         help_text=_("IP address that was checked"),
     )
     abuse_confidence_score = models.PositiveIntegerField(

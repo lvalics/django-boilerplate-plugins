@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from apps.utils.models import BaseModel
 
@@ -13,7 +14,7 @@ class SuspiciousRequest(BaseModel):
     """
 
     ip_address = models.GenericIPAddressField(
-        verbose_name=_("IP Address"),
+        verbose_name=pgettext_lazy("ip address", "IP Address"),
         help_text=_("Client IP address"),
     )
     path = models.TextField(

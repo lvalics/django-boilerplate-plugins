@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"POT-Creation-Date: 2026-10-14 20:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,145 +18,166 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: admin.py:63
+#: admin.py:64
 msgid "Blog / content"
 msgstr "Blog / conținut"
 
-#: admin.py:70
+#: admin.py:71
 msgid "SEO"
 msgstr "SEO"
 
-#: admin.py:77
+#: admin.py:78
 msgid "Settings"
 msgstr "Setări"
 
-#: admin.py:81
+#: admin.py:82
 msgid "Tracking"
 msgstr "Urmărire"
 
-#: admin.py:89
+#: admin.py:90
 msgid "Zones"
 msgstr "Zone"
 
-#: admin.py:96
+#: admin.py:97
 msgid "Actions"
 msgstr "Acțiuni"
 
-#: admin.py:102
+#: admin.py:103
 msgid "View page"
 msgstr "Vezi pagina"
 
-#: admin.py:109
+#: admin.py:110
 msgid "Duplicate selected pages"
 msgstr "Duplică paginile selectate"
 
-#: admin.py:126
+#: admin.py:129
 #, python-format
-msgid "%(count)d page(s) duplicated (inactive)."
-msgstr "%(count)d pagină(i) duplicată(e) (inactive)."
+msgid "%(count)d page duplicated (inactive)."
+msgid_plural "%(count)d pages duplicated (inactive)."
+msgstr[0] "%(count)d pagină duplicată (inactivă)."
+msgstr[1] "%(count)d pagini duplicate (inactive)."
+msgstr[2] "%(count)d de pagini duplicate (inactive)."
 
-#: admin.py:148
+#: admin.py:152
 msgid "Zone Description"
 msgstr "Descrierea zonei"
 
-#: admin.py:152
+#: admin.py:156
 msgid "Help text describing this zone's expected content structure."
 msgstr ""
 "Text de ajutor care descrie structura de conținut așteptată a acestei zone."
 
-#: admin.py:156
+#: admin.py:160
 msgid "Content"
 msgstr "Conținut"
 
-#: admin.py:165 admin.py:179 models/testimonials.py:68
+#: admin.py:169 admin.py:183 models/testimonials.py:68
 msgid "Testimonial"
 msgstr "Testimonial"
 
-#: admin.py:169
+#: admin.py:173
 msgid "Advanced"
 msgstr "Avansat"
 
-#: admin.py:184
+#: admin.py:188
 msgid "Duplicate selected zones (inactive)"
 msgstr "Duplică zonele selectate (inactive)"
 
-#: admin.py:201
+#: admin.py:207
 #, python-format
-msgid "%(count)d zone(s) duplicated (inactive)."
-msgstr "%(count)d zonă(e) duplicată(e) (inactive)."
+msgid "%(count)d zone duplicated (inactive)."
+msgid_plural "%(count)d zones duplicated (inactive)."
+msgstr[0] "%(count)d zonă duplicată (inactivă)."
+msgstr[1] "%(count)d zone duplicate (inactive)."
+msgstr[2] "%(count)d de zone duplicate (inactive)."
 
-#: admin.py:204
+#: admin.py:211
 msgid "Delete inactive zones only"
 msgstr "Șterge doar zonele inactive"
 
-#: admin.py:214
+#: admin.py:224
 #, python-format
-msgid "%(count)d inactive zone(s) deleted."
-msgstr "%(count)d zonă(e) inactivă(e) ștearsă(e)."
+msgid "%(count)d inactive zone deleted."
+msgid_plural "%(count)d inactive zones deleted."
+msgstr[0] "%(count)d zonă inactivă ștearsă."
+msgstr[1] "%(count)d zone inactive șterse."
+msgstr[2] "%(count)d de zone inactive șterse."
 
-#: admin.py:218
+#: admin.py:234
 #, python-format
-msgid "%(count)d active zone(s) were skipped. Deactivate first."
-msgstr "%(count)d zonă(e) activă(e) au fost omise. Dezactivați-le mai întâi."
+msgid "%(count)d active zone was skipped. Deactivate it first."
+msgid_plural "%(count)d active zones were skipped. Deactivate them first."
+msgstr[0] "%(count)d zonă activă a fost omisă. Dezactivați-o mai întâi."
+msgstr[1] "%(count)d zone active au fost omise. Dezactivați-le mai întâi."
+msgstr[2] "%(count)d de zone active au fost omise. Dezactivați-le mai întâi."
 
-#: admin.py:233
+#: admin.py:253
 msgid "Rating & Verification"
 msgstr "Evaluare și verificare"
 
-#: admin.py:235
+#: admin.py:255
 msgid "Media"
 msgstr "Media"
 
-#: admin.py:242
+#: admin.py:262
 msgid "Schema"
 msgstr "Schema"
 
-#: admin.py:263
+#: admin.py:283
 msgid "Default Content & Config"
 msgstr "Conținut și configurație implicite"
 
-#: admin.py:303
+#: admin.py:323
 msgid "Source"
 msgstr "Sursă"
 
-#: admin.py:304 admin.py:312
+#: admin.py:324 admin.py:332
 msgid "Form Data"
 msgstr "Datele formularului"
 
-#: admin.py:305 admin.py:317
+#: admin.py:325 admin.py:337
 msgid "Uploaded Files"
 msgstr "Fișiere încărcate"
 
-#: admin.py:306
+#: admin.py:326
 msgid "Timestamps"
 msgstr "Date și ore"
 
-#: admin.py:322
+#: admin.py:342
 msgid "Mark selected submissions as seen"
 msgstr "Marchează trimiterile selectate ca văzute"
 
-#: admin.py:327
+#: admin.py:350
 #, python-format
-msgid "Marked %(count)d submission(s) as seen."
-msgstr "%(count)d trimitere(i) marcată(e) ca văzută(e)."
+msgid "Marked %(count)d submission as seen."
+msgid_plural "Marked %(count)d submissions as seen."
+msgstr[0] "%(count)d trimitere marcată ca văzută."
+msgstr[1] "%(count)d trimiteri marcate ca văzute."
+msgstr[2] "%(count)d de trimiteri marcate ca văzute."
 
-#: admin.py:329
+#: admin.py:357
 msgid "Mark selected submissions as processed"
 msgstr "Marchează trimiterile selectate ca procesate"
 
-#: admin.py:334
+#: admin.py:365
 #, python-format
-msgid "Marked %(count)d submission(s) as processed."
-msgstr "%(count)d trimitere(i) marcată(e) ca procesată(e)."
+msgid "Marked %(count)d submission as processed."
+msgid_plural "Marked %(count)d submissions as processed."
+msgstr[0] "%(count)d trimitere marcată ca procesată."
+msgstr[1] "%(count)d trimiteri marcate ca procesate."
+msgstr[2] "%(count)d de trimiteri marcate ca procesate."
 
-#: admin.py:336
+#: admin.py:372
 msgid "Mark selected submissions as spam"
 msgstr "Marchează trimiterile selectate ca spam"
 
-#: admin.py:341
+#: admin.py:380
 #, python-format
-msgid "Marked %(count)d submission(s) as spam."
-msgstr "%(count)d trimitere(i) marcată(e) ca spam."
+msgid "Marked %(count)d submission as spam."
+msgid_plural "Marked %(count)d submissions as spam."
+msgstr[0] "%(count)d trimitere marcată ca spam."
+msgstr[1] "%(count)d trimiteri marcate ca spam."
+msgstr[2] "%(count)d de trimiteri marcate ca spam."
 
 #: email_utils.py:336 email_utils.py:343
 msgid "Email address is required."
@@ -800,8 +821,11 @@ msgstr "După"
 #: templates/cms/zones/curriculum.html:68
 #: templates/cms/zones/curriculum.html:144
 #, python-format
-msgid "%(count)s lessons"
-msgstr "%(count)s lecții"
+msgid "%(count)s lesson"
+msgid_plural "%(count)s lessons"
+msgstr[0] "%(count)s lecție"
+msgstr[1] "%(count)s lecții"
+msgstr[2] "%(count)s de lecții"
 
 #: templates/cms/zones/footer.html:19 templates/cms/zones/footer.html:44
 #: templates/cms/zones/footer.html:99 templates/cms/zones/footer.html:163
@@ -912,8 +936,11 @@ msgstr "Orice fișiere"
 #: templates/cms/zones/order_form.html:236
 #: templates/cms/zones/order_form_floating.html:266
 #, python-format
-msgid "max %(max_files)s files, %(max_size)sMB each"
-msgstr "maximum %(max_files)s fișiere, câte %(max_size)sMB fiecare"
+msgid "max %(max_files)s file, %(max_size)sMB each"
+msgid_plural "max %(max_files)s files, %(max_size)sMB each"
+msgstr[0] "maximum %(max_files)s fișier, câte %(max_size)sMB fiecare"
+msgstr[1] "maximum %(max_files)s fișiere, câte %(max_size)sMB fiecare"
+msgstr[2] "maximum %(max_files)s de fișiere, câte %(max_size)sMB fiecare"
 
 #: templates/cms/zones/order_form.html:317
 #: templates/cms/zones/order_form_floating.html:359

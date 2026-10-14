@@ -7,6 +7,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext
 
 from .models import (
     Category,
@@ -122,8 +123,11 @@ class PageAdmin(admin.ModelAdmin):
                 zone.page = page
                 zone.save()
 
+        n = queryset.count()
         self.message_user(
-            request, _("%(count)d page(s) duplicated (inactive).") % {"count": queryset.count()}
+            request,
+            ngettext("%(count)d page duplicated (inactive).", "%(count)d pages duplicated (inactive).", n)
+            % {"count": n},
         )
 
 
@@ -197,8 +201,11 @@ class ZoneAdmin(admin.ModelAdmin):
             zone.is_active = False  # Inactive by default
             zone.save()
 
+        n = queryset.count()
         self.message_user(
-            request, _("%(count)d zone(s) duplicated (inactive).") % {"count": queryset.count()}
+            request,
+            ngettext("%(count)d zone duplicated (inactive).", "%(count)d zones duplicated (inactive).", n)
+            % {"count": n},
         )
 
     @admin.action(description=_("Delete inactive zones only"))
@@ -211,11 +218,24 @@ class ZoneAdmin(admin.ModelAdmin):
         inactive_zones.delete()
 
         if inactive_count > 0:
-            self.message_user(request, _("%(count)d inactive zone(s) deleted.") % {"count": inactive_count})
+            self.message_user(
+                request,
+                ngettext(
+                    "%(count)d inactive zone deleted.",
+                    "%(count)d inactive zones deleted.",
+                    inactive_count,
+                )
+                % {"count": inactive_count},
+            )
         if active_count > 0:
             messages.warning(
                 request,
-                _("%(count)d active zone(s) were skipped. Deactivate first.") % {"count": active_count},
+                ngettext(
+                    "%(count)d active zone was skipped. Deactivate it first.",
+                    "%(count)d active zones were skipped. Deactivate them first.",
+                    active_count,
+                )
+                % {"count": active_count},
             )
 
 
@@ -324,21 +344,45 @@ class SubmissionAdmin(admin.ModelAdmin):
         from .models import SubmissionStatus
 
         count = queryset.update(status=SubmissionStatus.SEEN)
-        self.message_user(request, _("Marked %(count)d submission(s) as seen.") % {"count": count})
+        self.message_user(
+            request,
+            ngettext(
+                "Marked %(count)d submission as seen.",
+                "Marked %(count)d submissions as seen.",
+                count,
+            )
+            % {"count": count},
+        )
 
     @admin.action(description=_("Mark selected submissions as processed"))
     def mark_as_processed(self, request, queryset):
         from .models import SubmissionStatus
 
         count = queryset.update(status=SubmissionStatus.PROCESSED)
-        self.message_user(request, _("Marked %(count)d submission(s) as processed.") % {"count": count})
+        self.message_user(
+            request,
+            ngettext(
+                "Marked %(count)d submission as processed.",
+                "Marked %(count)d submissions as processed.",
+                count,
+            )
+            % {"count": count},
+        )
 
     @admin.action(description=_("Mark selected submissions as spam"))
     def mark_as_spam(self, request, queryset):
         from .models import SubmissionStatus
 
         count = queryset.update(status=SubmissionStatus.SPAM)
-        self.message_user(request, _("Marked %(count)d submission(s) as spam.") % {"count": count})
+        self.message_user(
+            request,
+            ngettext(
+                "Marked %(count)d submission as spam.",
+                "Marked %(count)d submissions as spam.",
+                count,
+            )
+            % {"count": count},
+        )
 
 
 @admin.register(Category)

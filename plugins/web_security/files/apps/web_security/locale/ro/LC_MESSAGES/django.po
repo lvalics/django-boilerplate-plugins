@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"POT-Creation-Date: 2026-10-14 20:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 "datele de acces necesare fiecărui furnizor. <strong>Notă:</strong> datele de "
 "acces sunt stocate criptat."
 
-#: admin/firewall_admin.py:41 admin/reputation_admin.py:39
+#: admin/firewall_admin.py:41 admin/reputation_admin.py:40
 msgid "Configuration"
 msgstr "Configurație"
 
@@ -56,8 +56,8 @@ msgstr ""
 "mai jos și completați valorile dumneavoastră."
 
 #: admin/firewall_admin.py:56 admin/rate_limit_admin.py:69
-#: admin/reputation_admin.py:58 admin/suspicious_admin.py:93
-#: admin/threat_pattern_admin.py:62
+#: admin/reputation_admin.py:59 admin/suspicious_admin.py:94
+#: admin/threat_pattern_admin.py:63
 msgid "Timestamps"
 msgstr "Date și ore"
 
@@ -116,7 +116,7 @@ msgstr ""
 "HTTP. Setați limite de cereri (de ex. 10 cereri/60 de secunde) și acțiunile "
 "la depășirea lor. Regulile cu prioritate mai mare sunt evaluate primele."
 
-#: admin/rate_limit_admin.py:43 admin/threat_pattern_admin.py:43
+#: admin/rate_limit_admin.py:43 admin/threat_pattern_admin.py:44
 msgid "Basic Info"
 msgstr "Informații de bază"
 
@@ -142,13 +142,13 @@ msgstr "Ce se întâmplă când limita este depășită."
 
 #: admin/rate_limit_admin.py:77
 msgid "Rate"
-msgstr "Rată"
+msgstr "Limită"
 
-#: admin/reputation_admin.py:18
+#: admin/reputation_admin.py:19
 msgid "IP Reputation Service"
 msgstr "Serviciu de reputație IP"
 
-#: admin/reputation_admin.py:20
+#: admin/reputation_admin.py:21
 msgid ""
 "Check IP addresses against <strong>threat intelligence databases</strong>. "
 "<strong>AbuseIPDB</strong> is recommended (free tier: 1,000 lookups/day). IPs"
@@ -161,30 +161,30 @@ msgstr ""
 "rezultatele sunt păstrate în cache. IP-urile cu risc ridicat pot declanșa "
 "blocarea automată."
 
-#: admin/reputation_admin.py:45
+#: admin/reputation_admin.py:46
 msgid "API Configuration"
 msgstr "Configurație API"
 
-#: admin/reputation_admin.py:48
+#: admin/reputation_admin.py:49
 msgid "API credentials. api_url only needed for custom provider."
 msgstr ""
 "Datele de acces API. api_url este necesar doar pentru furnizorul "
 "personalizat."
 
-#: admin/reputation_admin.py:52
+#: admin/reputation_admin.py:53
 msgid "Settings"
 msgstr "Setări"
 
-#: admin/reputation_admin.py:66
+#: admin/reputation_admin.py:67
 msgid "Setup Instructions"
 msgstr "Instrucțiuni de configurare"
 
-#: admin/reputation_admin.py:193 models/ip_reputation.py:200
-#: models/ip_reputation.py:201
+#: admin/reputation_admin.py:194 models/ip_reputation.py:201
+#: models/ip_reputation.py:202
 msgid "IP Reputation Cache"
 msgstr "Cache de reputație IP"
 
-#: admin/reputation_admin.py:195
+#: admin/reputation_admin.py:196
 msgid ""
 "View <strong>cached IP reputation data</strong> from external services. "
 "Entries are created automatically when IPs are checked. Use actions to re-"
@@ -197,41 +197,47 @@ msgstr ""
 "înregistrările expirate. Înregistrările sunt doar pentru citire: datele "
 "provin de la serviciile de reputație."
 
-#: admin/reputation_admin.py:238 admin/threat_summary_admin.py:53
+#: admin/reputation_admin.py:239 admin/threat_summary_admin.py:54
 msgid "IP Information"
 msgstr "Informații IP"
 
-#: admin/reputation_admin.py:244
+#: admin/reputation_admin.py:245
 msgid "Reputation Data"
 msgstr "Date de reputație"
 
-#: admin/reputation_admin.py:257
+#: admin/reputation_admin.py:258
 msgid "Cache Status"
 msgstr "Starea cache-ului"
 
-#: admin/reputation_admin.py:263 models/ip_reputation.py:186
+#: admin/reputation_admin.py:264 models/ip_reputation.py:187
 msgid "Raw Response"
 msgstr "Răspuns brut"
 
-#: admin/reputation_admin.py:271
+#: admin/reputation_admin.py:272
 msgid "Expired"
 msgstr "Expirată"
 
-#: admin/reputation_admin.py:281
+#: admin/reputation_admin.py:282
 msgid "Queue for re-check"
 msgstr "Pune în coadă pentru reverificare"
 
-#: admin/reputation_admin.py:284
-msgid "{} IPs queued for reputation re-check."
-msgstr "{} IP-uri puse în coadă pentru reverificarea reputației."
+#: admin/reputation_admin.py:288
+msgid "{} IP queued for reputation re-check."
+msgid_plural "{} IPs queued for reputation re-check."
+msgstr[0] "{} IP pus în coadă pentru reverificarea reputației."
+msgstr[1] "{} IP-uri puse în coadă pentru reverificarea reputației."
+msgstr[2] "{} de IP-uri puse în coadă pentru reverificarea reputației."
 
-#: admin/reputation_admin.py:286
+#: admin/reputation_admin.py:294
 msgid "Delete expired entries"
 msgstr "Șterge înregistrările expirate"
 
-#: admin/reputation_admin.py:291
-msgid "{} expired entries deleted."
-msgstr "{} înregistrări expirate șterse."
+#: admin/reputation_admin.py:302
+msgid "{} expired entry deleted."
+msgid_plural "{} expired entries deleted."
+msgstr[0] "{} înregistrare expirată ștearsă."
+msgstr[1] "{} înregistrări expirate șterse."
+msgstr[2] "{} de înregistrări expirate șterse."
 
 #: admin/settings_admin.py:13 models/settings.py:162 models/settings.py:163
 msgid "Security Settings"
@@ -306,11 +312,11 @@ msgid "Configure email notifications for security events."
 msgstr ""
 "Configurați notificările prin e-mail pentru evenimentele de securitate."
 
-#: admin/suspicious_admin.py:14
+#: admin/suspicious_admin.py:15
 msgid "Suspicious Requests Log"
 msgstr "Jurnalul cererilor suspecte"
 
-#: admin/suspicious_admin.py:16
+#: admin/suspicious_admin.py:17
 msgid ""
 "View <strong>all detected threats in real-time</strong>. Each entry shows the"
 " request details, matched pattern, threat level, and action taken. Use "
@@ -323,42 +329,43 @@ msgstr ""
 "anumite categorii de amenințări sau perioade. Jurnalele sunt doar pentru "
 "citire: sunt create automat de detectarea amenințărilor."
 
-#: admin/suspicious_admin.py:62
+#: admin/suspicious_admin.py:63
 msgid "Request Details"
 msgstr "Detaliile cererii"
 
-#: admin/suspicious_admin.py:68
+#: admin/suspicious_admin.py:69
 msgid "Threat Information"
 msgstr "Informații despre amenințare"
 
-#: admin/suspicious_admin.py:80
+#: admin/suspicious_admin.py:81
 msgid "Response"
 msgstr "Răspuns"
 
-#: admin/suspicious_admin.py:86
+#: admin/suspicious_admin.py:87
 msgid "Full Request Data"
 msgstr "Datele complete ale cererii"
 
-#: admin/suspicious_admin.py:103 admin/suspicious_admin.py:112
-#: models/ip_reputation.py:129 models/ip_threat_summary.py:24
-#: models/suspicious_request.py:16
+#: admin/suspicious_admin.py:104 admin/suspicious_admin.py:113
+#: models/ip_reputation.py:130 models/ip_threat_summary.py:25
+#: models/suspicious_request.py:17
+msgctxt "ip address"
 msgid "IP Address"
 msgstr "Adresă IP"
 
-#: admin/suspicious_admin.py:121 models/suspicious_request.py:20
+#: admin/suspicious_admin.py:122 models/suspicious_request.py:21
 msgid "Path"
 msgstr "Cale"
 
-#: admin/suspicious_admin.py:125 admin/threat_pattern_admin.py:70
-#: models/suspicious_request.py:69 models/threat_pattern.py:205
+#: admin/suspicious_admin.py:126 admin/threat_pattern_admin.py:71
+#: models/suspicious_request.py:70 models/threat_pattern.py:205
 msgid "Threat Level"
 msgstr "Nivelul amenințării"
 
-#: admin/threat_pattern_admin.py:14
+#: admin/threat_pattern_admin.py:15
 msgid "Threat Detection Patterns"
 msgstr "Tipare de detectare a amenințărilor"
 
-#: admin/threat_pattern_admin.py:16
+#: admin/threat_pattern_admin.py:17
 msgid ""
 "Define <strong>regex patterns</strong> to detect malicious requests. Patterns"
 " can match against URL paths, user agents, headers, or request bodies. Each "
@@ -371,39 +378,45 @@ msgstr ""
 " scor. Folosiți <code>python manage.py seed_patterns</code> pentru a încărca "
 "tiparele implicite."
 
-#: admin/threat_pattern_admin.py:49
+#: admin/threat_pattern_admin.py:50
 msgid "Pattern Configuration"
 msgstr "Configurația tiparului"
 
-#: admin/threat_pattern_admin.py:52
+#: admin/threat_pattern_admin.py:53
 msgid "Configure the regex pattern and what it matches against."
 msgstr "Configurați tiparul regex și partea cererii cu care se compară."
 
-#: admin/threat_pattern_admin.py:56
+#: admin/threat_pattern_admin.py:57
 msgid "Classification"
 msgstr "Clasificare"
 
-#: admin/threat_pattern_admin.py:88
+#: admin/threat_pattern_admin.py:89
 msgid "Activate selected patterns"
 msgstr "Activează tiparele selectate"
 
-#: admin/threat_pattern_admin.py:91
-msgid "{} patterns activated."
-msgstr "{} tipare activate."
+#: admin/threat_pattern_admin.py:92
+msgid "{} pattern activated."
+msgid_plural "{} patterns activated."
+msgstr[0] "{} tipar activat."
+msgstr[1] "{} tipare activate."
+msgstr[2] "{} de tipare activate."
 
-#: admin/threat_pattern_admin.py:93
+#: admin/threat_pattern_admin.py:94
 msgid "Deactivate selected patterns"
 msgstr "Dezactivează tiparele selectate"
 
-#: admin/threat_pattern_admin.py:96
-msgid "{} patterns deactivated."
-msgstr "{} tipare dezactivate."
+#: admin/threat_pattern_admin.py:100
+msgid "{} pattern deactivated."
+msgid_plural "{} patterns deactivated."
+msgstr[0] "{} tipar dezactivat."
+msgstr[1] "{} tipare dezactivate."
+msgstr[2] "{} de tipare dezactivate."
 
-#: admin/threat_summary_admin.py:15 models/ip_threat_summary.py:94
+#: admin/threat_summary_admin.py:16 models/ip_threat_summary.py:95
 msgid "IP Threat Summaries"
 msgstr "Rezumate de amenințări pe IP"
 
-#: admin/threat_summary_admin.py:17
+#: admin/threat_summary_admin.py:18
 msgid ""
 "Aggregated threat data <strong>per IP address</strong>. Shows total threat "
 "score, request count, and block status. Use actions to manually block/unblock"
@@ -415,53 +428,67 @@ msgstr ""
 " pentru a bloca/debloca manual IP-uri sau pentru sincronizarea cu firewall-"
 "ul. IP-urile care depășesc pragul de blocare automată sunt blocate automat."
 
-#: admin/threat_summary_admin.py:59
+#: admin/threat_summary_admin.py:60
 msgid "Block Status"
 msgstr "Starea blocării"
 
-#: admin/threat_summary_admin.py:71
+#: admin/threat_summary_admin.py:72
 msgid "Detection Details"
 msgstr "Detaliile detectării"
 
-#: admin/threat_summary_admin.py:77
+#: admin/threat_summary_admin.py:78
 msgid "Admin Notes"
 msgstr "Notele administratorului"
 
-#: admin/threat_summary_admin.py:86
+#: admin/threat_summary_admin.py:87
 msgid "Block selected IPs"
 msgstr "Blochează IP-urile selectate"
 
-#: admin/threat_summary_admin.py:96
-msgid "{} IPs blocked."
-msgstr "{} IP-uri blocate."
+#: admin/threat_summary_admin.py:97
+msgid "{} IP blocked."
+msgid_plural "{} IPs blocked."
+msgstr[0] "{} IP blocat."
+msgstr[1] "{} IP-uri blocate."
+msgstr[2] "{} de IP-uri blocate."
 
-#: admin/threat_summary_admin.py:98
+#: admin/threat_summary_admin.py:99
 msgid "Unblock selected IPs"
 msgstr "Deblochează IP-urile selectate"
 
-#: admin/threat_summary_admin.py:106
-msgid "{} IPs unblocked."
-msgstr "{} IP-uri deblocate."
+#: admin/threat_summary_admin.py:107
+msgid "{} IP unblocked."
+msgid_plural "{} IPs unblocked."
+msgstr[0] "{} IP deblocat."
+msgstr[1] "{} IP-uri deblocate."
+msgstr[2] "{} de IP-uri deblocate."
 
-#: admin/threat_summary_admin.py:108
+#: admin/threat_summary_admin.py:109
 msgid "Sync to firewall"
 msgstr "Sincronizează cu firewall-ul"
 
-#: admin/threat_summary_admin.py:114
+#: admin/threat_summary_admin.py:115
 msgid "No firewall service configured."
 msgstr "Niciun serviciu de firewall nu este configurat."
 
-#: admin/threat_summary_admin.py:119
+#: admin/threat_summary_admin.py:120
 msgid "No blocked IPs selected."
 msgstr "Nu ați selectat niciun IP blocat."
 
-#: admin/threat_summary_admin.py:127
+#: admin/threat_summary_admin.py:130
 #, python-brace-format
 msgid ""
+"Synced {added} IP to firewall ({already} already blocked, {failed} failed)."
+msgid_plural ""
 "Synced {added} IPs to firewall ({already} already blocked, {failed} failed)."
-msgstr ""
+msgstr[0] ""
+"A fost sincronizat {added} IP cu firewall-ul ({already} deja blocate, "
+"{failed} eșuate)."
+msgstr[1] ""
 "Au fost sincronizate {added} IP-uri cu firewall-ul ({already} deja blocate, "
 "{failed} eșuate)."
+msgstr[2] ""
+"Au fost sincronizate {added} de IP-uri cu firewall-ul ({already} deja "
+"blocate, {failed} eșuate)."
 
 #: apps.py:8
 msgid "Web Security"
@@ -483,7 +510,7 @@ msgstr "Nginx"
 msgid "iptables"
 msgstr "iptables"
 
-#: models/firewall.py:28 models/ip_reputation.py:23 models/rate_limit.py:68
+#: models/firewall.py:28 models/ip_reputation.py:24 models/rate_limit.py:68
 #: models/threat_pattern.py:167
 msgid "Name"
 msgstr "Nume"
@@ -492,7 +519,7 @@ msgstr "Nume"
 msgid "Descriptive name for this firewall configuration"
 msgstr "Nume descriptiv pentru această configurație de firewall"
 
-#: models/firewall.py:34 models/ip_reputation.py:30
+#: models/firewall.py:34 models/ip_reputation.py:31
 msgid "Provider"
 msgstr "Furnizor"
 
@@ -504,7 +531,7 @@ msgstr "Tipul furnizorului de firewall"
 msgid "Provider-specific credentials (encrypted at rest)"
 msgstr "Date de acces specifice furnizorului (stocate criptat)"
 
-#: models/firewall.py:47 models/ip_reputation.py:47 models/rate_limit.py:113
+#: models/firewall.py:47 models/ip_reputation.py:48 models/rate_limit.py:113
 #: models/threat_pattern.py:215
 msgid "Active"
 msgstr "Activ"
@@ -513,7 +540,7 @@ msgstr "Activ"
 msgid "Whether this firewall config is active"
 msgstr "Dacă această configurație de firewall este activă"
 
-#: models/firewall.py:52 models/ip_reputation.py:52
+#: models/firewall.py:52 models/ip_reputation.py:53
 msgid "Default"
 msgstr "Implicit"
 
@@ -525,265 +552,265 @@ msgstr "Folosește acest firewall pentru blocarea automată"
 msgid "Firewall Configurations"
 msgstr "Configurații firewall"
 
-#: models/ip_reputation.py:17
+#: models/ip_reputation.py:18
 msgid "AbuseIPDB"
 msgstr "AbuseIPDB"
 
-#: models/ip_reputation.py:18
+#: models/ip_reputation.py:19
 msgid "IPQualityScore"
 msgstr "IPQualityScore"
 
-#: models/ip_reputation.py:19
+#: models/ip_reputation.py:20
 msgid "Custom API"
 msgstr "API personalizat"
 
-#: models/ip_reputation.py:24
+#: models/ip_reputation.py:25
 msgid "Descriptive name for this configuration"
 msgstr "Nume descriptiv pentru această configurație"
 
-#: models/ip_reputation.py:31
+#: models/ip_reputation.py:32
 msgid "IP reputation service provider"
 msgstr "Furnizorul serviciului de reputație IP"
 
-#: models/ip_reputation.py:36
+#: models/ip_reputation.py:37
 msgid "API Key"
 msgstr "Cheie API"
 
-#: models/ip_reputation.py:37
+#: models/ip_reputation.py:38
 msgid "API key for the reputation service (encrypted at rest)"
 msgstr "Cheia API pentru serviciul de reputație (stocată criptat)"
 
-#: models/ip_reputation.py:42
+#: models/ip_reputation.py:43
 msgid "API URL"
 msgstr "URL API"
 
-#: models/ip_reputation.py:43
+#: models/ip_reputation.py:44
 msgid "Custom API URL (only for custom provider)"
 msgstr "URL API personalizat (doar pentru furnizorul personalizat)"
 
-#: models/ip_reputation.py:48
+#: models/ip_reputation.py:49
 msgid "Whether this configuration is active"
 msgstr "Dacă această configurație este activă"
 
-#: models/ip_reputation.py:53
+#: models/ip_reputation.py:54
 msgid "Use this as the default reputation service"
 msgstr "Folosește acesta ca serviciu de reputație implicit"
 
-#: models/ip_reputation.py:57
+#: models/ip_reputation.py:58
 msgid "Cache Duration (hours)"
 msgstr "Durata cache-ului (ore)"
 
-#: models/ip_reputation.py:58
+#: models/ip_reputation.py:59
 msgid "How long to cache reputation results"
 msgstr "Cât timp se păstrează în cache rezultatele de reputație"
 
-#: models/ip_reputation.py:62
+#: models/ip_reputation.py:63
 msgid "Min Confidence Score"
 msgstr "Scor minim de încredere"
 
-#: models/ip_reputation.py:63
+#: models/ip_reputation.py:64
 msgid "Minimum abuse confidence score to consider IP as bad (0-100)"
 msgstr ""
 "Scorul minim de încredere privind abuzul pentru care un IP este considerat "
 "rău intenționat (0-100)"
 
-#: models/ip_reputation.py:70
+#: models/ip_reputation.py:71
 msgid "IP Reputation Configuration"
 msgstr "Configurație de reputație IP"
 
-#: models/ip_reputation.py:71
+#: models/ip_reputation.py:72
 msgid "IP Reputation Configurations"
 msgstr "Configurații de reputație IP"
 
-#: models/ip_reputation.py:130
+#: models/ip_reputation.py:131
 msgid "IP address that was checked"
 msgstr "Adresa IP verificată"
 
-#: models/ip_reputation.py:134
+#: models/ip_reputation.py:135
 msgid "Abuse Confidence Score"
 msgstr "Scor de încredere privind abuzul"
 
-#: models/ip_reputation.py:135
+#: models/ip_reputation.py:136
 msgid "Confidence score that IP is abusive (0-100)"
 msgstr "Scorul de încredere că IP-ul este abuziv (0-100)"
 
-#: models/ip_reputation.py:139
+#: models/ip_reputation.py:140
 msgid "Tor Exit Node"
 msgstr "Nod de ieșire Tor"
 
-#: models/ip_reputation.py:140
+#: models/ip_reputation.py:141
 msgid "Whether IP is a known Tor exit node"
 msgstr "Dacă IP-ul este un nod de ieșire Tor cunoscut"
 
-#: models/ip_reputation.py:144
+#: models/ip_reputation.py:145
 msgid "VPN/Proxy"
 msgstr "VPN/Proxy"
 
-#: models/ip_reputation.py:145
+#: models/ip_reputation.py:146
 msgid "Whether IP is a known VPN or proxy"
 msgstr "Dacă IP-ul este un VPN sau un proxy cunoscut"
 
-#: models/ip_reputation.py:149
+#: models/ip_reputation.py:150
 msgid "Datacenter"
 msgstr "Centru de date"
 
-#: models/ip_reputation.py:150
+#: models/ip_reputation.py:151
 msgid "Whether IP belongs to a datacenter"
 msgstr "Dacă IP-ul aparține unui centru de date"
 
-#: models/ip_reputation.py:156
+#: models/ip_reputation.py:157
 msgid "Country Code"
 msgstr "Codul țării"
 
-#: models/ip_reputation.py:157
+#: models/ip_reputation.py:158
 msgid "Two-letter country code"
 msgstr "Codul de țară din două litere"
 
-#: models/ip_reputation.py:163
+#: models/ip_reputation.py:164
 msgid "ISP"
 msgstr "ISP"
 
-#: models/ip_reputation.py:164
+#: models/ip_reputation.py:165
 msgid "Internet Service Provider"
 msgstr "Furnizor de servicii de internet"
 
-#: models/ip_reputation.py:170
+#: models/ip_reputation.py:171
 msgid "Domain"
 msgstr "Domeniu"
 
-#: models/ip_reputation.py:171
+#: models/ip_reputation.py:172
 msgid "Domain associated with IP"
 msgstr "Domeniul asociat IP-ului"
 
-#: models/ip_reputation.py:175
+#: models/ip_reputation.py:176
 msgid "Total Reports"
 msgstr "Total raportări"
 
-#: models/ip_reputation.py:176
+#: models/ip_reputation.py:177
 msgid "Number of abuse reports for this IP"
 msgstr "Numărul de raportări de abuz pentru acest IP"
 
-#: models/ip_reputation.py:181
+#: models/ip_reputation.py:182
 msgid "Last Reported"
 msgstr "Ultima raportare"
 
-#: models/ip_reputation.py:182
+#: models/ip_reputation.py:183
 msgid "When IP was last reported for abuse"
 msgstr "Când a fost raportat ultima dată IP-ul pentru abuz"
 
-#: models/ip_reputation.py:187
+#: models/ip_reputation.py:188
 msgid "Full API response data"
 msgstr "Datele complete ale răspunsului API"
 
-#: models/ip_reputation.py:190
+#: models/ip_reputation.py:191
 msgid "Expires At"
 msgstr "Expiră la"
 
-#: models/ip_reputation.py:191
+#: models/ip_reputation.py:192
 msgid "When this cache entry expires"
 msgstr "Când expiră această înregistrare din cache"
 
-#: models/ip_reputation.py:195
+#: models/ip_reputation.py:196
 msgid "Check Pending"
 msgstr "Verificare în așteptare"
 
-#: models/ip_reputation.py:196
+#: models/ip_reputation.py:197
 msgid "Whether a reputation check is queued"
 msgstr "Dacă o verificare de reputație este în coadă"
 
-#: models/ip_threat_summary.py:25 models/suspicious_request.py:17
+#: models/ip_threat_summary.py:26 models/suspicious_request.py:18
 msgid "Client IP address"
 msgstr "Adresa IP a clientului"
 
-#: models/ip_threat_summary.py:29
+#: models/ip_threat_summary.py:30
 msgid "Total Threat Score"
 msgstr "Scor total de amenințare"
 
-#: models/ip_threat_summary.py:30
+#: models/ip_threat_summary.py:31
 msgid "Cumulative threat score"
 msgstr "Scorul cumulat de amenințare"
 
-#: models/ip_threat_summary.py:34
+#: models/ip_threat_summary.py:35
 msgid "Request Count"
 msgstr "Număr de cereri"
 
-#: models/ip_threat_summary.py:35
+#: models/ip_threat_summary.py:36
 msgid "Total number of suspicious requests"
 msgstr "Numărul total de cereri suspecte"
 
-#: models/ip_threat_summary.py:39
+#: models/ip_threat_summary.py:40
 msgid "First Seen"
 msgstr "Prima apariție"
 
-#: models/ip_threat_summary.py:40
+#: models/ip_threat_summary.py:41
 msgid "When IP was first detected"
 msgstr "Când a fost detectat prima dată IP-ul"
 
-#: models/ip_threat_summary.py:44
+#: models/ip_threat_summary.py:45
 msgid "Last Seen"
 msgstr "Ultima apariție"
 
-#: models/ip_threat_summary.py:45
+#: models/ip_threat_summary.py:46
 msgid "When IP was last detected"
 msgstr "Când a fost detectat ultima dată IP-ul"
 
-#: models/ip_threat_summary.py:49
+#: models/ip_threat_summary.py:50
 msgid "Blocked"
 msgstr "Blocat"
 
-#: models/ip_threat_summary.py:50
+#: models/ip_threat_summary.py:51
 msgid "Whether IP is currently blocked"
 msgstr "Dacă IP-ul este blocat în prezent"
 
-#: models/ip_threat_summary.py:56
+#: models/ip_threat_summary.py:57
 msgid "Blocked At"
 msgstr "Blocat la"
 
-#: models/ip_threat_summary.py:57
+#: models/ip_threat_summary.py:58
 msgid "When IP was blocked"
 msgstr "Când a fost blocat IP-ul"
 
-#: models/ip_threat_summary.py:62
+#: models/ip_threat_summary.py:63
 msgid "Blocked Until"
 msgstr "Blocat până la"
 
-#: models/ip_threat_summary.py:63
+#: models/ip_threat_summary.py:64
 msgid "When block expires"
 msgstr "Când expiră blocarea"
 
-#: models/ip_threat_summary.py:68
+#: models/ip_threat_summary.py:69
 msgid "Block Reason"
 msgstr "Motivul blocării"
 
-#: models/ip_threat_summary.py:69
+#: models/ip_threat_summary.py:70
 msgid "Reason for blocking"
 msgstr "Motivul pentru care a fost blocat"
 
-#: models/ip_threat_summary.py:73
+#: models/ip_threat_summary.py:74
 msgid "Firewall Synced"
 msgstr "Sincronizat cu firewall-ul"
 
-#: models/ip_threat_summary.py:74
+#: models/ip_threat_summary.py:75
 msgid "Whether block has been synced to firewall"
 msgstr "Dacă blocarea a fost sincronizată cu firewall-ul"
 
-#: models/ip_threat_summary.py:78
+#: models/ip_threat_summary.py:79
 msgid "Categories Detected"
 msgstr "Categorii detectate"
 
-#: models/ip_threat_summary.py:79
+#: models/ip_threat_summary.py:80
 msgid "List of threat categories detected from this IP"
 msgstr "Lista categoriilor de amenințări detectate de la acest IP"
 
-#: models/ip_threat_summary.py:84
+#: models/ip_threat_summary.py:85
 msgid "Notes"
 msgstr "Note"
 
-#: models/ip_threat_summary.py:85
+#: models/ip_threat_summary.py:86
 msgid "Admin notes about this IP"
 msgstr "Notele administratorului despre acest IP"
 
-#: models/ip_threat_summary.py:93
+#: models/ip_threat_summary.py:94
 msgid "IP Threat Summary"
 msgstr "Rezumat de amenințări pe IP"
 
@@ -1095,107 +1122,107 @@ msgstr "Notificare la amenințări critice"
 msgid "Send email notification for critical threats"
 msgstr "Trimite o notificare prin e-mail pentru amenințările critice"
 
-#: models/suspicious_request.py:21
+#: models/suspicious_request.py:22
 msgid "Requested URL path"
 msgstr "Calea URL solicitată"
 
-#: models/suspicious_request.py:25
+#: models/suspicious_request.py:26
 msgid "Method"
 msgstr "Metodă"
 
-#: models/suspicious_request.py:26
+#: models/suspicious_request.py:27
 msgid "HTTP method"
 msgstr "Metoda HTTP"
 
-#: models/suspicious_request.py:31 models/threat_pattern.py:143
+#: models/suspicious_request.py:32 models/threat_pattern.py:143
 msgid "User Agent"
 msgstr "User agent"
 
-#: models/suspicious_request.py:32
+#: models/suspicious_request.py:33
 msgid "Client user agent string"
 msgstr "Șirul user agent al clientului"
 
-#: models/suspicious_request.py:36
+#: models/suspicious_request.py:37
 msgid "Headers"
 msgstr "Antete"
 
-#: models/suspicious_request.py:37
+#: models/suspicious_request.py:38
 msgid "Request headers"
 msgstr "Antetele cererii"
 
-#: models/suspicious_request.py:42
+#: models/suspicious_request.py:43
 msgid "Body Preview"
 msgstr "Previzualizarea corpului"
 
-#: models/suspicious_request.py:43
+#: models/suspicious_request.py:44
 msgid "First 1000 chars of request body"
 msgstr "Primele 1000 de caractere din corpul cererii"
 
-#: models/suspicious_request.py:48
+#: models/suspicious_request.py:49
 msgid "Pattern ID"
 msgstr "ID tipar"
 
-#: models/suspicious_request.py:49
+#: models/suspicious_request.py:50
 msgid "ID of the matched threat pattern"
 msgstr "ID-ul tiparului de amenințare potrivit"
 
-#: models/suspicious_request.py:55
+#: models/suspicious_request.py:56
 msgid "Pattern Name"
 msgstr "Numele tiparului"
 
-#: models/suspicious_request.py:56
+#: models/suspicious_request.py:57
 msgid "Name of the matched pattern"
 msgstr "Numele tiparului potrivit"
 
-#: models/suspicious_request.py:62 models/threat_pattern.py:198
+#: models/suspicious_request.py:63 models/threat_pattern.py:198
 msgid "Category"
 msgstr "Categorie"
 
-#: models/suspicious_request.py:63
+#: models/suspicious_request.py:64
 msgid "Threat category"
 msgstr "Categoria amenințării"
 
-#: models/suspicious_request.py:70
+#: models/suspicious_request.py:71
 msgid "Threat severity level"
 msgstr "Nivelul de gravitate al amenințării"
 
-#: models/suspicious_request.py:75 models/threat_pattern.py:210
+#: models/suspicious_request.py:76 models/threat_pattern.py:210
 msgid "Threat Score"
 msgstr "Scor de amenințare"
 
-#: models/suspicious_request.py:76
+#: models/suspicious_request.py:77
 msgid "Score assigned to this request"
 msgstr "Scorul atribuit acestei cereri"
 
-#: models/suspicious_request.py:81
+#: models/suspicious_request.py:82
 msgid "Matched Value"
 msgstr "Valoare potrivită"
 
-#: models/suspicious_request.py:82
+#: models/suspicious_request.py:83
 msgid "The value that matched the pattern"
 msgstr "Valoarea care s-a potrivit cu tiparul"
 
-#: models/suspicious_request.py:87
+#: models/suspicious_request.py:88
 msgid "Response Code"
 msgstr "Cod de răspuns"
 
-#: models/suspicious_request.py:88
+#: models/suspicious_request.py:89
 msgid "HTTP response status code"
 msgstr "Codul de stare al răspunsului HTTP"
 
-#: models/suspicious_request.py:94
+#: models/suspicious_request.py:95
 msgid "Action Taken"
 msgstr "Acțiune întreprinsă"
 
-#: models/suspicious_request.py:95
+#: models/suspicious_request.py:96
 msgid "Action taken in response (logged, blocked, etc.)"
 msgstr "Acțiunea întreprinsă ca răspuns (înregistrată în jurnal, blocată etc.)"
 
-#: models/suspicious_request.py:99
+#: models/suspicious_request.py:100
 msgid "Suspicious Request"
 msgstr "Cerere suspectă"
 
-#: models/suspicious_request.py:100
+#: models/suspicious_request.py:101
 msgid "Suspicious Requests"
 msgstr "Cereri suspecte"
 

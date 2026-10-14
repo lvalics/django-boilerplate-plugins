@@ -1,6 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext
 
 from apps.web_security.models import ThreatPattern
 
@@ -88,9 +89,16 @@ class ThreatPatternAdmin(WebSecurityAdminMixin, admin.ModelAdmin):
     @admin.action(description=_("Activate selected patterns"))
     def activate_patterns(self, request, queryset):
         updated = queryset.update(is_active=True)
-        messages.success(request, _("{} patterns activated.").format(updated))
+        messages.success(request, ngettext("{} pattern activated.", "{} patterns activated.", updated).format(updated))
 
     @admin.action(description=_("Deactivate selected patterns"))
     def deactivate_patterns(self, request, queryset):
         updated = queryset.update(is_active=False)
-        messages.success(request, _("{} patterns deactivated.").format(updated))
+        messages.success(
+            request,
+            ngettext(
+                "{} pattern deactivated.",
+                "{} patterns deactivated.",
+                updated,
+            ).format(updated),
+        )

@@ -15,6 +15,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from apps.utils.models import BaseModel
 
@@ -53,7 +54,7 @@ class SiteAuditLog(BaseModel):
         verbose_name=_("User"),
     )
     user_email = models.EmailField(_("User Email"), blank=True)
-    ip_address = models.GenericIPAddressField(_("IP Address"), null=True, blank=True)
+    ip_address = models.GenericIPAddressField(pgettext_lazy("ip address", "IP Address"), null=True, blank=True)
 
     # What changed
     changes = models.JSONField(_("Changes"), default=dict, blank=True)

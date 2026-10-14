@@ -65,7 +65,7 @@
             <span class="badge {{ config.duration_style|default:'ghost'|badge_color }} flex-shrink-0">{{ module.duration }}</span>
             {% endif %}
             {% if config.show_lesson_count and module.lessons %}
-            <span class="text-sm text-base-content/60 flex-shrink-0">{% blocktranslate with count=module.lessons|length %}{{ count }} lessons{% endblocktranslate %}</span>
+            <span class="text-sm text-base-content/60 flex-shrink-0">{% blocktranslate count count=module.lessons|length %}{{ count }} lesson{% plural %}{{ count }} lessons{% endblocktranslate %}</span>
             {% endif %}
           </div>
           <div class="collapse-content">
@@ -141,7 +141,7 @@
           {% endif %}
           {% if module.lessons %}
           <div class="mt-4 text-sm text-base-content/60">
-            {% blocktranslate with count=module.lessons|length %}{{ count }} lessons{% endblocktranslate %}
+            {% blocktranslate count count=module.lessons|length %}{{ count }} lesson{% plural %}{{ count }} lessons{% endblocktranslate %}
           </div>
           {% endif %}
         </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"POT-Creation-Date: 2026-10-14 20:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,144 +18,158 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:63
+#: admin.py:64
 msgid "Blog / content"
 msgstr "Blog / tartalom"
 
-#: admin.py:70
+#: admin.py:71
 msgid "SEO"
 msgstr "SEO"
 
-#: admin.py:77
+#: admin.py:78
 msgid "Settings"
 msgstr "Beállítások"
 
-#: admin.py:81
+#: admin.py:82
 msgid "Tracking"
 msgstr "Követés"
 
-#: admin.py:89
+#: admin.py:90
 msgid "Zones"
 msgstr "Zónák"
 
-#: admin.py:96
+#: admin.py:97
 msgid "Actions"
 msgstr "Műveletek"
 
-#: admin.py:102
+#: admin.py:103
 msgid "View page"
 msgstr "Oldal megtekintése"
 
-#: admin.py:109
+#: admin.py:110
 msgid "Duplicate selected pages"
 msgstr "A kijelölt oldalak másolása"
 
-#: admin.py:126
+#: admin.py:129
 #, python-format
-msgid "%(count)d page(s) duplicated (inactive)."
-msgstr "%(count)d oldal másolva (inaktív)."
+msgid "%(count)d page duplicated (inactive)."
+msgid_plural "%(count)d pages duplicated (inactive)."
+msgstr[0] "%(count)d oldal másolva (inaktív)."
+msgstr[1] "%(count)d oldal másolva (inaktív)."
 
-#: admin.py:148
+#: admin.py:152
 msgid "Zone Description"
 msgstr "Zóna leírása"
 
-#: admin.py:152
+#: admin.py:156
 msgid "Help text describing this zone's expected content structure."
 msgstr "A zóna várt tartalomszerkezetét leíró súgószöveg."
 
-#: admin.py:156
+#: admin.py:160
 msgid "Content"
 msgstr "Tartalom"
 
-#: admin.py:165 admin.py:179 models/testimonials.py:68
+#: admin.py:169 admin.py:183 models/testimonials.py:68
 msgid "Testimonial"
 msgstr "Ügyfélvélemény"
 
-#: admin.py:169
+#: admin.py:173
 msgid "Advanced"
 msgstr "Speciális"
 
-#: admin.py:184
+#: admin.py:188
 msgid "Duplicate selected zones (inactive)"
 msgstr "A kijelölt zónák másolása (inaktív)"
 
-#: admin.py:201
+#: admin.py:207
 #, python-format
-msgid "%(count)d zone(s) duplicated (inactive)."
-msgstr "%(count)d zóna másolva (inaktív)."
+msgid "%(count)d zone duplicated (inactive)."
+msgid_plural "%(count)d zones duplicated (inactive)."
+msgstr[0] "%(count)d zóna másolva (inaktív)."
+msgstr[1] "%(count)d zóna másolva (inaktív)."
 
-#: admin.py:204
+#: admin.py:211
 msgid "Delete inactive zones only"
 msgstr "Csak az inaktív zónák törlése"
 
-#: admin.py:214
+#: admin.py:224
 #, python-format
-msgid "%(count)d inactive zone(s) deleted."
-msgstr "%(count)d inaktív zóna törölve."
+msgid "%(count)d inactive zone deleted."
+msgid_plural "%(count)d inactive zones deleted."
+msgstr[0] "%(count)d inaktív zóna törölve."
+msgstr[1] "%(count)d inaktív zóna törölve."
 
-#: admin.py:218
+#: admin.py:234
 #, python-format
-msgid "%(count)d active zone(s) were skipped. Deactivate first."
-msgstr "%(count)d aktív zóna kimaradt. Először inaktiválja őket."
+msgid "%(count)d active zone was skipped. Deactivate it first."
+msgid_plural "%(count)d active zones were skipped. Deactivate them first."
+msgstr[0] "%(count)d aktív zóna kimaradt. Először inaktiválja."
+msgstr[1] "%(count)d aktív zóna kimaradt. Először inaktiválja őket."
 
-#: admin.py:233
+#: admin.py:253
 msgid "Rating & Verification"
 msgstr "Értékelés és ellenőrzés"
 
-#: admin.py:235
+#: admin.py:255
 msgid "Media"
 msgstr "Média"
 
-#: admin.py:242
+#: admin.py:262
 msgid "Schema"
 msgstr "Séma"
 
-#: admin.py:263
+#: admin.py:283
 msgid "Default Content & Config"
 msgstr "Alapértelmezett tartalom és konfiguráció"
 
-#: admin.py:303
+#: admin.py:323
 msgid "Source"
 msgstr "Forrás"
 
-#: admin.py:304 admin.py:312
+#: admin.py:324 admin.py:332
 msgid "Form Data"
 msgstr "Űrlapadatok"
 
-#: admin.py:305 admin.py:317
+#: admin.py:325 admin.py:337
 msgid "Uploaded Files"
 msgstr "Feltöltött fájlok"
 
-#: admin.py:306
+#: admin.py:326
 msgid "Timestamps"
 msgstr "Időbélyegek"
 
-#: admin.py:322
+#: admin.py:342
 msgid "Mark selected submissions as seen"
 msgstr "A kijelölt beküldések megjelölése megtekintettként"
 
-#: admin.py:327
+#: admin.py:350
 #, python-format
-msgid "Marked %(count)d submission(s) as seen."
-msgstr "%(count)d beküldés megjelölve megtekintettként."
+msgid "Marked %(count)d submission as seen."
+msgid_plural "Marked %(count)d submissions as seen."
+msgstr[0] "%(count)d beküldés megjelölve megtekintettként."
+msgstr[1] "%(count)d beküldés megjelölve megtekintettként."
 
-#: admin.py:329
+#: admin.py:357
 msgid "Mark selected submissions as processed"
 msgstr "A kijelölt beküldések megjelölése feldolgozottként"
 
-#: admin.py:334
+#: admin.py:365
 #, python-format
-msgid "Marked %(count)d submission(s) as processed."
-msgstr "%(count)d beküldés megjelölve feldolgozottként."
+msgid "Marked %(count)d submission as processed."
+msgid_plural "Marked %(count)d submissions as processed."
+msgstr[0] "%(count)d beküldés megjelölve feldolgozottként."
+msgstr[1] "%(count)d beküldés megjelölve feldolgozottként."
 
-#: admin.py:336
+#: admin.py:372
 msgid "Mark selected submissions as spam"
 msgstr "A kijelölt beküldések megjelölése spamként"
 
-#: admin.py:341
+#: admin.py:380
 #, python-format
-msgid "Marked %(count)d submission(s) as spam."
-msgstr "%(count)d beküldés megjelölve spamként."
+msgid "Marked %(count)d submission as spam."
+msgid_plural "Marked %(count)d submissions as spam."
+msgstr[0] "%(count)d beküldés megjelölve spamként."
+msgstr[1] "%(count)d beküldés megjelölve spamként."
 
 #: email_utils.py:336 email_utils.py:343
 msgid "Email address is required."
@@ -302,7 +316,7 @@ msgstr "Megrendelőlap"
 
 #: models/pages.py:67
 msgid "Carousel"
-msgstr "Körhinta"
+msgstr "Karusszel"
 
 #: models/pages.py:68
 msgid "Comparison Slider"
@@ -792,8 +806,10 @@ msgstr "Utána"
 #: templates/cms/zones/curriculum.html:68
 #: templates/cms/zones/curriculum.html:144
 #, python-format
-msgid "%(count)s lessons"
-msgstr "%(count)s lecke"
+msgid "%(count)s lesson"
+msgid_plural "%(count)s lessons"
+msgstr[0] "%(count)s lecke"
+msgstr[1] "%(count)s lecke"
 
 #: templates/cms/zones/footer.html:19 templates/cms/zones/footer.html:44
 #: templates/cms/zones/footer.html:99 templates/cms/zones/footer.html:163
@@ -855,7 +871,7 @@ msgstr "Feliratkozás"
 
 #: templates/cms/zones/jumbotron.html:355
 msgid "Read more"
-msgstr "Tovább olvasom"
+msgstr "Bővebben"
 
 #: templates/cms/zones/order_form.html:34
 #: templates/cms/zones/order_form_floating.html:32
@@ -903,8 +919,10 @@ msgstr "Bármilyen fájlok"
 #: templates/cms/zones/order_form.html:236
 #: templates/cms/zones/order_form_floating.html:266
 #, python-format
-msgid "max %(max_files)s files, %(max_size)sMB each"
-msgstr "legfeljebb %(max_files)s fájl, egyenként %(max_size)sMB"
+msgid "max %(max_files)s file, %(max_size)sMB each"
+msgid_plural "max %(max_files)s files, %(max_size)sMB each"
+msgstr[0] "legfeljebb %(max_files)s fájl, egyenként %(max_size)sMB"
+msgstr[1] "legfeljebb %(max_files)s fájl, egyenként %(max_size)sMB"
 
 #: templates/cms/zones/order_form.html:317
 #: templates/cms/zones/order_form_floating.html:359

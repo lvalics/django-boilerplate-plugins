@@ -30,3 +30,13 @@ def test_files_only_flag_is_accepted(capsys, tmp_path):
     rc = install.main(["web_security", str(tmp_path), "--files-only"])
     assert rc == 1
     assert "unrecognized arguments" not in capsys.readouterr().err
+
+
+def test_files_only_with_uninstall_is_rejected(capsys, tmp_path):
+    try:
+        install.main(["web_security", str(tmp_path), "--uninstall", "--files-only"])
+    except SystemExit as exc:
+        assert exc.code == 2
+    else:  # pragma: no cover
+        raise AssertionError("expected SystemExit(2) for --uninstall with --files-only")
+    assert "--files-only cannot be combined with --uninstall" in capsys.readouterr().err

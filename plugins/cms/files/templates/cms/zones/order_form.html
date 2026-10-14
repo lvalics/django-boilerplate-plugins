@@ -233,7 +233,7 @@
                       <span class="font-semibold {{ config.btn_color|default:'primary'|text_color }}">{% translate "Click to upload" %}</span> {% translate "or drag and drop" %}
                     </p>
                     <p class="mt-1 text-xs text-base-content/40">
-                      {% if field.accept %}{{ field.accept }}{% else %}{% translate "Any files" %}{% endif %} ({% blocktranslate with max_files=field.max_files|default:5 max_size=field.max_size|default:10 %}max {{ max_files }} files, {{ max_size }}MB each{% endblocktranslate %})
+                      {% if field.accept %}{{ field.accept }}{% else %}{% translate "Any files" %}{% endif %} ({% blocktranslate with max_size=field.max_size|default:10 count max_files=field.max_files|default:5 %}max {{ max_files }} file, {{ max_size }}MB each{% plural %}max {{ max_files }} files, {{ max_size }}MB each{% endblocktranslate %})
                     </p>
                   </div>
                   <div class="dropzone-preview hidden flex flex-wrap justify-center"></div>

@@ -5,6 +5,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 from apps.utils.models import BaseModel
 
@@ -712,8 +713,8 @@ class SiteMember(BaseModel):
     """
 
     class Role(models.TextChoices):
-        ADMIN = "admin", _("Admin")
-        VIEWER = "viewer", _("Viewer")
+        ADMIN = "admin", pgettext_lazy("site member role", "Admin")
+        VIEWER = "viewer", pgettext_lazy("site member role", "Viewer")
 
     site_profile = models.ForeignKey(
         SiteProfile,
