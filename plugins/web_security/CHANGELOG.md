@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.0 - Romanian and Hungarian translations
+
+- `locale/ro` and `locale/hu` catalogs (`.po` + compiled `.mo`) for `apps/web_security`, formal register.
+- "IP Address" labels use `pgettext_lazy("ip address", ...)`, so the plugin's own
+  translation is used even when another app (e.g. allauth) translates the plain msgid differently.
+- Admin count messages (blocked IPs, queued reputation checks, threat summaries, patterns)
+  use `ngettext`, so they read correctly for 1.
+
 ## 1.6.2 - typing
 
 Typing: mypy clean, no runtime behaviour change.

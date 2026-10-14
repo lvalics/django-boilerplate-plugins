@@ -5,6 +5,20 @@ All notable changes to the Multi-Domain plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - Romanian and Hungarian translations
+
+### Added
+- `locale/ro` and `locale/hu` catalogs (`.po` + compiled `.mo`) for `apps/sites`, formal register.
+
+### Changed
+- `SiteMember.Role` labels use `pgettext_lazy("site member role", ...)`, so a role reads
+  "Administrator" / "Adminisztrátor" instead of sharing the generic "Admin" translation.
+- The admin "Primary" column uses `pgettext_lazy("site", "Primary")`; "IP Address" in the
+  audit log uses `pgettext_lazy("ip address", ...)`.
+- Count messages in the admin (e.g. cache refresh) use `ngettext`, so they read correctly for 1.
+
+No migration needed: the English labels are unchanged.
+
 ## [1.5.4] - Django 6 test fix
 
 ### Fixed

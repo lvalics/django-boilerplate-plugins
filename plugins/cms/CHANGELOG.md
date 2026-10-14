@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.2.0
+
+Romanian and Hungarian translations: `locale/ro` and `locale/hu` catalogs (`.po` + compiled
+`.mo`) for `apps/cms`, formal register. Admin count messages and the curriculum / order form
+templates use `ngettext` / `{% blocktranslate count %}`. Known limitation: three order-form
+validation messages are filled in by JavaScript and are not pluralised.
+
 ## 2.1.2
 
 `rate_limiter.py::get_client_ip` now defers to the `web_security` plugin's IP
