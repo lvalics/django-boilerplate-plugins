@@ -1,0 +1,1317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: admin/firewall_admin.py:18 models/firewall.py:81
+msgid "Firewall Configuration"
+msgstr "Configurație firewall"
+
+#: admin/firewall_admin.py:20
+msgid ""
+"Configure external firewall providers to <strong>automatically block "
+"malicious IPs</strong>. Supported providers: <strong>Cloudflare</strong> "
+"(recommended), <strong>AWS WAF</strong>, <strong>Nginx</strong>, and "
+"<strong>iptables</strong>. Set one configuration as default for auto-"
+"blocking. See JSON examples below for each provider's required credentials. "
+"<strong>Note:</strong> Credentials are encrypted at rest."
+msgstr ""
+"Configurați furnizori externi de firewall pentru a <strong>bloca automat IP-"
+"urile rău intenționate</strong>. Furnizori acceptați: "
+"<strong>Cloudflare</strong> (recomandat), <strong>AWS WAF</strong>, "
+"<strong>Nginx</strong> și <strong>iptables</strong>. Setați o configurație ca"
+" implicită pentru blocarea automată. Consultați mai jos exemplele JSON cu "
+"datele de acces necesare fiecărui furnizor. <strong>Notă:</strong> datele de "
+"acces sunt stocate criptat."
+
+#: admin/firewall_admin.py:41 admin/reputation_admin.py:39
+msgid "Configuration"
+msgstr "Configurație"
+
+#: admin/firewall_admin.py:47 models/firewall.py:42
+msgid "Credentials"
+msgstr "Date de acces"
+
+#: admin/firewall_admin.py:51
+msgid ""
+"Provider-specific credentials in JSON format. Copy the example below and fill"
+" in your values."
+msgstr ""
+"Datele de acces specifice furnizorului, în format JSON. Copiați exemplul de "
+"mai jos și completați valorile dumneavoastră."
+
+#: admin/firewall_admin.py:56 admin/rate_limit_admin.py:69
+#: admin/reputation_admin.py:58 admin/suspicious_admin.py:93
+#: admin/threat_pattern_admin.py:62
+msgid "Timestamps"
+msgstr "Date și ore"
+
+#: admin/firewall_admin.py:64
+msgid "JSON Examples for Each Provider"
+msgstr "Exemple JSON pentru fiecare furnizor"
+
+#: admin/firewall_admin.py:172
+msgid "This firewall is now set as the default for auto-blocking."
+msgstr "Acest firewall este acum cel implicit pentru blocarea automată."
+
+#: admin/forms.py:16
+msgid "Enter credentials as JSON. Values are encrypted at rest."
+msgstr ""
+"Introduceți datele de acces în format JSON. Valorile sunt stocate criptat."
+
+#: admin/forms.py:33
+msgid ""
+"Showing masked current values. Leave unchanged to keep them, or paste new "
+"JSON to replace. Values are encrypted at rest."
+msgstr ""
+"Se afișează valorile curente mascate. Lăsați-le neschimbate pentru a le "
+"păstra sau lipiți un JSON nou pentru a le înlocui. Valorile sunt stocate "
+"criptat."
+
+#: admin/forms.py:46
+#, python-format
+msgid "Invalid JSON: %(error)s"
+msgstr "JSON invalid: %(error)s"
+
+#: admin/forms.py:48
+msgid "Credentials must be a JSON object"
+msgstr "Datele de acces trebuie să fie un obiect JSON"
+
+#: admin/forms.py:73
+msgid "Leave blank to keep the existing key. Stored encrypted at rest."
+msgstr "Lăsați gol pentru a păstra cheia existentă. Este stocată criptat."
+
+#: admin/mixins.py:21
+msgid "Help"
+msgstr "Ajutor"
+
+#: admin/rate_limit_admin.py:13
+msgid "Rate Limiting Rules"
+msgstr "Reguli de limitare a cererilor"
+
+#: admin/rate_limit_admin.py:15
+msgid ""
+"Protect endpoints from <strong>brute force and DDoS attacks</strong>. Define "
+"rules matching URL patterns and HTTP methods. Set request limits (e.g., 10 "
+"requests/60 seconds) and actions when exceeded. Higher priority rules are "
+"evaluated first."
+msgstr ""
+"Protejați endpoint-urile de <strong>atacuri de tip forță brută și "
+"DDoS</strong>. Definiți reguli care se potrivesc cu tipare de URL și metode "
+"HTTP. Setați limite de cereri (de ex. 10 cereri/60 de secunde) și acțiunile "
+"la depășirea lor. Regulile cu prioritate mai mare sunt evaluate primele."
+
+#: admin/rate_limit_admin.py:43 admin/threat_pattern_admin.py:43
+msgid "Basic Info"
+msgstr "Informații de bază"
+
+#: admin/rate_limit_admin.py:49
+msgid "Matching"
+msgstr "Potrivire"
+
+#: admin/rate_limit_admin.py:52
+msgid "Configure which requests this rule applies to."
+msgstr "Configurați cererile cărora li se aplică această regulă."
+
+#: admin/rate_limit_admin.py:56
+msgid "Rate Limit"
+msgstr "Limită de cereri"
+
+#: admin/rate_limit_admin.py:62 models/rate_limit.py:103
+msgid "Action"
+msgstr "Acțiune"
+
+#: admin/rate_limit_admin.py:65
+msgid "What to do when limit is exceeded."
+msgstr "Ce se întâmplă când limita este depășită."
+
+#: admin/rate_limit_admin.py:77
+msgid "Rate"
+msgstr "Rată"
+
+#: admin/reputation_admin.py:18
+msgid "IP Reputation Service"
+msgstr "Serviciu de reputație IP"
+
+#: admin/reputation_admin.py:20
+msgid ""
+"Check IP addresses against <strong>threat intelligence databases</strong>. "
+"<strong>AbuseIPDB</strong> is recommended (free tier: 1,000 lookups/day). IPs"
+" are checked asynchronously and results are cached. High-risk IPs can trigger"
+" automatic blocking."
+msgstr ""
+"Verificați adresele IP în <strong>baze de date de informații despre "
+"amenințări</strong>. Este recomandat <strong>AbuseIPDB</strong> (nivel "
+"gratuit: 1.000 de interogări/zi). IP-urile sunt verificate asincron, iar "
+"rezultatele sunt păstrate în cache. IP-urile cu risc ridicat pot declanșa "
+"blocarea automată."
+
+#: admin/reputation_admin.py:45
+msgid "API Configuration"
+msgstr "Configurație API"
+
+#: admin/reputation_admin.py:48
+msgid "API credentials. api_url only needed for custom provider."
+msgstr ""
+"Datele de acces API. api_url este necesar doar pentru furnizorul "
+"personalizat."
+
+#: admin/reputation_admin.py:52
+msgid "Settings"
+msgstr "Setări"
+
+#: admin/reputation_admin.py:66
+msgid "Setup Instructions"
+msgstr "Instrucțiuni de configurare"
+
+#: admin/reputation_admin.py:193 models/ip_reputation.py:200
+#: models/ip_reputation.py:201
+msgid "IP Reputation Cache"
+msgstr "Cache de reputație IP"
+
+#: admin/reputation_admin.py:195
+msgid ""
+"View <strong>cached IP reputation data</strong> from external services. "
+"Entries are created automatically when IPs are checked. Use actions to re-"
+"check IPs or clean up expired entries. Entries are read-only - data comes "
+"from reputation services."
+msgstr ""
+"Vizualizați <strong>datele de reputație IP din cache</strong>, provenite de "
+"la servicii externe. Înregistrările sunt create automat la verificarea IP-"
+"urilor. Folosiți acțiunile pentru a reverifica IP-uri sau a curăța "
+"înregistrările expirate. Înregistrările sunt doar pentru citire: datele "
+"provin de la serviciile de reputație."
+
+#: admin/reputation_admin.py:238 admin/threat_summary_admin.py:53
+msgid "IP Information"
+msgstr "Informații IP"
+
+#: admin/reputation_admin.py:244
+msgid "Reputation Data"
+msgstr "Date de reputație"
+
+#: admin/reputation_admin.py:257
+msgid "Cache Status"
+msgstr "Starea cache-ului"
+
+#: admin/reputation_admin.py:263 models/ip_reputation.py:186
+msgid "Raw Response"
+msgstr "Răspuns brut"
+
+#: admin/reputation_admin.py:271
+msgid "Expired"
+msgstr "Expirată"
+
+#: admin/reputation_admin.py:281
+msgid "Queue for re-check"
+msgstr "Pune în coadă pentru reverificare"
+
+#: admin/reputation_admin.py:284
+msgid "{} IPs queued for reputation re-check."
+msgstr "{} IP-uri puse în coadă pentru reverificarea reputației."
+
+#: admin/reputation_admin.py:286
+msgid "Delete expired entries"
+msgstr "Șterge înregistrările expirate"
+
+#: admin/reputation_admin.py:291
+msgid "{} expired entries deleted."
+msgstr "{} înregistrări expirate șterse."
+
+#: admin/settings_admin.py:13 models/settings.py:162 models/settings.py:163
+msgid "Security Settings"
+msgstr "Setări de securitate"
+
+#: admin/settings_admin.py:15
+msgid ""
+"This is the <strong>central control panel</strong> for all web security "
+"features. Use the master switch to enable/disable security monitoring "
+"globally. Toggle individual features like threat detection, rate limiting, "
+"and IP blocking. Configure auto-block thresholds and notification settings."
+msgstr ""
+"Acesta este <strong>panoul central de control</strong> pentru toate "
+"funcționalitățile de securitate web. Folosiți comutatorul principal pentru a "
+"activa/dezactiva global monitorizarea securității. Activați sau dezactivați "
+"funcționalități individuale, precum detectarea amenințărilor, limitarea "
+"cererilor și blocarea IP-urilor. Configurați pragurile de blocare automată și"
+" setările de notificare."
+
+#: admin/settings_admin.py:30
+msgid "Master Control"
+msgstr "Control principal"
+
+#: admin/settings_admin.py:33
+msgid "Master switch to enable/disable all security features."
+msgstr ""
+"Comutatorul principal pentru activarea/dezactivarea tuturor "
+"funcționalităților de securitate."
+
+#: admin/settings_admin.py:37
+msgid "Feature Toggles"
+msgstr "Comutatoare de funcționalități"
+
+#: admin/settings_admin.py:48
+msgid "Enable or disable individual security features."
+msgstr "Activați sau dezactivați funcționalitățile de securitate individuale."
+
+#: admin/settings_admin.py:52
+msgid "Threat Categories"
+msgstr "Categorii de amenințări"
+
+#: admin/settings_admin.py:65
+msgid "Enable or disable detection of specific threat categories."
+msgstr "Activați sau dezactivați detectarea anumitor categorii de amenințări."
+
+#: admin/settings_admin.py:70
+msgid "Thresholds"
+msgstr "Praguri"
+
+#: admin/settings_admin.py:73
+msgid "Configure automatic blocking thresholds."
+msgstr "Configurați pragurile de blocare automată."
+
+#: admin/settings_admin.py:77
+msgid "Whitelists"
+msgstr "Liste de excepții"
+
+#: admin/settings_admin.py:81
+msgid ""
+"Configure exemptions from security checks. Private IPs (localhost, Docker, "
+"LAN) are automatically exempt."
+msgstr ""
+"Configurați excepțiile de la verificările de securitate. IP-urile private "
+"(localhost, Docker, LAN) sunt exceptate automat."
+
+#: admin/settings_admin.py:87
+msgid "Notifications"
+msgstr "Notificări"
+
+#: admin/settings_admin.py:94
+msgid "Configure email notifications for security events."
+msgstr ""
+"Configurați notificările prin e-mail pentru evenimentele de securitate."
+
+#: admin/suspicious_admin.py:14
+msgid "Suspicious Requests Log"
+msgstr "Jurnalul cererilor suspecte"
+
+#: admin/suspicious_admin.py:16
+msgid ""
+"View <strong>all detected threats in real-time</strong>. Each entry shows the"
+" request details, matched pattern, threat level, and action taken. Use "
+"filters to analyze specific threat categories or time periods. Logs are read-"
+"only - created automatically by threat detection."
+msgstr ""
+"Vizualizați <strong>toate amenințările detectate, în timp real</strong>. "
+"Fiecare înregistrare arată detaliile cererii, tiparul potrivit, nivelul "
+"amenințării și acțiunea întreprinsă. Folosiți filtrele pentru a analiza "
+"anumite categorii de amenințări sau perioade. Jurnalele sunt doar pentru "
+"citire: sunt create automat de detectarea amenințărilor."
+
+#: admin/suspicious_admin.py:62
+msgid "Request Details"
+msgstr "Detaliile cererii"
+
+#: admin/suspicious_admin.py:68
+msgid "Threat Information"
+msgstr "Informații despre amenințare"
+
+#: admin/suspicious_admin.py:80
+msgid "Response"
+msgstr "Răspuns"
+
+#: admin/suspicious_admin.py:86
+msgid "Full Request Data"
+msgstr "Datele complete ale cererii"
+
+#: admin/suspicious_admin.py:103 admin/suspicious_admin.py:112
+#: models/ip_reputation.py:129 models/ip_threat_summary.py:24
+#: models/suspicious_request.py:16
+msgid "IP Address"
+msgstr "Adresă IP"
+
+#: admin/suspicious_admin.py:121 models/suspicious_request.py:20
+msgid "Path"
+msgstr "Cale"
+
+#: admin/suspicious_admin.py:125 admin/threat_pattern_admin.py:70
+#: models/suspicious_request.py:69 models/threat_pattern.py:205
+msgid "Threat Level"
+msgstr "Nivelul amenințării"
+
+#: admin/threat_pattern_admin.py:14
+msgid "Threat Detection Patterns"
+msgstr "Tipare de detectare a amenințărilor"
+
+#: admin/threat_pattern_admin.py:16
+msgid ""
+"Define <strong>regex patterns</strong> to detect malicious requests. Patterns"
+" can match against URL paths, user agents, headers, or request bodies. Each "
+"pattern has a category, threat level, and score. Use <code>python manage.py "
+"seed_patterns</code> to load default patterns."
+msgstr ""
+"Definiți <strong>tipare regex</strong> pentru detectarea cererilor rău "
+"intenționate. Tiparele se pot potrivi cu căi URL, user agent-uri, antete sau "
+"corpul cererilor. Fiecare tipar are o categorie, un nivel de amenințare și un"
+" scor. Folosiți <code>python manage.py seed_patterns</code> pentru a încărca "
+"tiparele implicite."
+
+#: admin/threat_pattern_admin.py:49
+msgid "Pattern Configuration"
+msgstr "Configurația tiparului"
+
+#: admin/threat_pattern_admin.py:52
+msgid "Configure the regex pattern and what it matches against."
+msgstr "Configurați tiparul regex și partea cererii cu care se compară."
+
+#: admin/threat_pattern_admin.py:56
+msgid "Classification"
+msgstr "Clasificare"
+
+#: admin/threat_pattern_admin.py:88
+msgid "Activate selected patterns"
+msgstr "Activează tiparele selectate"
+
+#: admin/threat_pattern_admin.py:91
+msgid "{} patterns activated."
+msgstr "{} tipare activate."
+
+#: admin/threat_pattern_admin.py:93
+msgid "Deactivate selected patterns"
+msgstr "Dezactivează tiparele selectate"
+
+#: admin/threat_pattern_admin.py:96
+msgid "{} patterns deactivated."
+msgstr "{} tipare dezactivate."
+
+#: admin/threat_summary_admin.py:15 models/ip_threat_summary.py:94
+msgid "IP Threat Summaries"
+msgstr "Rezumate de amenințări pe IP"
+
+#: admin/threat_summary_admin.py:17
+msgid ""
+"Aggregated threat data <strong>per IP address</strong>. Shows total threat "
+"score, request count, and block status. Use actions to manually block/unblock"
+" IPs or sync to firewall. IPs exceeding the auto-block threshold are "
+"automatically blocked."
+msgstr ""
+"Date agregate despre amenințări <strong>pe adresă IP</strong>. Arată scorul "
+"total de amenințare, numărul de cereri și starea blocării. Folosiți acțiunile"
+" pentru a bloca/debloca manual IP-uri sau pentru sincronizarea cu firewall-"
+"ul. IP-urile care depășesc pragul de blocare automată sunt blocate automat."
+
+#: admin/threat_summary_admin.py:59
+msgid "Block Status"
+msgstr "Starea blocării"
+
+#: admin/threat_summary_admin.py:71
+msgid "Detection Details"
+msgstr "Detaliile detectării"
+
+#: admin/threat_summary_admin.py:77
+msgid "Admin Notes"
+msgstr "Notele administratorului"
+
+#: admin/threat_summary_admin.py:86
+msgid "Block selected IPs"
+msgstr "Blochează IP-urile selectate"
+
+#: admin/threat_summary_admin.py:96
+msgid "{} IPs blocked."
+msgstr "{} IP-uri blocate."
+
+#: admin/threat_summary_admin.py:98
+msgid "Unblock selected IPs"
+msgstr "Deblochează IP-urile selectate"
+
+#: admin/threat_summary_admin.py:106
+msgid "{} IPs unblocked."
+msgstr "{} IP-uri deblocate."
+
+#: admin/threat_summary_admin.py:108
+msgid "Sync to firewall"
+msgstr "Sincronizează cu firewall-ul"
+
+#: admin/threat_summary_admin.py:114
+msgid "No firewall service configured."
+msgstr "Niciun serviciu de firewall nu este configurat."
+
+#: admin/threat_summary_admin.py:119
+msgid "No blocked IPs selected."
+msgstr "Nu ați selectat niciun IP blocat."
+
+#: admin/threat_summary_admin.py:127
+#, python-brace-format
+msgid ""
+"Synced {added} IPs to firewall ({already} already blocked, {failed} failed)."
+msgstr ""
+"Au fost sincronizate {added} IP-uri cu firewall-ul ({already} deja blocate, "
+"{failed} eșuate)."
+
+#: apps.py:8
+msgid "Web Security"
+msgstr "Securitate web"
+
+#: models/firewall.py:21
+msgid "Cloudflare"
+msgstr "Cloudflare"
+
+#: models/firewall.py:22
+msgid "AWS WAF"
+msgstr "AWS WAF"
+
+#: models/firewall.py:23
+msgid "Nginx"
+msgstr "Nginx"
+
+#: models/firewall.py:24
+msgid "iptables"
+msgstr "iptables"
+
+#: models/firewall.py:28 models/ip_reputation.py:23 models/rate_limit.py:68
+#: models/threat_pattern.py:167
+msgid "Name"
+msgstr "Nume"
+
+#: models/firewall.py:29
+msgid "Descriptive name for this firewall configuration"
+msgstr "Nume descriptiv pentru această configurație de firewall"
+
+#: models/firewall.py:34 models/ip_reputation.py:30
+msgid "Provider"
+msgstr "Furnizor"
+
+#: models/firewall.py:35
+msgid "Firewall provider type"
+msgstr "Tipul furnizorului de firewall"
+
+#: models/firewall.py:43
+msgid "Provider-specific credentials (encrypted at rest)"
+msgstr "Date de acces specifice furnizorului (stocate criptat)"
+
+#: models/firewall.py:47 models/ip_reputation.py:47 models/rate_limit.py:113
+#: models/threat_pattern.py:215
+msgid "Active"
+msgstr "Activ"
+
+#: models/firewall.py:48
+msgid "Whether this firewall config is active"
+msgstr "Dacă această configurație de firewall este activă"
+
+#: models/firewall.py:52 models/ip_reputation.py:52
+msgid "Default"
+msgstr "Implicit"
+
+#: models/firewall.py:53
+msgid "Use this firewall for automatic blocking"
+msgstr "Folosește acest firewall pentru blocarea automată"
+
+#: models/firewall.py:82
+msgid "Firewall Configurations"
+msgstr "Configurații firewall"
+
+#: models/ip_reputation.py:17
+msgid "AbuseIPDB"
+msgstr "AbuseIPDB"
+
+#: models/ip_reputation.py:18
+msgid "IPQualityScore"
+msgstr "IPQualityScore"
+
+#: models/ip_reputation.py:19
+msgid "Custom API"
+msgstr "API personalizat"
+
+#: models/ip_reputation.py:24
+msgid "Descriptive name for this configuration"
+msgstr "Nume descriptiv pentru această configurație"
+
+#: models/ip_reputation.py:31
+msgid "IP reputation service provider"
+msgstr "Furnizorul serviciului de reputație IP"
+
+#: models/ip_reputation.py:36
+msgid "API Key"
+msgstr "Cheie API"
+
+#: models/ip_reputation.py:37
+msgid "API key for the reputation service (encrypted at rest)"
+msgstr "Cheia API pentru serviciul de reputație (stocată criptat)"
+
+#: models/ip_reputation.py:42
+msgid "API URL"
+msgstr "URL API"
+
+#: models/ip_reputation.py:43
+msgid "Custom API URL (only for custom provider)"
+msgstr "URL API personalizat (doar pentru furnizorul personalizat)"
+
+#: models/ip_reputation.py:48
+msgid "Whether this configuration is active"
+msgstr "Dacă această configurație este activă"
+
+#: models/ip_reputation.py:53
+msgid "Use this as the default reputation service"
+msgstr "Folosește acesta ca serviciu de reputație implicit"
+
+#: models/ip_reputation.py:57
+msgid "Cache Duration (hours)"
+msgstr "Durata cache-ului (ore)"
+
+#: models/ip_reputation.py:58
+msgid "How long to cache reputation results"
+msgstr "Cât timp se păstrează în cache rezultatele de reputație"
+
+#: models/ip_reputation.py:62
+msgid "Min Confidence Score"
+msgstr "Scor minim de încredere"
+
+#: models/ip_reputation.py:63
+msgid "Minimum abuse confidence score to consider IP as bad (0-100)"
+msgstr ""
+"Scorul minim de încredere privind abuzul pentru care un IP este considerat "
+"rău intenționat (0-100)"
+
+#: models/ip_reputation.py:70
+msgid "IP Reputation Configuration"
+msgstr "Configurație de reputație IP"
+
+#: models/ip_reputation.py:71
+msgid "IP Reputation Configurations"
+msgstr "Configurații de reputație IP"
+
+#: models/ip_reputation.py:130
+msgid "IP address that was checked"
+msgstr "Adresa IP verificată"
+
+#: models/ip_reputation.py:134
+msgid "Abuse Confidence Score"
+msgstr "Scor de încredere privind abuzul"
+
+#: models/ip_reputation.py:135
+msgid "Confidence score that IP is abusive (0-100)"
+msgstr "Scorul de încredere că IP-ul este abuziv (0-100)"
+
+#: models/ip_reputation.py:139
+msgid "Tor Exit Node"
+msgstr "Nod de ieșire Tor"
+
+#: models/ip_reputation.py:140
+msgid "Whether IP is a known Tor exit node"
+msgstr "Dacă IP-ul este un nod de ieșire Tor cunoscut"
+
+#: models/ip_reputation.py:144
+msgid "VPN/Proxy"
+msgstr "VPN/Proxy"
+
+#: models/ip_reputation.py:145
+msgid "Whether IP is a known VPN or proxy"
+msgstr "Dacă IP-ul este un VPN sau un proxy cunoscut"
+
+#: models/ip_reputation.py:149
+msgid "Datacenter"
+msgstr "Centru de date"
+
+#: models/ip_reputation.py:150
+msgid "Whether IP belongs to a datacenter"
+msgstr "Dacă IP-ul aparține unui centru de date"
+
+#: models/ip_reputation.py:156
+msgid "Country Code"
+msgstr "Codul țării"
+
+#: models/ip_reputation.py:157
+msgid "Two-letter country code"
+msgstr "Codul de țară din două litere"
+
+#: models/ip_reputation.py:163
+msgid "ISP"
+msgstr "ISP"
+
+#: models/ip_reputation.py:164
+msgid "Internet Service Provider"
+msgstr "Furnizor de servicii de internet"
+
+#: models/ip_reputation.py:170
+msgid "Domain"
+msgstr "Domeniu"
+
+#: models/ip_reputation.py:171
+msgid "Domain associated with IP"
+msgstr "Domeniul asociat IP-ului"
+
+#: models/ip_reputation.py:175
+msgid "Total Reports"
+msgstr "Total raportări"
+
+#: models/ip_reputation.py:176
+msgid "Number of abuse reports for this IP"
+msgstr "Numărul de raportări de abuz pentru acest IP"
+
+#: models/ip_reputation.py:181
+msgid "Last Reported"
+msgstr "Ultima raportare"
+
+#: models/ip_reputation.py:182
+msgid "When IP was last reported for abuse"
+msgstr "Când a fost raportat ultima dată IP-ul pentru abuz"
+
+#: models/ip_reputation.py:187
+msgid "Full API response data"
+msgstr "Datele complete ale răspunsului API"
+
+#: models/ip_reputation.py:190
+msgid "Expires At"
+msgstr "Expiră la"
+
+#: models/ip_reputation.py:191
+msgid "When this cache entry expires"
+msgstr "Când expiră această înregistrare din cache"
+
+#: models/ip_reputation.py:195
+msgid "Check Pending"
+msgstr "Verificare în așteptare"
+
+#: models/ip_reputation.py:196
+msgid "Whether a reputation check is queued"
+msgstr "Dacă o verificare de reputație este în coadă"
+
+#: models/ip_threat_summary.py:25 models/suspicious_request.py:17
+msgid "Client IP address"
+msgstr "Adresa IP a clientului"
+
+#: models/ip_threat_summary.py:29
+msgid "Total Threat Score"
+msgstr "Scor total de amenințare"
+
+#: models/ip_threat_summary.py:30
+msgid "Cumulative threat score"
+msgstr "Scorul cumulat de amenințare"
+
+#: models/ip_threat_summary.py:34
+msgid "Request Count"
+msgstr "Număr de cereri"
+
+#: models/ip_threat_summary.py:35
+msgid "Total number of suspicious requests"
+msgstr "Numărul total de cereri suspecte"
+
+#: models/ip_threat_summary.py:39
+msgid "First Seen"
+msgstr "Prima apariție"
+
+#: models/ip_threat_summary.py:40
+msgid "When IP was first detected"
+msgstr "Când a fost detectat prima dată IP-ul"
+
+#: models/ip_threat_summary.py:44
+msgid "Last Seen"
+msgstr "Ultima apariție"
+
+#: models/ip_threat_summary.py:45
+msgid "When IP was last detected"
+msgstr "Când a fost detectat ultima dată IP-ul"
+
+#: models/ip_threat_summary.py:49
+msgid "Blocked"
+msgstr "Blocat"
+
+#: models/ip_threat_summary.py:50
+msgid "Whether IP is currently blocked"
+msgstr "Dacă IP-ul este blocat în prezent"
+
+#: models/ip_threat_summary.py:56
+msgid "Blocked At"
+msgstr "Blocat la"
+
+#: models/ip_threat_summary.py:57
+msgid "When IP was blocked"
+msgstr "Când a fost blocat IP-ul"
+
+#: models/ip_threat_summary.py:62
+msgid "Blocked Until"
+msgstr "Blocat până la"
+
+#: models/ip_threat_summary.py:63
+msgid "When block expires"
+msgstr "Când expiră blocarea"
+
+#: models/ip_threat_summary.py:68
+msgid "Block Reason"
+msgstr "Motivul blocării"
+
+#: models/ip_threat_summary.py:69
+msgid "Reason for blocking"
+msgstr "Motivul pentru care a fost blocat"
+
+#: models/ip_threat_summary.py:73
+msgid "Firewall Synced"
+msgstr "Sincronizat cu firewall-ul"
+
+#: models/ip_threat_summary.py:74
+msgid "Whether block has been synced to firewall"
+msgstr "Dacă blocarea a fost sincronizată cu firewall-ul"
+
+#: models/ip_threat_summary.py:78
+msgid "Categories Detected"
+msgstr "Categorii detectate"
+
+#: models/ip_threat_summary.py:79
+msgid "List of threat categories detected from this IP"
+msgstr "Lista categoriilor de amenințări detectate de la acest IP"
+
+#: models/ip_threat_summary.py:84
+msgid "Notes"
+msgstr "Note"
+
+#: models/ip_threat_summary.py:85
+msgid "Admin notes about this IP"
+msgstr "Notele administratorului despre acest IP"
+
+#: models/ip_threat_summary.py:93
+msgid "IP Threat Summary"
+msgstr "Rezumat de amenințări pe IP"
+
+#: models/rate_limit.py:54
+msgid "All Methods"
+msgstr "Toate metodele"
+
+#: models/rate_limit.py:55
+msgid "GET"
+msgstr "GET"
+
+#: models/rate_limit.py:56
+msgid "POST"
+msgstr "POST"
+
+#: models/rate_limit.py:57
+msgid "PUT"
+msgstr "PUT"
+
+#: models/rate_limit.py:58
+msgid "PATCH"
+msgstr "PATCH"
+
+#: models/rate_limit.py:59
+msgid "DELETE"
+msgstr "DELETE"
+
+#: models/rate_limit.py:62
+msgid "Throttle (429 response)"
+msgstr "Încetinire (răspuns 429)"
+
+#: models/rate_limit.py:63
+msgid "Block IP temporarily"
+msgstr "Blochează temporar IP-ul"
+
+#: models/rate_limit.py:64
+msgid "Log only"
+msgstr "Doar înregistrare în jurnal"
+
+#: models/rate_limit.py:69
+msgid "Descriptive name for this rule"
+msgstr "Nume descriptiv pentru această regulă"
+
+#: models/rate_limit.py:74 models/threat_pattern.py:173
+msgid "Description"
+msgstr "Descriere"
+
+#: models/rate_limit.py:75
+msgid "Description of what this rule protects"
+msgstr "Descrierea a ceea ce protejează această regulă"
+
+#: models/rate_limit.py:79
+msgid "Path Pattern"
+msgstr "Tipar de cale"
+
+#: models/rate_limit.py:80
+msgid "URL path pattern to match (supports * wildcards)"
+msgstr "Tiparul căii URL de potrivit (acceptă wildcard-uri *)"
+
+#: models/rate_limit.py:86
+msgid "HTTP Method"
+msgstr "Metodă HTTP"
+
+#: models/rate_limit.py:87
+msgid "HTTP method to apply rule to"
+msgstr "Metoda HTTP căreia i se aplică regula"
+
+#: models/rate_limit.py:91
+msgid "Max Requests"
+msgstr "Număr maxim de cereri"
+
+#: models/rate_limit.py:92
+msgid "Maximum number of requests allowed in time window"
+msgstr "Numărul maxim de cereri permise în intervalul de timp"
+
+#: models/rate_limit.py:96
+msgid "Time Window (seconds)"
+msgstr "Interval de timp (secunde)"
+
+#: models/rate_limit.py:97
+msgid "Time window for rate limiting"
+msgstr "Intervalul de timp pentru limitarea cererilor"
+
+#: models/rate_limit.py:104
+msgid "Action to take when limit is exceeded"
+msgstr "Acțiunea de întreprins când limita este depășită"
+
+#: models/rate_limit.py:108 models/settings.py:115
+msgid "Block Duration (minutes)"
+msgstr "Durata blocării (minute)"
+
+#: models/rate_limit.py:109
+msgid "How long to block IP when using block action"
+msgstr "Cât timp se blochează IP-ul când se folosește acțiunea de blocare"
+
+#: models/rate_limit.py:114
+msgid "Whether this rule is actively enforced"
+msgstr "Dacă această regulă este aplicată activ"
+
+#: models/rate_limit.py:118
+msgid "Priority"
+msgstr "Prioritate"
+
+#: models/rate_limit.py:119
+msgid "Lower number = higher priority (checked first)"
+msgstr "Număr mai mic = prioritate mai mare (verificată prima)"
+
+#: models/rate_limit.py:126
+msgid "Rate Limit Rule"
+msgstr "Regulă de limitare a cererilor"
+
+#: models/rate_limit.py:127
+msgid "Rate Limit Rules"
+msgstr "Reguli de limitare a cererilor"
+
+#: models/settings.py:19
+msgid "Security Enabled"
+msgstr "Securitate activată"
+
+#: models/settings.py:20
+msgid "Master switch to enable/disable all security monitoring"
+msgstr ""
+"Comutatorul principal pentru activarea/dezactivarea întregii monitorizări de "
+"securitate"
+
+#: models/settings.py:26
+msgid "Threat Detection"
+msgstr "Detectarea amenințărilor"
+
+#: models/settings.py:27
+msgid "Enable detection of malicious requests via patterns"
+msgstr "Activează detectarea cererilor rău intenționate pe bază de tipare"
+
+#: models/settings.py:31
+msgid "Rate Limiting"
+msgstr "Limitarea cererilor"
+
+#: models/settings.py:32
+msgid "Enable rate limiting for endpoints"
+msgstr "Activează limitarea cererilor pentru endpoint-uri"
+
+#: models/settings.py:36
+msgid "IP Blocking"
+msgstr "Blocarea IP-urilor"
+
+#: models/settings.py:37
+msgid "Enable automatic IP blocking"
+msgstr "Activează blocarea automată a IP-urilor"
+
+#: models/settings.py:41
+msgid "IP Reputation Checking"
+msgstr "Verificarea reputației IP"
+
+#: models/settings.py:42
+msgid "Enable IP reputation lookup via external services"
+msgstr "Activează verificarea reputației IP prin servicii externe"
+
+#: models/settings.py:46
+msgid "Auto-Block"
+msgstr "Blocare automată"
+
+#: models/settings.py:47
+msgid "Automatically block IPs that exceed threat threshold"
+msgstr "Blochează automat IP-urile care depășesc pragul de amenințare"
+
+#: models/settings.py:51
+msgid "Request Logging"
+msgstr "Înregistrarea cererilor"
+
+#: models/settings.py:52
+msgid "Log all requests for analysis"
+msgstr "Înregistrează toate cererile pentru analiză"
+
+#: models/settings.py:56
+msgid "Security Headers"
+msgstr "Antete de securitate"
+
+#: models/settings.py:57
+msgid "Add security headers to responses"
+msgstr "Adaugă antete de securitate la răspunsuri"
+
+#: models/settings.py:63
+msgid "WordPress Scans"
+msgstr "Scanări WordPress"
+
+#: models/settings.py:64
+msgid "Detect WordPress-related scanning attempts"
+msgstr "Detectează încercările de scanare legate de WordPress"
+
+#: models/settings.py:68
+msgid "PHP Scans"
+msgstr "Scanări PHP"
+
+#: models/settings.py:69
+msgid "Detect PHP file scanning attempts"
+msgstr "Detectează încercările de scanare a fișierelor PHP"
+
+#: models/settings.py:73 models/threat_pattern.py:150
+msgid "Sensitive Files"
+msgstr "Fișiere sensibile"
+
+#: models/settings.py:74
+msgid "Detect access attempts to sensitive files (.env, .git, etc.)"
+msgstr "Detectează încercările de acces la fișiere sensibile (.env, .git etc.)"
+
+#: models/settings.py:78 models/threat_pattern.py:151
+msgid "Admin Panels"
+msgstr "Panouri de administrare"
+
+#: models/settings.py:79
+msgid "Detect admin panel scanning (phpmyadmin, etc.)"
+msgstr "Detectează scanarea panourilor de administrare (phpmyadmin etc.)"
+
+#: models/settings.py:83 models/threat_pattern.py:152
+msgid "Vulnerability Scanners"
+msgstr "Scanere de vulnerabilități"
+
+#: models/settings.py:84
+msgid "Detect known vulnerability scanner user agents"
+msgstr "Detectează user agent-urile scanerelor de vulnerabilități cunoscute"
+
+#: models/settings.py:88
+msgid "SQL Injection"
+msgstr "Injecție SQL"
+
+#: models/settings.py:89
+msgid "Detect SQL injection attempts"
+msgstr "Detectează încercările de injecție SQL"
+
+#: models/settings.py:93
+msgid "Path Traversal"
+msgstr "Traversarea căilor"
+
+#: models/settings.py:94
+msgid "Detect directory traversal attempts"
+msgstr "Detectează încercările de traversare a directoarelor"
+
+#: models/settings.py:98 models/threat_pattern.py:155
+msgid "Shell/Webshell Access"
+msgstr "Acces shell/webshell"
+
+#: models/settings.py:99
+msgid "Detect webshell and shell access attempts"
+msgstr "Detectează încercările de acces prin webshell și shell"
+
+#: models/settings.py:103
+msgid "API Abuse"
+msgstr "Abuz de API"
+
+#: models/settings.py:104
+msgid "Detect API endpoint abuse"
+msgstr "Detectează abuzul asupra endpoint-urilor API"
+
+#: models/settings.py:110
+msgid "Auto-Block Threshold"
+msgstr "Prag de blocare automată"
+
+#: models/settings.py:111
+msgid "Threat score threshold for automatic blocking (0-100)"
+msgstr "Pragul scorului de amenințare pentru blocarea automată (0-100)"
+
+#: models/settings.py:116
+msgid "How long to block IPs (default: 24 hours)"
+msgstr "Cât timp se blochează IP-urile (implicit: 24 de ore)"
+
+#: models/settings.py:123
+msgid "Whitelisted IPs"
+msgstr "IP-uri exceptate"
+
+#: models/settings.py:124
+msgid "Comma-separated list of IPs that should never be blocked"
+msgstr ""
+"Listă de IP-uri separate prin virgulă care nu trebuie blocate niciodată"
+
+#: models/settings.py:132
+msgid "Whitelisted Paths"
+msgstr "Căi exceptate"
+
+#: models/settings.py:134
+msgid ""
+"Comma-separated list of URL path prefixes that bypass security checks. "
+"Default: /api/webhook/, /stripe/webhook/, /health/, /healthz/"
+msgstr ""
+"Listă de prefixe de căi URL, separate prin virgulă, care ocolesc verificările"
+" de securitate. Implicit: /api/webhook/, /stripe/webhook/, /health/, "
+"/healthz/"
+
+#: models/settings.py:143
+msgid "Notification Email"
+msgstr "E-mail pentru notificări"
+
+#: models/settings.py:144
+msgid "Email address for security notifications"
+msgstr "Adresa de e-mail pentru notificările de securitate"
+
+#: models/settings.py:148
+msgid "Notify on Block"
+msgstr "Notificare la blocare"
+
+#: models/settings.py:149
+msgid "Send email notification when an IP is auto-blocked"
+msgstr "Trimite o notificare prin e-mail când un IP este blocat automat"
+
+#: models/settings.py:153
+msgid "Notify on Critical"
+msgstr "Notificare la amenințări critice"
+
+#: models/settings.py:154
+msgid "Send email notification for critical threats"
+msgstr "Trimite o notificare prin e-mail pentru amenințările critice"
+
+#: models/suspicious_request.py:21
+msgid "Requested URL path"
+msgstr "Calea URL solicitată"
+
+#: models/suspicious_request.py:25
+msgid "Method"
+msgstr "Metodă"
+
+#: models/suspicious_request.py:26
+msgid "HTTP method"
+msgstr "Metoda HTTP"
+
+#: models/suspicious_request.py:31 models/threat_pattern.py:143
+msgid "User Agent"
+msgstr "User agent"
+
+#: models/suspicious_request.py:32
+msgid "Client user agent string"
+msgstr "Șirul user agent al clientului"
+
+#: models/suspicious_request.py:36
+msgid "Headers"
+msgstr "Antete"
+
+#: models/suspicious_request.py:37
+msgid "Request headers"
+msgstr "Antetele cererii"
+
+#: models/suspicious_request.py:42
+msgid "Body Preview"
+msgstr "Previzualizarea corpului"
+
+#: models/suspicious_request.py:43
+msgid "First 1000 chars of request body"
+msgstr "Primele 1000 de caractere din corpul cererii"
+
+#: models/suspicious_request.py:48
+msgid "Pattern ID"
+msgstr "ID tipar"
+
+#: models/suspicious_request.py:49
+msgid "ID of the matched threat pattern"
+msgstr "ID-ul tiparului de amenințare potrivit"
+
+#: models/suspicious_request.py:55
+msgid "Pattern Name"
+msgstr "Numele tiparului"
+
+#: models/suspicious_request.py:56
+msgid "Name of the matched pattern"
+msgstr "Numele tiparului potrivit"
+
+#: models/suspicious_request.py:62 models/threat_pattern.py:198
+msgid "Category"
+msgstr "Categorie"
+
+#: models/suspicious_request.py:63
+msgid "Threat category"
+msgstr "Categoria amenințării"
+
+#: models/suspicious_request.py:70
+msgid "Threat severity level"
+msgstr "Nivelul de gravitate al amenințării"
+
+#: models/suspicious_request.py:75 models/threat_pattern.py:210
+msgid "Threat Score"
+msgstr "Scor de amenințare"
+
+#: models/suspicious_request.py:76
+msgid "Score assigned to this request"
+msgstr "Scorul atribuit acestei cereri"
+
+#: models/suspicious_request.py:81
+msgid "Matched Value"
+msgstr "Valoare potrivită"
+
+#: models/suspicious_request.py:82
+msgid "The value that matched the pattern"
+msgstr "Valoarea care s-a potrivit cu tiparul"
+
+#: models/suspicious_request.py:87
+msgid "Response Code"
+msgstr "Cod de răspuns"
+
+#: models/suspicious_request.py:88
+msgid "HTTP response status code"
+msgstr "Codul de stare al răspunsului HTTP"
+
+#: models/suspicious_request.py:94
+msgid "Action Taken"
+msgstr "Acțiune întreprinsă"
+
+#: models/suspicious_request.py:95
+msgid "Action taken in response (logged, blocked, etc.)"
+msgstr "Acțiunea întreprinsă ca răspuns (înregistrată în jurnal, blocată etc.)"
+
+#: models/suspicious_request.py:99
+msgid "Suspicious Request"
+msgstr "Cerere suspectă"
+
+#: models/suspicious_request.py:100
+msgid "Suspicious Requests"
+msgstr "Cereri suspecte"
+
+#: models/threat_pattern.py:142
+msgid "URL Path"
+msgstr "Cale URL"
+
+#: models/threat_pattern.py:144
+msgid "Request Header"
+msgstr "Antetul cererii"
+
+#: models/threat_pattern.py:145
+msgid "Request Body"
+msgstr "Corpul cererii"
+
+#: models/threat_pattern.py:148
+msgid "WordPress"
+msgstr "WordPress"
+
+#: models/threat_pattern.py:149
+msgid "PHP Files"
+msgstr "Fișiere PHP"
+
+#: models/threat_pattern.py:153
+msgid "SQL/Code Injection"
+msgstr "Injecție SQL/de cod"
+
+#: models/threat_pattern.py:154
+msgid "Directory Traversal"
+msgstr "Traversarea directoarelor"
+
+#: models/threat_pattern.py:156
+msgid "API Endpoints"
+msgstr "Endpoint-uri API"
+
+#: models/threat_pattern.py:157
+msgid "Custom"
+msgstr "Personalizat"
+
+#: models/threat_pattern.py:160
+msgid "Low"
+msgstr "Scăzut"
+
+#: models/threat_pattern.py:161
+msgid "Medium"
+msgstr "Mediu"
+
+#: models/threat_pattern.py:162
+msgid "High"
+msgstr "Ridicat"
+
+#: models/threat_pattern.py:163
+msgid "Critical"
+msgstr "Critic"
+
+#: models/threat_pattern.py:168
+msgid "Descriptive name for this pattern"
+msgstr "Nume descriptiv pentru acest tipar"
+
+#: models/threat_pattern.py:174
+msgid "Description of what this pattern detects"
+msgstr "Descrierea a ceea ce detectează acest tipar"
+
+#: models/threat_pattern.py:177
+msgid "Pattern"
+msgstr "Tipar"
+
+#: models/threat_pattern.py:178
+msgid "Regex pattern to match against requests"
+msgstr "Tiparul regex de comparat cu cererile"
+
+#: models/threat_pattern.py:184
+msgid "Match Type"
+msgstr "Tip de potrivire"
+
+#: models/threat_pattern.py:185
+msgid "What part of the request to match against"
+msgstr "Partea cererii cu care se face potrivirea"
+
+#: models/threat_pattern.py:191
+msgid "Header Name"
+msgstr "Numele antetului"
+
+#: models/threat_pattern.py:192
+msgid "Header name to match (only for Header match type)"
+msgstr "Numele antetului de potrivit (doar pentru tipul de potrivire Antet)"
+
+#: models/threat_pattern.py:199
+msgid "Category of threat this pattern detects"
+msgstr "Categoria amenințării pe care o detectează acest tipar"
+
+#: models/threat_pattern.py:206
+msgid "Severity level of matched threats"
+msgstr "Nivelul de gravitate al amenințărilor potrivite"
+
+#: models/threat_pattern.py:211
+msgid "Score added to IP threat total when matched (0-100)"
+msgstr ""
+"Scorul adăugat la totalul de amenințare al IP-ului la potrivire (0-100)"
+
+#: models/threat_pattern.py:216
+msgid "Whether this pattern is actively checking requests"
+msgstr "Dacă acest tipar verifică activ cererile"
+
+#: models/threat_pattern.py:220
+msgid "Case Sensitive"
+msgstr "Sensibil la majuscule"
+
+#: models/threat_pattern.py:221
+msgid "Whether pattern matching is case sensitive"
+msgstr "Dacă potrivirea tiparului face diferența între majuscule și minuscule"
+
+#: models/threat_pattern.py:228
+msgid "Threat Pattern"
+msgstr "Tipar de amenințare"
+
+#: models/threat_pattern.py:229
+msgid "Threat Patterns"
+msgstr "Tipare de amenințări"

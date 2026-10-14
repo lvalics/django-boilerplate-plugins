@@ -1,0 +1,1054 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py:63
+msgid "Blog / content"
+msgstr "Blog / tartalom"
+
+#: admin.py:70
+msgid "SEO"
+msgstr "SEO"
+
+#: admin.py:77
+msgid "Settings"
+msgstr "Beállítások"
+
+#: admin.py:81
+msgid "Tracking"
+msgstr "Követés"
+
+#: admin.py:89
+msgid "Zones"
+msgstr "Zónák"
+
+#: admin.py:96
+msgid "Actions"
+msgstr "Műveletek"
+
+#: admin.py:102
+msgid "View page"
+msgstr "Oldal megtekintése"
+
+#: admin.py:109
+msgid "Duplicate selected pages"
+msgstr "A kijelölt oldalak másolása"
+
+#: admin.py:126
+#, python-format
+msgid "%(count)d page(s) duplicated (inactive)."
+msgstr "%(count)d oldal másolva (inaktív)."
+
+#: admin.py:148
+msgid "Zone Description"
+msgstr "Zóna leírása"
+
+#: admin.py:152
+msgid "Help text describing this zone's expected content structure."
+msgstr "A zóna várt tartalomszerkezetét leíró súgószöveg."
+
+#: admin.py:156
+msgid "Content"
+msgstr "Tartalom"
+
+#: admin.py:165 admin.py:179 models/testimonials.py:68
+msgid "Testimonial"
+msgstr "Ügyfélvélemény"
+
+#: admin.py:169
+msgid "Advanced"
+msgstr "Speciális"
+
+#: admin.py:184
+msgid "Duplicate selected zones (inactive)"
+msgstr "A kijelölt zónák másolása (inaktív)"
+
+#: admin.py:201
+#, python-format
+msgid "%(count)d zone(s) duplicated (inactive)."
+msgstr "%(count)d zóna másolva (inaktív)."
+
+#: admin.py:204
+msgid "Delete inactive zones only"
+msgstr "Csak az inaktív zónák törlése"
+
+#: admin.py:214
+#, python-format
+msgid "%(count)d inactive zone(s) deleted."
+msgstr "%(count)d inaktív zóna törölve."
+
+#: admin.py:218
+#, python-format
+msgid "%(count)d active zone(s) were skipped. Deactivate first."
+msgstr "%(count)d aktív zóna kimaradt. Először inaktiválja őket."
+
+#: admin.py:233
+msgid "Rating & Verification"
+msgstr "Értékelés és ellenőrzés"
+
+#: admin.py:235
+msgid "Media"
+msgstr "Média"
+
+#: admin.py:242
+msgid "Schema"
+msgstr "Séma"
+
+#: admin.py:263
+msgid "Default Content & Config"
+msgstr "Alapértelmezett tartalom és konfiguráció"
+
+#: admin.py:303
+msgid "Source"
+msgstr "Forrás"
+
+#: admin.py:304 admin.py:312
+msgid "Form Data"
+msgstr "Űrlapadatok"
+
+#: admin.py:305 admin.py:317
+msgid "Uploaded Files"
+msgstr "Feltöltött fájlok"
+
+#: admin.py:306
+msgid "Timestamps"
+msgstr "Időbélyegek"
+
+#: admin.py:322
+msgid "Mark selected submissions as seen"
+msgstr "A kijelölt beküldések megjelölése megtekintettként"
+
+#: admin.py:327
+#, python-format
+msgid "Marked %(count)d submission(s) as seen."
+msgstr "%(count)d beküldés megjelölve megtekintettként."
+
+#: admin.py:329
+msgid "Mark selected submissions as processed"
+msgstr "A kijelölt beküldések megjelölése feldolgozottként"
+
+#: admin.py:334
+#, python-format
+msgid "Marked %(count)d submission(s) as processed."
+msgstr "%(count)d beküldés megjelölve feldolgozottként."
+
+#: admin.py:336
+msgid "Mark selected submissions as spam"
+msgstr "A kijelölt beküldések megjelölése spamként"
+
+#: admin.py:341
+#, python-format
+msgid "Marked %(count)d submission(s) as spam."
+msgstr "%(count)d beküldés megjelölve spamként."
+
+#: email_utils.py:336 email_utils.py:343
+msgid "Email address is required."
+msgstr "Az e-mail-cím megadása kötelező."
+
+#: email_utils.py:347
+msgid "Email address cannot contain spaces."
+msgstr "Az e-mail-cím nem tartalmazhat szóközt."
+
+#: email_utils.py:350
+msgid "Email address must contain @."
+msgstr "Az e-mail-címnek tartalmaznia kell a @ jelet."
+
+#: email_utils.py:354
+msgid "Email address is not valid (too many @)."
+msgstr "Az e-mail-cím érvénytelen (túl sok @ jel)."
+
+#: email_utils.py:360
+msgid "Email address is not valid (missing local part)."
+msgstr "Az e-mail-cím érvénytelen (hiányzik a helyi rész)."
+
+#: email_utils.py:363
+msgid "Email address is not valid (missing domain)."
+msgstr "Az e-mail-cím érvénytelen (hiányzik a domain)."
+
+#: email_utils.py:367
+msgid "Email domain is not valid (missing .com/.org etc)."
+msgstr "Az e-mail-domain érvénytelen (hiányzik a .com/.org stb.)."
+
+#: email_utils.py:371
+msgid "Email domain is not valid."
+msgstr "Az e-mail-domain érvénytelen."
+
+#: email_utils.py:377
+msgid "Disposable email addresses are not allowed."
+msgstr "Eldobható e-mail-címek nem engedélyezettek."
+
+#: email_utils.py:384
+msgid ""
+"Please use a personal email address, not a role-based one (e.g., info@, "
+"admin@, support@)."
+msgstr ""
+"Kérjük, személyes e-mail-címet használjon, ne szerepkör alapút (pl. info@, "
+"admin@, support@)."
+
+#: email_utils.py:416 email_utils.py:527
+msgid "Email address is not valid."
+msgstr "Az e-mail-cím érvénytelen."
+
+#: email_utils.py:509 email_utils.py:520
+#, python-format
+msgid "Did you mean %(suggested)s instead of %(domain)s?"
+msgstr "Nem %(suggested)s címre gondolt %(domain)s helyett?"
+
+#: forms.py:13
+msgid "Email"
+msgstr "E-mail"
+
+#: forms.py:14
+msgid "Your email"
+msgstr "Az Ön e-mail-címe"
+
+#: forms.py:18
+msgid "Name"
+msgstr "Név"
+
+#: forms.py:20
+msgid "Your name"
+msgstr "Az Ön neve"
+
+#: forms.py:36
+msgid "Upload file"
+msgstr "Fájl feltöltése"
+
+#: forms.py:55
+#, python-format
+msgid "File size exceeds maximum allowed (%(max)s MB)."
+msgstr "A fájl mérete meghaladja a megengedett maximumot (%(max)s MB)."
+
+#: forms.py:61
+#, python-format
+msgid "File type not allowed. Allowed types: %(types)s"
+msgstr "A fájltípus nem engedélyezett. Engedélyezett típusok: %(types)s"
+
+#: models/pages.py:24
+msgid "Landing page"
+msgstr "Céloldal"
+
+#: models/pages.py:25
+msgid "Content page"
+msgstr "Tartalomoldal"
+
+#: models/pages.py:26
+msgid "Blog post"
+msgstr "Blogbejegyzés"
+
+#: models/pages.py:55
+msgid "Hero with Video"
+msgstr "Hero videóval"
+
+#: models/pages.py:56
+msgid "Single Testimonial"
+msgstr "Egyetlen ügyfélvélemény"
+
+#: models/pages.py:57
+msgid "Benefits Grid"
+msgstr "Előnyök rácsa"
+
+#: models/pages.py:58
+msgid "Social Proof CTA"
+msgstr "Társadalmi bizonyítékos CTA"
+
+#: models/pages.py:59
+msgid "Curriculum/Outline"
+msgstr "Tanmenet/Vázlat"
+
+#: models/pages.py:60
+msgid "Testimonials Grid"
+msgstr "Ügyfélvélemények rácsa"
+
+#: models/pages.py:61
+msgid "Pricing Section"
+msgstr "Árazási szakasz"
+
+#: models/pages.py:62
+msgid "About Instructor"
+msgstr "Az oktatóról"
+
+#: models/pages.py:63
+msgid "Guarantee Section"
+msgstr "Garanciaszakasz"
+
+#: models/pages.py:64
+msgid "FAQ Section"
+msgstr "GYIK-szakasz"
+
+#: models/pages.py:65
+msgid "Final CTA"
+msgstr "Záró CTA"
+
+#: models/pages.py:66
+msgid "Order Form"
+msgstr "Megrendelőlap"
+
+#: models/pages.py:67
+msgid "Carousel"
+msgstr "Körhinta"
+
+#: models/pages.py:68
+msgid "Comparison Slider"
+msgstr "Összehasonlító csúszka"
+
+#: models/pages.py:69
+msgid "Gallery"
+msgstr "Galéria"
+
+#: models/pages.py:70
+msgid "Jumbotron"
+msgstr "Jumbotron"
+
+#: models/pages.py:71 templates/cms/zones/qr_code.html:37
+#: templates/cms/zones/qr_code.html:62 templates/cms/zones/qr_code.html:96
+msgid "QR Code"
+msgstr "QR-kód"
+
+#: models/pages.py:72
+msgid "Table"
+msgstr "Táblázat"
+
+#: models/pages.py:73
+msgid "Timeline"
+msgstr "Idővonal"
+
+#: models/pages.py:74
+msgid "Video"
+msgstr "Videó"
+
+#: models/pages.py:75
+msgid "Redirect"
+msgstr "Átirányítás"
+
+#: models/pages.py:76
+msgid "Showcase"
+msgstr "Bemutató"
+
+#: models/pages.py:77
+msgid "Banner"
+msgstr "Szalaghirdetés"
+
+#: models/pages.py:78
+msgid "Footer"
+msgstr "Lábléc"
+
+#: models/pages.py:141
+msgid "Internal title for this page."
+msgstr "Az oldal belső címe."
+
+#: models/pages.py:145
+msgid ""
+"URL-friendly identifier. Must be unique per site (and unique among all-sites "
+"pages)."
+msgstr ""
+"URL-barát azonosító. Webhelyenként egyedinek kell lennie (és egyedinek az "
+"összes webhelyre vonatkozó oldalak között)."
+
+#: models/pages.py:153
+msgid "Type of page: landing, content, or blog post."
+msgstr "Az oldal típusa: céloldal, tartalomoldal vagy blogbejegyzés."
+
+#: models/pages.py:163
+msgid "Author of this page (used for blog posts)."
+msgstr "Az oldal szerzője (blogbejegyzésekhez)."
+
+#: models/pages.py:169
+msgid "Publication date (used for blog post ordering and scheduling)."
+msgstr "Közzététel dátuma (a blogbejegyzések sorrendjéhez és ütemezéséhez)."
+
+#: models/pages.py:174
+msgid "Short summary used in listings and SEO fallbacks."
+msgstr "Rövid összefoglaló a listákhoz és SEO-tartalékként."
+
+#: models/pages.py:182
+msgid "Primary category for this page."
+msgstr "Az oldal elsődleges kategóriája."
+
+#: models/pages.py:188
+msgid "Tags associated with this page."
+msgstr "Az oldalhoz rendelt címkék."
+
+#: models/pages.py:199
+msgid ""
+"The site this landing page belongs to. Leave empty to show on all sites."
+msgstr ""
+"A webhely, amelyhez ez a céloldal tartozik. Hagyja üresen, ha minden "
+"webhelyen meg kell jelennie."
+
+#: models/pages.py:206
+msgid "SEO title (max 70 chars). Defaults to title if empty."
+msgstr ""
+"SEO-cím (legfeljebb 70 karakter). Ha üres, a cím lesz az alapértelmezés."
+
+#: models/pages.py:211
+msgid "SEO description (max 160 chars)."
+msgstr "SEO-leírás (legfeljebb 160 karakter)."
+
+#: models/pages.py:215
+msgid "Canonical URL if different from page URL."
+msgstr "Kanonikus URL, ha eltér az oldal URL-jétől."
+
+#: models/pages.py:221
+msgid "Use the site's base template. Uncheck for standalone pages."
+msgstr ""
+"A webhely alapsablonjának használata. Önálló oldalaknál törölje a jelölést."
+
+#: models/pages.py:227
+msgid "Inactive pages return 404."
+msgstr "Az inaktív oldalak 404-et adnak vissza."
+
+#: models/pages.py:231
+msgid "Disable form submissions on this page."
+msgstr "Az űrlapbeküldések letiltása ezen az oldalon."
+
+#: models/pages.py:241
+msgid "User who created this page."
+msgstr "Az oldalt létrehozó felhasználó."
+
+#: models/pages.py:247
+msgid "Page"
+msgstr "Oldal"
+
+#: models/pages.py:248
+msgid "Pages"
+msgstr "Oldalak"
+
+#: models/pages.py:277
+#, python-format
+msgid ""
+"\"%(slug)s\" is a reserved URL path and would conflict with an existing "
+"route. Choose a different slug (see CMS_RESERVED_SLUGS)."
+msgstr ""
+"A(z) \"%(slug)s\" foglalt URL-útvonal, és ütközne egy meglévő útvonallal. "
+"Válasszon másik slugot (lásd CMS_RESERVED_SLUGS)."
+
+#: models/pages.py:289
+#, python-format
+msgid "\"%(slug)s\" is a reserved URL path (see CMS_RESERVED_SLUGS)."
+msgstr "A(z) \"%(slug)s\" foglalt URL-útvonal (lásd CMS_RESERVED_SLUGS)."
+
+#: models/pages.py:350
+msgid "The landing page this zone belongs to."
+msgstr "A céloldal, amelyhez ez a zóna tartozik."
+
+#: models/pages.py:357
+msgid "Type of zone determines the template used."
+msgstr "A zóna típusa határozza meg a használt sablont."
+
+#: models/pages.py:363
+msgid ""
+"Short title for this zone (max 100 chars). Shown in admin listings for easy "
+"identification."
+msgstr ""
+"Rövid cím a zónához (legfeljebb 100 karakter). Az adminisztrációs listákban "
+"jelenik meg a könnyű azonosításhoz."
+
+#: models/pages.py:368
+msgid ""
+"Help text and documentation for this zone. Describes expected content "
+"structure."
+msgstr ""
+"Súgószöveg és dokumentáció a zónához. Leírja a várt tartalomszerkezetet."
+
+#: models/pages.py:373
+msgid "Display order (lower numbers first)."
+msgstr "Megjelenítési sorrend (a kisebb számok előbb)."
+
+#: models/pages.py:380
+msgid "Zone content (text, images, etc.) as JSON."
+msgstr "A zóna tartalma (szöveg, képek stb.) JSON formátumban."
+
+#: models/pages.py:385
+msgid "Zone configuration (styling, behavior) as JSON."
+msgstr "A zóna konfigurációja (stílus, viselkedés) JSON formátumban."
+
+#: models/pages.py:392
+msgid ""
+"Custom template path. Must match \"cms/zones/<name>.html\". Leave empty for "
+"default."
+msgstr ""
+"Egyéni sablon útvonala. Meg kell felelnie a \"cms/zones/<name>.html\" "
+"formának. Az alapértelmezetthez hagyja üresen."
+
+#: models/pages.py:402
+msgid "Linked testimonial for testimonial zone types."
+msgstr "A kapcsolt ügyfélvélemény az ügyfélvélemény típusú zónákhoz."
+
+#: models/pages.py:407
+msgid "Inactive zones are not rendered."
+msgstr "Az inaktív zónák nem jelennek meg."
+
+#: models/pages.py:411
+msgid "Landing Page Zone"
+msgstr "Céloldal-zóna"
+
+#: models/pages.py:412
+msgid "Landing Page Zones"
+msgstr "Céloldal-zónák"
+
+#: models/pages.py:433
+msgid ""
+"Only one Order Form zone is allowed per landing page. This page already has "
+"an Order Form zone."
+msgstr ""
+"Céloldalanként csak egy Megrendelőlap zóna engedélyezett. Ezen az oldalon már"
+" van Megrendelőlap zóna."
+
+#: models/pages.py:441
+msgid ""
+"Custom templates must match \"cms/zones/<name>.html\" (lowercase letters, "
+"digits, hyphens, underscores)."
+msgstr ""
+"Az egyéni sablonoknak meg kell felelniük a \"cms/zones/<name>.html\" formának"
+" (kisbetűk, számjegyek, kötőjelek, aláhúzásjelek)."
+
+#: models/pages.py:451
+msgid "Zone content must be a JSON object."
+msgstr "A zóna tartalmának JSON-objektumnak kell lennie."
+
+#: models/pages.py:456
+#, python-format
+msgid "Zone type \"%(zone_type)s\" requires the content key(s): %(keys)s."
+msgstr ""
+"A(z) \"%(zone_type)s\" zónatípushoz a következő tartalomkulcs(ok) "
+"szükséges(ek): %(keys)s."
+
+#: models/site_settings.py:18
+msgid "The site these settings apply to."
+msgstr "A webhely, amelyre ezek a beállítások vonatkoznak."
+
+#: models/site_settings.py:23
+msgid "Enable landing pages for this site."
+msgstr "Céloldalak engedélyezése ezen a webhelyen."
+
+#: models/site_settings.py:28
+msgid "Cache timeout in seconds (default: 5 minutes)."
+msgstr "Gyorsítótár-időtúllépés másodpercben (alapértelmezés: 5 perc)."
+
+#: models/site_settings.py:32 models/site_settings.py:33
+msgid "CMS Settings"
+msgstr "CMS-beállítások"
+
+#: models/submissions.py:14
+msgid "New"
+msgstr "Új"
+
+#: models/submissions.py:15
+msgid "Seen"
+msgstr "Megtekintve"
+
+#: models/submissions.py:16
+msgid "Processed"
+msgstr "Feldolgozva"
+
+#: models/submissions.py:17
+msgid "Spam"
+msgstr "Spam"
+
+#: models/submissions.py:32
+msgid "Landing page that generated this submission."
+msgstr "A céloldal, amely ezt a beküldést létrehozta."
+
+#: models/submissions.py:40
+msgid "The ORDER_FORM zone that created this submission."
+msgstr "Az ORDER_FORM zóna, amely ezt a beküldést létrehozta."
+
+#: models/submissions.py:45
+msgid "Visitor email (validated and normalized)."
+msgstr "A látogató e-mail-címe (ellenőrizve és normalizálva)."
+
+#: models/submissions.py:50
+msgid "Visitor name."
+msgstr "A látogató neve."
+
+#: models/submissions.py:55
+msgid "Visitor phone number."
+msgstr "A látogató telefonszáma."
+
+#: models/submissions.py:60
+msgid "Sanitized form data as JSON."
+msgstr "A megtisztított űrlapadatok JSON formátumban."
+
+#: models/submissions.py:65
+msgid ""
+"Uploaded files as a list of storage paths (with field name and original "
+"filename)."
+msgstr ""
+"A feltöltött fájlok tárolási útvonalak listájaként (mezőnévvel és eredeti "
+"fájlnévvel)."
+
+#: models/submissions.py:73
+msgid "Triage status."
+msgstr "Osztályozási állapot."
+
+#: models/submissions.py:78
+msgid "Client IP at submission time (proxy-aware)."
+msgstr "Az ügyfél IP-címe a beküldéskor (proxyt figyelembe véve)."
+
+#: models/submissions.py:82
+msgid "Landing Page Submission"
+msgstr "Céloldal-beküldés"
+
+#: models/submissions.py:83
+msgid "Landing Page Submissions"
+msgstr "Céloldal-beküldések"
+
+#: models/taxonomy.py:20
+msgid "The site this category belongs to. Leave empty for all sites."
+msgstr ""
+"A webhely, amelyhez ez a kategória tartozik. Az összes webhelyhez hagyja "
+"üresen."
+
+#: models/taxonomy.py:35
+msgid "Category"
+msgstr "Kategória"
+
+#: models/taxonomy.py:36
+msgid "Categories"
+msgstr "Kategóriák"
+
+#: models/taxonomy.py:55
+msgid "Category cannot be its own ancestor."
+msgstr "Egy kategória nem lehet a saját őse."
+
+#: models/taxonomy.py:69
+msgid "The site this tag belongs to. Leave empty for all sites."
+msgstr ""
+"A webhely, amelyhez ez a címke tartozik. Az összes webhelyhez hagyja üresen."
+
+#: models/taxonomy.py:76
+msgid "Tag"
+msgstr "Címke"
+
+#: models/taxonomy.py:77
+msgid "Tags"
+msgstr "Címkék"
+
+#: models/testimonials.py:18
+msgid "The testimonial content."
+msgstr "Az ügyfélvélemény tartalma."
+
+#: models/testimonials.py:22
+msgid "Name of the person giving the testimonial."
+msgstr "A véleményt adó személy neve."
+
+#: models/testimonials.py:27
+msgid "Title or role (e.g., 'CEO at Company')."
+msgstr "Beosztás vagy szerepkör (pl. 'Vezérigazgató a Cégnél')."
+
+#: models/testimonials.py:33
+msgid "Photo of the testimonial author."
+msgstr "A vélemény szerzőjének fényképe."
+
+#: models/testimonials.py:39
+msgid "Rating from 1-5 stars."
+msgstr "Értékelés 1-5 csillaggal."
+
+#: models/testimonials.py:45
+msgid "Verified customer testimonial."
+msgstr "Igazolt ügyfél véleménye."
+
+#: models/testimonials.py:51
+msgid "URL to video testimonial (YouTube, Vimeo, etc.)."
+msgstr "A videós ügyfélvélemény URL-je (YouTube, Vimeo stb.)."
+
+#: models/testimonials.py:57
+msgid "Screenshot or proof image."
+msgstr "Képernyőkép vagy bizonyító kép."
+
+#: models/testimonials.py:64
+msgid "Auto-generated Schema.org Review markup."
+msgstr "Automatikusan generált Schema.org Review jelölés."
+
+#: models/testimonials.py:69
+msgid "Testimonials"
+msgstr "Ügyfélvélemények"
+
+#: models/zone_templates.py:22
+msgid "Template name for easy identification."
+msgstr "A sablon neve a könnyű azonosításhoz."
+
+#: models/zone_templates.py:28
+msgid "Zone type this template applies to."
+msgstr "A zónatípus, amelyre ez a sablon vonatkozik."
+
+#: models/zone_templates.py:32
+msgid "Description of what this template provides."
+msgstr "Annak leírása, mit nyújt ez a sablon."
+
+#: models/zone_templates.py:39
+msgid "Default content JSON for this template."
+msgstr "A sablon alapértelmezett JSON-tartalma."
+
+#: models/zone_templates.py:44
+msgid "Default configuration JSON for this template."
+msgstr "A sablon alapértelmezett JSON-konfigurációja."
+
+#: models/zone_templates.py:51
+msgid "Custom template file path."
+msgstr "Egyéni sablonfájl útvonala."
+
+#: models/zone_templates.py:59
+msgid "Static file path to preview image (e.g., images/cms/template-name.png)."
+msgstr ""
+"Az előnézeti kép statikus fájlútvonala (pl. images/cms/template-name.png)."
+
+#: models/zone_templates.py:64
+msgid "Inactive templates are not available for selection."
+msgstr "Az inaktív sablonok nem választhatók ki."
+
+#: models/zone_templates.py:76
+msgid "Zone Template"
+msgstr "Zónasablon"
+
+#: models/zone_templates.py:77
+msgid "Zone Templates"
+msgstr "Zónasablonok"
+
+#: templates/cms/blog/detail.html:11 templates/cms/blog/list.html:12
+msgid "Blog"
+msgstr "Blog"
+
+#: templates/cms/blog/detail.html:20
+msgid "by"
+msgstr "írta:"
+
+#: templates/cms/blog/detail.html:31
+msgid "This post has no content yet."
+msgstr "Ennek a bejegyzésnek még nincs tartalma."
+
+#: templates/cms/blog/detail.html:46
+msgid "Related posts"
+msgstr "Kapcsolódó bejegyzések"
+
+#: templates/cms/blog/list.html:47
+msgid "No posts yet."
+msgstr "Még nincsenek bejegyzések."
+
+#: templates/cms/content_page.html:18
+msgid "No content yet."
+msgstr "Még nincs tartalom."
+
+#: templates/cms/landing_page.html:26
+#: templates/cms/landing_page_standalone.html:41
+msgid "No content available for this page."
+msgstr "Ehhez az oldalhoz nem érhető el tartalom."
+
+#: templates/cms/zones/banner.html:64 templates/cms/zones/banner.html:107
+#: templates/cms/zones/banner.html:165
+msgid "Dismiss"
+msgstr "Bezárás"
+
+#: templates/cms/zones/benefits_grid.html:126
+#: templates/cms/zones/timeline.html:91
+msgid "Learn more"
+msgstr "Tudjon meg többet"
+
+#: templates/cms/zones/carousel.html:50
+msgid "Slide image"
+msgstr "Diakép"
+
+#: templates/cms/zones/carousel.html:235
+msgid "Previous"
+msgstr "Előző"
+
+#: templates/cms/zones/carousel.html:245
+msgid "Next"
+msgstr "Következő"
+
+#: templates/cms/zones/carousel.html:388
+msgid "Enlarged image"
+msgstr "Nagyított kép"
+
+#: templates/cms/zones/comparison.html:53
+msgid "Comparison slider"
+msgstr "Összehasonlító csúszka"
+
+#: templates/cms/zones/comparison.html:60
+msgid "Before"
+msgstr "Előtte"
+
+#: templates/cms/zones/comparison.html:61
+msgid "After"
+msgstr "Utána"
+
+#: templates/cms/zones/curriculum.html:68
+#: templates/cms/zones/curriculum.html:144
+#, python-format
+msgid "%(count)s lessons"
+msgstr "%(count)s lecke"
+
+#: templates/cms/zones/footer.html:19 templates/cms/zones/footer.html:44
+#: templates/cms/zones/footer.html:99 templates/cms/zones/footer.html:163
+msgid "All Rights Reserved."
+msgstr "Minden jog fenntartva."
+
+#: templates/cms/zones/gallery.html:27 templates/cms/zones/gallery.html:51
+#: templates/cms/zones/gallery.html:65 templates/cms/zones/gallery.html:81
+#: templates/cms/zones/gallery.html:153 templates/cms/zones/gallery.html:228
+#: templates/cms/zones/gallery.html:280 templates/cms/zones/gallery.html:339
+msgid "Gallery image"
+msgstr "Galériakép"
+
+#: templates/cms/zones/gallery.html:44
+msgid "Featured image"
+msgstr "Kiemelt kép"
+
+#: templates/cms/zones/gallery.html:213
+msgid "All"
+msgstr "Mind"
+
+#: templates/cms/zones/guarantee.html:121
+msgid "Day"
+msgstr "Napos"
+
+#: templates/cms/zones/guarantee.html:122
+msgid "Guarantee"
+msgstr "Garancia"
+
+#: templates/cms/zones/hero_video.html:26
+msgid "Hero background"
+msgstr "Hero háttér"
+
+#: templates/cms/zones/hero_video.html:155
+msgid "Hero image"
+msgstr "Hero kép"
+
+#: templates/cms/zones/jumbotron.html:199
+#: templates/cms/zones/order_form.html:297
+#: templates/cms/zones/order_form_floating.html:340
+msgid "Submit"
+msgstr "Küldés"
+
+#: templates/cms/zones/jumbotron.html:247
+msgid "Search..."
+msgstr "Keresés..."
+
+#: templates/cms/zones/jumbotron.html:254
+msgid "Search"
+msgstr "Keresés"
+
+#: templates/cms/zones/jumbotron.html:264
+msgid "Enter your email"
+msgstr "Adja meg e-mail-címét"
+
+#: templates/cms/zones/jumbotron.html:267
+msgid "Subscribe"
+msgstr "Feliratkozás"
+
+#: templates/cms/zones/jumbotron.html:355
+msgid "Read more"
+msgstr "Tovább olvasom"
+
+#: templates/cms/zones/order_form.html:34
+#: templates/cms/zones/order_form_floating.html:32
+msgid "Leave this field empty"
+msgstr "Hagyja üresen ezt a mezőt"
+
+#: templates/cms/zones/order_form.html:187
+#: templates/cms/zones/order_form.html:233
+#: templates/cms/zones/order_form_floating.html:214
+#: templates/cms/zones/order_form_floating.html:263
+msgid "Click to upload"
+msgstr "Kattintson a feltöltéshez"
+
+#: templates/cms/zones/order_form.html:187
+#: templates/cms/zones/order_form.html:233
+#: templates/cms/zones/order_form_floating.html:214
+#: templates/cms/zones/order_form_floating.html:263
+msgid "or drag and drop"
+msgstr "vagy húzza ide"
+
+#: templates/cms/zones/order_form.html:190
+#: templates/cms/zones/order_form_floating.html:217
+msgid "Any file"
+msgstr "Bármilyen fájl"
+
+#: templates/cms/zones/order_form.html:190
+#: templates/cms/zones/order_form_floating.html:217
+#, python-format
+msgid "max %(max_size)sMB"
+msgstr "legfeljebb %(max_size)sMB"
+
+#: templates/cms/zones/order_form.html:198
+#: templates/cms/zones/order_form.html:244
+#: templates/cms/zones/order_form_floating.html:225
+#: templates/cms/zones/order_form_floating.html:274
+msgid "Image cropping opens automatically • Hover to re-crop"
+msgstr ""
+"A képvágás automatikusan megnyílik • Az újravágáshoz vigye fölé az egeret"
+
+#: templates/cms/zones/order_form.html:236
+#: templates/cms/zones/order_form_floating.html:266
+msgid "Any files"
+msgstr "Bármilyen fájlok"
+
+#: templates/cms/zones/order_form.html:236
+#: templates/cms/zones/order_form_floating.html:266
+#, python-format
+msgid "max %(max_files)s files, %(max_size)sMB each"
+msgstr "legfeljebb %(max_files)s fájl, egyenként %(max_size)sMB"
+
+#: templates/cms/zones/order_form.html:317
+#: templates/cms/zones/order_form_floating.html:359
+msgid "Sending..."
+msgstr "Küldés..."
+
+#: templates/cms/zones/order_form.html:318
+#: templates/cms/zones/order_form_floating.html:360
+msgid "Thank you! Your submission has been received."
+msgstr "Köszönjük! Beküldését megkaptuk."
+
+#: templates/cms/zones/order_form.html:319
+#: templates/cms/zones/order_form_floating.html:361
+msgid "Something went wrong. Please try again."
+msgstr "Hiba történt. Kérjük, próbálja újra."
+
+#: templates/cms/zones/order_form.html:373
+#: templates/cms/zones/order_form_floating.html:499
+#, python-brace-format
+msgid "Maximum {count} files allowed"
+msgstr "Legfeljebb {count} fájl engedélyezett"
+
+#: templates/cms/zones/order_form.html:374
+#: templates/cms/zones/order_form_floating.html:500
+#, python-brace-format
+msgid "File type not allowed: {name}"
+msgstr "Nem engedélyezett fájltípus: {name}"
+
+#: templates/cms/zones/order_form.html:375
+#: templates/cms/zones/order_form_floating.html:501
+#, python-brace-format
+msgid "File too large: {name}. Maximum size is {size}MB"
+msgstr "Túl nagy fájl: {name}. A maximális méret {size}MB"
+
+#: templates/cms/zones/order_form.html:376
+#: templates/cms/zones/order_form_floating.html:502
+msgid "Crop Image"
+msgstr "Kép vágása"
+
+#: templates/cms/zones/order_form.html:377
+#: templates/cms/zones/order_form_floating.html:503
+msgid "Cancel"
+msgstr "Mégse"
+
+#: templates/cms/zones/order_form.html:378
+#: templates/cms/zones/order_form_floating.html:504
+msgid "Apply Crop"
+msgstr "Vágás alkalmazása"
+
+#: templates/cms/zones/order_form.html:379
+#: templates/cms/zones/order_form_floating.html:505
+msgid "Crop"
+msgstr "Vágás"
+
+#: templates/cms/zones/order_form.html:380
+#: templates/cms/zones/order_form_floating.html:506
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#: templates/cms/zones/order_form_floating.html:362
+msgid "This field is required"
+msgstr "Ez a mező kötelező"
+
+#: templates/cms/zones/order_form_floating.html:363
+msgid "Please enter a valid email address"
+msgstr "Kérjük, adjon meg érvényes e-mail-címet"
+
+#: templates/cms/zones/order_form_floating.html:364
+msgid "Please enter a valid URL"
+msgstr "Kérjük, adjon meg érvényes URL-t"
+
+#: templates/cms/zones/order_form_floating.html:365
+msgid "Please enter a valid number"
+msgstr "Kérjük, adjon meg érvényes számot"
+
+#: templates/cms/zones/order_form_floating.html:366
+msgid "Please match the requested format"
+msgstr "Kérjük, a kért formátumot használja"
+
+#: templates/cms/zones/order_form_floating.html:367
+#, python-brace-format
+msgid "Please enter at least {min} characters"
+msgstr "Kérjük, adjon meg legalább {min} karaktert"
+
+#: templates/cms/zones/order_form_floating.html:368
+#, python-brace-format
+msgid "Please enter no more than {max} characters"
+msgstr "Kérjük, legfeljebb {max} karaktert adjon meg"
+
+#: templates/cms/zones/pricing.html:35
+msgid "Monthly"
+msgstr "Havi"
+
+#: templates/cms/zones/pricing.html:37
+msgid "Annual"
+msgstr "Éves"
+
+#: templates/cms/zones/pricing.html:57
+msgid "Most Popular"
+msgstr "Legnépszerűbb"
+
+#: templates/cms/zones/pricing.html:79 templates/cms/zones/pricing.html:140
+#: templates/cms/zones/pricing.html:190 templates/cms/zones/pricing.html:243
+msgid "mo"
+msgstr "hó"
+
+#: templates/cms/zones/pricing.html:87 templates/cms/zones/pricing.html:145
+#: templates/cms/zones/pricing.html:195 templates/cms/zones/pricing.html:251
+msgid "yr"
+msgstr "év"
+
+#: templates/cms/zones/redirect.html:15 templates/cms/zones/redirect.html:29
+msgid "Redirecting..."
+msgstr "Átirányítás..."
+
+#: templates/cms/zones/redirect.html:61
+msgid "Redirecting in"
+msgstr "Átirányítás"
+
+#: templates/cms/zones/redirect.html:61
+msgid "seconds..."
+msgstr "másodperc múlva..."
+
+#: templates/cms/zones/redirect.html:66
+msgid "Click here if not redirected automatically"
+msgstr "Kattintson ide, ha nem történik meg automatikusan az átirányítás"
+
+#: templates/cms/zones/social_proof_cta.html:91
+msgid "Partner logo"
+msgstr "Partnerlogó"
+
+#: templates/cms/zones/testimonial_single.html:109
+#: templates/cms/zones/testimonials_grid.html:85
+msgid "Verified"
+msgstr "Igazolt"
+
+#: templates/cms/zones/testimonial_single.html:152
+msgid "Verified Customer"
+msgstr "Igazolt ügyfél"
+
+#: templates/cms/zones/testimonials_grid.html:187
+msgid "at"
+msgstr "/"
+
+#: templates/cms/zones/video.html:62
+msgid "Your browser does not support the video tag."
+msgstr "Az Ön böngészője nem támogatja a videó elemet."

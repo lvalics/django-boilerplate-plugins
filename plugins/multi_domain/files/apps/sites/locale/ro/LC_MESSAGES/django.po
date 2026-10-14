@@ -1,0 +1,467 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: admin.py:47 models.py:392
+msgid "Site Profile"
+msgstr "Profilul site-ului"
+
+#: admin.py:55
+msgid "Branding"
+msgstr "Identitate vizuală"
+
+#: admin.py:68
+msgid "SEO & Meta"
+msgstr "SEO și metadate"
+
+#: admin.py:75
+msgid "Scripts & Styles"
+msgstr "Scripturi și stiluri"
+
+#: admin.py:82
+msgid "Localization"
+msgstr "Localizare"
+
+#: admin.py:89
+msgid "Features & Integrations"
+msgstr "Funcționalități și integrări"
+
+#: admin.py:96
+msgid "Email Settings"
+msgstr "Setări e-mail"
+
+#: admin.py:103
+msgid "Authentication"
+msgstr "Autentificare"
+
+#: admin.py:115
+msgid "Status"
+msgstr "Stare"
+
+#: admin.py:121
+msgid "CORS/CSRF & Extra Settings"
+msgstr "CORS/CSRF și setări suplimentare"
+
+#: admin.py:126
+msgid ""
+"Configure per-site CORS and CSRF origins here. These override global settings"
+" from .env for this site only."
+msgstr ""
+"Configurați aici originile CORS și CSRF ale site-ului. Acestea înlocuiesc "
+"setările globale din .env doar pentru acest site."
+
+#: admin.py:170
+msgid "Active"
+msgstr "Activ"
+
+#: admin.py:178
+msgid "Primary"
+msgstr "Principală"
+
+#: admin.py:186
+msgid "Auth Mode"
+msgstr "Mod de autentificare"
+
+#: admin.py:188
+msgid "Refresh cache for selected sites"
+msgstr "Reîmprospătează cache-ul site-urilor selectate"
+
+#: admin.py:196
+#, python-format
+msgid "Refreshed cache for %d sites"
+msgstr "Cache reîmprospătat pentru %d site-uri"
+
+#: admin.py:198
+msgid "Warm all site caches"
+msgstr "Preîncarcă cache-ul tuturor site-urilor"
+
+#: admin.py:201
+#, python-format
+msgid "Warmed cache for %d sites"
+msgstr "Cache preîncărcat pentru %d site-uri"
+
+#: admin.py:251
+msgid "Timestamps"
+msgstr "Date și ore"
+
+#: admin.py:265
+msgid "API Key"
+msgstr "Cheie API"
+
+#: admin.py:296
+msgid "Create API keys for selected members"
+msgstr "Creează chei API pentru membrii selectați"
+
+#: admin.py:300
+msgid "API-key app not installed."
+msgstr "Aplicația de chei API nu este instalată."
+
+#: admin.py:345
+msgid "Members"
+msgstr "Membri"
+
+#: admin.py:425
+msgid "Event"
+msgstr "Eveniment"
+
+#: admin.py:431 audit.py:53
+msgid "User"
+msgstr "Utilizator"
+
+#: admin.py:437 audit.py:59
+msgid "Changes"
+msgstr "Modificări"
+
+#: admin.py:453
+msgid "Changed Fields"
+msgstr "Câmpuri modificate"
+
+#: audit.py:35
+msgid "Created"
+msgstr "Creată"
+
+#: audit.py:36
+msgid "Updated"
+msgstr "Actualizată"
+
+#: audit.py:37
+msgid "Deleted"
+msgstr "Ștearsă"
+
+#: audit.py:38
+msgid "Member Added"
+msgstr "Membru adăugat"
+
+#: audit.py:39
+msgid "Member Removed"
+msgstr "Membru eliminat"
+
+#: audit.py:40
+msgid "Member Updated"
+msgstr "Membru actualizat"
+
+#: audit.py:41
+msgid "Owner Transferred"
+msgstr "Proprietar transferat"
+
+#: audit.py:42
+msgid "Cache Invalidated"
+msgstr "Cache invalidat"
+
+#: audit.py:44
+msgid "Site ID"
+msgstr "ID site"
+
+#: audit.py:45
+msgid "Site Domain"
+msgstr "Domeniul site-ului"
+
+#: audit.py:46
+msgid "Action"
+msgstr "Acțiune"
+
+#: audit.py:55
+msgid "User Email"
+msgstr "E-mailul utilizatorului"
+
+#: audit.py:56
+msgid "IP Address"
+msgstr "Adresă IP"
+
+#: audit.py:60
+msgid "Previous Values"
+msgstr "Valori anterioare"
+
+#: audit.py:61
+msgid "New Values"
+msgstr "Valori noi"
+
+#: audit.py:64
+msgid "Notes"
+msgstr "Note"
+
+#: audit.py:67
+msgid "Site Audit Log"
+msgstr "Jurnal de audit al site-ului"
+
+#: audit.py:68
+msgid "Site Audit Logs"
+msgstr "Jurnale de audit ale site-urilor"
+
+#: models.py:81
+msgid "The Django Site this profile extends. Each Site can have one profile."
+msgstr ""
+"Site-ul Django pe care îl extinde acest profil. Fiecare site poate avea un "
+"singur profil."
+
+#: models.py:87
+msgid ""
+"Display name shown to users. Can differ from Site.name (e.g., 'My Awesome "
+"App')."
+msgstr ""
+"Numele afișat utilizatorilor. Poate diferi de Site.name (de ex. 'My Awesome "
+"App')."
+
+#: models.py:92
+msgid ""
+"Short slogan or description (e.g., 'The best way to manage your tasks')."
+msgstr ""
+"Slogan sau descriere scurtă (de ex. 'Cel mai bun mod de a vă gestiona "
+"sarcinile')."
+
+#: models.py:97
+msgid ""
+"Theme identifier used for CSS styling. Maps to DaisyUI theme or custom CSS "
+"class."
+msgstr ""
+"Identificatorul temei folosit pentru stilizarea CSS. Corespunde unei teme "
+"DaisyUI sau unei clase CSS personalizate."
+
+#: models.py:103
+msgid ""
+"Template subdirectory name under templates/. If empty, defaults to first part"
+" of domain (e.g., 'mysite' for mysite.example.com). Templates here override "
+"defaults."
+msgstr ""
+"Numele subdirectorului de șabloane din templates/. Dacă este gol, se "
+"folosește prima parte a domeniului (de ex. 'mysite' pentru "
+"mysite.example.com). Șabloanele de aici le înlocuiesc pe cele implicite."
+
+#: models.py:111
+msgid ""
+"Site logo image. Recommended: SVG or PNG with transparent background, min "
+"200px wide."
+msgstr ""
+"Imaginea logo-ului site-ului. Recomandat: SVG sau PNG cu fundal transparent, "
+"lățime de minimum 200px."
+
+#: models.py:117
+msgid "Browser favicon. Recommended: 32x32 or 64x64 PNG, or ICO format."
+msgstr ""
+"Favicon pentru browser. Recomandat: PNG de 32x32 sau 64x64 ori format ICO."
+
+#: models.py:122
+msgid ""
+"Primary brand color in hex format (e.g., #3B82F6). Used for buttons, links, "
+"accents."
+msgstr ""
+"Culoarea principală a brandului în format hex (de ex. #3B82F6). Folosită "
+"pentru butoane, linkuri, accente."
+
+#: models.py:125
+msgid "Secondary brand color in hex format. Used for hover states, etc."
+msgstr ""
+"Culoarea secundară a brandului în format hex. Folosită pentru stările la "
+"trecerea cursorului etc."
+
+#: models.py:189
+msgid ""
+"Custom CSS styles for this site. Injected inline in &lt;head&gt;. Use for "
+"color overrides, custom fonts, or site-specific tweaks."
+msgstr ""
+"Stiluri CSS personalizate pentru acest site. Sunt inserate direct în "
+"&lt;head&gt;. Folosiți-le pentru suprascrierea culorilor, fonturi "
+"personalizate sau ajustări specifice site-ului."
+
+#: models.py:198
+msgid "Default language code (ISO 639-1). Examples: en, ro, fr, de, es."
+msgstr "Codul limbii implicite (ISO 639-1). Exemple: en, ro, fr, de, es."
+
+#: models.py:212
+msgid ""
+"Default timezone for this site. Examples: UTC, Europe/Bucharest, "
+"America/New_York."
+msgstr ""
+"Fusul orar implicit al acestui site. Exemple: UTC, Europe/Bucharest, "
+"America/New_York."
+
+#: models.py:288
+msgid "Isolated - Each domain has its own users"
+msgstr "Izolat: fiecare domeniu are propriii utilizatori"
+
+#: models.py:289
+msgid "Shared - Cross-domain authentication via auth domain"
+msgstr ""
+"Partajat: autentificare comună între domenii prin domeniul de autentificare"
+
+#: models.py:296
+msgid ""
+"<strong>Isolated:</strong> Users are separate per domain. "
+"<strong>Shared:</strong> Single sign-on across domains via a central auth "
+"domain."
+msgstr ""
+"<strong>Izolat:</strong> utilizatorii sunt separați pe domenii. "
+"<strong>Partajat:</strong> autentificare unică între domenii printr-un "
+"domeniu central de autentificare."
+
+#: models.py:307
+msgid ""
+"For shared auth mode: select the SiteProfile that handles login. Users will "
+"be redirected there to authenticate, then back with a JWT token."
+msgstr ""
+"Pentru modul de autentificare partajat: selectați SiteProfile care "
+"gestionează autentificarea. Utilizatorii vor fi redirecționați acolo pentru "
+"autentificare, apoi înapoi cu un token JWT."
+
+#: models.py:314
+msgid ""
+"Check this if this site is the central authentication provider. Other sites "
+"in shared mode will redirect here for login."
+msgstr ""
+"Bifați dacă acest site este furnizorul central de autentificare. Celelalte "
+"site-uri în modul partajat vor redirecționa aici pentru autentificare."
+
+#: models.py:376
+msgid "Inactive sites return 404. At least one site must remain active."
+msgstr ""
+"Site-urile inactive returnează 404. Cel puțin un site trebuie să rămână "
+"activ."
+
+#: models.py:380
+msgid ""
+"The primary/default site. Used when no domain matches. Only one site can be "
+"primary."
+msgstr ""
+"Site-ul principal/implicit. Este folosit când niciun domeniu nu se "
+"potrivește. Un singur site poate fi principal."
+
+#: models.py:386
+msgid ""
+"Development only: access this site via path prefix (e.g., '/mysite' for "
+"localhost:8000/mysite/). Leave empty for production domain-based routing."
+msgstr ""
+"Doar pentru dezvoltare: accesați acest site printr-un prefix de cale (de ex. "
+"'/mysite' pentru localhost:8000/mysite/). Lăsați gol pentru rutarea pe "
+"domenii din producție."
+
+#: models.py:393
+msgid "Site Profiles"
+msgstr "Profiluri de site"
+
+#: models.py:409
+msgid ""
+"Cannot deactivate the last active site. At least one site must remain active."
+msgstr ""
+"Ultimul site activ nu poate fi dezactivat. Cel puțin un site trebuie să "
+"rămână activ."
+
+#: models.py:420
+msgid "Cannot unset primary. At least one site must be primary."
+msgstr ""
+"Marcajul de site principal nu poate fi eliminat. Cel puțin un site trebuie să"
+" fie principal."
+
+#: models.py:429
+#, python-format
+msgid ""
+"template_dir may contain only lowercase letters, digits, hyphens, and "
+"underscores (no dots or slashes), max %(max)d characters."
+msgstr ""
+"template_dir poate conține doar litere mici, cifre, cratime și caractere de "
+"subliniere (fără puncte sau bare oblice), maximum %(max)d caractere."
+
+#: models.py:449
+msgid "{field_name} must be a string URL, not {type(origin).__name__}"
+msgstr ""
+"{field_name} trebuie să fie un URL de tip șir, nu {type(origin).__name__}"
+
+#: models.py:454
+#, python-brace-format
+msgid "{field_name}: Wildcards are not allowed for security reasons."
+msgstr ""
+"{field_name}: caracterele wildcard nu sunt permise din motive de securitate."
+
+#: models.py:463
+#, python-brace-format
+msgid ""
+"{field_name}: '{origin}' is not a valid URL. Must include scheme "
+"(http/https)."
+msgstr ""
+"{field_name}: '{origin}' nu este un URL valid. Trebuie să includă schema "
+"(http/https)."
+
+#: models.py:468
+#, python-brace-format
+msgid "{field_name}: '{origin}' must use http or https scheme."
+msgstr "{field_name}: '{origin}' trebuie să folosească schema http sau https."
+
+#: models.py:473
+#, python-brace-format
+msgid ""
+"{field_name}: '{origin}' should not include a path. Use origin only (e.g., "
+"https://example.com)."
+msgstr ""
+"{field_name}: '{origin}' nu trebuie să includă o cale. Folosiți doar originea"
+" (de ex. https://example.com)."
+
+#: models.py:480
+#, python-brace-format
+msgid "{field_name}: '{origin}' is not a valid URL: {e}"
+msgstr "{field_name}: '{origin}' nu este un URL valid: {e}"
+
+#: models.py:489
+msgid "{field_name} must be a list of URLs, not {type(origins).__name__}"
+msgstr ""
+"{field_name} trebuie să fie o listă de URL-uri, nu {type(origins).__name__}"
+
+#: models.py:715
+msgid "Admin"
+msgstr "Administrare"
+
+#: models.py:716
+msgid "Viewer"
+msgstr "Vizualizator"
+
+#: models.py:722
+msgid "The site this membership belongs to."
+msgstr "Site-ul căruia îi aparține acest membru."
+
+#: models.py:728
+msgid "The user who has access to this site."
+msgstr "Utilizatorul care are acces la acest site."
+
+#: models.py:734
+msgid "User's role on this site. Admin has full access, Viewer is read-only."
+msgstr ""
+"Rolul utilizatorului pe acest site. Administratorul are acces complet, "
+"vizualizatorul doar citire."
+
+#: models.py:738
+msgid "If true, this user is the site owner and cannot be removed."
+msgstr ""
+"Dacă este bifat, acest utilizator este proprietarul site-ului și nu poate fi "
+"eliminat."
+
+#: models.py:742
+msgid "Site Member"
+msgstr "Membru al site-ului"
+
+#: models.py:743
+msgid "Site Members"
+msgstr "Membrii site-ului"
+
+#: models.py:759
+msgid "Cannot remove owner status. Transfer ownership first."
+msgstr ""
+"Statutul de proprietar nu poate fi eliminat. Transferați mai întâi "
+"proprietatea."
+
+#: models.py:761
+msgid "Site owner must be an admin."
+msgstr "Proprietarul site-ului trebuie să fie administrator."

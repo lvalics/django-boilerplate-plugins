@@ -1,0 +1,468 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py:47 models.py:392
+msgid "Site Profile"
+msgstr "Webhelyprofil"
+
+#: admin.py:55
+msgid "Branding"
+msgstr "Arculat"
+
+#: admin.py:68
+msgid "SEO & Meta"
+msgstr "SEO és metaadatok"
+
+#: admin.py:75
+msgid "Scripts & Styles"
+msgstr "Szkriptek és stílusok"
+
+#: admin.py:82
+msgid "Localization"
+msgstr "Lokalizáció"
+
+#: admin.py:89
+msgid "Features & Integrations"
+msgstr "Funkciók és integrációk"
+
+#: admin.py:96
+msgid "Email Settings"
+msgstr "E-mail-beállítások"
+
+#: admin.py:103
+msgid "Authentication"
+msgstr "Hitelesítés"
+
+#: admin.py:115
+msgid "Status"
+msgstr "Állapot"
+
+#: admin.py:121
+msgid "CORS/CSRF & Extra Settings"
+msgstr "CORS/CSRF és további beállítások"
+
+#: admin.py:126
+msgid ""
+"Configure per-site CORS and CSRF origins here. These override global settings"
+" from .env for this site only."
+msgstr ""
+"Itt állíthatja be a webhely CORS- és CSRF-forrásait. Ezek csak erre a "
+"webhelyre írják felül a .env globális beállításait."
+
+#: admin.py:170
+msgid "Active"
+msgstr "Aktív"
+
+#: admin.py:178
+msgid "Primary"
+msgstr "Elsődleges"
+
+#: admin.py:186
+msgid "Auth Mode"
+msgstr "Hitelesítési mód"
+
+#: admin.py:188
+msgid "Refresh cache for selected sites"
+msgstr "A kijelölt webhelyek gyorsítótárának frissítése"
+
+#: admin.py:196
+#, python-format
+msgid "Refreshed cache for %d sites"
+msgstr "%d webhely gyorsítótára frissítve"
+
+#: admin.py:198
+msgid "Warm all site caches"
+msgstr "Az összes webhely gyorsítótárának előtöltése"
+
+#: admin.py:201
+#, python-format
+msgid "Warmed cache for %d sites"
+msgstr "%d webhely gyorsítótára előtöltve"
+
+#: admin.py:251
+msgid "Timestamps"
+msgstr "Időbélyegek"
+
+#: admin.py:265
+msgid "API Key"
+msgstr "API-kulcs"
+
+#: admin.py:296
+msgid "Create API keys for selected members"
+msgstr "API-kulcsok létrehozása a kijelölt tagoknak"
+
+#: admin.py:300
+msgid "API-key app not installed."
+msgstr "Az API-kulcs alkalmazás nincs telepítve."
+
+#: admin.py:345
+msgid "Members"
+msgstr "Tagok"
+
+#: admin.py:425
+msgid "Event"
+msgstr "Esemény"
+
+#: admin.py:431 audit.py:53
+msgid "User"
+msgstr "Felhasználó"
+
+#: admin.py:437 audit.py:59
+msgid "Changes"
+msgstr "Változások"
+
+#: admin.py:453
+msgid "Changed Fields"
+msgstr "Módosított mezők"
+
+#: audit.py:35
+msgid "Created"
+msgstr "Létrehozva"
+
+#: audit.py:36
+msgid "Updated"
+msgstr "Frissítve"
+
+#: audit.py:37
+msgid "Deleted"
+msgstr "Törölve"
+
+#: audit.py:38
+msgid "Member Added"
+msgstr "Tag hozzáadva"
+
+#: audit.py:39
+msgid "Member Removed"
+msgstr "Tag eltávolítva"
+
+#: audit.py:40
+msgid "Member Updated"
+msgstr "Tag frissítve"
+
+#: audit.py:41
+msgid "Owner Transferred"
+msgstr "Tulajdonos átruházva"
+
+#: audit.py:42
+msgid "Cache Invalidated"
+msgstr "Gyorsítótár érvénytelenítve"
+
+#: audit.py:44
+msgid "Site ID"
+msgstr "Webhely-azonosító"
+
+#: audit.py:45
+msgid "Site Domain"
+msgstr "Webhely domainje"
+
+#: audit.py:46
+msgid "Action"
+msgstr "Művelet"
+
+#: audit.py:55
+msgid "User Email"
+msgstr "Felhasználó e-mail-címe"
+
+#: audit.py:56
+msgid "IP Address"
+msgstr "IP cím"
+
+#: audit.py:60
+msgid "Previous Values"
+msgstr "Korábbi értékek"
+
+#: audit.py:61
+msgid "New Values"
+msgstr "Új értékek"
+
+#: audit.py:64
+msgid "Notes"
+msgstr "Megjegyzések"
+
+#: audit.py:67
+msgid "Site Audit Log"
+msgstr "Webhely-auditnapló"
+
+#: audit.py:68
+msgid "Site Audit Logs"
+msgstr "Webhely-auditnaplók"
+
+#: models.py:81
+msgid "The Django Site this profile extends. Each Site can have one profile."
+msgstr ""
+"A Django-webhely, amelyet ez a profil kiegészít. Minden webhelynek egy "
+"profilja lehet."
+
+#: models.py:87
+msgid ""
+"Display name shown to users. Can differ from Site.name (e.g., 'My Awesome "
+"App')."
+msgstr ""
+"A felhasználóknak megjelenített név. Eltérhet a Site.name értékétől (pl. 'My "
+"Awesome App')."
+
+#: models.py:92
+msgid ""
+"Short slogan or description (e.g., 'The best way to manage your tasks')."
+msgstr ""
+"Rövid szlogen vagy leírás (pl. 'A legjobb módja a feladatai kezelésének')."
+
+#: models.py:97
+msgid ""
+"Theme identifier used for CSS styling. Maps to DaisyUI theme or custom CSS "
+"class."
+msgstr ""
+"A CSS-stílusokhoz használt téma azonosítója. Egy DaisyUI-témának vagy egyéni "
+"CSS-osztálynak felel meg."
+
+#: models.py:103
+msgid ""
+"Template subdirectory name under templates/. If empty, defaults to first part"
+" of domain (e.g., 'mysite' for mysite.example.com). Templates here override "
+"defaults."
+msgstr ""
+"A sablonok alkönyvtárának neve a templates/ alatt. Ha üres, a domain első "
+"része lesz az alapértelmezés (pl. 'mysite' a mysite.example.com esetén). Az "
+"itt lévő sablonok felülírják az alapértelmezetteket."
+
+#: models.py:111
+msgid ""
+"Site logo image. Recommended: SVG or PNG with transparent background, min "
+"200px wide."
+msgstr ""
+"A webhely logója. Ajánlott: SVG vagy átlátszó hátterű PNG, legalább 200px "
+"széles."
+
+#: models.py:117
+msgid "Browser favicon. Recommended: 32x32 or 64x64 PNG, or ICO format."
+msgstr ""
+"Böngésző-favicon. Ajánlott: 32x32-es vagy 64x64-es PNG, illetve ICO formátum."
+
+#: models.py:122
+msgid ""
+"Primary brand color in hex format (e.g., #3B82F6). Used for buttons, links, "
+"accents."
+msgstr ""
+"Az elsődleges márkaszín hex formátumban (pl. #3B82F6). Gombokhoz, "
+"hivatkozásokhoz, kiemelésekhez használatos."
+
+#: models.py:125
+msgid "Secondary brand color in hex format. Used for hover states, etc."
+msgstr ""
+"A másodlagos márkaszín hex formátumban. Rámutatási állapotokhoz stb. "
+"használatos."
+
+#: models.py:189
+msgid ""
+"Custom CSS styles for this site. Injected inline in &lt;head&gt;. Use for "
+"color overrides, custom fonts, or site-specific tweaks."
+msgstr ""
+"Egyéni CSS-stílusok ehhez a webhelyhez. Közvetlenül a &lt;head&gt; részbe "
+"kerülnek. Színek felülírására, egyéni betűtípusokhoz vagy webhelyspecifikus "
+"finomításokhoz használja."
+
+#: models.py:198
+msgid "Default language code (ISO 639-1). Examples: en, ro, fr, de, es."
+msgstr ""
+"Az alapértelmezett nyelv kódja (ISO 639-1). Példák: en, ro, fr, de, es."
+
+#: models.py:212
+msgid ""
+"Default timezone for this site. Examples: UTC, Europe/Bucharest, "
+"America/New_York."
+msgstr ""
+"A webhely alapértelmezett időzónája. Példák: UTC, Europe/Bucharest, "
+"America/New_York."
+
+#: models.py:288
+msgid "Isolated - Each domain has its own users"
+msgstr "Elkülönített: minden domainnek saját felhasználói vannak"
+
+#: models.py:289
+msgid "Shared - Cross-domain authentication via auth domain"
+msgstr ""
+"Megosztott: domainek közötti hitelesítés a hitelesítési domainen keresztül"
+
+#: models.py:296
+msgid ""
+"<strong>Isolated:</strong> Users are separate per domain. "
+"<strong>Shared:</strong> Single sign-on across domains via a central auth "
+"domain."
+msgstr ""
+"<strong>Elkülönített:</strong> a felhasználók domainenként külön vannak. "
+"<strong>Megosztott:</strong> egyszeri bejelentkezés a domainek között egy "
+"központi hitelesítési domainen keresztül."
+
+#: models.py:307
+msgid ""
+"For shared auth mode: select the SiteProfile that handles login. Users will "
+"be redirected there to authenticate, then back with a JWT token."
+msgstr ""
+"Megosztott hitelesítési módhoz: válassza ki a bejelentkezést kezelő "
+"SiteProfile-t. A felhasználók oda lesznek átirányítva hitelesítésre, majd egy"
+" JWT-tokennel vissza."
+
+#: models.py:314
+msgid ""
+"Check this if this site is the central authentication provider. Other sites "
+"in shared mode will redirect here for login."
+msgstr ""
+"Jelölje be, ha ez a webhely a központi hitelesítésszolgáltató. A megosztott "
+"módú többi webhely ide irányít át bejelentkezéshez."
+
+#: models.py:376
+msgid "Inactive sites return 404. At least one site must remain active."
+msgstr ""
+"Az inaktív webhelyek 404-et adnak vissza. Legalább egy webhelynek aktívnak "
+"kell maradnia."
+
+#: models.py:380
+msgid ""
+"The primary/default site. Used when no domain matches. Only one site can be "
+"primary."
+msgstr ""
+"Az elsődleges/alapértelmezett webhely. Akkor használatos, ha egyik domain sem"
+" egyezik. Csak egy webhely lehet elsődleges."
+
+#: models.py:386
+msgid ""
+"Development only: access this site via path prefix (e.g., '/mysite' for "
+"localhost:8000/mysite/). Leave empty for production domain-based routing."
+msgstr ""
+"Csak fejlesztéshez: a webhely elérése útvonal-előtaggal (pl. '/mysite' a "
+"localhost:8000/mysite/ címhez). Éles, domainalapú útválasztáshoz hagyja "
+"üresen."
+
+#: models.py:393
+msgid "Site Profiles"
+msgstr "Webhelyprofilok"
+
+#: models.py:409
+msgid ""
+"Cannot deactivate the last active site. At least one site must remain active."
+msgstr ""
+"Az utolsó aktív webhely nem kapcsolható ki. Legalább egy webhelynek aktívnak "
+"kell maradnia."
+
+#: models.py:420
+msgid "Cannot unset primary. At least one site must be primary."
+msgstr ""
+"Az elsődleges jelölés nem szüntethető meg. Legalább egy webhelynek "
+"elsődlegesnek kell lennie."
+
+#: models.py:429
+#, python-format
+msgid ""
+"template_dir may contain only lowercase letters, digits, hyphens, and "
+"underscores (no dots or slashes), max %(max)d characters."
+msgstr ""
+"A template_dir csak kisbetűket, számjegyeket, kötőjeleket és aláhúzásjeleket "
+"tartalmazhat (pontot és perjelet nem), legfeljebb %(max)d karaktert."
+
+#: models.py:449
+msgid "{field_name} must be a string URL, not {type(origin).__name__}"
+msgstr ""
+"A(z) {field_name} értékének szöveges URL-nek kell lennie, nem "
+"{type(origin).__name__}"
+
+#: models.py:454
+#, python-brace-format
+msgid "{field_name}: Wildcards are not allowed for security reasons."
+msgstr ""
+"{field_name}: biztonsági okokból helyettesítő karakterek nem engedélyezettek."
+
+#: models.py:463
+#, python-brace-format
+msgid ""
+"{field_name}: '{origin}' is not a valid URL. Must include scheme "
+"(http/https)."
+msgstr ""
+"{field_name}: a(z) '{origin}' nem érvényes URL. Tartalmaznia kell a sémát "
+"(http/https)."
+
+#: models.py:468
+#, python-brace-format
+msgid "{field_name}: '{origin}' must use http or https scheme."
+msgstr "{field_name}: a(z) '{origin}' csak http vagy https sémát használhat."
+
+#: models.py:473
+#, python-brace-format
+msgid ""
+"{field_name}: '{origin}' should not include a path. Use origin only (e.g., "
+"https://example.com)."
+msgstr ""
+"{field_name}: a(z) '{origin}' nem tartalmazhat útvonalat. Csak a forrást adja"
+" meg (pl. https://example.com)."
+
+#: models.py:480
+#, python-brace-format
+msgid "{field_name}: '{origin}' is not a valid URL: {e}"
+msgstr "{field_name}: a(z) '{origin}' nem érvényes URL: {e}"
+
+#: models.py:489
+msgid "{field_name} must be a list of URLs, not {type(origins).__name__}"
+msgstr ""
+"A(z) {field_name} értékének URL-ek listájának kell lennie, nem "
+"{type(origins).__name__}"
+
+#: models.py:715
+msgid "Admin"
+msgstr "Adminisztráció"
+
+#: models.py:716
+msgid "Viewer"
+msgstr "Megtekintő"
+
+#: models.py:722
+msgid "The site this membership belongs to."
+msgstr "A webhely, amelyhez ez a tagság tartozik."
+
+#: models.py:728
+msgid "The user who has access to this site."
+msgstr "A felhasználó, aki hozzáfér ehhez a webhelyhez."
+
+#: models.py:734
+msgid "User's role on this site. Admin has full access, Viewer is read-only."
+msgstr ""
+"A felhasználó szerepköre ezen a webhelyen. Az adminisztrátor teljes "
+"hozzáféréssel rendelkezik, a megtekintő csak olvashat."
+
+#: models.py:738
+msgid "If true, this user is the site owner and cannot be removed."
+msgstr ""
+"Ha be van jelölve, ez a felhasználó a webhely tulajdonosa, és nem távolítható"
+" el."
+
+#: models.py:742
+msgid "Site Member"
+msgstr "Webhelytag"
+
+#: models.py:743
+msgid "Site Members"
+msgstr "Webhelytagok"
+
+#: models.py:759
+msgid "Cannot remove owner status. Transfer ownership first."
+msgstr ""
+"A tulajdonosi státusz nem vonható vissza. Először ruházza át a tulajdonjogot."
+
+#: models.py:761
+msgid "Site owner must be an admin."
+msgstr "A webhely tulajdonosának adminisztrátornak kell lennie."

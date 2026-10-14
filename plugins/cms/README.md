@@ -248,5 +248,6 @@ safelist manually.
   Templates as a starting point.
 - **Submissions rejected with 429**: rate limit hit - raise
   `CMS_RATE_LIMIT_*` or add your IP to `CMS_EXEMPT_IPS` while testing.
-- **i18n**: templates and models are `gettext`-wrapped; only the `en` catalog
-  ships. Run `manage.py compilemessages` (optional) after adding translations.
+- **i18n**: templates and models are `gettext`-wrapped; the `en` template catalog
+  ships, plus complete Romanian (`ro`) and Hungarian (`hu`) catalogs with their
+  compiled `.mo`. Run `manage.py compilemessages` after adding other translations.

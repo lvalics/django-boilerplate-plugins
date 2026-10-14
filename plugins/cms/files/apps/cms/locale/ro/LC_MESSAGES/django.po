@@ -1,0 +1,1063 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: admin.py:63
+msgid "Blog / content"
+msgstr "Blog / conținut"
+
+#: admin.py:70
+msgid "SEO"
+msgstr "SEO"
+
+#: admin.py:77
+msgid "Settings"
+msgstr "Setări"
+
+#: admin.py:81
+msgid "Tracking"
+msgstr "Urmărire"
+
+#: admin.py:89
+msgid "Zones"
+msgstr "Zone"
+
+#: admin.py:96
+msgid "Actions"
+msgstr "Acțiuni"
+
+#: admin.py:102
+msgid "View page"
+msgstr "Vezi pagina"
+
+#: admin.py:109
+msgid "Duplicate selected pages"
+msgstr "Duplică paginile selectate"
+
+#: admin.py:126
+#, python-format
+msgid "%(count)d page(s) duplicated (inactive)."
+msgstr "%(count)d pagină(i) duplicată(e) (inactive)."
+
+#: admin.py:148
+msgid "Zone Description"
+msgstr "Descrierea zonei"
+
+#: admin.py:152
+msgid "Help text describing this zone's expected content structure."
+msgstr ""
+"Text de ajutor care descrie structura de conținut așteptată a acestei zone."
+
+#: admin.py:156
+msgid "Content"
+msgstr "Conținut"
+
+#: admin.py:165 admin.py:179 models/testimonials.py:68
+msgid "Testimonial"
+msgstr "Testimonial"
+
+#: admin.py:169
+msgid "Advanced"
+msgstr "Avansat"
+
+#: admin.py:184
+msgid "Duplicate selected zones (inactive)"
+msgstr "Duplică zonele selectate (inactive)"
+
+#: admin.py:201
+#, python-format
+msgid "%(count)d zone(s) duplicated (inactive)."
+msgstr "%(count)d zonă(e) duplicată(e) (inactive)."
+
+#: admin.py:204
+msgid "Delete inactive zones only"
+msgstr "Șterge doar zonele inactive"
+
+#: admin.py:214
+#, python-format
+msgid "%(count)d inactive zone(s) deleted."
+msgstr "%(count)d zonă(e) inactivă(e) ștearsă(e)."
+
+#: admin.py:218
+#, python-format
+msgid "%(count)d active zone(s) were skipped. Deactivate first."
+msgstr "%(count)d zonă(e) activă(e) au fost omise. Dezactivați-le mai întâi."
+
+#: admin.py:233
+msgid "Rating & Verification"
+msgstr "Evaluare și verificare"
+
+#: admin.py:235
+msgid "Media"
+msgstr "Media"
+
+#: admin.py:242
+msgid "Schema"
+msgstr "Schema"
+
+#: admin.py:263
+msgid "Default Content & Config"
+msgstr "Conținut și configurație implicite"
+
+#: admin.py:303
+msgid "Source"
+msgstr "Sursă"
+
+#: admin.py:304 admin.py:312
+msgid "Form Data"
+msgstr "Datele formularului"
+
+#: admin.py:305 admin.py:317
+msgid "Uploaded Files"
+msgstr "Fișiere încărcate"
+
+#: admin.py:306
+msgid "Timestamps"
+msgstr "Date și ore"
+
+#: admin.py:322
+msgid "Mark selected submissions as seen"
+msgstr "Marchează trimiterile selectate ca văzute"
+
+#: admin.py:327
+#, python-format
+msgid "Marked %(count)d submission(s) as seen."
+msgstr "%(count)d trimitere(i) marcată(e) ca văzută(e)."
+
+#: admin.py:329
+msgid "Mark selected submissions as processed"
+msgstr "Marchează trimiterile selectate ca procesate"
+
+#: admin.py:334
+#, python-format
+msgid "Marked %(count)d submission(s) as processed."
+msgstr "%(count)d trimitere(i) marcată(e) ca procesată(e)."
+
+#: admin.py:336
+msgid "Mark selected submissions as spam"
+msgstr "Marchează trimiterile selectate ca spam"
+
+#: admin.py:341
+#, python-format
+msgid "Marked %(count)d submission(s) as spam."
+msgstr "%(count)d trimitere(i) marcată(e) ca spam."
+
+#: email_utils.py:336 email_utils.py:343
+msgid "Email address is required."
+msgstr "Adresa de e-mail este obligatorie."
+
+#: email_utils.py:347
+msgid "Email address cannot contain spaces."
+msgstr "Adresa de e-mail nu poate conține spații."
+
+#: email_utils.py:350
+msgid "Email address must contain @."
+msgstr "Adresa de e-mail trebuie să conțină @."
+
+#: email_utils.py:354
+msgid "Email address is not valid (too many @)."
+msgstr "Adresa de e-mail nu este validă (prea multe @)."
+
+#: email_utils.py:360
+msgid "Email address is not valid (missing local part)."
+msgstr "Adresa de e-mail nu este validă (lipsește partea locală)."
+
+#: email_utils.py:363
+msgid "Email address is not valid (missing domain)."
+msgstr "Adresa de e-mail nu este validă (lipsește domeniul)."
+
+#: email_utils.py:367
+msgid "Email domain is not valid (missing .com/.org etc)."
+msgstr "Domeniul adresei de e-mail nu este valid (lipsește .com/.org etc.)."
+
+#: email_utils.py:371
+msgid "Email domain is not valid."
+msgstr "Domeniul adresei de e-mail nu este valid."
+
+#: email_utils.py:377
+msgid "Disposable email addresses are not allowed."
+msgstr "Adresele de e-mail temporare nu sunt permise."
+
+#: email_utils.py:384
+msgid ""
+"Please use a personal email address, not a role-based one (e.g., info@, "
+"admin@, support@)."
+msgstr ""
+"Vă rugăm să folosiți o adresă de e-mail personală, nu una generică (de ex. "
+"info@, admin@, support@)."
+
+#: email_utils.py:416 email_utils.py:527
+msgid "Email address is not valid."
+msgstr "Adresa de e-mail nu este validă."
+
+#: email_utils.py:509 email_utils.py:520
+#, python-format
+msgid "Did you mean %(suggested)s instead of %(domain)s?"
+msgstr "Ați vrut să scrieți %(suggested)s în loc de %(domain)s?"
+
+#: forms.py:13
+msgid "Email"
+msgstr "E-mail"
+
+#: forms.py:14
+msgid "Your email"
+msgstr "Adresa dumneavoastră de e-mail"
+
+#: forms.py:18
+msgid "Name"
+msgstr "Nume"
+
+#: forms.py:20
+msgid "Your name"
+msgstr "Numele dumneavoastră"
+
+#: forms.py:36
+msgid "Upload file"
+msgstr "Încărcați fișierul"
+
+#: forms.py:55
+#, python-format
+msgid "File size exceeds maximum allowed (%(max)s MB)."
+msgstr "Dimensiunea fișierului depășește maximul permis (%(max)s MB)."
+
+#: forms.py:61
+#, python-format
+msgid "File type not allowed. Allowed types: %(types)s"
+msgstr "Tipul de fișier nu este permis. Tipuri permise: %(types)s"
+
+#: models/pages.py:24
+msgid "Landing page"
+msgstr "Pagină de prezentare"
+
+#: models/pages.py:25
+msgid "Content page"
+msgstr "Pagină de conținut"
+
+#: models/pages.py:26
+msgid "Blog post"
+msgstr "Articol de blog"
+
+#: models/pages.py:55
+msgid "Hero with Video"
+msgstr "Hero cu video"
+
+#: models/pages.py:56
+msgid "Single Testimonial"
+msgstr "Testimonial unic"
+
+#: models/pages.py:57
+msgid "Benefits Grid"
+msgstr "Grilă de beneficii"
+
+#: models/pages.py:58
+msgid "Social Proof CTA"
+msgstr "CTA cu dovezi sociale"
+
+#: models/pages.py:59
+msgid "Curriculum/Outline"
+msgstr "Programă/Structură"
+
+#: models/pages.py:60
+msgid "Testimonials Grid"
+msgstr "Grilă de testimoniale"
+
+#: models/pages.py:61
+msgid "Pricing Section"
+msgstr "Secțiune de prețuri"
+
+#: models/pages.py:62
+msgid "About Instructor"
+msgstr "Despre instructor"
+
+#: models/pages.py:63
+msgid "Guarantee Section"
+msgstr "Secțiune de garanție"
+
+#: models/pages.py:64
+msgid "FAQ Section"
+msgstr "Secțiune de întrebări frecvente"
+
+#: models/pages.py:65
+msgid "Final CTA"
+msgstr "CTA final"
+
+#: models/pages.py:66
+msgid "Order Form"
+msgstr "Formular de comandă"
+
+#: models/pages.py:67
+msgid "Carousel"
+msgstr "Carusel"
+
+#: models/pages.py:68
+msgid "Comparison Slider"
+msgstr "Glisor de comparație"
+
+#: models/pages.py:69
+msgid "Gallery"
+msgstr "Galerie"
+
+#: models/pages.py:70
+msgid "Jumbotron"
+msgstr "Jumbotron"
+
+#: models/pages.py:71 templates/cms/zones/qr_code.html:37
+#: templates/cms/zones/qr_code.html:62 templates/cms/zones/qr_code.html:96
+msgid "QR Code"
+msgstr "Cod QR"
+
+#: models/pages.py:72
+msgid "Table"
+msgstr "Tabel"
+
+#: models/pages.py:73
+msgid "Timeline"
+msgstr "Cronologie"
+
+#: models/pages.py:74
+msgid "Video"
+msgstr "Video"
+
+#: models/pages.py:75
+msgid "Redirect"
+msgstr "Redirecționare"
+
+#: models/pages.py:76
+msgid "Showcase"
+msgstr "Prezentare"
+
+#: models/pages.py:77
+msgid "Banner"
+msgstr "Banner"
+
+#: models/pages.py:78
+msgid "Footer"
+msgstr "Subsol"
+
+#: models/pages.py:141
+msgid "Internal title for this page."
+msgstr "Titlul intern al acestei pagini."
+
+#: models/pages.py:145
+msgid ""
+"URL-friendly identifier. Must be unique per site (and unique among all-sites "
+"pages)."
+msgstr ""
+"Identificator potrivit pentru URL. Trebuie să fie unic pe site (și unic "
+"printre paginile pentru toate site-urile)."
+
+#: models/pages.py:153
+msgid "Type of page: landing, content, or blog post."
+msgstr "Tipul paginii: de prezentare, de conținut sau articol de blog."
+
+#: models/pages.py:163
+msgid "Author of this page (used for blog posts)."
+msgstr "Autorul acestei pagini (folosit pentru articolele de blog)."
+
+#: models/pages.py:169
+msgid "Publication date (used for blog post ordering and scheduling)."
+msgstr ""
+"Data publicării (folosită pentru ordonarea și programarea articolelor de "
+"blog)."
+
+#: models/pages.py:174
+msgid "Short summary used in listings and SEO fallbacks."
+msgstr "Rezumat scurt folosit în liste și ca alternativă pentru SEO."
+
+#: models/pages.py:182
+msgid "Primary category for this page."
+msgstr "Categoria principală a acestei pagini."
+
+#: models/pages.py:188
+msgid "Tags associated with this page."
+msgstr "Etichetele asociate acestei pagini."
+
+#: models/pages.py:199
+msgid ""
+"The site this landing page belongs to. Leave empty to show on all sites."
+msgstr ""
+"Site-ul căruia îi aparține această pagină de prezentare. Lăsați gol pentru "
+"afișare pe toate site-urile."
+
+#: models/pages.py:206
+msgid "SEO title (max 70 chars). Defaults to title if empty."
+msgstr ""
+"Titlu SEO (maximum 70 de caractere). Dacă este gol, se folosește titlul."
+
+#: models/pages.py:211
+msgid "SEO description (max 160 chars)."
+msgstr "Descriere SEO (maximum 160 de caractere)."
+
+#: models/pages.py:215
+msgid "Canonical URL if different from page URL."
+msgstr "URL canonic, dacă diferă de URL-ul paginii."
+
+#: models/pages.py:221
+msgid "Use the site's base template. Uncheck for standalone pages."
+msgstr ""
+"Folosește șablonul de bază al site-ului. Debifați pentru pagini de sine "
+"stătătoare."
+
+#: models/pages.py:227
+msgid "Inactive pages return 404."
+msgstr "Paginile inactive returnează 404."
+
+#: models/pages.py:231
+msgid "Disable form submissions on this page."
+msgstr "Dezactivează trimiterea formularelor pe această pagină."
+
+#: models/pages.py:241
+msgid "User who created this page."
+msgstr "Utilizatorul care a creat această pagină."
+
+#: models/pages.py:247
+msgid "Page"
+msgstr "Pagină"
+
+#: models/pages.py:248
+msgid "Pages"
+msgstr "Pagini"
+
+#: models/pages.py:277
+#, python-format
+msgid ""
+"\"%(slug)s\" is a reserved URL path and would conflict with an existing "
+"route. Choose a different slug (see CMS_RESERVED_SLUGS)."
+msgstr ""
+"\"%(slug)s\" este o cale URL rezervată și ar intra în conflict cu o rută "
+"existentă. Alegeți alt slug (vedeți CMS_RESERVED_SLUGS)."
+
+#: models/pages.py:289
+#, python-format
+msgid "\"%(slug)s\" is a reserved URL path (see CMS_RESERVED_SLUGS)."
+msgstr "\"%(slug)s\" este o cale URL rezervată (vedeți CMS_RESERVED_SLUGS)."
+
+#: models/pages.py:350
+msgid "The landing page this zone belongs to."
+msgstr "Pagina de prezentare căreia îi aparține această zonă."
+
+#: models/pages.py:357
+msgid "Type of zone determines the template used."
+msgstr "Tipul zonei determină șablonul folosit."
+
+#: models/pages.py:363
+msgid ""
+"Short title for this zone (max 100 chars). Shown in admin listings for easy "
+"identification."
+msgstr ""
+"Titlu scurt pentru această zonă (maximum 100 de caractere). Apare în listele "
+"din administrare, pentru identificare ușoară."
+
+#: models/pages.py:368
+msgid ""
+"Help text and documentation for this zone. Describes expected content "
+"structure."
+msgstr ""
+"Text de ajutor și documentație pentru această zonă. Descrie structura de "
+"conținut așteptată."
+
+#: models/pages.py:373
+msgid "Display order (lower numbers first)."
+msgstr "Ordinea de afișare (numerele mai mici primele)."
+
+#: models/pages.py:380
+msgid "Zone content (text, images, etc.) as JSON."
+msgstr "Conținutul zonei (text, imagini etc.) în format JSON."
+
+#: models/pages.py:385
+msgid "Zone configuration (styling, behavior) as JSON."
+msgstr "Configurația zonei (stil, comportament) în format JSON."
+
+#: models/pages.py:392
+msgid ""
+"Custom template path. Must match \"cms/zones/<name>.html\". Leave empty for "
+"default."
+msgstr ""
+"Calea șablonului personalizat. Trebuie să corespundă formei "
+"\"cms/zones/<name>.html\". Lăsați gol pentru cel implicit."
+
+#: models/pages.py:402
+msgid "Linked testimonial for testimonial zone types."
+msgstr "Testimonialul asociat, pentru tipurile de zonă cu testimoniale."
+
+#: models/pages.py:407
+msgid "Inactive zones are not rendered."
+msgstr "Zonele inactive nu sunt afișate."
+
+#: models/pages.py:411
+msgid "Landing Page Zone"
+msgstr "Zonă a paginii de prezentare"
+
+#: models/pages.py:412
+msgid "Landing Page Zones"
+msgstr "Zonele paginilor de prezentare"
+
+#: models/pages.py:433
+msgid ""
+"Only one Order Form zone is allowed per landing page. This page already has "
+"an Order Form zone."
+msgstr ""
+"Este permisă o singură zonă Formular de comandă pe pagina de prezentare. "
+"Această pagină are deja o zonă Formular de comandă."
+
+#: models/pages.py:441
+msgid ""
+"Custom templates must match \"cms/zones/<name>.html\" (lowercase letters, "
+"digits, hyphens, underscores)."
+msgstr ""
+"Șabloanele personalizate trebuie să corespundă formei "
+"\"cms/zones/<name>.html\" (litere mici, cifre, cratime, caractere de "
+"subliniere)."
+
+#: models/pages.py:451
+msgid "Zone content must be a JSON object."
+msgstr "Conținutul zonei trebuie să fie un obiect JSON."
+
+#: models/pages.py:456
+#, python-format
+msgid "Zone type \"%(zone_type)s\" requires the content key(s): %(keys)s."
+msgstr ""
+"Tipul de zonă \"%(zone_type)s\" necesită cheia (cheile) de conținut: "
+"%(keys)s."
+
+#: models/site_settings.py:18
+msgid "The site these settings apply to."
+msgstr "Site-ul căruia i se aplică aceste setări."
+
+#: models/site_settings.py:23
+msgid "Enable landing pages for this site."
+msgstr "Activează paginile de prezentare pentru acest site."
+
+#: models/site_settings.py:28
+msgid "Cache timeout in seconds (default: 5 minutes)."
+msgstr "Durata cache-ului în secunde (implicit: 5 minute)."
+
+#: models/site_settings.py:32 models/site_settings.py:33
+msgid "CMS Settings"
+msgstr "Setări CMS"
+
+#: models/submissions.py:14
+msgid "New"
+msgstr "Nouă"
+
+#: models/submissions.py:15
+msgid "Seen"
+msgstr "Văzută"
+
+#: models/submissions.py:16
+msgid "Processed"
+msgstr "Procesată"
+
+#: models/submissions.py:17
+msgid "Spam"
+msgstr "Spam"
+
+#: models/submissions.py:32
+msgid "Landing page that generated this submission."
+msgstr "Pagina de prezentare care a generat această trimitere."
+
+#: models/submissions.py:40
+msgid "The ORDER_FORM zone that created this submission."
+msgstr "Zona ORDER_FORM care a creat această trimitere."
+
+#: models/submissions.py:45
+msgid "Visitor email (validated and normalized)."
+msgstr "Adresa de e-mail a vizitatorului (validată și normalizată)."
+
+#: models/submissions.py:50
+msgid "Visitor name."
+msgstr "Numele vizitatorului."
+
+#: models/submissions.py:55
+msgid "Visitor phone number."
+msgstr "Numărul de telefon al vizitatorului."
+
+#: models/submissions.py:60
+msgid "Sanitized form data as JSON."
+msgstr "Datele formularului, curățate, în format JSON."
+
+#: models/submissions.py:65
+msgid ""
+"Uploaded files as a list of storage paths (with field name and original "
+"filename)."
+msgstr ""
+"Fișierele încărcate, ca listă de căi de stocare (cu numele câmpului și numele"
+" original al fișierului)."
+
+#: models/submissions.py:73
+msgid "Triage status."
+msgstr "Starea de triere."
+
+#: models/submissions.py:78
+msgid "Client IP at submission time (proxy-aware)."
+msgstr "IP-ul clientului la momentul trimiterii (ținând cont de proxy)."
+
+#: models/submissions.py:82
+msgid "Landing Page Submission"
+msgstr "Trimitere de pe pagina de prezentare"
+
+#: models/submissions.py:83
+msgid "Landing Page Submissions"
+msgstr "Trimiteri de pe paginile de prezentare"
+
+#: models/taxonomy.py:20
+msgid "The site this category belongs to. Leave empty for all sites."
+msgstr ""
+"Site-ul căruia îi aparține această categorie. Lăsați gol pentru toate site-"
+"urile."
+
+#: models/taxonomy.py:35
+msgid "Category"
+msgstr "Categorie"
+
+#: models/taxonomy.py:36
+msgid "Categories"
+msgstr "Categorii"
+
+#: models/taxonomy.py:55
+msgid "Category cannot be its own ancestor."
+msgstr "O categorie nu poate fi propriul ei strămoș."
+
+#: models/taxonomy.py:69
+msgid "The site this tag belongs to. Leave empty for all sites."
+msgstr ""
+"Site-ul căruia îi aparține această etichetă. Lăsați gol pentru toate site-"
+"urile."
+
+#: models/taxonomy.py:76
+msgid "Tag"
+msgstr "Etichetă"
+
+#: models/taxonomy.py:77
+msgid "Tags"
+msgstr "Etichete"
+
+#: models/testimonials.py:18
+msgid "The testimonial content."
+msgstr "Conținutul testimonialului."
+
+#: models/testimonials.py:22
+msgid "Name of the person giving the testimonial."
+msgstr "Numele persoanei care oferă testimonialul."
+
+#: models/testimonials.py:27
+msgid "Title or role (e.g., 'CEO at Company')."
+msgstr "Titlu sau rol (de ex. 'CEO la Companie')."
+
+#: models/testimonials.py:33
+msgid "Photo of the testimonial author."
+msgstr "Fotografia autorului testimonialului."
+
+#: models/testimonials.py:39
+msgid "Rating from 1-5 stars."
+msgstr "Evaluare de la 1 la 5 stele."
+
+#: models/testimonials.py:45
+msgid "Verified customer testimonial."
+msgstr "Testimonial al unui client verificat."
+
+#: models/testimonials.py:51
+msgid "URL to video testimonial (YouTube, Vimeo, etc.)."
+msgstr "URL către testimonialul video (YouTube, Vimeo etc.)."
+
+#: models/testimonials.py:57
+msgid "Screenshot or proof image."
+msgstr "Captură de ecran sau imagine doveditoare."
+
+#: models/testimonials.py:64
+msgid "Auto-generated Schema.org Review markup."
+msgstr "Marcaj Schema.org Review generat automat."
+
+#: models/testimonials.py:69
+msgid "Testimonials"
+msgstr "Testimoniale"
+
+#: models/zone_templates.py:22
+msgid "Template name for easy identification."
+msgstr "Numele șablonului, pentru identificare ușoară."
+
+#: models/zone_templates.py:28
+msgid "Zone type this template applies to."
+msgstr "Tipul de zonă căruia i se aplică acest șablon."
+
+#: models/zone_templates.py:32
+msgid "Description of what this template provides."
+msgstr "Descrierea a ceea ce oferă acest șablon."
+
+#: models/zone_templates.py:39
+msgid "Default content JSON for this template."
+msgstr "Conținutul JSON implicit pentru acest șablon."
+
+#: models/zone_templates.py:44
+msgid "Default configuration JSON for this template."
+msgstr "Configurația JSON implicită pentru acest șablon."
+
+#: models/zone_templates.py:51
+msgid "Custom template file path."
+msgstr "Calea fișierului de șablon personalizat."
+
+#: models/zone_templates.py:59
+msgid "Static file path to preview image (e.g., images/cms/template-name.png)."
+msgstr ""
+"Calea fișierului static al imaginii de previzualizare (de ex. "
+"images/cms/template-name.png)."
+
+#: models/zone_templates.py:64
+msgid "Inactive templates are not available for selection."
+msgstr "Șabloanele inactive nu sunt disponibile pentru selecție."
+
+#: models/zone_templates.py:76
+msgid "Zone Template"
+msgstr "Șablon de zonă"
+
+#: models/zone_templates.py:77
+msgid "Zone Templates"
+msgstr "Șabloane de zonă"
+
+#: templates/cms/blog/detail.html:11 templates/cms/blog/list.html:12
+msgid "Blog"
+msgstr "Blog"
+
+#: templates/cms/blog/detail.html:20
+msgid "by"
+msgstr "de"
+
+#: templates/cms/blog/detail.html:31
+msgid "This post has no content yet."
+msgstr "Acest articol nu are încă conținut."
+
+#: templates/cms/blog/detail.html:46
+msgid "Related posts"
+msgstr "Articole similare"
+
+#: templates/cms/blog/list.html:47
+msgid "No posts yet."
+msgstr "Încă nu există articole."
+
+#: templates/cms/content_page.html:18
+msgid "No content yet."
+msgstr "Încă nu există conținut."
+
+#: templates/cms/landing_page.html:26
+#: templates/cms/landing_page_standalone.html:41
+msgid "No content available for this page."
+msgstr "Nu există conținut disponibil pentru această pagină."
+
+#: templates/cms/zones/banner.html:64 templates/cms/zones/banner.html:107
+#: templates/cms/zones/banner.html:165
+msgid "Dismiss"
+msgstr "Închide"
+
+#: templates/cms/zones/benefits_grid.html:126
+#: templates/cms/zones/timeline.html:91
+msgid "Learn more"
+msgstr "Aflați mai multe"
+
+#: templates/cms/zones/carousel.html:50
+msgid "Slide image"
+msgstr "Imaginea diapozitivului"
+
+#: templates/cms/zones/carousel.html:235
+msgid "Previous"
+msgstr "Anterior"
+
+#: templates/cms/zones/carousel.html:245
+msgid "Next"
+msgstr "Următor"
+
+#: templates/cms/zones/carousel.html:388
+msgid "Enlarged image"
+msgstr "Imagine mărită"
+
+#: templates/cms/zones/comparison.html:53
+msgid "Comparison slider"
+msgstr "Glisor de comparație"
+
+#: templates/cms/zones/comparison.html:60
+msgid "Before"
+msgstr "Înainte"
+
+#: templates/cms/zones/comparison.html:61
+msgid "After"
+msgstr "După"
+
+#: templates/cms/zones/curriculum.html:68
+#: templates/cms/zones/curriculum.html:144
+#, python-format
+msgid "%(count)s lessons"
+msgstr "%(count)s lecții"
+
+#: templates/cms/zones/footer.html:19 templates/cms/zones/footer.html:44
+#: templates/cms/zones/footer.html:99 templates/cms/zones/footer.html:163
+msgid "All Rights Reserved."
+msgstr "Toate drepturile rezervate."
+
+#: templates/cms/zones/gallery.html:27 templates/cms/zones/gallery.html:51
+#: templates/cms/zones/gallery.html:65 templates/cms/zones/gallery.html:81
+#: templates/cms/zones/gallery.html:153 templates/cms/zones/gallery.html:228
+#: templates/cms/zones/gallery.html:280 templates/cms/zones/gallery.html:339
+msgid "Gallery image"
+msgstr "Imagine din galerie"
+
+#: templates/cms/zones/gallery.html:44
+msgid "Featured image"
+msgstr "Imagine reprezentativă"
+
+#: templates/cms/zones/gallery.html:213
+msgid "All"
+msgstr "Toate"
+
+#: templates/cms/zones/guarantee.html:121
+msgid "Day"
+msgstr "Zile"
+
+#: templates/cms/zones/guarantee.html:122
+msgid "Guarantee"
+msgstr "Garanție"
+
+#: templates/cms/zones/hero_video.html:26
+msgid "Hero background"
+msgstr "Fundalul secțiunii hero"
+
+#: templates/cms/zones/hero_video.html:155
+msgid "Hero image"
+msgstr "Imaginea secțiunii hero"
+
+#: templates/cms/zones/jumbotron.html:199
+#: templates/cms/zones/order_form.html:297
+#: templates/cms/zones/order_form_floating.html:340
+msgid "Submit"
+msgstr "Trimite"
+
+#: templates/cms/zones/jumbotron.html:247
+msgid "Search..."
+msgstr "Căutare..."
+
+#: templates/cms/zones/jumbotron.html:254
+msgid "Search"
+msgstr "Caută"
+
+#: templates/cms/zones/jumbotron.html:264
+msgid "Enter your email"
+msgstr "Introduceți adresa de e-mail"
+
+#: templates/cms/zones/jumbotron.html:267
+msgid "Subscribe"
+msgstr "Abonare"
+
+#: templates/cms/zones/jumbotron.html:355
+msgid "Read more"
+msgstr "Citiți mai mult"
+
+#: templates/cms/zones/order_form.html:34
+#: templates/cms/zones/order_form_floating.html:32
+msgid "Leave this field empty"
+msgstr "Lăsați acest câmp gol"
+
+#: templates/cms/zones/order_form.html:187
+#: templates/cms/zones/order_form.html:233
+#: templates/cms/zones/order_form_floating.html:214
+#: templates/cms/zones/order_form_floating.html:263
+msgid "Click to upload"
+msgstr "Faceți clic pentru a încărca"
+
+#: templates/cms/zones/order_form.html:187
+#: templates/cms/zones/order_form.html:233
+#: templates/cms/zones/order_form_floating.html:214
+#: templates/cms/zones/order_form_floating.html:263
+msgid "or drag and drop"
+msgstr "sau trageți și plasați"
+
+#: templates/cms/zones/order_form.html:190
+#: templates/cms/zones/order_form_floating.html:217
+msgid "Any file"
+msgstr "Orice fișier"
+
+#: templates/cms/zones/order_form.html:190
+#: templates/cms/zones/order_form_floating.html:217
+#, python-format
+msgid "max %(max_size)sMB"
+msgstr "maximum %(max_size)sMB"
+
+#: templates/cms/zones/order_form.html:198
+#: templates/cms/zones/order_form.html:244
+#: templates/cms/zones/order_form_floating.html:225
+#: templates/cms/zones/order_form_floating.html:274
+msgid "Image cropping opens automatically • Hover to re-crop"
+msgstr ""
+"Decuparea imaginii se deschide automat • Treceți cursorul pentru a decupa din"
+" nou"
+
+#: templates/cms/zones/order_form.html:236
+#: templates/cms/zones/order_form_floating.html:266
+msgid "Any files"
+msgstr "Orice fișiere"
+
+#: templates/cms/zones/order_form.html:236
+#: templates/cms/zones/order_form_floating.html:266
+#, python-format
+msgid "max %(max_files)s files, %(max_size)sMB each"
+msgstr "maximum %(max_files)s fișiere, câte %(max_size)sMB fiecare"
+
+#: templates/cms/zones/order_form.html:317
+#: templates/cms/zones/order_form_floating.html:359
+msgid "Sending..."
+msgstr "Se trimite..."
+
+#: templates/cms/zones/order_form.html:318
+#: templates/cms/zones/order_form_floating.html:360
+msgid "Thank you! Your submission has been received."
+msgstr "Vă mulțumim! Am primit mesajul dumneavoastră."
+
+#: templates/cms/zones/order_form.html:319
+#: templates/cms/zones/order_form_floating.html:361
+msgid "Something went wrong. Please try again."
+msgstr "Ceva nu a funcționat. Vă rugăm să încercați din nou."
+
+#: templates/cms/zones/order_form.html:373
+#: templates/cms/zones/order_form_floating.html:499
+#, python-brace-format
+msgid "Maximum {count} files allowed"
+msgstr "Sunt permise maximum {count} fișiere"
+
+#: templates/cms/zones/order_form.html:374
+#: templates/cms/zones/order_form_floating.html:500
+#, python-brace-format
+msgid "File type not allowed: {name}"
+msgstr "Tip de fișier nepermis: {name}"
+
+#: templates/cms/zones/order_form.html:375
+#: templates/cms/zones/order_form_floating.html:501
+#, python-brace-format
+msgid "File too large: {name}. Maximum size is {size}MB"
+msgstr "Fișier prea mare: {name}. Dimensiunea maximă este {size}MB"
+
+#: templates/cms/zones/order_form.html:376
+#: templates/cms/zones/order_form_floating.html:502
+msgid "Crop Image"
+msgstr "Decupează imaginea"
+
+#: templates/cms/zones/order_form.html:377
+#: templates/cms/zones/order_form_floating.html:503
+msgid "Cancel"
+msgstr "Anulează"
+
+#: templates/cms/zones/order_form.html:378
+#: templates/cms/zones/order_form_floating.html:504
+msgid "Apply Crop"
+msgstr "Aplică decuparea"
+
+#: templates/cms/zones/order_form.html:379
+#: templates/cms/zones/order_form_floating.html:505
+msgid "Crop"
+msgstr "Decupează"
+
+#: templates/cms/zones/order_form.html:380
+#: templates/cms/zones/order_form_floating.html:506
+msgid "Remove"
+msgstr "Elimină"
+
+#: templates/cms/zones/order_form_floating.html:362
+msgid "This field is required"
+msgstr "Acest câmp este obligatoriu"
+
+#: templates/cms/zones/order_form_floating.html:363
+msgid "Please enter a valid email address"
+msgstr "Vă rugăm să introduceți o adresă de e-mail validă"
+
+#: templates/cms/zones/order_form_floating.html:364
+msgid "Please enter a valid URL"
+msgstr "Vă rugăm să introduceți un URL valid"
+
+#: templates/cms/zones/order_form_floating.html:365
+msgid "Please enter a valid number"
+msgstr "Vă rugăm să introduceți un număr valid"
+
+#: templates/cms/zones/order_form_floating.html:366
+msgid "Please match the requested format"
+msgstr "Vă rugăm să respectați formatul cerut"
+
+#: templates/cms/zones/order_form_floating.html:367
+#, python-brace-format
+msgid "Please enter at least {min} characters"
+msgstr "Vă rugăm să introduceți cel puțin {min} caractere"
+
+#: templates/cms/zones/order_form_floating.html:368
+#, python-brace-format
+msgid "Please enter no more than {max} characters"
+msgstr "Vă rugăm să introduceți cel mult {max} caractere"
+
+#: templates/cms/zones/pricing.html:35
+msgid "Monthly"
+msgstr "Lunar"
+
+#: templates/cms/zones/pricing.html:37
+msgid "Annual"
+msgstr "Anual"
+
+#: templates/cms/zones/pricing.html:57
+msgid "Most Popular"
+msgstr "Cel mai popular"
+
+#: templates/cms/zones/pricing.html:79 templates/cms/zones/pricing.html:140
+#: templates/cms/zones/pricing.html:190 templates/cms/zones/pricing.html:243
+msgid "mo"
+msgstr "lună"
+
+#: templates/cms/zones/pricing.html:87 templates/cms/zones/pricing.html:145
+#: templates/cms/zones/pricing.html:195 templates/cms/zones/pricing.html:251
+msgid "yr"
+msgstr "an"
+
+#: templates/cms/zones/redirect.html:15 templates/cms/zones/redirect.html:29
+msgid "Redirecting..."
+msgstr "Redirecționare..."
+
+#: templates/cms/zones/redirect.html:61
+msgid "Redirecting in"
+msgstr "Redirecționare în"
+
+#: templates/cms/zones/redirect.html:61
+msgid "seconds..."
+msgstr "secunde..."
+
+#: templates/cms/zones/redirect.html:66
+msgid "Click here if not redirected automatically"
+msgstr "Faceți clic aici dacă nu sunteți redirecționat automat"
+
+#: templates/cms/zones/social_proof_cta.html:91
+msgid "Partner logo"
+msgstr "Logo partener"
+
+#: templates/cms/zones/testimonial_single.html:109
+#: templates/cms/zones/testimonials_grid.html:85
+msgid "Verified"
+msgstr "Verificată"
+
+#: templates/cms/zones/testimonial_single.html:152
+msgid "Verified Customer"
+msgstr "Client verificat"
+
+#: templates/cms/zones/testimonials_grid.html:187
+msgid "at"
+msgstr "la"
+
+#: templates/cms/zones/video.html:62
+msgid "Your browser does not support the video tag."
+msgstr "Browserul dumneavoastră nu acceptă elementul video."

@@ -1,0 +1,1312 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-14 19:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin/firewall_admin.py:18 models/firewall.py:81
+msgid "Firewall Configuration"
+msgstr "Tűzfal-konfiguráció"
+
+#: admin/firewall_admin.py:20
+msgid ""
+"Configure external firewall providers to <strong>automatically block "
+"malicious IPs</strong>. Supported providers: <strong>Cloudflare</strong> "
+"(recommended), <strong>AWS WAF</strong>, <strong>Nginx</strong>, and "
+"<strong>iptables</strong>. Set one configuration as default for auto-"
+"blocking. See JSON examples below for each provider's required credentials. "
+"<strong>Note:</strong> Credentials are encrypted at rest."
+msgstr ""
+"Állítson be külső tűzfal-szolgáltatókat a <strong>rosszindulatú IP-címek "
+"automatikus tiltásához</strong>. Támogatott szolgáltatók: "
+"<strong>Cloudflare</strong> (ajánlott), <strong>AWS WAF</strong>, "
+"<strong>Nginx</strong> és <strong>iptables</strong>. Egy konfigurációt "
+"állítson be alapértelmezettként az automatikus tiltáshoz. Az egyes "
+"szolgáltatókhoz szükséges hitelesítő adatok JSON-példáit lent találja. "
+"<strong>Megjegyzés:</strong> a hitelesítő adatokat titkosítva tároljuk."
+
+#: admin/firewall_admin.py:41 admin/reputation_admin.py:39
+msgid "Configuration"
+msgstr "Konfiguráció"
+
+#: admin/firewall_admin.py:47 models/firewall.py:42
+msgid "Credentials"
+msgstr "Hitelesítő adatok"
+
+#: admin/firewall_admin.py:51
+msgid ""
+"Provider-specific credentials in JSON format. Copy the example below and fill"
+" in your values."
+msgstr ""
+"A szolgáltatóra jellemző hitelesítő adatok JSON formátumban. Másolja ki a "
+"lenti példát, és töltse ki a saját értékeivel."
+
+#: admin/firewall_admin.py:56 admin/rate_limit_admin.py:69
+#: admin/reputation_admin.py:58 admin/suspicious_admin.py:93
+#: admin/threat_pattern_admin.py:62
+msgid "Timestamps"
+msgstr "Időbélyegek"
+
+#: admin/firewall_admin.py:64
+msgid "JSON Examples for Each Provider"
+msgstr "JSON-példák szolgáltatónként"
+
+#: admin/firewall_admin.py:172
+msgid "This firewall is now set as the default for auto-blocking."
+msgstr "Mostantól ez a tűzfal az alapértelmezett az automatikus tiltáshoz."
+
+#: admin/forms.py:16
+msgid "Enter credentials as JSON. Values are encrypted at rest."
+msgstr ""
+"Adja meg a hitelesítő adatokat JSON formátumban. Az értékeket titkosítva "
+"tároljuk."
+
+#: admin/forms.py:33
+msgid ""
+"Showing masked current values. Leave unchanged to keep them, or paste new "
+"JSON to replace. Values are encrypted at rest."
+msgstr ""
+"A jelenlegi értékek maszkolva jelennek meg. A megtartásukhoz hagyja "
+"változatlanul, a cseréjükhöz illesszen be új JSON-t. Az értékeket titkosítva "
+"tároljuk."
+
+#: admin/forms.py:46
+#, python-format
+msgid "Invalid JSON: %(error)s"
+msgstr "Érvénytelen JSON: %(error)s"
+
+#: admin/forms.py:48
+msgid "Credentials must be a JSON object"
+msgstr "A hitelesítő adatoknak JSON-objektumnak kell lenniük"
+
+#: admin/forms.py:73
+msgid "Leave blank to keep the existing key. Stored encrypted at rest."
+msgstr "A meglévő kulcs megtartásához hagyja üresen. Titkosítva tároljuk."
+
+#: admin/mixins.py:21
+msgid "Help"
+msgstr "Súgó"
+
+#: admin/rate_limit_admin.py:13
+msgid "Rate Limiting Rules"
+msgstr "Kéréskorlátozási szabályok"
+
+#: admin/rate_limit_admin.py:15
+msgid ""
+"Protect endpoints from <strong>brute force and DDoS attacks</strong>. Define "
+"rules matching URL patterns and HTTP methods. Set request limits (e.g., 10 "
+"requests/60 seconds) and actions when exceeded. Higher priority rules are "
+"evaluated first."
+msgstr ""
+"Védje a végpontokat a <strong>brute force és DDoS támadások</strong> ellen. "
+"Adjon meg URL-mintákra és HTTP-metódusokra illeszkedő szabályokat. Állítson "
+"be kéréskorlátokat (pl. 10 kérés/60 másodperc) és a túllépéskor végrehajtandó"
+" műveleteket. A magasabb prioritású szabályok értékelődnek ki először."
+
+#: admin/rate_limit_admin.py:43 admin/threat_pattern_admin.py:43
+msgid "Basic Info"
+msgstr "Alapadatok"
+
+#: admin/rate_limit_admin.py:49
+msgid "Matching"
+msgstr "Illeszkedés"
+
+#: admin/rate_limit_admin.py:52
+msgid "Configure which requests this rule applies to."
+msgstr "Állítsa be, mely kérésekre vonatkozik ez a szabály."
+
+#: admin/rate_limit_admin.py:56
+msgid "Rate Limit"
+msgstr "Kéréskorlát"
+
+#: admin/rate_limit_admin.py:62 models/rate_limit.py:103
+msgid "Action"
+msgstr "Művelet"
+
+#: admin/rate_limit_admin.py:65
+msgid "What to do when limit is exceeded."
+msgstr "Mi történjen a korlát túllépésekor."
+
+#: admin/rate_limit_admin.py:77
+msgid "Rate"
+msgstr "Arány"
+
+#: admin/reputation_admin.py:18
+msgid "IP Reputation Service"
+msgstr "IP-hírnév szolgáltatás"
+
+#: admin/reputation_admin.py:20
+msgid ""
+"Check IP addresses against <strong>threat intelligence databases</strong>. "
+"<strong>AbuseIPDB</strong> is recommended (free tier: 1,000 lookups/day). IPs"
+" are checked asynchronously and results are cached. High-risk IPs can trigger"
+" automatic blocking."
+msgstr ""
+"Ellenőrizze az IP-címeket <strong>fenyegetési hírszerzési "
+"adatbázisokban</strong>. Az <strong>AbuseIPDB</strong> ajánlott (ingyenes "
+"csomag: napi 1000 lekérdezés). Az IP-címek ellenőrzése aszinkron módon "
+"történik, az eredmények gyorsítótárba kerülnek. A magas kockázatú IP-címek "
+"automatikus tiltást válthatnak ki."
+
+#: admin/reputation_admin.py:45
+msgid "API Configuration"
+msgstr "API-konfiguráció"
+
+#: admin/reputation_admin.py:48
+msgid "API credentials. api_url only needed for custom provider."
+msgstr ""
+"API-hitelesítő adatok. Az api_url csak egyéni szolgáltatónál szükséges."
+
+#: admin/reputation_admin.py:52
+msgid "Settings"
+msgstr "Beállítások"
+
+#: admin/reputation_admin.py:66
+msgid "Setup Instructions"
+msgstr "Beállítási útmutató"
+
+#: admin/reputation_admin.py:193 models/ip_reputation.py:200
+#: models/ip_reputation.py:201
+msgid "IP Reputation Cache"
+msgstr "IP-hírnév gyorsítótár"
+
+#: admin/reputation_admin.py:195
+msgid ""
+"View <strong>cached IP reputation data</strong> from external services. "
+"Entries are created automatically when IPs are checked. Use actions to re-"
+"check IPs or clean up expired entries. Entries are read-only - data comes "
+"from reputation services."
+msgstr ""
+"Itt tekintheti meg a külső szolgáltatásoktól származó, "
+"<strong>gyorsítótárazott IP-hírnévadatokat</strong>. A bejegyzések "
+"automatikusan jönnek létre az IP-címek ellenőrzésekor. A műveletekkel "
+"újraellenőrizheti az IP-címeket, vagy törölheti a lejárt bejegyzéseket. A "
+"bejegyzések csak olvashatók: az adatok a hírnévszolgáltatásoktól származnak."
+
+#: admin/reputation_admin.py:238 admin/threat_summary_admin.py:53
+msgid "IP Information"
+msgstr "IP-adatok"
+
+#: admin/reputation_admin.py:244
+msgid "Reputation Data"
+msgstr "Hírnévadatok"
+
+#: admin/reputation_admin.py:257
+msgid "Cache Status"
+msgstr "Gyorsítótár állapota"
+
+#: admin/reputation_admin.py:263 models/ip_reputation.py:186
+msgid "Raw Response"
+msgstr "Nyers válasz"
+
+#: admin/reputation_admin.py:271
+msgid "Expired"
+msgstr "Lejárt"
+
+#: admin/reputation_admin.py:281
+msgid "Queue for re-check"
+msgstr "Sorba állítás újraellenőrzésre"
+
+#: admin/reputation_admin.py:284
+msgid "{} IPs queued for reputation re-check."
+msgstr "{} IP-cím sorba állítva hírnév-újraellenőrzésre."
+
+#: admin/reputation_admin.py:286
+msgid "Delete expired entries"
+msgstr "Lejárt bejegyzések törlése"
+
+#: admin/reputation_admin.py:291
+msgid "{} expired entries deleted."
+msgstr "{} lejárt bejegyzés törölve."
+
+#: admin/settings_admin.py:13 models/settings.py:162 models/settings.py:163
+msgid "Security Settings"
+msgstr "Biztonsági beállítások"
+
+#: admin/settings_admin.py:15
+msgid ""
+"This is the <strong>central control panel</strong> for all web security "
+"features. Use the master switch to enable/disable security monitoring "
+"globally. Toggle individual features like threat detection, rate limiting, "
+"and IP blocking. Configure auto-block thresholds and notification settings."
+msgstr ""
+"Ez az összes webbiztonsági funkció <strong>központi vezérlőpultja</strong>. A"
+" főkapcsolóval globálisan be- és kikapcsolhatja a biztonsági megfigyelést. "
+"Egyenként kapcsolhatja az olyan funkciókat, mint a fenyegetésészlelés, a "
+"kéréskorlátozás és az IP-tiltás. Itt állíthatja be az automatikus tiltás "
+"küszöbértékeit és az értesítési beállításokat."
+
+#: admin/settings_admin.py:30
+msgid "Master Control"
+msgstr "Fővezérlés"
+
+#: admin/settings_admin.py:33
+msgid "Master switch to enable/disable all security features."
+msgstr "Főkapcsoló az összes biztonsági funkció be- és kikapcsolásához."
+
+#: admin/settings_admin.py:37
+msgid "Feature Toggles"
+msgstr "Funkciókapcsolók"
+
+#: admin/settings_admin.py:48
+msgid "Enable or disable individual security features."
+msgstr "Az egyes biztonsági funkciók be- és kikapcsolása."
+
+#: admin/settings_admin.py:52
+msgid "Threat Categories"
+msgstr "Fenyegetési kategóriák"
+
+#: admin/settings_admin.py:65
+msgid "Enable or disable detection of specific threat categories."
+msgstr "Az egyes fenyegetési kategóriák észlelésének be- és kikapcsolása."
+
+#: admin/settings_admin.py:70
+msgid "Thresholds"
+msgstr "Küszöbértékek"
+
+#: admin/settings_admin.py:73
+msgid "Configure automatic blocking thresholds."
+msgstr "Az automatikus tiltás küszöbértékeinek beállítása."
+
+#: admin/settings_admin.py:77
+msgid "Whitelists"
+msgstr "Kivétellisták"
+
+#: admin/settings_admin.py:81
+msgid ""
+"Configure exemptions from security checks. Private IPs (localhost, Docker, "
+"LAN) are automatically exempt."
+msgstr ""
+"A biztonsági ellenőrzések alóli kivételek beállítása. A privát IP-címek "
+"(localhost, Docker, LAN) automatikusan mentesülnek."
+
+#: admin/settings_admin.py:87
+msgid "Notifications"
+msgstr "Értesítések"
+
+#: admin/settings_admin.py:94
+msgid "Configure email notifications for security events."
+msgstr "A biztonsági eseményekről szóló e-mail-értesítések beállítása."
+
+#: admin/suspicious_admin.py:14
+msgid "Suspicious Requests Log"
+msgstr "Gyanús kérések naplója"
+
+#: admin/suspicious_admin.py:16
+msgid ""
+"View <strong>all detected threats in real-time</strong>. Each entry shows the"
+" request details, matched pattern, threat level, and action taken. Use "
+"filters to analyze specific threat categories or time periods. Logs are read-"
+"only - created automatically by threat detection."
+msgstr ""
+"Itt tekintheti meg <strong>valós időben az összes észlelt "
+"fenyegetést</strong>. Minden bejegyzés mutatja a kérés részleteit, az "
+"illeszkedő mintát, a fenyegetési szintet és a végrehajtott műveletet. A "
+"szűrőkkel adott fenyegetési kategóriákat vagy időszakokat elemezhet. A naplók"
+" csak olvashatók: a fenyegetésészlelés automatikusan hozza létre őket."
+
+#: admin/suspicious_admin.py:62
+msgid "Request Details"
+msgstr "A kérés részletei"
+
+#: admin/suspicious_admin.py:68
+msgid "Threat Information"
+msgstr "Fenyegetési adatok"
+
+#: admin/suspicious_admin.py:80
+msgid "Response"
+msgstr "Válasz"
+
+#: admin/suspicious_admin.py:86
+msgid "Full Request Data"
+msgstr "A kérés teljes adatai"
+
+#: admin/suspicious_admin.py:103 admin/suspicious_admin.py:112
+#: models/ip_reputation.py:129 models/ip_threat_summary.py:24
+#: models/suspicious_request.py:16
+msgid "IP Address"
+msgstr "IP cím"
+
+#: admin/suspicious_admin.py:121 models/suspicious_request.py:20
+msgid "Path"
+msgstr "Útvonal"
+
+#: admin/suspicious_admin.py:125 admin/threat_pattern_admin.py:70
+#: models/suspicious_request.py:69 models/threat_pattern.py:205
+msgid "Threat Level"
+msgstr "Fenyegetési szint"
+
+#: admin/threat_pattern_admin.py:14
+msgid "Threat Detection Patterns"
+msgstr "Fenyegetésészlelési minták"
+
+#: admin/threat_pattern_admin.py:16
+msgid ""
+"Define <strong>regex patterns</strong> to detect malicious requests. Patterns"
+" can match against URL paths, user agents, headers, or request bodies. Each "
+"pattern has a category, threat level, and score. Use <code>python manage.py "
+"seed_patterns</code> to load default patterns."
+msgstr ""
+"Adjon meg <strong>regex mintákat</strong> a rosszindulatú kérések "
+"észleléséhez. A minták illeszkedhetnek URL-útvonalakra, user agentekre, "
+"fejlécekre vagy a kérések törzsére. Minden mintának van kategóriája, "
+"fenyegetési szintje és pontszáma. Az alapértelmezett minták betöltéséhez "
+"használja a <code>python manage.py seed_patterns</code> parancsot."
+
+#: admin/threat_pattern_admin.py:49
+msgid "Pattern Configuration"
+msgstr "Minta beállításai"
+
+#: admin/threat_pattern_admin.py:52
+msgid "Configure the regex pattern and what it matches against."
+msgstr "Állítsa be a regex mintát, és hogy mire illeszkedjen."
+
+#: admin/threat_pattern_admin.py:56
+msgid "Classification"
+msgstr "Besorolás"
+
+#: admin/threat_pattern_admin.py:88
+msgid "Activate selected patterns"
+msgstr "A kijelölt minták aktiválása"
+
+#: admin/threat_pattern_admin.py:91
+msgid "{} patterns activated."
+msgstr "{} minta aktiválva."
+
+#: admin/threat_pattern_admin.py:93
+msgid "Deactivate selected patterns"
+msgstr "A kijelölt minták inaktiválása"
+
+#: admin/threat_pattern_admin.py:96
+msgid "{} patterns deactivated."
+msgstr "{} minta inaktiválva."
+
+#: admin/threat_summary_admin.py:15 models/ip_threat_summary.py:94
+msgid "IP Threat Summaries"
+msgstr "IP-fenyegetési összesítők"
+
+#: admin/threat_summary_admin.py:17
+msgid ""
+"Aggregated threat data <strong>per IP address</strong>. Shows total threat "
+"score, request count, and block status. Use actions to manually block/unblock"
+" IPs or sync to firewall. IPs exceeding the auto-block threshold are "
+"automatically blocked."
+msgstr ""
+"Összesített fenyegetési adatok <strong>IP-címenként</strong>. Mutatja a "
+"teljes fenyegetési pontszámot, a kérések számát és a tiltási állapotot. A "
+"műveletekkel kézzel tilthat le vagy oldhat fel IP-címeket, illetve "
+"szinkronizálhat a tűzfallal. Az automatikus tiltási küszöböt meghaladó IP-"
+"címek automatikusan tiltásra kerülnek."
+
+#: admin/threat_summary_admin.py:59
+msgid "Block Status"
+msgstr "Tiltási állapot"
+
+#: admin/threat_summary_admin.py:71
+msgid "Detection Details"
+msgstr "Az észlelés részletei"
+
+#: admin/threat_summary_admin.py:77
+msgid "Admin Notes"
+msgstr "Adminisztrátori megjegyzések"
+
+#: admin/threat_summary_admin.py:86
+msgid "Block selected IPs"
+msgstr "A kijelölt IP-címek tiltása"
+
+#: admin/threat_summary_admin.py:96
+msgid "{} IPs blocked."
+msgstr "{} IP-cím letiltva."
+
+#: admin/threat_summary_admin.py:98
+msgid "Unblock selected IPs"
+msgstr "A kijelölt IP-címek feloldása"
+
+#: admin/threat_summary_admin.py:106
+msgid "{} IPs unblocked."
+msgstr "{} IP-cím feloldva."
+
+#: admin/threat_summary_admin.py:108
+msgid "Sync to firewall"
+msgstr "Szinkronizálás a tűzfallal"
+
+#: admin/threat_summary_admin.py:114
+msgid "No firewall service configured."
+msgstr "Nincs beállított tűzfalszolgáltatás."
+
+#: admin/threat_summary_admin.py:119
+msgid "No blocked IPs selected."
+msgstr "Nincs kijelölve letiltott IP-cím."
+
+#: admin/threat_summary_admin.py:127
+#, python-brace-format
+msgid ""
+"Synced {added} IPs to firewall ({already} already blocked, {failed} failed)."
+msgstr ""
+"{added} IP-cím szinkronizálva a tűzfallal ({already} már tiltva volt, "
+"{failed} sikertelen)."
+
+#: apps.py:8
+msgid "Web Security"
+msgstr "Webbiztonság"
+
+#: models/firewall.py:21
+msgid "Cloudflare"
+msgstr "Cloudflare"
+
+#: models/firewall.py:22
+msgid "AWS WAF"
+msgstr "AWS WAF"
+
+#: models/firewall.py:23
+msgid "Nginx"
+msgstr "Nginx"
+
+#: models/firewall.py:24
+msgid "iptables"
+msgstr "iptables"
+
+#: models/firewall.py:28 models/ip_reputation.py:23 models/rate_limit.py:68
+#: models/threat_pattern.py:167
+msgid "Name"
+msgstr "Név"
+
+#: models/firewall.py:29
+msgid "Descriptive name for this firewall configuration"
+msgstr "Leíró név ehhez a tűzfal-konfigurációhoz"
+
+#: models/firewall.py:34 models/ip_reputation.py:30
+msgid "Provider"
+msgstr "Szolgáltató"
+
+#: models/firewall.py:35
+msgid "Firewall provider type"
+msgstr "A tűzfal-szolgáltató típusa"
+
+#: models/firewall.py:43
+msgid "Provider-specific credentials (encrypted at rest)"
+msgstr "A szolgáltatóra jellemző hitelesítő adatok (titkosítva tárolva)"
+
+#: models/firewall.py:47 models/ip_reputation.py:47 models/rate_limit.py:113
+#: models/threat_pattern.py:215
+msgid "Active"
+msgstr "Aktív"
+
+#: models/firewall.py:48
+msgid "Whether this firewall config is active"
+msgstr "Aktív-e ez a tűzfal-konfiguráció"
+
+#: models/firewall.py:52 models/ip_reputation.py:52
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: models/firewall.py:53
+msgid "Use this firewall for automatic blocking"
+msgstr "Ezt a tűzfalat használja az automatikus tiltáshoz"
+
+#: models/firewall.py:82
+msgid "Firewall Configurations"
+msgstr "Tűzfal-konfigurációk"
+
+#: models/ip_reputation.py:17
+msgid "AbuseIPDB"
+msgstr "AbuseIPDB"
+
+#: models/ip_reputation.py:18
+msgid "IPQualityScore"
+msgstr "IPQualityScore"
+
+#: models/ip_reputation.py:19
+msgid "Custom API"
+msgstr "Egyéni API"
+
+#: models/ip_reputation.py:24
+msgid "Descriptive name for this configuration"
+msgstr "Leíró név ehhez a konfigurációhoz"
+
+#: models/ip_reputation.py:31
+msgid "IP reputation service provider"
+msgstr "Az IP-hírnév szolgáltatás szolgáltatója"
+
+#: models/ip_reputation.py:36
+msgid "API Key"
+msgstr "API-kulcs"
+
+#: models/ip_reputation.py:37
+msgid "API key for the reputation service (encrypted at rest)"
+msgstr "API-kulcs a hírnévszolgáltatáshoz (titkosítva tárolva)"
+
+#: models/ip_reputation.py:42
+msgid "API URL"
+msgstr "API URL-je"
+
+#: models/ip_reputation.py:43
+msgid "Custom API URL (only for custom provider)"
+msgstr "Egyéni API URL-je (csak egyéni szolgáltatónál)"
+
+#: models/ip_reputation.py:48
+msgid "Whether this configuration is active"
+msgstr "Aktív-e ez a konfiguráció"
+
+#: models/ip_reputation.py:53
+msgid "Use this as the default reputation service"
+msgstr "Ez legyen az alapértelmezett hírnévszolgáltatás"
+
+#: models/ip_reputation.py:57
+msgid "Cache Duration (hours)"
+msgstr "Gyorsítótárazás időtartama (óra)"
+
+#: models/ip_reputation.py:58
+msgid "How long to cache reputation results"
+msgstr "Meddig maradjanak gyorsítótárban a hírnév-eredmények"
+
+#: models/ip_reputation.py:62
+msgid "Min Confidence Score"
+msgstr "Minimális megbízhatósági pontszám"
+
+#: models/ip_reputation.py:63
+msgid "Minimum abuse confidence score to consider IP as bad (0-100)"
+msgstr ""
+"Az a minimális visszaélési megbízhatósági pontszám, amelytől egy IP-cím "
+"rosszindulatúnak számít (0-100)"
+
+#: models/ip_reputation.py:70
+msgid "IP Reputation Configuration"
+msgstr "IP-hírnév konfiguráció"
+
+#: models/ip_reputation.py:71
+msgid "IP Reputation Configurations"
+msgstr "IP-hírnév konfigurációk"
+
+#: models/ip_reputation.py:130
+msgid "IP address that was checked"
+msgstr "Az ellenőrzött IP-cím"
+
+#: models/ip_reputation.py:134
+msgid "Abuse Confidence Score"
+msgstr "Visszaélési megbízhatósági pontszám"
+
+#: models/ip_reputation.py:135
+msgid "Confidence score that IP is abusive (0-100)"
+msgstr "Megbízhatósági pontszám arra, hogy az IP-cím visszaélésszerű (0-100)"
+
+#: models/ip_reputation.py:139
+msgid "Tor Exit Node"
+msgstr "Tor kilépő csomópont"
+
+#: models/ip_reputation.py:140
+msgid "Whether IP is a known Tor exit node"
+msgstr "Ismert Tor kilépő csomópont-e az IP-cím"
+
+#: models/ip_reputation.py:144
+msgid "VPN/Proxy"
+msgstr "VPN/Proxy"
+
+#: models/ip_reputation.py:145
+msgid "Whether IP is a known VPN or proxy"
+msgstr "Ismert VPN vagy proxy-e az IP-cím"
+
+#: models/ip_reputation.py:149
+msgid "Datacenter"
+msgstr "Adatközpont"
+
+#: models/ip_reputation.py:150
+msgid "Whether IP belongs to a datacenter"
+msgstr "Adatközponthoz tartozik-e az IP-cím"
+
+#: models/ip_reputation.py:156
+msgid "Country Code"
+msgstr "Országkód"
+
+#: models/ip_reputation.py:157
+msgid "Two-letter country code"
+msgstr "Kétbetűs országkód"
+
+#: models/ip_reputation.py:163
+msgid "ISP"
+msgstr "Internetszolgáltató"
+
+#: models/ip_reputation.py:164
+msgid "Internet Service Provider"
+msgstr "Internetszolgáltató"
+
+#: models/ip_reputation.py:170
+msgid "Domain"
+msgstr "Domain"
+
+#: models/ip_reputation.py:171
+msgid "Domain associated with IP"
+msgstr "Az IP-címhez tartozó domain"
+
+#: models/ip_reputation.py:175
+msgid "Total Reports"
+msgstr "Összes bejelentés"
+
+#: models/ip_reputation.py:176
+msgid "Number of abuse reports for this IP"
+msgstr "Az IP-címre vonatkozó visszaélés-bejelentések száma"
+
+#: models/ip_reputation.py:181
+msgid "Last Reported"
+msgstr "Utolsó bejelentés"
+
+#: models/ip_reputation.py:182
+msgid "When IP was last reported for abuse"
+msgstr "Mikor jelentették utoljára visszaélés miatt az IP-címet"
+
+#: models/ip_reputation.py:187
+msgid "Full API response data"
+msgstr "A teljes API-válasz adatai"
+
+#: models/ip_reputation.py:190
+msgid "Expires At"
+msgstr "Lejárat ideje"
+
+#: models/ip_reputation.py:191
+msgid "When this cache entry expires"
+msgstr "Mikor jár le ez a gyorsítótár-bejegyzés"
+
+#: models/ip_reputation.py:195
+msgid "Check Pending"
+msgstr "Ellenőrzés függőben"
+
+#: models/ip_reputation.py:196
+msgid "Whether a reputation check is queued"
+msgstr "Sorban áll-e hírnév-ellenőrzés"
+
+#: models/ip_threat_summary.py:25 models/suspicious_request.py:17
+msgid "Client IP address"
+msgstr "Az ügyfél IP-címe"
+
+#: models/ip_threat_summary.py:29
+msgid "Total Threat Score"
+msgstr "Teljes fenyegetési pontszám"
+
+#: models/ip_threat_summary.py:30
+msgid "Cumulative threat score"
+msgstr "Összesített fenyegetési pontszám"
+
+#: models/ip_threat_summary.py:34
+msgid "Request Count"
+msgstr "Kérések száma"
+
+#: models/ip_threat_summary.py:35
+msgid "Total number of suspicious requests"
+msgstr "A gyanús kérések teljes száma"
+
+#: models/ip_threat_summary.py:39
+msgid "First Seen"
+msgstr "Első észlelés"
+
+#: models/ip_threat_summary.py:40
+msgid "When IP was first detected"
+msgstr "Mikor észlelték először az IP-címet"
+
+#: models/ip_threat_summary.py:44
+msgid "Last Seen"
+msgstr "Utolsó észlelés"
+
+#: models/ip_threat_summary.py:45
+msgid "When IP was last detected"
+msgstr "Mikor észlelték utoljára az IP-címet"
+
+#: models/ip_threat_summary.py:49
+msgid "Blocked"
+msgstr "Tiltva"
+
+#: models/ip_threat_summary.py:50
+msgid "Whether IP is currently blocked"
+msgstr "Jelenleg tiltva van-e az IP-cím"
+
+#: models/ip_threat_summary.py:56
+msgid "Blocked At"
+msgstr "Tiltás ideje"
+
+#: models/ip_threat_summary.py:57
+msgid "When IP was blocked"
+msgstr "Mikor tiltották le az IP-címet"
+
+#: models/ip_threat_summary.py:62
+msgid "Blocked Until"
+msgstr "Tiltva eddig"
+
+#: models/ip_threat_summary.py:63
+msgid "When block expires"
+msgstr "Mikor jár le a tiltás"
+
+#: models/ip_threat_summary.py:68
+msgid "Block Reason"
+msgstr "Tiltás oka"
+
+#: models/ip_threat_summary.py:69
+msgid "Reason for blocking"
+msgstr "A tiltás oka"
+
+#: models/ip_threat_summary.py:73
+msgid "Firewall Synced"
+msgstr "Tűzfallal szinkronizálva"
+
+#: models/ip_threat_summary.py:74
+msgid "Whether block has been synced to firewall"
+msgstr "Szinkronizálva lett-e a tiltás a tűzfallal"
+
+#: models/ip_threat_summary.py:78
+msgid "Categories Detected"
+msgstr "Észlelt kategóriák"
+
+#: models/ip_threat_summary.py:79
+msgid "List of threat categories detected from this IP"
+msgstr "Az erről az IP-címről észlelt fenyegetési kategóriák listája"
+
+#: models/ip_threat_summary.py:84
+msgid "Notes"
+msgstr "Megjegyzések"
+
+#: models/ip_threat_summary.py:85
+msgid "Admin notes about this IP"
+msgstr "Adminisztrátori megjegyzések erről az IP-címről"
+
+#: models/ip_threat_summary.py:93
+msgid "IP Threat Summary"
+msgstr "IP-fenyegetési összesítő"
+
+#: models/rate_limit.py:54
+msgid "All Methods"
+msgstr "Minden metódus"
+
+#: models/rate_limit.py:55
+msgid "GET"
+msgstr "GET"
+
+#: models/rate_limit.py:56
+msgid "POST"
+msgstr "POST"
+
+#: models/rate_limit.py:57
+msgid "PUT"
+msgstr "PUT"
+
+#: models/rate_limit.py:58
+msgid "PATCH"
+msgstr "PATCH"
+
+#: models/rate_limit.py:59
+msgid "DELETE"
+msgstr "DELETE"
+
+#: models/rate_limit.py:62
+msgid "Throttle (429 response)"
+msgstr "Lassítás (429-es válasz)"
+
+#: models/rate_limit.py:63
+msgid "Block IP temporarily"
+msgstr "IP-cím ideiglenes tiltása"
+
+#: models/rate_limit.py:64
+msgid "Log only"
+msgstr "Csak naplózás"
+
+#: models/rate_limit.py:69
+msgid "Descriptive name for this rule"
+msgstr "Leíró név ehhez a szabályhoz"
+
+#: models/rate_limit.py:74 models/threat_pattern.py:173
+msgid "Description"
+msgstr "Leírás"
+
+#: models/rate_limit.py:75
+msgid "Description of what this rule protects"
+msgstr "Annak leírása, mit véd ez a szabály"
+
+#: models/rate_limit.py:79
+msgid "Path Pattern"
+msgstr "Útvonalminta"
+
+#: models/rate_limit.py:80
+msgid "URL path pattern to match (supports * wildcards)"
+msgstr "Az illesztendő URL-útvonalminta (támogatja a * helyettesítő karaktert)"
+
+#: models/rate_limit.py:86
+msgid "HTTP Method"
+msgstr "HTTP-metódus"
+
+#: models/rate_limit.py:87
+msgid "HTTP method to apply rule to"
+msgstr "A HTTP-metódus, amelyre a szabály vonatkozik"
+
+#: models/rate_limit.py:91
+msgid "Max Requests"
+msgstr "Kérések maximális száma"
+
+#: models/rate_limit.py:92
+msgid "Maximum number of requests allowed in time window"
+msgstr "Az időablakban engedélyezett kérések maximális száma"
+
+#: models/rate_limit.py:96
+msgid "Time Window (seconds)"
+msgstr "Időablak (másodperc)"
+
+#: models/rate_limit.py:97
+msgid "Time window for rate limiting"
+msgstr "A kéréskorlátozás időablaka"
+
+#: models/rate_limit.py:104
+msgid "Action to take when limit is exceeded"
+msgstr "A korlát túllépésekor végrehajtandó művelet"
+
+#: models/rate_limit.py:108 models/settings.py:115
+msgid "Block Duration (minutes)"
+msgstr "Tiltás időtartama (perc)"
+
+#: models/rate_limit.py:109
+msgid "How long to block IP when using block action"
+msgstr "Mennyi ideig legyen tiltva az IP-cím tiltás művelet esetén"
+
+#: models/rate_limit.py:114
+msgid "Whether this rule is actively enforced"
+msgstr "Aktívan érvényesül-e ez a szabály"
+
+#: models/rate_limit.py:118
+msgid "Priority"
+msgstr "Prioritás"
+
+#: models/rate_limit.py:119
+msgid "Lower number = higher priority (checked first)"
+msgstr "Kisebb szám = magasabb prioritás (előbb ellenőrzi)"
+
+#: models/rate_limit.py:126
+msgid "Rate Limit Rule"
+msgstr "Kéréskorlátozási szabály"
+
+#: models/rate_limit.py:127
+msgid "Rate Limit Rules"
+msgstr "Kéréskorlátozási szabályok"
+
+#: models/settings.py:19
+msgid "Security Enabled"
+msgstr "Biztonság bekapcsolva"
+
+#: models/settings.py:20
+msgid "Master switch to enable/disable all security monitoring"
+msgstr "Főkapcsoló a teljes biztonsági megfigyelés be- és kikapcsolásához"
+
+#: models/settings.py:26
+msgid "Threat Detection"
+msgstr "Fenyegetésészlelés"
+
+#: models/settings.py:27
+msgid "Enable detection of malicious requests via patterns"
+msgstr "A rosszindulatú kérések mintaalapú észlelésének bekapcsolása"
+
+#: models/settings.py:31
+msgid "Rate Limiting"
+msgstr "Kéréskorlátozás"
+
+#: models/settings.py:32
+msgid "Enable rate limiting for endpoints"
+msgstr "A végpontok kéréskorlátozásának bekapcsolása"
+
+#: models/settings.py:36
+msgid "IP Blocking"
+msgstr "IP-tiltás"
+
+#: models/settings.py:37
+msgid "Enable automatic IP blocking"
+msgstr "Az automatikus IP-tiltás bekapcsolása"
+
+#: models/settings.py:41
+msgid "IP Reputation Checking"
+msgstr "IP-hírnév ellenőrzése"
+
+#: models/settings.py:42
+msgid "Enable IP reputation lookup via external services"
+msgstr ""
+"Az IP-hírnév külső szolgáltatásokon keresztüli lekérdezésének bekapcsolása"
+
+#: models/settings.py:46
+msgid "Auto-Block"
+msgstr "Automatikus tiltás"
+
+#: models/settings.py:47
+msgid "Automatically block IPs that exceed threat threshold"
+msgstr "A fenyegetési küszöböt meghaladó IP-címek automatikus tiltása"
+
+#: models/settings.py:51
+msgid "Request Logging"
+msgstr "Kérések naplózása"
+
+#: models/settings.py:52
+msgid "Log all requests for analysis"
+msgstr "Minden kérés naplózása elemzéshez"
+
+#: models/settings.py:56
+msgid "Security Headers"
+msgstr "Biztonsági fejlécek"
+
+#: models/settings.py:57
+msgid "Add security headers to responses"
+msgstr "Biztonsági fejlécek hozzáadása a válaszokhoz"
+
+#: models/settings.py:63
+msgid "WordPress Scans"
+msgstr "WordPress-szkennelések"
+
+#: models/settings.py:64
+msgid "Detect WordPress-related scanning attempts"
+msgstr "A WordPresshez kapcsolódó szkennelési kísérletek észlelése"
+
+#: models/settings.py:68
+msgid "PHP Scans"
+msgstr "PHP-szkennelések"
+
+#: models/settings.py:69
+msgid "Detect PHP file scanning attempts"
+msgstr "PHP-fájlok szkennelési kísérleteinek észlelése"
+
+#: models/settings.py:73 models/threat_pattern.py:150
+msgid "Sensitive Files"
+msgstr "Érzékeny fájlok"
+
+#: models/settings.py:74
+msgid "Detect access attempts to sensitive files (.env, .git, etc.)"
+msgstr "Érzékeny fájlok (.env, .git stb.) elérési kísérleteinek észlelése"
+
+#: models/settings.py:78 models/threat_pattern.py:151
+msgid "Admin Panels"
+msgstr "Adminisztrációs felületek"
+
+#: models/settings.py:79
+msgid "Detect admin panel scanning (phpmyadmin, etc.)"
+msgstr "Adminisztrációs felületek (phpmyadmin stb.) szkennelésének észlelése"
+
+#: models/settings.py:83 models/threat_pattern.py:152
+msgid "Vulnerability Scanners"
+msgstr "Sebezhetőség-szkennerek"
+
+#: models/settings.py:84
+msgid "Detect known vulnerability scanner user agents"
+msgstr "Ismert sebezhetőség-szkennerek user agentjeinek észlelése"
+
+#: models/settings.py:88
+msgid "SQL Injection"
+msgstr "SQL-befecskendezés"
+
+#: models/settings.py:89
+msgid "Detect SQL injection attempts"
+msgstr "SQL-befecskendezési kísérletek észlelése"
+
+#: models/settings.py:93
+msgid "Path Traversal"
+msgstr "Útvonal-bejárás"
+
+#: models/settings.py:94
+msgid "Detect directory traversal attempts"
+msgstr "Könyvtárbejárási kísérletek észlelése"
+
+#: models/settings.py:98 models/threat_pattern.py:155
+msgid "Shell/Webshell Access"
+msgstr "Shell/webshell hozzáférés"
+
+#: models/settings.py:99
+msgid "Detect webshell and shell access attempts"
+msgstr "Webshell- és shell-hozzáférési kísérletek észlelése"
+
+#: models/settings.py:103
+msgid "API Abuse"
+msgstr "API-visszaélés"
+
+#: models/settings.py:104
+msgid "Detect API endpoint abuse"
+msgstr "Az API-végpontokkal való visszaélés észlelése"
+
+#: models/settings.py:110
+msgid "Auto-Block Threshold"
+msgstr "Automatikus tiltási küszöb"
+
+#: models/settings.py:111
+msgid "Threat score threshold for automatic blocking (0-100)"
+msgstr "Az automatikus tiltás fenyegetésipontszám-küszöbe (0-100)"
+
+#: models/settings.py:116
+msgid "How long to block IPs (default: 24 hours)"
+msgstr "Mennyi ideig legyenek tiltva az IP-címek (alapértelmezés: 24 óra)"
+
+#: models/settings.py:123
+msgid "Whitelisted IPs"
+msgstr "Kivételként kezelt IP-címek"
+
+#: models/settings.py:124
+msgid "Comma-separated list of IPs that should never be blocked"
+msgstr "Soha nem tiltandó IP-címek vesszővel elválasztott listája"
+
+#: models/settings.py:132
+msgid "Whitelisted Paths"
+msgstr "Kivételként kezelt útvonalak"
+
+#: models/settings.py:134
+msgid ""
+"Comma-separated list of URL path prefixes that bypass security checks. "
+"Default: /api/webhook/, /stripe/webhook/, /health/, /healthz/"
+msgstr ""
+"A biztonsági ellenőrzéseket megkerülő URL-útvonal-előtagok vesszővel "
+"elválasztott listája. Alapértelmezés: /api/webhook/, /stripe/webhook/, "
+"/health/, /healthz/"
+
+#: models/settings.py:143
+msgid "Notification Email"
+msgstr "Értesítési e-mail-cím"
+
+#: models/settings.py:144
+msgid "Email address for security notifications"
+msgstr "E-mail-cím a biztonsági értesítésekhez"
+
+#: models/settings.py:148
+msgid "Notify on Block"
+msgstr "Értesítés tiltáskor"
+
+#: models/settings.py:149
+msgid "Send email notification when an IP is auto-blocked"
+msgstr "E-mail-értesítés küldése, ha egy IP-cím automatikusan tiltásra kerül"
+
+#: models/settings.py:153
+msgid "Notify on Critical"
+msgstr "Értesítés kritikus fenyegetéskor"
+
+#: models/settings.py:154
+msgid "Send email notification for critical threats"
+msgstr "E-mail-értesítés küldése kritikus fenyegetések esetén"
+
+#: models/suspicious_request.py:21
+msgid "Requested URL path"
+msgstr "A kért URL-útvonal"
+
+#: models/suspicious_request.py:25
+msgid "Method"
+msgstr "Metódus"
+
+#: models/suspicious_request.py:26
+msgid "HTTP method"
+msgstr "HTTP-metódus"
+
+#: models/suspicious_request.py:31 models/threat_pattern.py:143
+msgid "User Agent"
+msgstr "User agent"
+
+#: models/suspicious_request.py:32
+msgid "Client user agent string"
+msgstr "Az ügyfél user agent karakterlánca"
+
+#: models/suspicious_request.py:36
+msgid "Headers"
+msgstr "Fejlécek"
+
+#: models/suspicious_request.py:37
+msgid "Request headers"
+msgstr "A kérés fejlécei"
+
+#: models/suspicious_request.py:42
+msgid "Body Preview"
+msgstr "Törzs előnézete"
+
+#: models/suspicious_request.py:43
+msgid "First 1000 chars of request body"
+msgstr "A kérés törzsének első 1000 karaktere"
+
+#: models/suspicious_request.py:48
+msgid "Pattern ID"
+msgstr "Mintaazonosító"
+
+#: models/suspicious_request.py:49
+msgid "ID of the matched threat pattern"
+msgstr "Az illeszkedő fenyegetési minta azonosítója"
+
+#: models/suspicious_request.py:55
+msgid "Pattern Name"
+msgstr "Minta neve"
+
+#: models/suspicious_request.py:56
+msgid "Name of the matched pattern"
+msgstr "Az illeszkedő minta neve"
+
+#: models/suspicious_request.py:62 models/threat_pattern.py:198
+msgid "Category"
+msgstr "Kategória"
+
+#: models/suspicious_request.py:63
+msgid "Threat category"
+msgstr "Fenyegetési kategória"
+
+#: models/suspicious_request.py:70
+msgid "Threat severity level"
+msgstr "A fenyegetés súlyossági szintje"
+
+#: models/suspicious_request.py:75 models/threat_pattern.py:210
+msgid "Threat Score"
+msgstr "Fenyegetési pontszám"
+
+#: models/suspicious_request.py:76
+msgid "Score assigned to this request"
+msgstr "A kéréshez rendelt pontszám"
+
+#: models/suspicious_request.py:81
+msgid "Matched Value"
+msgstr "Illeszkedő érték"
+
+#: models/suspicious_request.py:82
+msgid "The value that matched the pattern"
+msgstr "A mintára illeszkedő érték"
+
+#: models/suspicious_request.py:87
+msgid "Response Code"
+msgstr "Válaszkód"
+
+#: models/suspicious_request.py:88
+msgid "HTTP response status code"
+msgstr "A HTTP-válasz állapotkódja"
+
+#: models/suspicious_request.py:94
+msgid "Action Taken"
+msgstr "Végrehajtott művelet"
+
+#: models/suspicious_request.py:95
+msgid "Action taken in response (logged, blocked, etc.)"
+msgstr "Válaszként végrehajtott művelet (naplózva, tiltva stb.)"
+
+#: models/suspicious_request.py:99
+msgid "Suspicious Request"
+msgstr "Gyanús kérés"
+
+#: models/suspicious_request.py:100
+msgid "Suspicious Requests"
+msgstr "Gyanús kérések"
+
+#: models/threat_pattern.py:142
+msgid "URL Path"
+msgstr "URL-útvonal"
+
+#: models/threat_pattern.py:144
+msgid "Request Header"
+msgstr "Kérésfejléc"
+
+#: models/threat_pattern.py:145
+msgid "Request Body"
+msgstr "Kéréstörzs"
+
+#: models/threat_pattern.py:148
+msgid "WordPress"
+msgstr "WordPress"
+
+#: models/threat_pattern.py:149
+msgid "PHP Files"
+msgstr "PHP-fájlok"
+
+#: models/threat_pattern.py:153
+msgid "SQL/Code Injection"
+msgstr "SQL-/kódbefecskendezés"
+
+#: models/threat_pattern.py:154
+msgid "Directory Traversal"
+msgstr "Könyvtárbejárás"
+
+#: models/threat_pattern.py:156
+msgid "API Endpoints"
+msgstr "API-végpontok"
+
+#: models/threat_pattern.py:157
+msgid "Custom"
+msgstr "Egyéni"
+
+#: models/threat_pattern.py:160
+msgid "Low"
+msgstr "Alacsony"
+
+#: models/threat_pattern.py:161
+msgid "Medium"
+msgstr "Közepes"
+
+#: models/threat_pattern.py:162
+msgid "High"
+msgstr "Magas"
+
+#: models/threat_pattern.py:163
+msgid "Critical"
+msgstr "Kritikus"
+
+#: models/threat_pattern.py:168
+msgid "Descriptive name for this pattern"
+msgstr "Leíró név ehhez a mintához"
+
+#: models/threat_pattern.py:174
+msgid "Description of what this pattern detects"
+msgstr "Annak leírása, mit észlel ez a minta"
+
+#: models/threat_pattern.py:177
+msgid "Pattern"
+msgstr "Minta"
+
+#: models/threat_pattern.py:178
+msgid "Regex pattern to match against requests"
+msgstr "A kérésekre illesztendő regex minta"
+
+#: models/threat_pattern.py:184
+msgid "Match Type"
+msgstr "Illesztés típusa"
+
+#: models/threat_pattern.py:185
+msgid "What part of the request to match against"
+msgstr "A kérés mely részére illesszen"
+
+#: models/threat_pattern.py:191
+msgid "Header Name"
+msgstr "Fejléc neve"
+
+#: models/threat_pattern.py:192
+msgid "Header name to match (only for Header match type)"
+msgstr "Az illesztendő fejléc neve (csak Fejléc illesztési típusnál)"
+
+#: models/threat_pattern.py:199
+msgid "Category of threat this pattern detects"
+msgstr "A minta által észlelt fenyegetés kategóriája"
+
+#: models/threat_pattern.py:206
+msgid "Severity level of matched threats"
+msgstr "Az illeszkedő fenyegetések súlyossági szintje"
+
+#: models/threat_pattern.py:211
+msgid "Score added to IP threat total when matched (0-100)"
+msgstr ""
+"Illeszkedéskor az IP-cím fenyegetési összpontszámához adott pontszám (0-100)"
+
+#: models/threat_pattern.py:216
+msgid "Whether this pattern is actively checking requests"
+msgstr "Aktívan ellenőrzi-e a kéréseket ez a minta"
+
+#: models/threat_pattern.py:220
+msgid "Case Sensitive"
+msgstr "Kis- és nagybetű-érzékeny"
+
+#: models/threat_pattern.py:221
+msgid "Whether pattern matching is case sensitive"
+msgstr "Megkülönbözteti-e a mintaillesztés a kis- és nagybetűket"
+
+#: models/threat_pattern.py:228
+msgid "Threat Pattern"
+msgstr "Fenyegetési minta"
+
+#: models/threat_pattern.py:229
+msgid "Threat Patterns"
+msgstr "Fenyegetési minták"

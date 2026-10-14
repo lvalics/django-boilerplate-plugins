@@ -221,17 +221,18 @@ def test_no_dropped_modules_shipped():
 
 
 def test_no_binary_locale_or_migration_files():
-    """No .mo binaries, no __pycache__; ships only migrations/__init__.py (fresh 0001 regenerated in-project)."""
-    assert not [p for p in _payload_files() if p.suffix == ".mo"]
+    """.mo only for the translated ro/hu catalogs, no __pycache__; ships only migrations/__init__.py (fresh 0001 regenerated in-project)."""
+    compiled = {"locale/ro/LC_MESSAGES/django.mo", "locale/hu/LC_MESSAGES/django.mo"}
+    assert not [p for p in _payload_files() if p.suffix == ".mo" and str(p.relative_to(APP_ROOT)) not in compiled]
     migrations = sorted(p.name for p in (APP_ROOT / "migrations").glob("*.py"))
     assert migrations == ["0001_initial.py", "__init__.py"], migrations
     initial = (APP_ROOT / "migrations" / "0001_initial.py").read_text()
     assert "site_management" in initial          # depends on the multi_domain plugin's app
     assert "ecommerce" not in initial
     assert not [p for p in FILES_ROOT.rglob("__pycache__") if p.exists()]
-    # Only the en catalog ships.
+    # The en template catalog plus the translated ro/hu catalogs ship.
     locales = sorted(p.name for p in (APP_ROOT / "locale").iterdir())
-    assert locales == ["en"], locales
+    assert locales == ["en", "hu", "ro"], locales
 
 
 # --- 6. Blog / CMS graft ------------------------------------------------------
