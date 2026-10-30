@@ -60,6 +60,7 @@ Django settings (wire from environment variables as you prefer).
 | Setting | Default | Purpose |
 | --- | --- | --- |
 | `WEB_SECURITY_ENCRYPTION_KEY` | derived from `SECRET_KEY` | Dedicated Fernet key for encrypting stored credentials. Set it so rotating `SECRET_KEY` does not make stored secrets undecryptable. Generate with `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`. |
+| `WEB_SECURITY_CLOUDFLARE_SKIP_PATHS` | `[]` | Path prefixes (e.g. `["/newsletter/webhook/ses/"]`) that skip Cloudflare's own checks (BIC, Security Level, managed rules, rate limiting) and this plugin's block rule. For server-to-server webhooks that cannot pass a challenge. Applied on every active Cloudflare config; no secrets in paths, the view must authenticate. |
 | `WEB_SECURITY_NGINX_CONFIG_DIR` | `/etc/nginx` | Directory the Nginx firewall blocklist file must stay within. |
 
 ### Reporting & misc

@@ -1,10 +1,15 @@
+import re
 import time
 
 import requests
+from django.conf import settings
 
 from apps.web_security.models import FirewallConfig
 
 from .base import BaseFirewallService, logger
+
+# Only plain path characters may reach the WAF expression (no quotes, spaces or backslashes).
+SKIP_PATH_RE = re.compile(r"^/[A-Za-z0-9._~/-]*$")
 
 
 class CloudflareFirewallService(BaseFirewallService):
@@ -28,6 +33,7 @@ class CloudflareFirewallService(BaseFirewallService):
 
     BASE_URL = "https://api.cloudflare.com/client/v4"
     CONSOLIDATED_RULE_DESCRIPTION = "Consolidated auto-block rule"
+    SKIP_RULE_DESCRIPTION = "Skip security for webhooks (WEB_SECURITY_CLOUDFLARE_SKIP_PATHS)"
     MAX_RETRIES = 3  # Retry attempts for handling race conditions
 
     def __init__(self, config: FirewallConfig):
@@ -75,15 +81,17 @@ class CloudflareFirewallService(BaseFirewallService):
         return None, rules
 
     def _extract_ips_from_expression(self, expression: str) -> set:
-        """Extract IP addresses from WAF rule expression (ip.src in { } format)."""
-        import re
+        """Extract IP addresses from a WAF rule expression ('ip.src in { }' or '(ip.src eq X)').
 
-        ips = set()
+        Tokens are validated as whole addresses: a character-class regex would split IPv6
+        addresses into fragments and the rebuilt expression would be rejected by Cloudflare.
+        """
         in_match = re.search(r"ip\.src in \{([^}]+)\}", expression)
         if in_match:
-            ip_list = in_match.group(1)
-            ips.update(re.findall(r"[\d\.]+", ip_list))
-        return ips
+            tokens = in_match.group(1).split()
+        else:
+            tokens = re.findall(r"ip\.src eq ([0-9A-Fa-f:.]+)", expression)
+        return set(self._validated_ips(tokens))
 
     def _build_expression(self, ip_addresses: set) -> str:
         """Build a WAF expression for multiple IPs using 'ip.src in { }' syntax."""
@@ -92,12 +100,63 @@ class CloudflareFirewallService(BaseFirewallService):
         sorted_ips = sorted(ip_addresses)
         return f"ip.src in {{ {' '.join(sorted_ips)} }}"
 
+    def _skip_rule(self) -> dict | None:
+        """The rule that exempts WEB_SECURITY_CLOUDFLARE_SKIP_PATHS from Cloudflare's own checks.
+
+        Server-to-server callers (SNS, Stripe, ...) cannot pass a Browser Integrity Check or a
+        Security Level challenge, so their webhooks skip those, the managed rules, rate limiting
+        and the rest of this ruleset (including the auto-block rule). The views keep their own
+        authentication. Paths are prefixes and must not contain secrets.
+        """
+        paths = [p for p in getattr(settings, "WEB_SECURITY_CLOUDFLARE_SKIP_PATHS", []) if SKIP_PATH_RE.match(p)]
+        if not paths:
+            return None
+        expression = " or ".join(f'starts_with(http.request.uri.path, "{p}")' for p in paths)
+        return {
+            "action": "skip",
+            "action_parameters": {
+                "ruleset": "current",
+                "phases": ["http_ratelimit", "http_request_firewall_managed"],
+                "products": ["bic", "hot", "securityLevel", "uaBlock", "zoneLockdown"],
+            },
+            "description": self.SKIP_RULE_DESCRIPTION,
+            "enabled": True,
+            "expression": f"({expression})",
+            "logging": {"enabled": True},
+        }
+
+    def _with_skip_rule(self, rules: list) -> list:
+        """Rules with the skip rule (if configured) first, replacing any previous version."""
+        rules = [r for r in rules if r.get("description") != self.SKIP_RULE_DESCRIPTION]
+        skip_rule = self._skip_rule()
+        return [skip_rule, *rules] if skip_rule else rules
+
+    def ensure_skip_rule(self) -> bool:
+        """Make sure the ruleset starts with the current skip rule; update it only when it differs."""
+        ruleset = self._get_ruleset()
+        if ruleset is None:
+            return False
+        rules = ruleset.get("rules", [])
+        wanted = self._skip_rule()
+        skip_rules = [r for r in rules if r.get("description") == self.SKIP_RULE_DESCRIPTION]
+        if wanted is None:
+            in_place = not skip_rules
+        else:
+            in_place = (
+                len(skip_rules) == 1
+                and rules[0] is skip_rules[0]
+                and all(rules[0].get(k) == wanted[k] for k in ("expression", "action_parameters"))
+            )
+        return True if in_place else self._update_ruleset(rules)
+
     def _update_ruleset(self, rules: list) -> bool:
-        """Update the entire ruleset with new rules."""
+        """Update the entire ruleset with new rules (the skip rule is always kept first)."""
         try:
             url = f"{self.BASE_URL}/zones/{self.zone_id}/rulesets/{self.ruleset_id}"
-            data = {"rules": rules}
+            data = {"rules": self._with_skip_rule(rules)}
             response = requests.put(url, headers=self._get_headers(), json=data, timeout=60)
+            if not response.ok:
+                logger.error(f"Cloudflare ruleset update rejected: {response.status_code} {response.text[:500]}")
             response.raise_for_status()
             result = response.json()
             return result.get("success", False)

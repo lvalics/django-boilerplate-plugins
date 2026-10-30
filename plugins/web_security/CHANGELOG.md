@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.7.1 - Cloudflare: IPv6 parsing fix and webhook skip rule
+
+- Fix: `CloudflareFirewallService._extract_ips_from_expression` split IPv6 addresses into
+  fragments (`[\d\.]+`), so once an IPv6 address was in the auto-block rule every rebuilt
+  expression was invalid and each ruleset update failed with `400 Bad Request` (no new IP was
+  blocked). Tokens are now validated as whole addresses; the single-IP `(ip.src eq X)` form
+  written for the first block is read as well.
+- New setting `WEB_SECURITY_CLOUDFLARE_SKIP_PATHS` (path prefixes, default `[]`): a
+  "Skip security for webhooks" custom rule kept first in the ruleset, skipping Browser Integrity
+  Check, Security Level, hotlink, UA block, zone lockdown, the managed ruleset, rate limiting and
+  the rest of the custom rules for those paths. Server-to-server callers (AWS SNS, payment
+  webhooks) cannot pass a challenge and were dropped silently.
+- `sync_firewall_blocks` applies the skip rule on every active firewall config (one Cloudflare
+  config per zone) before syncing blocks, even when IP blocking is disabled. IP blocks still go
+  only to the default config.
+- A rejected ruleset update now logs Cloudflare's response body.
+
 ## 1.7.0 - Romanian and Hungarian translations
 
 - `locale/ro` and `locale/hu` catalogs (`.po` + compiled `.mo`) for `apps/web_security`, formal register.

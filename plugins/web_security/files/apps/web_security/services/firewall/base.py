@@ -58,3 +58,7 @@ class BaseFirewallService(abc.ABC):
     def sync_blocks(self, ip_addresses: list) -> dict:
         """Sync a list of blocked IPs to the firewall."""
         pass
+
+    def ensure_skip_rule(self) -> bool:
+        """Keep provider-side exemptions for webhook paths in place. Only Cloudflare has them."""
+        return True

@@ -214,10 +214,16 @@ def sync_firewall_blocks(self):
 
     Syncs IPs that are blocked but not yet synced to the firewall.
     Uses distributed lock to prevent concurrent firewall updates.
+    Before that, keeps the webhook skip rule in place on every active firewall config
+    (one Cloudflare config per zone), independent of IP blocking.
     """
     try:
-        from apps.web_security.models import IPThreatSummary, SecuritySettings
+        from apps.web_security.models import FirewallConfig, IPThreatSummary, SecuritySettings
         from apps.web_security.services.firewall import FirewallServiceFactory
+
+        for config in FirewallConfig.objects.filter(is_active=True):
+            if not FirewallServiceFactory.create(config).ensure_skip_rule():
+                logger.warning(f"Could not apply the webhook skip rule on firewall config {config.pk}")
 
         settings = SecuritySettings.get_settings()
 
