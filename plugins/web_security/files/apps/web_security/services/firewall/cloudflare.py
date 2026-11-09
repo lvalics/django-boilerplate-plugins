@@ -35,6 +35,8 @@ class CloudflareFirewallService(BaseFirewallService):
     CONSOLIDATED_RULE_DESCRIPTION = "Consolidated auto-block rule"
     SKIP_RULE_DESCRIPTION = "Skip security for webhooks (WEB_SECURITY_CLOUDFLARE_SKIP_PATHS)"
     MAX_RETRIES = 3  # Retry attempts for handling race conditions
+    # Cloudflare rejects expressions over 4096 characters (error 20127); keep a margin.
+    MAX_EXPRESSION_LENGTH = 4000
 
     def __init__(self, config: FirewallConfig):
         super().__init__(config)
@@ -99,6 +101,31 @@ class CloudflareFirewallService(BaseFirewallService):
             return ""
         sorted_ips = sorted(ip_addresses)
         return f"ip.src in {{ {' '.join(sorted_ips)} }}"
+
+    def _newest_first(self, ip_addresses: set) -> list:
+        """IPs still blocked in the database, most recently blocked first; expired/unblocked ones are dropped."""
+        from apps.web_security.models import IPThreatSummary
+
+        return list(
+            IPThreatSummary.objects.filter(ip_address__in=ip_addresses, is_blocked=True)
+            .order_by("-blocked_at")
+            .values_list("ip_address", flat=True)
+        )
+
+    def _fit_ips(self, new_ips: set, existing_ips: set) -> set:
+        """New IPs plus the most recently blocked existing ones, as many as fit in one expression.
+
+        On the free plan there is room for a single rule of ~280 IPs, so old blocks roll out
+        to make room for new ones (they stay blocked by the app itself until they expire).
+        """
+        kept: set = set()
+        length = len(self._build_expression({"0"})) - 1
+        for ip in [*sorted(new_ips), *self._newest_first(existing_ips - new_ips)]:
+            if length + len(ip) + 1 > self.MAX_EXPRESSION_LENGTH:
+                break
+            kept.add(ip)
+            length += len(ip) + 1
+        return kept
 
     def _skip_rule(self) -> dict | None:
         """The rule that exempts WEB_SECURITY_CLOUDFLARE_SKIP_PATHS from Cloudflare's own checks.
@@ -187,8 +214,8 @@ class CloudflareFirewallService(BaseFirewallService):
                         logger.info(f"IP {ip_address} already blocked in Cloudflare")
                         return True
 
-                    # Add IP to existing rule
-                    existing_ips.add(ip_address)
+                    # Add IP to existing rule (oldest blocks roll out when the expression is full)
+                    existing_ips = self._fit_ips({ip_address}, existing_ips)
                     new_expression = self._build_expression(existing_ips)
 
                     # Update the rule in the rules list
@@ -293,7 +320,7 @@ class CloudflareFirewallService(BaseFirewallService):
         This is more efficient than individual block_ip calls as it
         updates the rule once with all IPs.
         """
-        results = {"added": 0, "failed": 0, "already_blocked": 0}
+        results = {"added": 0, "failed": 0, "already_blocked": 0, "dropped": 0}
 
         if not ip_addresses:
             return results
@@ -318,8 +345,9 @@ class CloudflareFirewallService(BaseFirewallService):
                 logger.info("All IPs already blocked in Cloudflare")
                 return results
 
-            # Combine existing and new IPs
-            all_ips = existing_ips | new_ips
+            # Combine existing and new IPs; the oldest blocks roll out when the expression is full
+            all_ips = self._fit_ips(new_ips, existing_ips)
+            results["dropped"] = len(existing_ips - all_ips)
             new_expression = self._build_expression(all_ips)
 
             if consolidated_rule:

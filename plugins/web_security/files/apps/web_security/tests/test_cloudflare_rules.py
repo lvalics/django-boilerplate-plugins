@@ -36,12 +36,43 @@ class ExtractIpsTests(SimpleTestCase):
         rules = [_block_rule("ip.src in { 1.2.3.4 2001:41d0:20a:900::2b4 }")]
         with (
             mock.patch.object(svc, "_get_ruleset", return_value={"rules": rules}),
+            mock.patch.object(svc, "_newest_first", side_effect=sorted),
             mock.patch.object(svc, "_update_ruleset", return_value=True) as update,
         ):
             result = svc.sync_blocks(["9.9.9.9"])
         self.assertEqual(result["added"], 1)
         expression = update.call_args.args[0][0]["expression"]
         self.assertEqual(expression, "ip.src in { 1.2.3.4 2001:41d0:20a:900::2b4 9.9.9.9 }")
+
+
+class FullRuleTests(SimpleTestCase):
+    """Cloudflare limits an expression to 4096 characters: the oldest blocks roll out for new ones."""
+
+    def _sync(self, existing, newest_first, new):
+        svc = _cf()
+        rules = [_block_rule(svc._build_expression(set(existing)))]
+        with (
+            mock.patch.object(svc, "_get_ruleset", return_value={"rules": rules}),
+            mock.patch.object(svc, "_newest_first", return_value=newest_first),
+            mock.patch.object(svc, "_update_ruleset", return_value=True) as update,
+        ):
+            result = svc.sync_blocks(new)
+        return result, svc._extract_ips_from_expression(update.call_args.args[0][0]["expression"]), update
+
+    def test_oldest_blocks_roll_out_and_new_ones_get_in(self):
+        existing = [f"10.0.{i // 250}.{i % 250}" for i in range(400)]  # mai mult decât încape
+        newest_first = list(reversed(existing))  # ultimele adăugate sunt cele mai noi
+        result, ips, update = self._sync(existing, newest_first, ["9.9.9.9", "8.8.8.8"])
+        self.assertEqual(result["added"], 2)
+        self.assertLessEqual(len(update.call_args.args[0][0]["expression"]), 4000)
+        self.assertTrue({"9.9.9.9", "8.8.8.8", existing[-1]} <= ips)
+        self.assertNotIn(existing[0], ips)
+        self.assertEqual(result["dropped"], 400 - (len(ips) - 2))
+
+    def test_ips_no_longer_blocked_in_the_app_are_removed(self):
+        result, ips, _ = self._sync(["1.1.1.1", "2.2.2.2"], ["2.2.2.2"], ["9.9.9.9"])
+        self.assertEqual(ips, {"2.2.2.2", "9.9.9.9"})
+        self.assertEqual(result["dropped"], 1)
 
 
 @override_settings(WEB_SECURITY_CLOUDFLARE_SKIP_PATHS=["/newsletter/webhook/ses/"])

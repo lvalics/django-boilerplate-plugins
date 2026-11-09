@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.7.2 - Cloudflare: auto-block rule no longer overflows
+
+- Fix: the consolidated auto-block rule grew until its expression passed Cloudflare's
+  4096-character limit (~280 IPs), after which every update was rejected with error 20127 and
+  no new IP reached Cloudflare. The rule now keeps the new IPs plus the most recently blocked
+  existing ones that fit in 4000 characters; older blocks roll out (the app still rejects them
+  until their block expires). IPs no longer blocked in the database are removed from the rule.
+- `sync_blocks` reports the number of IPs that rolled out as `dropped`.
+
 ## 1.7.1 - Cloudflare: IPv6 parsing fix and webhook skip rule
 
 - Fix: `CloudflareFirewallService._extract_ips_from_expression` split IPv6 addresses into
